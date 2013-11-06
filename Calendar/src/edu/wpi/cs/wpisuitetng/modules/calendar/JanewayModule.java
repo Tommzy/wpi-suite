@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 
 
 /**
- * A dummy module to demonstrate the Janeway client
+ * A Calendar Module for WPI-Suite
  *
  */
 public class JanewayModule implements IJanewayModule {
@@ -38,7 +38,7 @@ public class JanewayModule implements IJanewayModule {
 	private ArrayList<JanewayTabModel> tabs;
 	
 	/**
-	 * Construct a new DummyModule for demonstration purposes
+	 * Construct a new Calendar Module for demonstration purposes
 	 */
 	public JanewayModule() {
 		
