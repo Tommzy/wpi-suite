@@ -1,4 +1,3 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar;
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
  *
@@ -8,17 +7,19 @@ package edu.wpi.cs.wpisuitetng.modules.calendar;
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Chris Casola
- *    Andrew Hurle
+ *    Yuchen Zhang
  ******************************************************************************/
 
+package edu.wpi.cs.wpisuitetng.modules.calendar;
 
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
@@ -28,15 +29,15 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
  * A Calendar Module for WPI-Suite
  *
  */
-public class JanewayModule implements IJanewayModule {
+public class Calendar implements IJanewayModule {
 	
 	/** The tabs used by this module */
-	private ArrayList<JanewayTabModel> tabs;
+	private List<JanewayTabModel> tabs;
 	
 	/**
 	 * Construct a new Calendar Module for demonstration purposes
 	 */
-	public JanewayModule() {
+	public Calendar() {
 		
 		// Setup button panel
 		JPanel buttonPanel = new JPanel();
@@ -46,7 +47,7 @@ public class JanewayModule implements IJanewayModule {
 		
 		// Setup the main panel
 		MainView mainPanel = new MainView();
-		mainPanel.setLayout(new FlowLayout());
+		mainPanel.setLayout(new GridLayout(2, 2));
 		
 		tabs = new ArrayList<JanewayTabModel>();
 		JanewayTabModel tab = new JanewayTabModel("Calendar", new ImageIcon(), buttonPanel, mainPanel);
