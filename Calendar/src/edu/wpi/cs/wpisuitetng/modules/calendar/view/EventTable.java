@@ -26,58 +26,57 @@ public class EventTable extends JPanel {
     table.setAutoCreateRowSorter(true);
 
     // Create the scroll pane and add the table to it.
-    JScrollPane scrollPane = new JScrollPane(table);
+    final JScrollPane scrollPane = new JScrollPane(table);
 
     // Add the scroll pane to this panel.
     add(scrollPane);
   }
 
   class EventTableModel extends AbstractTableModel {
-    private String[]   columnNames = {
-                                       "Event", "Date", "Time", "Location"
-                                   };
-    private Object[][] data        = {
-                                       {
-                                           "GUI Meeting", "Nov 13, 2013",
-                                           "08:00 - 10:00", "SL 402"
-                                       },
-                                       {
-                                           "Team Meeting", "Nov 13, 2013",
-                                           "11:00 - 11:30", "Anderson Labs A"
-                                       },
-                                       {
-                                           "Lunch", "Nov 13, 2013",
-                                           "12:00 - 13:00", "Campus Center"
-                                       },
-                                       {
-                                           "DB Meeting", "Nov 13, 2013",
-                                           "14:00 - 16:00", "Pumpkin Lounge"
-                                       },
-                                       {
-                                           "Code Review", "Nov 13, 2013",
-                                           "16:00 - 17:00", "SL 402"
-                                       },
-                                       {
-                                         "Quittin' Time", "Nov 13, 2013",
-                                         "17:00 - 17:15", "SL 402"
-                                     }
-                                       
-                                   };
+    
+    /** The column names. */
+    private String[]   columnNames = {"Event", "Date", "Time", "Location" };
+    
+    /** The event data. */
+    private Object[][] eventData   = 
+    {
+      {"GUI Meeting", "Nov 13, 2013",                                         
+        "08:00 - 10:00", "SL 402", },
+      {"Team Meeting", "Nov 13, 2013",
+        "11:00 - 11:30", "Anderson Labs A", },
+      {"Lunch", "Nov 13, 2013",
+        "12:00 - 13:00", "Campus Center", },
+      {"DB Meeting", "Nov 13, 2013",
+        "14:00 - 16:00", "Pumpkin Lounge", },
+      {"Code Review", "Nov 13, 2013",
+        "16:00 - 17:00", "SL 402", },
+      {"Quittin' Time", "Nov 13, 2013",
+        "17:00 - 17:15", "SL 402", },
+    };
 
+    /* (non-Javadoc)
+     * @see javax.swing.table.TableModel#getColumnCount()
+     */
     public int getColumnCount() {
       return columnNames.length;
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.table.TableModel#getRowCount()
+     */
     public int getRowCount() {
-      return data.length;
+      return eventData.length;
     }
 
+    /* (non-Javadoc)
+     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
+     */
     public String getColumnName(int col) {
       return columnNames[col];
     }
 
     public Object getValueAt(int row, int col) {
-      return data[row][col];
+      return eventData[row][col];
     }
 
     /*
@@ -96,18 +95,18 @@ public class EventTable extends JPanel {
    */
   private static void createAndShowGUI() {
     // Create and set up the window.
-    JFrame frame = new JFrame("Event Table");
+    final JFrame frame = new JFrame("Event Table");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Using Mig for JPanels to help with layout.
-    JPanel panel = new JPanel(new MigLayout());
+    final JPanel panel = new JPanel(new MigLayout());
 
     // Table label
-    JLabel eventTableLabel = new JLabel("Events");
+    final JLabel eventTableLabel = new JLabel("Events");
     eventTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
     // Create and set up the content pane for the table.
-    EventTable newContentPane = new EventTable();
+    final EventTable newContentPane = new EventTable();
     newContentPane.setOpaque(true); // content panes must be opaque
     // Add in the title, make the next add go down to the next row
     panel.add(eventTableLabel, "align center");
@@ -121,6 +120,11 @@ public class EventTable extends JPanel {
     frame.setVisible(true);
   }
 
+  /**
+   * The main method.
+   *
+   * @param args the arguments
+   */
   public static void main(String[] args) {
     // Schedule a job for the event-dispatching thread:
     // creating and showing this application's GUI.
