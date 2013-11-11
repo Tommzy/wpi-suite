@@ -17,92 +17,98 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
+// TODO: Auto-generated Javadoc
 /**
- *
+ * Calendar class for displaying year & month.
  */
 @SuppressWarnings("serial")
-public class CalendarYearMonthView extends JXMonthView implements ActionListener, KeyListener {
+public class CalendarYearMonthView extends JXMonthView implements
+    ActionListener, KeyListener {
 
-	public static final Color START_END_DAY = new Color(47, 150, 9);
-	public static final Color SELECTION = new Color(236,252,144);
-	public static final Color UNSELECTABLE = Color.red;
+  /** The Constant START_END_DAY. */
+  public static final Color START_END_DAY = new Color(47, 150, 9);
+  
+  /** The Constant SELECTION. */
+  public static final Color SELECTION     = new Color(236, 252, 144);
+  
+  /** The Constant UNSELECTABLE. */
+  public static final Color UNSELECTABLE  = Color.red;
 
-	/**
-	 * Constructor for the iteration calendar.
-	 * @param parent IterationPanel
-	 * @param vm ViewMode
-	 * @param displayIteration Iteration
-	 */
-	public CalendarYearMonthView()
-	{
-		buildLayout();
-	}
-	
-	/**
-	 * Builds the layout
-	 */
-	private void buildLayout()
-	{
-		this.setPreferredColumnCount(4);
-		this.setPreferredRowCount(3);
-		this.setSelectionBackground(SELECTION);
-		this.setFlaggedDayForeground(START_END_DAY);
-		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
-		this.setAlignmentX(CENTER_ALIGNMENT);
-		this.addActionListener(this);
-				
-		this.addKeyListener(this);
+  /**
+   * Constructor for the iteration calendar.
+   *
+   */
+  public CalendarYearMonthView() {
+    buildLayout();
+  }
 
-	}
+  /**
+   * Builds the layout.
+   */
+  private void buildLayout() {
+    this.setPreferredColumnCount(4);
+    this.setPreferredRowCount(3);
+    this.setSelectionBackground(SELECTION);
+    this.setFlaggedDayForeground(START_END_DAY);
+    this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+    this.setAlignmentX(CENTER_ALIGNMENT);
+    this.addActionListener(this);
 
-	/**
-	 * Method actionPerformed.
-	 * @param e ActionEvent
-	
-	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent) */
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//TODO 	
-	}
+    this.addKeyListener(this);
 
-	/**
-	 * Method keyTyped.
-	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
-	 */
-	@Override
-	public void keyTyped(KeyEvent e) {
-		//TODO
-	}
+  }
 
-	/**
-	 * Method keyPressed.
-	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
-	 */
-	@Override
-	public void keyPressed(KeyEvent e) {
-		//TODO
-	}
+  /**
+   * Method actionPerformed.
+   * 
+   * @param e
+   *          ActionEvent
+   * 
+   * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+   */
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    // TODO
+  }
 
-	/**
-	 * Method keyReleased.
-	 * @param e KeyEvent
-	 * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
-	 */
-	@Override
-	public void keyReleased(KeyEvent e) {
-		//TODO
-	}
+  /**
+   * Method keyTyped.
+   * 
+   * @param e
+   *          KeyEvent
+   * @see java.awt.event.KeyListener#keyTyped(KeyEvent)
+   */
+  @Override
+  public void keyTyped(KeyEvent e) {
+    // TODO
+  }
+
+  /**
+   * Method keyPressed.
+   * 
+   * @param e
+   *          KeyEvent
+   * @see java.awt.event.KeyListener#keyPressed(KeyEvent)
+   */
+  @Override
+  public void keyPressed(KeyEvent e) {
+    // TODO
+  }
+
+  /**
+   * Method keyReleased.
+   * 
+   * @param e
+   *          KeyEvent
+   * @see java.awt.event.KeyListener#keyReleased(KeyEvent)
+   */
+  @Override
+  public void keyReleased(KeyEvent e) {
+    // TODO
+  }
 
 }
