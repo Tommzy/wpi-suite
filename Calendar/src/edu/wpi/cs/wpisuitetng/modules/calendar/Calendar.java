@@ -23,6 +23,7 @@ import javax.swing.JPanel;
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 
 
 /**
@@ -40,17 +41,17 @@ public class Calendar implements IJanewayModule {
 	public Calendar() {
 		
 		// Setup button panel
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new FlowLayout());
+		ToolbarView toolbar = new ToolbarView();
+//		buttonPanel.setLayout(new FlowLayout());
 //		buttonPanel.add(new JButton("Func A"));
 //		buttonPanel.add(new JButton("Func B"));
 		
 		// Setup the main panel
 		MainView mainPanel = new MainView();
-		mainPanel.setLayout(new GridLayout(2, 2));
+		mainPanel.setLayout(new GridLayout(1, 2));
 		
 		tabs = new ArrayList<JanewayTabModel>();
-		JanewayTabModel tab = new JanewayTabModel("Calendar", new ImageIcon(), buttonPanel, mainPanel);
+		JanewayTabModel tab = new JanewayTabModel("Calendar", new ImageIcon(), toolbar, mainPanel);
 		tabs.add(tab);
 	}
 

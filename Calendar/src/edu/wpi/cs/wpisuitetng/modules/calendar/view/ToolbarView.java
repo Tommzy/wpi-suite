@@ -7,43 +7,37 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Yuchen Zhang
+ *    team3 
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-import javax.swing.*;
+import javax.swing.JToolBar;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
+
 
 /**
- * This Panel sets the main view framework when users go to Calendar module. 
- * It contains several sub panels. 
- * 
- * @author Yuchen Zhang
+ * @author Hongbo
  *
  */
 @SuppressWarnings("serial")
-public class MainView extends JPanel {
-	
-	JTabbedPane addEventTabPanel;
-
+public class ToolbarView extends JToolBar {
+	/** The panel containing toolbar buttons */
+	private final ToolbarPanel toolbarPanel;
 	/**
-	 * Create the main panel.
+	 * Construct this view and all components in it.
+	 * @param boardModel 
 	 */
-	public MainView() {
-		addEventTabPanel = new AddEventTabPanel();
-		add(addEventTabPanel);
+	public ToolbarView() {
 		
+		// Prevent this toolbar from being moved
+		setFloatable(false);
 		
-		
-//		JPanel calendarPanel = new MainCalendarView(new MainCalendarModel());
-//		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
-//		add(calendarPanel);
+		// Add the panel containing the toolbar buttons
+		toolbarPanel = new ToolbarPanel();
+		add(toolbarPanel);
 	}
-
+	
 }
