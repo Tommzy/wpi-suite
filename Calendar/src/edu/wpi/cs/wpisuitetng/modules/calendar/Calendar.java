@@ -7,7 +7,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Yuchen Zhang
+ *    Team3
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar;
