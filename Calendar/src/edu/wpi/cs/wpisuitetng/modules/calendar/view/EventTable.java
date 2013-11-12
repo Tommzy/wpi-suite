@@ -25,13 +25,18 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import net.miginfocom.swing.MigLayout;
-
+/**
+ * The Class for the table of events.
+ */
 public class EventTable extends JPanel {
 
+  /**
+   * Instantiates a new event table.
+   */
   public EventTable() {
     super(new GridLayout(1, 0));
 
-    JTable table = new JTable(new EventTableModel());
+    final JTable table = new JTable(new EventTableModel());
     table.setPreferredScrollableViewportSize(new Dimension(500, 80));
     table.setFillsViewportHeight(true);
     table.setAutoCreateRowSorter(true);
@@ -43,6 +48,9 @@ public class EventTable extends JPanel {
     add(scrollPane);
   }
 
+  /**
+   * The Class EventTableModel.
+   */
   class EventTableModel extends AbstractTableModel {
     
     /** The column names. */
@@ -65,38 +73,56 @@ public class EventTable extends JPanel {
         "17:00 - 17:15", "SL 402", },
     };
 
-    /* (non-Javadoc)
+    /**
+     * Gives the number of columns in the table.
      * @see javax.swing.table.TableModel#getColumnCount()
+     * @return The number of columns in the table.
      */
     public int getColumnCount() {
       return columnNames.length;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Gives the number of rows total in the table.
      * @see javax.swing.table.TableModel#getRowCount()
+     * @return The number of rows in the table.
      */
     public int getRowCount() {
       return eventData.length;
     }
 
-    /* (non-Javadoc)
+    /**
+     * Gets the name of the column as a string.
      * @see javax.swing.table.AbstractTableModel#getColumnName(int)
+     * @param col The column name to check.
+     * @return A string that names the column.
      */
     public String getColumnName(int col) {
       return columnNames[col];
     }
 
+    /**
+     * Get the value of a cell at a row and column.
+     * @see javax.swing.table.TableModel#getValueAt(int, int)
+     * @param row The row to check.
+     * @param col The column to check.
+     * @return The data located at row, col.
+     */
     public Object getValueAt(int row, int col) {
       return eventData[row][col];
     }
 
-    /*
+    /**
      * JTable uses this method to determine the default renderer/editor for each
      * cell. If we didn't implement this method, then the last column would
      * contain text ("true"/"false"), rather than a check box.
+     *
+     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
+     * @param col The column to check
+     * @return The class of the data at 0, col.
      */
-    public Class getColumnClass(int c) {
-      return getValueAt(0, c).getClass();
+    public Class getColumnClass(int col) {
+      return getValueAt(0, col).getClass();
     }
   }
 
