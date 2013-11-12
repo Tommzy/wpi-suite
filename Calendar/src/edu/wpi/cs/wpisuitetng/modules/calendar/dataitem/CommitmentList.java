@@ -11,7 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
-public class CommitmentList extends CalenderItemsList{
+public class CommitmentList extends CalendarItemsList{
 	
 	CommitmentList(){
 		super();
@@ -21,7 +21,7 @@ public class CommitmentList extends CalenderItemsList{
 	 * @param commitment
 	 */
 	public void addCommitment(Commitment commitment){
-		this.addCalenderItem(commitment);
+		this.addCalendarItem(commitment);
 	}
 	
 	

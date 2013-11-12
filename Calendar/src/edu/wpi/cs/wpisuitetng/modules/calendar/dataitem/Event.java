@@ -11,7 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
-public abstract class Event extends CalenderItem {
+public abstract class Event extends CalendarItem {
 	float endTime;
 	
 	/**Event constructor

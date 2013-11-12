@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
  * @author Tommzy
  *
  */
-public abstract class Commitment extends CalenderItem {
+public abstract class Commitment extends CalendarItem {
 
 
 	/**constructor of Commitment

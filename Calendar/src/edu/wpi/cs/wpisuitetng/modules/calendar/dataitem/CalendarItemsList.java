@@ -11,33 +11,25 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
-public abstract class CalendarItem {
-	String name;
-	Date date;
-	float startTime;
-	
-	/**constructor
-	 * @param name
-	 * @param date
-	 * @param startTime
-	 */
-	public CalendarItem(String name, Date date, float startTime){
-		this.name = name;
-		this.date = date;
-		this.startTime = startTime;
-	}
+import java.util.ArrayList;
 
+
+/**Abstruct class of calendar items list
+ * @author Tommzy
+ *
+ */
+public abstract class CalendarItemsList {
+	ArrayList<CalendarItem> itemsList; 
 	
-	/**return the duration of a calendar item.
-	 * @param startTime
-	 * @param endTime
-	 * @return
-	 */
-	private float computeDuration(float startTime, float endTime) {
-		// Assume 
-		return (endTime-startTime);
+	public CalendarItemsList(){
+		this.itemsList = new ArrayList<CalendarItem>();
 	}
 	
-	
-
+	/**Add calendar item to the item list
+	 * @param calendarItem It's type is CalendarItem
+	 */
+	public void addCalendarItem(CalendarItem calendarItem){
+		//
+		this.itemsList.add(calendarItem);
+	}
 }

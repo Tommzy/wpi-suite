@@ -11,7 +11,7 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
-public class EventList extends CalenderItemsList{
+public class EventList extends CalendarItemsList{
 	
 	/**
 	 * constructor
@@ -24,7 +24,7 @@ public class EventList extends CalenderItemsList{
 	 * @param event
 	 */
 	public void addEvents(Event event){
-		this.addCalenderItem(event);
+		this.addCalendarItem(event);
 	}
 	
 	
