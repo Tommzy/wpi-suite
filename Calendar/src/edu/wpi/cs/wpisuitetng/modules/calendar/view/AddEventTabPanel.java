@@ -29,7 +29,7 @@ public class AddEventTabPanel extends JTabbedPane {
 	
 	public AddEventTabPanel() {
 		
-		addEventPanel = new AddEventPanel(new MigLayout());
+		addEventPanel = new AddEventPanel();
 		
 		contentView = new JPanel();
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));

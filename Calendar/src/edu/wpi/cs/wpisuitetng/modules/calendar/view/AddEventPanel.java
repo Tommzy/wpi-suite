@@ -42,8 +42,10 @@ public class AddEventPanel extends JPanel{
 	
 	JCheckBox allDayEventCheckBox;
 	
-	public AddEventPanel(MigLayout miglayout) {
-		JPanel contentPanel = new JPanel(miglayout);
+	public AddEventPanel() {
+		
+		JPanel contentPanel = new JPanel(new MigLayout());
+		
 		nameLabel = new JLabel("Name:");
 		
 		nameTextField = new JTextField(10);

@@ -12,6 +12,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
@@ -38,8 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 public class MainCalendarView extends JPanel {
 	List<JToggleButton> tglbtnPeriod = new ArrayList<JToggleButton>();
 	JPanel calendarView = new JPanel();
-
-	
+	JScrollPane calendarScroll = new JScrollPane(calendarView);
 	/**
 	 * Create the calendar area within main panel.
 	 * 
@@ -57,7 +58,8 @@ public class MainCalendarView extends JPanel {
 		}
 		add(calendarViewSwitch);
 		
-		add(calendarView);
+		calendarScroll.setPreferredSize(new Dimension (1000, 300));;
+		add(calendarScroll);
 		
 		initialize();
 	}
