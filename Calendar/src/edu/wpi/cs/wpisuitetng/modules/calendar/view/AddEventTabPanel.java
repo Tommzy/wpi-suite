@@ -18,47 +18,73 @@ import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 
+/**
+ * The Class AddEventTabPanel.
+ */
 @SuppressWarnings("serial")
 public class AddEventTabPanel extends JTabbedPane {
 
+	/** The add event panel. */
 	JPanel addEventPanel;
-	JPanel calendarPanel;
-	JPanel tablesPanel;
-	JPanel contentView;
-
 	
+	/** The calendar panel. */
+	JPanel calendarPanel;
+	
+	/** The tables panel. */
+	JPanel tablesPanel;
+	
+	/** The content view. */
+	JPanel contentView;
+	
+	/** The event scroll. */
+	JScrollPane eventScroll;
+	
+	/** The task scroll. */
+	JScrollPane taskScroll;
+	
+	/** The filter scroll. */
+	JScrollPane filterScroll;
+	
+	/**
+	 * Adds the event tab panel.
+	 */
 	public AddEventTabPanel() {
-		
-		addEventPanel = new AddEventPanel();
-		
+		//Content Viewer
 		contentView = new JPanel();
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
+		//Calendar
 		calendarPanel = new MainCalendarView(new MainCalendarModel());
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
+		//Tables
 		tablesPanel = new JPanel();
 		tablesPanel.setLayout(new BoxLayout(tablesPanel, BoxLayout.Y_AXIS));
+		
+		// Events
 		EventTable eventTable = new EventTable();
-		tablesPanel.add(eventTable);
+		eventTable.setLayout(new BoxLayout(eventTable, BoxLayout.Y_AXIS));
+		eventScroll = new JScrollPane(eventTable);
+		tablesPanel.add(eventScroll);
+		// Tasks
 		TaskTable taskTable = new TaskTable();
-		tablesPanel.add(taskTable);
+		taskTable.setLayout(new BoxLayout(taskTable, BoxLayout.Y_AXIS));
+		taskScroll = new JScrollPane(taskTable);
+		tablesPanel.add(taskScroll);
+		// Filters
 		FiltersTable filtersTable = new FiltersTable();
-		tablesPanel.add(filtersTable);
+		filtersTable.setLayout(new BoxLayout(filtersTable, BoxLayout.Y_AXIS));
+		filterScroll = new JScrollPane(filtersTable);
+		tablesPanel.add(filterScroll);
 		
 		contentView.add(calendarPanel);	
 		contentView.add(tablesPanel);
 		
-		addEventPanel.setLayout(new FlowLayout());
+		
 		this.add(contentView, 0);
-		this.add(addEventPanel, 1);
 		
 		this.setTitleAt(0, "Calendar");
 		
-		this.setTitleAt(1, "New Event");
-		
-		//this.setPreferredSize(getMaximumSize());
-		//this.setSize(getMaximumSize());
 		
 		this.setPreferredSize(new Dimension(800, 700));
 		

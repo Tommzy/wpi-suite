@@ -40,8 +40,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 @SuppressWarnings("serial")
 public class MainCalendarView extends JPanel {
 
-  /** The tglbtn period. */
-  List<JToggleButton> tglbtnPeriod = new ArrayList<JToggleButton>();
+  /** The toggle button period. */
+  List<JToggleButton> toggleButtonPeriod = new ArrayList<JToggleButton>();
   
   /** The calendar view. */
   JPanel              calendarView = new JPanel();
@@ -60,11 +60,11 @@ public class MainCalendarView extends JPanel {
     calendarViewSwitch.setLayout(new BoxLayout(calendarViewSwitch,
         BoxLayout.X_AXIS));
     for (CalendarTimePeriod value : CalendarTimePeriod.values()) {
-      final JToggleButton tglbtn = new JToggleButton(value.name());
-      tglbtnPeriod.add(tglbtn);
-      tglbtn.addActionListener(new MainCalendarController(mainCalendarModel,
+      final JToggleButton toggleBtn = new JToggleButton(value.name());
+      toggleButtonPeriod.add(toggleBtn);
+      toggleBtn.addActionListener(new MainCalendarController(mainCalendarModel,
           this));
-      calendarViewSwitch.add(tglbtn);
+      calendarViewSwitch.add(toggleBtn);
     }
     add(calendarViewSwitch);
 
@@ -80,7 +80,7 @@ public class MainCalendarView extends JPanel {
    * @return tglbtnPeriod
    */
   public final List<JToggleButton> getToggleButtonPeriod() {
-    return tglbtnPeriod;
+    return toggleButtonPeriod;
   }
 
   /**
@@ -96,7 +96,7 @@ public class MainCalendarView extends JPanel {
    * Initialize.
    */
   private void initialize() {
-    tglbtnPeriod.get(3).doClick();
+    toggleButtonPeriod.get(3).doClick();
   }
 
 }

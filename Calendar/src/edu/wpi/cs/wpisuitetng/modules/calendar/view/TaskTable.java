@@ -28,14 +28,20 @@ public class TaskTable extends JPanel {
   public TaskTable() {
     super(new GridLayout(1, 0));
 
+    // Table label
+    final JLabel taskTableLabel = new JLabel("Tasks");
+    taskTableLabel.setAlignmentX(CENTER_ALIGNMENT);
+    taskTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
+    
     final JTable table = new JTable(new TaskTableModel());
-    table.setPreferredScrollableViewportSize(new Dimension(500, 80));
-    table.setFillsViewportHeight(true);
+    //table.setPreferredScrollableViewportSize(new Dimension(500, 80));
+    //table.setFillsViewportHeight(true);
     table.setAutoCreateRowSorter(true);
 
     // Create the scroll pane and add the table to it.
     final JScrollPane scrollPane = new JScrollPane(table);
-
+    
+    add(taskTableLabel);
     // Add the scroll pane to this panel.
     add(scrollPane);
   }
@@ -131,51 +137,5 @@ public class TaskTable extends JPanel {
     public Class getColumnClass(int col) {
       return getValueAt(0, col).getClass();
     }
-  }
-
-  /**
-   * Create the GUI and show it. For thread safety, this method should be
-   * invoked from the event-dispatching thread.
-   */
-  private static void createAndShowGUI() {
-    // Create and set up the window.
-    final JFrame frame = new JFrame("Task Table");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    // Using Mig for JPanels to help with layout.
-    final JPanel panel = new JPanel(new MigLayout());
-
-    // Table label
-    final JLabel eventTableLabel = new JLabel("Tasks");
-    eventTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
-    // Create and set up the content pane for the table.
-    final TaskTable newContentPane = new TaskTable();
-    newContentPane.setOpaque(true); // content panes must be opaque
-    // Add in the title, make the next add go down to the next row
-    panel.add(eventTableLabel, "align center");
-    // Add in the table to the panel.
-    panel.add(newContentPane, "dock south");
-    // Add in the panel to the frame.
-    frame.setContentPane(panel);
-
-    // Display the window.
-    frame.pack();
-    frame.setVisible(true);
-  }
-
-  /**
-   * The main method.
-   *
-   * @param args the arguments
-   */
-  public static void main(String[] args) {
-    // Schedule a job for the event-dispatching thread:
-    // creating and showing this application's GUI.
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        createAndShowGUI();
-      }
-    });
   }
 }

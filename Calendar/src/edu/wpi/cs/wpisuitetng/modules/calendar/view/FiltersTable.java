@@ -27,16 +27,21 @@ public class FiltersTable extends JPanel {
    * Instantiates a new filters table.
    */
   public FiltersTable() {
-    super(new GridLayout(1, 0));
-
+    
+    // Table label
+    final JLabel filterTableLabel = new JLabel("Filters");
+    filterTableLabel.setAlignmentX(CENTER_ALIGNMENT);
+    filterTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
+    
     final JTable table = new JTable(new FiltersTableModel());
-    table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-    table.setFillsViewportHeight(true);
+    //table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+    //table.setFillsViewportHeight(true);
     table.setAutoCreateRowSorter(true);
 
     // Create the scroll pane and add the table to it.
     final JScrollPane scrollPane = new JScrollPane(table);
-
+    
+    add(filterTableLabel);
     // Add the scroll pane to this panel.
     add(scrollPane);
   }
@@ -147,48 +152,5 @@ public class FiltersTable extends JPanel {
       // fireTableCellUpdated() causes the indices to be regenerated
       // when they shouldn't be.
     }
-  }
-
-  /**
-   * Create the GUI and show it. For thread safety, this method should be
-   * invoked from the event-dispatching thread.
-   */
-  private static void createAndShowGUI() {
-    // Create and set up the window.
-    final JFrame frame = new JFrame("Filter Table");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    // Using Mig for JPanels to help with layout.
-    final JPanel panel = new JPanel(new MigLayout());
-
-    // Table label
-    final JLabel filterTableLabel = new JLabel("Filters");
-    filterTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
-    // Create and set up the content pane.
-    final FiltersTable newContentPane = new FiltersTable();
-    panel.add(filterTableLabel, "center");
-    panel.add(newContentPane, "dock south");
-    newContentPane.setOpaque(true); // content panes must be opaque
-    frame.setContentPane(panel);
-
-    // Display the window.
-    frame.pack();
-    frame.setVisible(true);
-  }
-
-  /**
-   * The main method.
-   *
-   * @param args the arguments
-   */
-  public static void main(String[] args) {
-    // Schedule a job for the event-dispatching thread:
-    // creating and showing this application's GUI.
-    javax.swing.SwingUtilities.invokeLater(new Runnable() {
-      public void run() {
-        createAndShowGUI();
-      }
-    });
   }
 }

@@ -19,6 +19,7 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarMonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
 
@@ -53,15 +54,17 @@ public class MainCalendarController implements ActionListener{
 		resetToggleButton();
 		toggleButton.setSelected(true);
 		switch (toggleButton.getText()) {
-			case "YEAR" :
+			case "Year" :
 				CalendarYearView yearView = new CalendarYearView();
 				view.getCalendarView().add(yearView);
 				break;
-			case "MONTH" :
+			case "Month" :
+				CalendarMonthView monthView = new CalendarMonthView();
+				view.getCalendarView().add(monthView);
 				break;
-			case "WEEK" :
+			case "Week" :
 				break;
-			case "DAY" :
+			case "Day" :
 				break;
 			default: break;
 		}
