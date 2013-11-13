@@ -14,12 +14,10 @@ import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
 
-<<<<<<< Updated upstream
 /**
  * The Class CalendarYearView for displaying the year.
  */
-=======
->>>>>>> Stashed changes
+
 public class CalendarYearView extends JScrollPane {
 
 	private JButton nextYear;
