@@ -16,7 +16,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarModel;
 
 @SuppressWarnings("serial")
 public class AddEventTabPanel extends JTabbedPane {
@@ -34,7 +34,7 @@ public class AddEventTabPanel extends JTabbedPane {
 		contentView = new JPanel();
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
-		calendarPanel = new MainCalendarView(new MainCalendarModel());
+		calendarPanel = new MainCalendarView(new CalendarModel());
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
 		tablesPanel = new JPanel();

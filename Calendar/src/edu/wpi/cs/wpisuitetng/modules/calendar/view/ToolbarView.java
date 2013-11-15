@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.JToolBar;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarModel;
 
 
 

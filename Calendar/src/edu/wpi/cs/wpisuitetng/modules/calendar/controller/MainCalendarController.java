@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
 
@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
  *
  */
 public class MainCalendarController implements ActionListener{
-	MainCalendarModel model;
+	CalendarModel model;
 	MainCalendarView view;
 	
 	/**
@@ -39,7 +39,7 @@ public class MainCalendarController implements ActionListener{
 	 * @param model 
 	 * @param view
 	 */
-	public MainCalendarController(MainCalendarModel model, MainCalendarView view) {
+	public MainCalendarController(CalendarModel model, MainCalendarView view) {
 		this.model = model;
 		this.view = view;
 	}

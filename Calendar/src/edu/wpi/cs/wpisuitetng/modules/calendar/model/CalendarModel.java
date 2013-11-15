@@ -12,16 +12,23 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.AbstractListModel;
+
 /**
- * This is a model for MainCalendarView. It contains all the variables to be 
+ * This is a model for CalendarModel. It contains all the variables to be 
  * displayed on the view. 
  * 
- * @author Yuchen Zhang
+ * @author Team3
  *
  */
-public class MainCalendarModel {
+@SuppressWarnings({ "serial", "rawtypes" })	
+public class CalendarModel extends AbstractListModel{
 	
-	public MainCalendarModel() {
+	public CalendarModel() {
 		
 	}
 	

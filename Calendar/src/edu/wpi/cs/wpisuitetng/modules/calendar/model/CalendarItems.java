@@ -1,17 +1,5 @@
-/*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Chris Casola
- *    Andrew Hurle
- ******************************************************************************/
+package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
-package edu.wpi.cs.wpisuitetng.modules.postboard.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -19,16 +7,19 @@ import java.util.Date;
 
 import com.google.gson.Gson;
 
-import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
+import edu.wpi.cs.wpisuitetng.Permission;
+import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
  * Model to contain a single message on the PostBoard
  * 
- * @author Chris Casola
+ * @author Hui Zheng
  *
  */
-public class PostBoardMessage extends AbstractModel {
-
+public class CalendarItems implements Model {
+	
 	/** The message */
 	private final String message;
 
@@ -39,7 +30,7 @@ public class PostBoardMessage extends AbstractModel {
 	 * Constructs a PostBoardMessage for the given string message
 	 * @param message
 	 */
-	public PostBoardMessage(String message) {
+	public CalendarItems(String message) {
 		this.message = message;
 		date = new Date();
 	}
@@ -59,7 +50,7 @@ public class PostBoardMessage extends AbstractModel {
 	 * @param json the json-encoded PostBoardMessage to deserialize
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
-	public static CalendarItems fromJson(String json) {
+	public static CalendarItems fromJSON(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, CalendarItems.class);
 	}
@@ -101,4 +92,22 @@ public class PostBoardMessage extends AbstractModel {
 	@Override
 	public Boolean identify(Object o) {return null;}
 
+	@Override
+	public Permission getPermission(User u) {return null;}
+
+	@Override
+	public void setPermission(Permission p, User u) {}
+
+	@Override
+	public Project getProject() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProject(Project p) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }
