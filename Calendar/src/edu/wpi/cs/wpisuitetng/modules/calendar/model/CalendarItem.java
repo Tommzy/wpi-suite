@@ -47,9 +47,7 @@ public abstract class CalendarItem implements Model {
 	 * Returns a JSON-encoded string representation of this message object
 	 */
 	@Override
-	public String toJSON() {
-		return new Gson().toJson(this, CalendarItem.class);
-	}
+	public abstract String toJSON();
 
 	/**
 	 * Returns an instance of PostBoardMessage constructed using the given
@@ -58,9 +56,8 @@ public abstract class CalendarItem implements Model {
 	 * @param json the json-encoded PostBoardMessage to deserialize
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
-	public static CalendarItem fromJSON(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem.class);
+	public  static CalendarItem fromJSON(String json) {
+		return null;
 	}
 	
 	/**
@@ -70,10 +67,7 @@ public abstract class CalendarItem implements Model {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItem[] fromJsonArray(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem[].class);
-	}
+	public abstract CalendarItem[] fromJsonArray(String json);
 
 	/*
 	 * @see java.lang.Object#toString()
