@@ -1,15 +1,16 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class Event extends CalendarItem{
-	Date endTime;
+	GregorianCalendar endTime;
 
-	public Event(String name, Date startTime, Date endTime, String location,
+	public Event(String name, GregorianCalendar startTime, GregorianCalendar endTime, String location,
 			String description) {
 		super(name, startTime, location, description);
 		this.endTime=endTime;

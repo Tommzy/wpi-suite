@@ -21,7 +21,8 @@ import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
-public class AddEventPanel extends JPanel {
+public class AddCommitmentPanel extends JPanel{
+
 	JButton btnSubmit;
 
 	JLabel nameLabel;
@@ -30,8 +31,7 @@ public class AddEventPanel extends JPanel {
 
 	JLabel startDateLabel, endDateLabel;
 
-	JTextField startDateTextField, startTimeTextField, endDateTextField,
-			endTimeTextField;
+	JTextField startDateTextField, startTimeTextField;
 
 	JLabel locatoinLabel;
 
@@ -45,9 +45,7 @@ public class AddEventPanel extends JPanel {
 
 	JTextArea inviteeTextArea;
 
-	JCheckBox allDayEventCheckBox;
-
-	public AddEventPanel(MigLayout miglayout) {
+	public AddCommitmentPanel(MigLayout miglayout) {
 		JPanel contentPanel = new JPanel(miglayout);
 		nameLabel = new JLabel("Name:");
 
@@ -58,12 +56,6 @@ public class AddEventPanel extends JPanel {
 		startDateTextField = new JTextField(10);
 
 		startTimeTextField = new JTextField(4);
-
-		endDateLabel = new JLabel("Ends:");
-
-		endDateTextField = new JTextField(10);
-
-		endTimeTextField = new JTextField(4);
 
 		locatoinLabel = new JLabel("Where:");
 
@@ -78,7 +70,7 @@ public class AddEventPanel extends JPanel {
 
 		inviteeTextArea = new JTextArea();
 		inviteeTextArea.setPreferredSize(new Dimension(300, 300));
-		allDayEventCheckBox = new JCheckBox("All Day Event?");
+
 
 		btnSubmit = new JButton("Submit");
 
@@ -88,53 +80,50 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(startDateTextField);
 		contentPanel.add(startTimeTextField);
 		contentPanel.add(endDateLabel);
-		contentPanel.add(endDateTextField);
-		contentPanel.add(endTimeTextField);
 		contentPanel.add(locatoinLabel);
 		contentPanel.add(locationTextField, "wrap");
 		contentPanel.add(descriptionLabel);
 		contentPanel.add(descriptionTextArea, "span 4");
 		contentPanel.add(inviteeLabel);
 		contentPanel.add(inviteeTextArea, "wrap, span 4");
-		contentPanel.add(allDayEventCheckBox);
 		contentPanel.add(btnSubmit);
 
 		this.add(contentPanel);
 	}
 
-	public String getTxtNewname() {
+	public String getTxtNewname(){
 		if (this.nameTextField.getText().equals(""))
 			return null;
 		else
 			return this.nameTextField.getText();
 	}
 
-	public GregorianCalendar getNewDate(String data) throws ParseException {
+	public Date getNewDate(String data){
 		String dateString = "";
-		if (data.equals("startTime"))
+		if(data.equals("startTime"))
 			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-		else if (data.equals("endTime"))
+		else if(data.equals("endTime"))
 			dateString = (this.startDateTextField + " " + this.startTimeTextField);
 
 		try {
-			GregorianCalendar date;
-			// Date example ("12/31/13 20:35")
+			Date date;
+			//Date example ("12/31/13 20:35")
 			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
 			return date;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-
-			// throw e.printStackTrace();
-			return null;
+			e.printStackTrace();
 		}
-		// The function returns Null if the try breaks
+		//The function returns Null if the try breaks
+
+		return null;
 	}
 
-	public String getNewLocation() {
+	public String getNewLocation(){
 		return this.locationTextField.getText();
 	}
 
-	public String getNewDescription() {
+	public String getNewDescription(){
 		return this.descriptionTextArea.getText();
 	}
 }
