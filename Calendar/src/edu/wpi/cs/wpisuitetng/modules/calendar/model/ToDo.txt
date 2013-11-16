@@ -1,4 +1,12 @@
+- Add Category premeter
 - Check the data Architecture :CalendarItem & CalendarItemList
 - finish AddCalendarItemController
 - Do we need some exceptions?
 - 
+
+
+
+
+
+
+Q1:Sort the Array?
