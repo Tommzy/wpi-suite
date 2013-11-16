@@ -1,0 +1,4 @@
+- Check the data Architecture :CalendarItem & CalendarItemList
+- finish AddCalendarItemController
+- Do we need some exceptions?
+- 
