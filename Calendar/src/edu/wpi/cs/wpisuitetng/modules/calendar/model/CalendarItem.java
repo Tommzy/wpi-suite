@@ -26,7 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public abstract class CalendarItem implements Model {
 	
 	String name;
-	Date startTime;
+	GregorianCalendar startTime;
 	String location;
 	String description;
 	
@@ -35,7 +35,7 @@ public abstract class CalendarItem implements Model {
 	 * Constructs a Calendar for the given values
 	 * @param message
 	 */
-	public CalendarItem(String name, Date startTime, String location, String description){
+	public CalendarItem(String name, GregorianCalendar startTime, String location, String description){
 		this.name = name;
 		this.startTime = startTime;
 		this.location=location;
