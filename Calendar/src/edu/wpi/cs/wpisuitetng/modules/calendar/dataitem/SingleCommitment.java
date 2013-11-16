@@ -11,6 +11,8 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
+import java.util.Date;
+
 public class SingleCommitment extends Commitment{
 
 	public SingleCommitment(String name, Date date, float startTime) {

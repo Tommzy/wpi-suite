@@ -24,7 +24,7 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
 /**
  * This Panel sets the calendar area within main view of Calendar module.
@@ -45,7 +45,7 @@ public class MainCalendarView extends JPanel {
 	 * 
 	 * @param mainCalendarModel
 	 */
-	public MainCalendarView(CalendarModel mainCalendarModel) {
+	public MainCalendarView(CalendarItemListModel mainCalendarModel) {
 		// Create toggle buttons for different calendar view
 		JPanel calendarViewSwitch = new JPanel();
 		calendarViewSwitch.setLayout(new BoxLayout(calendarViewSwitch, BoxLayout.X_AXIS));

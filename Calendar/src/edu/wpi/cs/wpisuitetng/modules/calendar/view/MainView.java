@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.*;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

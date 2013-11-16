@@ -11,6 +11,8 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
+import java.util.Date;
+
 public class SingleEvent extends Event{
 
 	public SingleEvent(String name, Date date, float startTime, float endTime) {

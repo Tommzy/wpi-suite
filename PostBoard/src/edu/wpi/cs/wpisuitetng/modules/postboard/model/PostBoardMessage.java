@@ -49,7 +49,7 @@ public class PostBoardMessage extends AbstractModel {
 	 */
 	@Override
 	public String toJSON() {
-		return new Gson().toJson(this, CalendarItems.class);
+		return new Gson().toJson(this, PostBoardMessage.class);
 	}
 
 	/**
@@ -59,9 +59,9 @@ public class PostBoardMessage extends AbstractModel {
 	 * @param json the json-encoded PostBoardMessage to deserialize
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
-	public static CalendarItems fromJson(String json) {
+	public static PostBoardMessage fromJson(String json) {
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItems.class);
+		return parser.fromJson(json, PostBoardMessage.class);
 	}
 	
 	/**
@@ -71,9 +71,9 @@ public class PostBoardMessage extends AbstractModel {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItems[] fromJsonArray(String json) {
+	public static PostBoardMessage[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItems[].class);
+		return parser.fromJson(json, PostBoardMessage[].class);
 	}
 
 	/*

@@ -12,6 +12,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 

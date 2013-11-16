@@ -3,7 +3,12 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+
+
+
+import java.util.GregorianCalendar;
 
 import com.google.gson.Gson;
 
@@ -18,21 +23,24 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Hui Zheng
  *
  */
-public class CalendarItems implements Model {
+public abstract class CalendarItem implements Model {
 	
-	/** The message */
-	private final String message;
-
-	/** The date-time stamp */
-	private final Date date;
+	String name;
+	Date startTime;
+	String location;
+	String description;
+	
 
 	/**
-	 * Constructs a PostBoardMessage for the given string message
+	 * Constructs a Calendar for the given values
 	 * @param message
 	 */
-	public CalendarItems(String message) {
-		this.message = message;
-		date = new Date();
+	public CalendarItem(String name, Date startTime, String location, String description){
+		this.name = name;
+		this.startTime = startTime;
+		this.location=location;
+		this.description=description;
+
 	}
 
 	/**
@@ -40,7 +48,7 @@ public class CalendarItems implements Model {
 	 */
 	@Override
 	public String toJSON() {
-		return new Gson().toJson(this, CalendarItems.class);
+		return new Gson().toJson(this, CalendarItem.class);
 	}
 
 	/**
@@ -50,9 +58,9 @@ public class CalendarItems implements Model {
 	 * @param json the json-encoded PostBoardMessage to deserialize
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
-	public static CalendarItems fromJSON(String json) {
+	public static CalendarItem fromJSON(String json) {
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItems.class);
+		return parser.fromJson(json, CalendarItem.class);
 	}
 	
 	/**
@@ -62,9 +70,9 @@ public class CalendarItems implements Model {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItems[] fromJsonArray(String json) {
+	public static CalendarItem[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItems[].class);
+		return parser.fromJson(json, CalendarItem[].class);
 	}
 
 	/*
@@ -75,7 +83,7 @@ public class CalendarItems implements Model {
 		// Format the date-time stamp
 		DateFormat dateFormat = new SimpleDateFormat("MM/dd/yy hh:mm a");
 		
-		return dateFormat.format(date) + ":    " + message;
+		return name + ":	"+ dateFormat.format(startTime);
 	}
 
 	/*
@@ -92,22 +100,22 @@ public class CalendarItems implements Model {
 	@Override
 	public Boolean identify(Object o) {return null;}
 
-	@Override
-	public Permission getPermission(User u) {return null;}
-
-	@Override
-	public void setPermission(Permission p, User u) {}
-
-	@Override
-	public Project getProject() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProject(Project p) {
-		// TODO Auto-generated method stub
-		
-	}
+//	@Override
+//	public Permission getPermission(User u) {return null;}
+//
+//	@Override
+//	public void setPermission(Permission p, User u) {}
+//
+//	@Override
+//	public Project getProject() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+//
+//	@Override
+//	public void setProject(Project p) {
+//		// TODO Auto-generated method stub
+//		
+//	}
 	
 }

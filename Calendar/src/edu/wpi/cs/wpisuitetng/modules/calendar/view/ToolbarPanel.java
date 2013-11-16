@@ -15,7 +15,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
 
 @SuppressWarnings("serial")
