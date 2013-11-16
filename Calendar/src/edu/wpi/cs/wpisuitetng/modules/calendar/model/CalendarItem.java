@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Model to contain a single message on the PostBoard
+ * Model to contain a single calendar item on the calendar
  * 
  * @author Hui Zheng
  *
@@ -27,12 +27,12 @@ public abstract class CalendarItem implements Model {
 	
 	String name;
 	GregorianCalendar startTime;
-	String location;
+	String location; //Why is this necessary for commitments?
 	String description;
 	
 
 	/**
-	 * Constructs a Calendar for the given values
+	 * Constructs a Calendar Item for the given values
 	 * @param message
 	 */
 	public CalendarItem(String name, GregorianCalendar startTime, String location, String description){
