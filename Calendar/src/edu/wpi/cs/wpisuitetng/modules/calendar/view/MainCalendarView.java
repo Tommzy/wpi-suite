@@ -7,13 +7,14 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Yuchen Zhang
+ *    Team3
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
+import javax.swing.UIManager;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
@@ -60,7 +62,8 @@ public class MainCalendarView extends JPanel {
     calendarViewSwitch.setLayout(new BoxLayout(calendarViewSwitch,
         BoxLayout.X_AXIS));
     for (CalendarTimePeriod value : CalendarTimePeriod.values()) {
-      final JToggleButton toggleBtn = new JToggleButton(value.name());
+    	UIManager.put("ToggleButton.font",new Font("Times New Roman",Font.BOLD,12));
+    	final JToggleButton toggleBtn = new JToggleButton(value.name());
       toggleButtonPeriod.add(toggleBtn);
       toggleBtn.addActionListener(new MainCalendarController(mainCalendarModel,
           this));
@@ -68,7 +71,7 @@ public class MainCalendarView extends JPanel {
     }
     add(calendarViewSwitch);
 
-    calendarScroll.setPreferredSize(new Dimension (1000, 300));;
+    calendarScroll.setPreferredSize(new Dimension (1000, 300));
 	add(calendarScroll);
 	
     initialize();
