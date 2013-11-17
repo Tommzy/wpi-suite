@@ -9,6 +9,7 @@ import java.util.Date;
 
 
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import com.google.gson.Gson;
 
@@ -16,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
+
 
 /**
  * Model to contain a single calendar item on the calendar
@@ -57,7 +59,8 @@ public abstract class CalendarItem implements Model {
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
 	public static CalendarItem fromJSON(String json) {
-		return null;
+		final Gson parser = new Gson();
+		return parser.fromJson(json, CalendarItem.class);
 	}
 	
 	/**
@@ -67,7 +70,10 @@ public abstract class CalendarItem implements Model {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public abstract CalendarItem[] fromJsonArray(String json);
+	public static CalendarItem[] fromJsonArray(String json){
+		final Gson parser = new Gson();
+		return parser.fromJson(json, CalendarItem[].class);
+	}
 
 	/*
 	 * @see java.lang.Object#toString()
@@ -93,6 +99,9 @@ public abstract class CalendarItem implements Model {
 
 	@Override
 	public Boolean identify(Object o) {return null;}
+	
+	
+	
 
 //	@Override
 //	public Permission getPermission(User u) {return null;}

@@ -6,11 +6,17 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
+import edu.wpi.cs.wpisuitetng.modules.postboard.controller.AddMessageRequestObserver;
+import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardMessage;
+import edu.wpi.cs.wpisuitetng.network.Network;
+import edu.wpi.cs.wpisuitetng.network.Request;
+import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 public class AddCalendarItemController implements ActionListener{
 
@@ -62,12 +68,29 @@ public class AddCalendarItemController implements ActionListener{
 		if ((name.length() > 0) & (endTime != null)) {
 			Event sentEvent = new Event(name, startTime, endTime, location, description);
 			// Add the message to the model
-			model.addCalendarItem(sentEvent);
+			model.addCalendarItem(sentEvent);//
 		}else if((name.length() > 0) & (endTime == null)){
 			Commitment sentCommitment = new Commitment(name, startTime,location, description);
 			// Add the message to the model
 			model.addCalendarItem(sentCommitment);
 		}
+		
+//		// Send a request to the core to save this message
+//		if ((name.length() > 0) & (endTime != null)) {
+//			Event sentEvent = new Event(name, startTime, endTime, location, description);
+//			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
+//			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
+//			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
+//			request.send(); // send the request
+//		}else if((name.length() > 0) & (endTime == null)){
+//			Commitment sentCommitment = new Commitment(name, startTime,location, description);
+//			// Add the message to the model
+//			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
+//			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
+//			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
+//			request.send(); // send the request
+//		}
+
 	}
 	
 //	@Override
@@ -90,4 +113,11 @@ public class AddCalendarItemController implements ActionListener{
 //	}
 
 
+	/** ATTENTION AT THIS PART
+	 * When the new Calendar item is received back from the server, add it to the local model.
+	 * @param message
+	 */
+	public void addCalendarItemToModel(CalendarItem item) {
+		model.addCalendarItem(item);
+	}
 }

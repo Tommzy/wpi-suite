@@ -46,16 +46,16 @@ public class Commitment extends CalendarItem{
 		return new Gson().toJson(this, CalendarItem.class);
 	}
 
-	@Override
-	public  CalendarItem fromJSON(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem.class);
-	}
+//	@Override
+//	public  CalendarItem fromJSON(String json) {
+//		final Gson parser = new Gson();
+//		return parser.fromJson(json, CalendarItem.class);
+//	}
 
-	@Override
-	public CalendarItem[] fromJsonArray(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem[].class);
-	}
+//	@Override
+//	public CalendarItem[] fromJsonArray(String json) {
+//		final Gson parser = new Gson();
+//		return parser.fromJson(json, CalendarItem[].class);
+//	}
 
 }
