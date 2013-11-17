@@ -31,7 +31,7 @@ public class GroupCommitment extends Commitment{
 		super(name, startTime, location, description);
 		this.groupMembers = new ArrayList<User>();
 		this.owner = owner;
-		int size = groupMembers.size;
+		int size = groupMembers.size();
 		
 		//Adding the given users to the user list.
 		for(int i = 0; i < size;i++){
