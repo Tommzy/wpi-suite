@@ -50,7 +50,7 @@ public class CalendarItemListModel extends AbstractListModel {
 			itemList.add(newItem);
 
 		
-		// Notify the model that it has changed so the GUI will be udpated
+		// Notify the model that it has changed so the GUI will be updated
 		this.fireIntervalAdded(this, 0, 0);
 	}
 	

@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**
- * Model to contain a single message on the PostBoard
+ * Model to contain a single calendar item on the calendar
  * 
  * @author Hui Zheng
  *
@@ -27,12 +27,12 @@ public abstract class CalendarItem implements Model {
 	
 	String name;
 	GregorianCalendar startTime;
-	String location;
+	String location; //Why is this necessary for commitments?
 	String description;
 	
 
 	/**
-	 * Constructs a Calendar for the given values
+	 * Constructs a Calendar Item for the given values
 	 * @param message
 	 */
 	public CalendarItem(String name, GregorianCalendar startTime, String location, String description){
@@ -47,9 +47,7 @@ public abstract class CalendarItem implements Model {
 	 * Returns a JSON-encoded string representation of this message object
 	 */
 	@Override
-	public String toJSON() {
-		return new Gson().toJson(this, CalendarItem.class);
-	}
+	public abstract String toJSON();
 
 	/**
 	 * Returns an instance of PostBoardMessage constructed using the given
@@ -59,8 +57,7 @@ public abstract class CalendarItem implements Model {
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
 	public static CalendarItem fromJSON(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem.class);
+		return null;
 	}
 	
 	/**
@@ -70,10 +67,7 @@ public abstract class CalendarItem implements Model {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItem[] fromJsonArray(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem[].class);
-	}
+	public abstract CalendarItem[] fromJsonArray(String json);
 
 	/*
 	 * @see java.lang.Object#toString()
