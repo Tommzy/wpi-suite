@@ -44,7 +44,7 @@ public class AddCalendarItemController implements ActionListener{
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		GregorianCalendar endTime = null;
 		try {
 			endTime = viewEvent.getNewDate("endTime");
