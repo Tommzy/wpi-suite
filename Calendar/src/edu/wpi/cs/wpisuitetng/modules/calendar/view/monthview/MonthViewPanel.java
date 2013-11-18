@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -27,6 +28,14 @@ public class MonthViewPanel extends JPanel {
 		setMonth(year, month, dayOfMonth);
 		
 		this.setLayout(new MigLayout("insets 0 0 0 0"));
+		add(new JLabel("SUN"));
+		add(new JLabel("MON"));
+		add(new JLabel("TUE"));
+		add(new JLabel("WED"));
+		add(new JLabel("THU"));
+		add(new JLabel("FRI"));
+		add(new JLabel("SAT"), "wrap");
+		
 		for (int i = 0; i < 5; i ++) {
 			for (int j = 0; j < 7; j ++) {
 				MonthViewGridPanel panel = new MonthViewGridPanel();
