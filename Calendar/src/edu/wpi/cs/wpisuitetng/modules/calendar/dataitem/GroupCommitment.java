@@ -29,14 +29,16 @@ public class GroupCommitment extends Commitment{
 	public GroupCommitment(String name, GregorianCalendar startTime, String location,
 			String description,User owner,ArrayList<User> groupMembers) {
 		super(name, startTime, location, description);
-		this.groupMembers = new ArrayList<User>();
+		this.groupMembers = groupMembers;
 		this.owner = owner;
 		int size = groupMembers.size();
 		
 		//Adding the given users to the user list.
+		/*
 		for(int i = 0; i < size;i++){
-			this.gourpMembers.add(gourpMembers[i]);
+			this.groupMembers.add(groupMembers[i]);
 		}
+		*/
 		// TODO Auto-generated constructor stub
 	}
 
