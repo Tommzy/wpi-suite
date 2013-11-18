@@ -42,18 +42,15 @@ public class MainCalendarController implements ActionListener{
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
-<<<<<<< HEAD
-=======
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
 			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
 			new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 16, 15, 50, 0), new GregorianCalendar(2013, 5, 16, 16, 5, 0)), 
 			new DayEvent("Abcd", new GregorianCalendar(2013, 5, 16, 15, 55, 0), new GregorianCalendar(2013, 5, 16, 16, 15, 0)), 
-			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 17, 15, 55, 0), new GregorianCalendar(2013, 5, 17, 16, 15, 0)),
+			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 16, 15, 56, 0), new GregorianCalendar(2013, 5, 16, 16, 16, 0)),
 			new DayEvent("Hey", new GregorianCalendar(2013, 5, 18, 8, 50, 0), new GregorianCalendar(2013, 5, 18, 10, 5, 0)) };
 	
->>>>>>> 21df51c77a30b63046fa3481f78116ea871c6e7a
 	/**
 	 * Create a MainCalendarController. 
 	 * 
