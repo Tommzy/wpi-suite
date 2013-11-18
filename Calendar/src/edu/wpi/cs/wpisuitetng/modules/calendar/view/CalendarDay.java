@@ -39,9 +39,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
  */
 @SuppressWarnings("serial")
 public class CalendarDay extends JPanel {
-	private JPanel view = new JPanel(new GridBagLayout());
-	JScrollPane scroll = new JScrollPane(view,
-			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	JPanel view = new JPanel(new GridBagLayout());
+//	JScrollPane scroll = new JScrollPane(view,
+//			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
 	ArrayList<EventCard> eventCards = new ArrayList<EventCard>();
 	private HashMap<EventCard, GridBagConstraints> eventConstraint = new HashMap<EventCard, GridBagConstraints>();
@@ -56,10 +56,10 @@ public class CalendarDay extends JPanel {
 	 */
 	public CalendarDay() {
 		GridBagConstraints c = new GridBagConstraints();
+		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
-		scroll.setMinimumSize(new Dimension(700, 500));
 		initGridBox();
-		add(scroll, BorderLayout.CENTER);
+		add(view, BorderLayout.CENTER);
 	}
 
 	/**
@@ -68,15 +68,15 @@ public class CalendarDay extends JPanel {
 	 */
 	public CalendarDay(ArrayList<DayEvent> events) {
 		GridBagConstraints c = new GridBagConstraints();
+		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
-		scroll.setMinimumSize(new Dimension(100, 500));
 		initGridBox();
 
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i));
 		}
 
-		add(scroll, BorderLayout.CENTER);
+		add(view, BorderLayout.CENTER);
 	}
 
 	/**
@@ -86,15 +86,15 @@ public class CalendarDay extends JPanel {
 	 */
 	public CalendarDay(DayEvent[] events) {
 		GridBagConstraints c = new GridBagConstraints();
+		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
-		scroll.setMinimumSize(new Dimension(100, 500));
 		initGridBox();
 
 		for (int i=0; i < events.length; i++) {
 			addEvent(events[i]);
 		}
 
-		add(scroll, BorderLayout.CENTER);
+		add(view, BorderLayout.CENTER);
 	}
 
 	/**
@@ -114,7 +114,6 @@ public class CalendarDay extends JPanel {
 			c.gridy = i;
 			Box box = Box.createVerticalBox();
 			box.add(Box.createVerticalStrut(1));
-			box.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
 			view.add(box, c);
 		}
 	}
@@ -139,6 +138,12 @@ public class CalendarDay extends JPanel {
 				timeLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
 				view.add(timeLabel, c);
 			} 
+			else {
+				Box box = Box.createVerticalBox();
+				box.add(Box.createVerticalStrut(1));
+				box.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
+				view.add(box, c);
+			}
 		}
 	}
 	
@@ -148,6 +153,7 @@ public class CalendarDay extends JPanel {
 	protected void initHeader(Calendar date) {
 		JLabel header = new JLabel("<HTML><div style='text-align:center'>" + format(date.get(GregorianCalendar.MONTH) + 1) + "-" + format(date.get(GregorianCalendar.DATE)) + "-" + date.get(GregorianCalendar.YEAR) + "<br />" + weekdays[date.get(GregorianCalendar.DAY_OF_WEEK)] + "</div></HTML>");
 		header.setHorizontalAlignment(SwingConstants.CENTER);
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		add(header, BorderLayout.NORTH);
 	}
 	
