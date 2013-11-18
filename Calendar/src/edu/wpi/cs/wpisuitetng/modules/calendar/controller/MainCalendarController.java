@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarMonthView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
@@ -41,6 +42,18 @@ public class MainCalendarController implements ActionListener{
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
+<<<<<<< HEAD
+=======
+	
+	// for test display use
+	DayEvent[] sampleEvent = {
+			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
+			new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 16, 15, 50, 0), new GregorianCalendar(2013, 5, 16, 16, 5, 0)), 
+			new DayEvent("Abcd", new GregorianCalendar(2013, 5, 16, 15, 55, 0), new GregorianCalendar(2013, 5, 16, 16, 15, 0)), 
+			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 17, 15, 55, 0), new GregorianCalendar(2013, 5, 17, 16, 15, 0)),
+			new DayEvent("Hey", new GregorianCalendar(2013, 5, 18, 8, 50, 0), new GregorianCalendar(2013, 5, 18, 10, 5, 0)) };
+	
+>>>>>>> 21df51c77a30b63046fa3481f78116ea871c6e7a
 	/**
 	 * Create a MainCalendarController. 
 	 * 
@@ -70,15 +83,10 @@ public class MainCalendarController implements ActionListener{
 				view.getCalendarView().add(monthView, "span");
 				break;
 			case "Week" :
-				
-				
+				CalendarWeekView weekView = new CalendarWeekView(sampleEvent);
+				view.getCalendarView().add(weekView);
 				break;
 			case "Day" :
-				DayEvent[] sampleEvent = {new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 21, 5, 0)), 
-				new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0)), 
-				new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0)), 
-				new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0)),
-				new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 50, 0), new GregorianCalendar(2013, 5, 21, 10, 5, 0)) };
 				CalendarDayView dayView = new CalendarDayView(sampleEvent);
 				view.getCalendarView().add(dayView);
 				break;
