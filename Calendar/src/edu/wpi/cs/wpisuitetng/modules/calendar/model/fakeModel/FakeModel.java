@@ -8,6 +8,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 public class FakeModel extends MainCalendarModel{
 	private FakeDate currentDate;
 	private Calendar cal = GregorianCalendar.getInstance();
+	private static FakeModel modelInstance = new FakeModel();
 	
 	public FakeModel() {
 		currentDate = new FakeDate(cal.get(GregorianCalendar.YEAR), 
@@ -24,6 +25,8 @@ public class FakeModel extends MainCalendarModel{
 		this.currentDate = currentDate;
 	}
 	
-	
+	public static FakeModel getInstance() {
+		return modelInstance;
+	}
 }
 

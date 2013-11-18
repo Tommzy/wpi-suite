@@ -20,6 +20,13 @@ public class FakeDate {
 		cal.set(year, month, dayOfMonth);
 	}
 
+	public FakeDate(FakeDate fakeDate) {
+		this.year = fakeDate.getYear();
+		this.month = fakeDate.getMonth();
+		this.dayOfMonth = fakeDate.getDayOfMonth();
+		cal.set(year, month, dayOfMonth);
+	}
+	
 	public int getYear() {
 		return year;
 	}
@@ -30,6 +37,10 @@ public class FakeDate {
 
 	public int getDayOfMonth() {
 		return dayOfMonth;
+	}
+	
+	public int getDayOfWeek() {
+		return cal.get(GregorianCalendar.DAY_OF_WEEK);
 	}
 	
 	public FakeDate getNextDate() {
@@ -46,4 +57,7 @@ public class FakeDate {
 		return fakeDate;
 	}
 	
+	public String toString() {
+		return "" + year + "/" + month + "/" + dayOfMonth + " Day of Week: " + getDayOfWeek();
+	}
 }

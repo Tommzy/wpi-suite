@@ -22,6 +22,7 @@ import javax.swing.JToggleButton;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarMonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
@@ -38,6 +39,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 public class MainCalendarController implements ActionListener{
 	MainCalendarModel model;
 	MainCalendarView view;
+	CalendarYearView yearView;
+	MonthView monthView;
 	
 	/**
 	 * Create a MainCalendarController. 
@@ -48,6 +51,8 @@ public class MainCalendarController implements ActionListener{
 	public MainCalendarController(MainCalendarModel model, MainCalendarView view) {
 		this.model = model;
 		this.view = view;
+		yearView = new CalendarYearView();
+		monthView = new MonthView(view.getCalendarView(), FakeModel.getInstance().getCurrentDate());
 	}
 	
 	/**
@@ -60,11 +65,9 @@ public class MainCalendarController implements ActionListener{
 		toggleButton.setSelected(true);
 		switch (toggleButton.getText()) {
 			case "Year" :
-				CalendarYearView yearView = new CalendarYearView();
 				view.getCalendarView().add(yearView);
 				break;
 			case "Month" :
-				MonthView monthView = new MonthView(view.getCalendarView());
 				view.getCalendarView().add(monthView, "span");
 				break;
 			case "Week" :

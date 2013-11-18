@@ -4,6 +4,11 @@ import javax.swing.JFrame;
 
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * a main class for testing
+ * @author Hongbo
+ *
+ */
 public class MainFrame {
 	JFrame frame = new JFrame();
 	//MonthView monthView = new MonthView();
