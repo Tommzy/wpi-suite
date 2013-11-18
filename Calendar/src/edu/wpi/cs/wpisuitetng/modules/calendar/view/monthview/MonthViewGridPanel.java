@@ -2,17 +2,23 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class MonthViewGridPanel extends JPanel {
 	private JLabel headerLabel = new JLabel();
 	private JTextArea textArea = new JTextArea();
-	
+	public static int mod = 1;
 	public MonthViewGridPanel() {
-		setLayout(new MigLayout("insets 0 0 0 0"));
+		setLayout(new MigLayout("insets 0 0 0 0, height :100:"));
 		add(headerLabel, "width :100:, wrap, span");
-		add(textArea, "span, width :200:, height :100:");
+		if (mod == 1) {
+			add(textArea, "span, width :200:, height :100:");
+		} else {
+			add(textArea, "span, width 100%:100%:100%, height 80%:80%:80%");
+		}
+
 	}
 	
 	public JLabel getHeaderLabel() {
@@ -30,4 +36,5 @@ public class MonthViewGridPanel extends JPanel {
 	public void setTextArea(String s) {
 		textArea.setText(s);
 	}
+	
 }

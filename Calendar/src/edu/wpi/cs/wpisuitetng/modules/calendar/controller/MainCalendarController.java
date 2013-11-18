@@ -41,7 +41,6 @@ public class MainCalendarController implements ActionListener{
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
-	
 	/**
 	 * Create a MainCalendarController. 
 	 * 
@@ -109,4 +108,6 @@ public class MainCalendarController implements ActionListener{
 			timePeriodChanged((JToggleButton) e.getSource());
 		}
 	}
+	
+	
 }
