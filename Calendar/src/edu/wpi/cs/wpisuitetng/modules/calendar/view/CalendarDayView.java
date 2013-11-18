@@ -39,10 +39,12 @@ public class CalendarDayView extends JPanel {
 	public CalendarDayView() {
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		cd = new CalendarDay();
+		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader(date);
 		cd.view.setMinimumSize(new Dimension(500, 450));
 		add(cd);
+		
 	}
 	
 	/**
@@ -51,11 +53,16 @@ public class CalendarDayView extends JPanel {
 	 */
 	public CalendarDayView(ArrayList<DayEvent> events) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(events);
+		cd = new CalendarDay();
+		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader(date);
 		cd.view.setMinimumSize(new Dimension(500, 450));
 		add(cd);
+		
+		for (int i=0; i < events.size(); i++) {
+			addEvent(events.get(i));
+		}
 	}
 
 	/**
@@ -65,11 +72,24 @@ public class CalendarDayView extends JPanel {
 	 */
 	public CalendarDayView (DayEvent[] events) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(events);
+		cd = new CalendarDay();
+		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader(date);
 		cd.view.setPreferredSize(new Dimension(500, 450));
 		add(cd);
+		
+		for (int i=0; i < events.length; i++) {
+			addEvent(events[i]);
+		}
+	}
+	
+	/**
+	 * Add an event to calendar
+	 * @param event Event to be added.
+	 */
+	private void addEvent (DayEvent event) {
+		cd.addEvent(event);
 	}
 	
 	//Test the detailed view, adding some new events

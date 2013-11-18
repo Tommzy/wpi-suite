@@ -47,7 +47,7 @@ public class CalendarDay extends JPanel {
 	private HashMap<EventCard, GridBagConstraints> eventConstraint = new HashMap<EventCard, GridBagConstraints>();
 	private final int minimalInterval = 2;
 	private int currentMaxWidth = 1;
-	//Calendar date = GregorianCalendar.getInstance();
+	int eventWidthMultiplier;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
 	
 	/**
@@ -59,41 +59,6 @@ public class CalendarDay extends JPanel {
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
 		initGridBox();
-		add(view, BorderLayout.CENTER);
-	}
-
-	/**
-	 * Constructor that consumes a list of DayEvents
-	 * @param events A list of events to be added to calendar
-	 */
-	public CalendarDay(ArrayList<DayEvent> events) {
-		GridBagConstraints c = new GridBagConstraints();
-		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-		setLayout(new BorderLayout());
-		initGridBox();
-
-		for (int i=0; i < events.size(); i++) {
-			addEvent(events.get(i));
-		}
-
-		add(view, BorderLayout.CENTER);
-	}
-
-	/**
-	 * 
-	 * Constructor that consumes an array of DayEvents
-	 * @param events An array of events to be added to calendar
-	 */
-	public CalendarDay(DayEvent[] events) {
-		GridBagConstraints c = new GridBagConstraints();
-		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-		setLayout(new BorderLayout());
-		initGridBox();
-
-		for (int i=0; i < events.length; i++) {
-			addEvent(events[i]);
-		}
-
 		add(view, BorderLayout.CENTER);
 	}
 
@@ -187,7 +152,7 @@ public class CalendarDay extends JPanel {
 		newEvent.setOpaque(true);   //Make the label show it's background
 		newEvent.setBackground(new Color(200, 240, 200));
 		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-		newEvent.setPreferredSize(new Dimension (100, newEvent.getMinimumSize().height));
+		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 
 		int labelSize = event.getTimeSpan() / minimalInterval; // 1 min = 1/minimalInterval px height
 
