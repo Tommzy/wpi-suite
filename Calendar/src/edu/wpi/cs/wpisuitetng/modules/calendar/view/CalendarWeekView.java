@@ -12,14 +12,19 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -43,11 +48,13 @@ public class CalendarWeekView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		week[0] = new CalendarDay();
 		week[0].initTimeLabels();
+		week[0].add(new JLabel("<HTML><p>&nbsp;<br />&nbsp;</p></HTML>"), BorderLayout.NORTH);
 		add(week[0]);
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay();
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader(date);
+//			week[i].view.setSize(new Dimension(200, week[i].view.getMaximumSize().height));
 			add(week[i]);
 		}
 	}
@@ -57,15 +64,16 @@ public class CalendarWeekView extends JPanel {
 	 * @param events A list of events to be added to calendar
 	 */
 	public CalendarWeekView(ArrayList<DayEvent> events) {
-		setLayout(new GridLayout(1,8));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		week[0] = new CalendarDay();
 		week[0].initTimeLabels();
+		week[0].add(new JLabel("<HTML><p>&nbsp;<br />&nbsp;</p></HTML>"), BorderLayout.NORTH);
 		add(week[0]);
-		for (int i = 0; i < weekdays.length; i++) {
-			week[i+1] = new CalendarDay(events);
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i);
-			week[i+1].initHeader(date);
-			add(week[i + 1]);
+		for (int i = 1; i < weekdays.length; i++) {
+			week[i] = new CalendarDay(events);
+			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
+			week[i].initHeader(date);
+			add(week[i]);
 		}
 	}
 
@@ -75,15 +83,16 @@ public class CalendarWeekView extends JPanel {
 	 * @param events An array of events to be added to calendar
 	 */
 	public CalendarWeekView (DayEvent[] events) {
-		setLayout(new GridLayout(1,8));
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		week[0] = new CalendarDay();
 		week[0].initTimeLabels();
+		week[0].add(new JLabel("<HTML><p>&nbsp;<br />&nbsp;</p></HTML>"), BorderLayout.NORTH);
 		add(week[0]);
-		for (int i = 0; i < weekdays.length; i++) {
-			week[i+1] = new CalendarDay(events);
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i);
-			week[i+1].initHeader(date);
-			add(week[i + 1]);
+		for (int i = 1; i < weekdays.length; i++) {
+			week[i] = new CalendarDay(events);
+			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
+			week[i].initHeader(date);
+			add(week[i]);
 		}
 	}
 	

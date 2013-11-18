@@ -41,7 +41,7 @@ public class CalendarDayView extends JPanel {
 		cd = new CalendarDay();
 		cd.initTimeLabels();
 		cd.initHeader(date);
-		cd.scroll.setMinimumSize(new Dimension(700, 450));
+		cd.view.setMinimumSize(new Dimension(500, 450));
 		add(cd);
 	}
 	
@@ -54,7 +54,7 @@ public class CalendarDayView extends JPanel {
 		cd = new CalendarDay(events);
 		cd.initTimeLabels();
 		cd.initHeader(date);
-		cd.scroll.setMinimumSize(new Dimension(700, 450));
+		cd.view.setMinimumSize(new Dimension(500, 450));
 		add(cd);
 	}
 
@@ -68,7 +68,7 @@ public class CalendarDayView extends JPanel {
 		cd = new CalendarDay(events);
 		cd.initTimeLabels();
 		cd.initHeader(date);
-		cd.scroll.setPreferredSize(new Dimension(700, 450));
+		cd.view.setPreferredSize(new Dimension(500, 450));
 		add(cd);
 	}
 	
