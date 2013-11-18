@@ -38,9 +38,10 @@ import javax.swing.SwingUtilities;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 
 /**
- *
- * @author Yuchen Zhang
+ * Generate day calendar view. 
+ * 
  */
+@SuppressWarnings("serial")
 public class CalendarDayView extends JPanel {
 	JPanel view = new JPanel(new GridBagLayout());
 	JScrollPane scroll = new JScrollPane(view,
@@ -51,11 +52,15 @@ public class CalendarDayView extends JPanel {
 	int currentMaxWidth = 1;
 	Calendar date = GregorianCalendar.getInstance();
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
-
+	
+	/**
+	 * Constructor
+	 * Empty calendar
+	 */
 	public CalendarDayView() {
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(new BorderLayout());
-		scroll.setMinimumSize(new Dimension(100, 500));
+		scroll.setMinimumSize(new Dimension(700, 500));
 		initTimeLabels();
 		JLabel header = new JLabel(format(date.get(GregorianCalendar.MONTH) + 1) + "-" + format(date.get(GregorianCalendar.DATE)) + "-" + date.get(GregorianCalendar.YEAR) + " " + weekdays[date.get(GregorianCalendar.DAY_OF_WEEK)]);
 		header.setHorizontalAlignment(SwingConstants.CENTER);
@@ -63,6 +68,10 @@ public class CalendarDayView extends JPanel {
 		add(scroll, BorderLayout.CENTER);
 	}
 	
+	/**
+	 * Constructor that consumes a list of DayEvents
+	 * @param events A list of events to be added to calendar
+	 */
 	public CalendarDayView(ArrayList<DayEvent> events) {
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(new BorderLayout());
@@ -80,6 +89,11 @@ public class CalendarDayView extends JPanel {
 		add(scroll, BorderLayout.CENTER);
 	}
 
+	/**
+	 * 
+	 * Constructor that consumes an array of DayEvents
+	 * @param events An array of events to be added to calendar
+	 */
 	public CalendarDayView(DayEvent[] events) {
 		GridBagConstraints c = new GridBagConstraints();
 		setLayout(new BorderLayout());
@@ -128,12 +142,17 @@ public class CalendarDayView extends JPanel {
 			}
 		}
 	}
-
+	
+	/**
+	 * Add an event to calendar
+	 * @param event Event to be added
+	 */
 	public void addEvent(DayEvent event) {
 		ArrayList<EventCard> conflict = new ArrayList<EventCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false;
-		//
+		
+		// Construct label of the event
 		String label = "";
 		if (event.getTimeSpan() < 30) {
 			label = "<HTML><p>" + event.getEventName() + "</p></HTML>";
@@ -145,6 +164,8 @@ public class CalendarDayView extends JPanel {
 					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</p></HTML>";
 		}
+		
+		// Set up JLabel to display the event
 		final JLabel newEvent = new JLabel(); 
 		newEvent.setText(label);
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
@@ -175,6 +196,7 @@ public class CalendarDayView extends JPanel {
 //			}
 //		}
 		
+		// Set up JLabel constraint
 		final GridBagConstraints cLocal = new GridBagConstraints();
 		//Determine where to put the new event
 		cLocal.gridy = (60/minimalInterval) * event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + event.getStartTime().get(GregorianCalendar.MINUTE) / minimalInterval;
@@ -191,6 +213,7 @@ public class CalendarDayView extends JPanel {
 				view.add(newEvent, cLocal);
 			}
 		});
+		
 		//Keep track of the new event, and revalidate/repaint the view
 		EventCard eventCard = new EventCard(event, newEvent);
 		eventCards.add(eventCard);
@@ -214,6 +237,12 @@ public class CalendarDayView extends JPanel {
 		}
 	}
 	
+	/**
+	 * Format number to String. 
+	 * If number is less than 10, then display add a "0" ahead of the number. 
+	 * @param i The number to be formatted
+	 * @return Formatted number in string format. 
+	 */
 	private String format(int i) {
 		if (i <= 9) {
 			return "0" + i;
@@ -222,16 +251,6 @@ public class CalendarDayView extends JPanel {
 			return Integer.toString(i);
 	}
 	
-	private enum weekday {
-		Sunday,
-		Monday,
-		Tuesday,
-		Wednesday,
-		Thursday,
-		Friday,
-		Saturday
-	}
-
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
