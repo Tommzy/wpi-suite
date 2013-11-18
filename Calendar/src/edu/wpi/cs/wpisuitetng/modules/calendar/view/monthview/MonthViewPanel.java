@@ -60,9 +60,6 @@ public class MonthViewPanel extends JPanel {
 	 */
 	public void setMonth(int year, int month, int date) { 
 		cal.set(year, month, date);
-		
-		System.out.println(cal.get(GregorianCalendar.YEAR) + " " + cal.get(GregorianCalendar.MONTH) + " " + cal.get(GregorianCalendar.DATE));
-		System.out.println(cal.get(GregorianCalendar.DAY_OF_WEEK));
 	}
 	
 	public String getHeaderLabelText(int year, int month, int date) {

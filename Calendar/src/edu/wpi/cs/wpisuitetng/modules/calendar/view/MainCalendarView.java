@@ -25,7 +25,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
-import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
@@ -70,8 +69,9 @@ public class MainCalendarView extends JPanel {
       calendarViewSwitch.add(toggleBtn);
     }
     add(calendarViewSwitch);
-
+    
     calendarScroll.setPreferredSize(new Dimension (1000, 300));
+ 
 	add(calendarScroll);
 	
     initialize();
