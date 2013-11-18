@@ -23,10 +23,10 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarMonthView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**
  * This controller responds to actions from view MainCalendarView and
@@ -64,12 +64,12 @@ public class MainCalendarController implements ActionListener{
 				view.getCalendarView().add(yearView);
 				break;
 			case "Month" :
-				CalendarMonthView monthView = new CalendarMonthView();
-				view.getCalendarView().add(monthView);
+				MonthView monthView = new MonthView(view.getCalendarView());
+				view.getCalendarView().add(monthView, "span");
 				break;
 			case "Week" :
-				CalendarWeekView weekView = new CalendarWeekView();
-				view.getCalendarView().add(weekView);
+				
+				
 				break;
 			case "Day" :
 				DayEvent[] sampleEvent = {new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 21, 5, 0)), 
