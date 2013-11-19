@@ -144,4 +144,13 @@ public class CalendarWeekView extends JPanel {
 		frame.setVisible(true);
 
 	}
+	
+	public void repaint() {
+		super.repaint();
+		if (this.getParent() == null) {
+			return;
+		}
+		this.setPreferredSize(new Dimension((int)(this.getParent().getSize().getWidth() * 0.9), (int)(this.getPreferredSize().getHeight())));
+	}
+	
 }

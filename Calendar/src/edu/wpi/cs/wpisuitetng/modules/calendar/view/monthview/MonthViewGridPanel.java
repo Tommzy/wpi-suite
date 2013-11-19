@@ -1,5 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
+import java.awt.Color;
+
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
@@ -11,7 +13,9 @@ public class MonthViewGridPanel extends JPanel {
 	private JTextArea textArea = new JTextArea();
 	public static int mod = 1;
 	public MonthViewGridPanel() {
+		textArea.setEditable(false);
 		setLayout(new MigLayout("insets 0 0 0 0, height :100:"));
+		headerLabel.setBackground(new Color(200, 240, 200));
 		add(headerLabel, "width :100:, wrap, span");
 		if (mod == 1) {
 			add(textArea, "span, width :200:, height :100:");

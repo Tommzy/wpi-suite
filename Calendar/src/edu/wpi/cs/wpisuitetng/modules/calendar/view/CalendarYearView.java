@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -35,8 +36,6 @@ public class CalendarYearView extends JScrollPane {
 	 */
 	public CalendarYearView()
 	{
-		
-
 		JPanel contentPanel = new JPanel();
 		contentPanel.setLayout(new MigLayout());
 		
@@ -72,7 +71,7 @@ public class CalendarYearView extends JScrollPane {
 		calendarPanel.add(CalendarMonth, BorderLayout.CENTER);
 				
 		calendarPanel.add(CalendarMonth, BorderLayout.CENTER);		
-		contentPanel.add(calendarPanel, "alignx center, push, span");
+		contentPanel.add(calendarPanel, "alignx center, push, span, height :90%:");
 					
 		this.setViewportView(contentPanel);	
 	}
@@ -168,4 +167,19 @@ public class CalendarYearView extends JScrollPane {
 		cal.add(Calendar.YEAR, +1);
 		CalendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
+	
+	/*
+	public void repaint() {
+		super.repaint();
+		
+		if (this.getParent() == null) {
+			return;
+		}
+		
+		this.setPreferredSize(new Dimension
+				((int)(this.getParent().getSize().getWidth() * 0.9),
+				(int)(this.getParent().getSize().getHeight() * 0.9))
+		);
+	}
+	*/
 }

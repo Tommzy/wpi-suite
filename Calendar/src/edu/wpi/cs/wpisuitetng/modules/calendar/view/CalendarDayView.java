@@ -12,6 +12,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 public class CalendarDayView extends JPanel {
 	CalendarDay cd;
 	Calendar date = GregorianCalendar.getInstance();
+	private Component superComponent;
 	/**
 	 * Constructor
 	 * Empty calendar
@@ -43,7 +45,8 @@ public class CalendarDayView extends JPanel {
 		cd.initTimeLabels();
 		cd.initHeader(date);
 		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd);
+		add(cd, "width 100%:100%:100%");
+	
 		
 	}
 	
@@ -63,6 +66,7 @@ public class CalendarDayView extends JPanel {
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i));
 		}
+		
 	}
 
 	/**
@@ -70,18 +74,32 @@ public class CalendarDayView extends JPanel {
 	 * Constructor that consumes an array of DayEvents
 	 * @param events An array of events to be added to calendar
 	 */
-	public CalendarDayView (DayEvent[] events) {
+	public CalendarDayView (DayEvent[] events, Component comp) {
+		this.superComponent = comp;
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		cd = new CalendarDay();
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader(date);
 		cd.view.setPreferredSize(new Dimension(500, 450));
-		add(cd);
+		add(cd, "width :100%:");
 		
 		for (int i=0; i < events.length; i++) {
 			addEvent(events[i]);
 		}
+		
+		
+	}
+	
+	/**
+	 * 
+	 */
+	public void repaint() {
+		super.repaint();
+		if (superComponent == null) {
+			return;
+		}
+		setPreferredSize(new Dimension((int)(superComponent.getSize().getWidth()*0.9), (int)(this.getPreferredSize().getHeight())));
 	}
 	
 	/**
@@ -111,4 +129,6 @@ public class CalendarDayView extends JPanel {
 		frame.setVisible(true);
 
 	}
+	
+	
 }

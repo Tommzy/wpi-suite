@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
@@ -42,6 +43,8 @@ public class MainCalendarController implements ActionListener{
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
+	CalendarDayView dayView;
+	CalendarWeekView weekView;
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -62,6 +65,9 @@ public class MainCalendarController implements ActionListener{
 		this.view = view;
 		yearView = new CalendarYearView();
 		monthView = new MonthView(view.getCalendarView(), FakeModel.getInstance().getCurrentDate());
+		dayView = new CalendarDayView(sampleEvent, view.getCalendarView());
+		weekView = new CalendarWeekView(sampleEvent);
+		
 	}
 	
 	/**
@@ -77,15 +83,13 @@ public class MainCalendarController implements ActionListener{
 				view.getCalendarView().add(yearView);
 				break;
 			case "Month" :
-				view.getCalendarView().add(monthView, "span");
+				view.getCalendarView().add(monthView, "span");			
 				break;
 			case "Week" :
-				CalendarWeekView weekView = new CalendarWeekView(sampleEvent);
 				view.getCalendarView().add(weekView);
 				break;
 			case "Day" :
-				CalendarDayView dayView = new CalendarDayView(sampleEvent);
-				view.getCalendarView().add(dayView);
+				view.getCalendarView().add(dayView);				
 				break;
 			default: break;
 		}

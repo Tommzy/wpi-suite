@@ -99,7 +99,7 @@ public class MainCalendarView extends JPanel {
    * Initialize.
    */
   private void initialize() {
-    toggleButtonPeriod.get(3).doClick();
+	  toggleButtonPeriod.get(3).doClick();
   }
 
 }

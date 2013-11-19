@@ -59,6 +59,8 @@ public class CalendarDay extends JPanel {
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
 		initGridBox();
+		revalidate();
+		repaint();
 		add(view, BorderLayout.CENTER);
 	}
 

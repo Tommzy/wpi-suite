@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -21,7 +22,7 @@ public class MonthView extends JPanel {
 	private Component superComponent;
 	private FakeDate date;
 	private JButton previousButton = new JButton("<"), 
-			nextButton = new JButton("Today"), todayButton = new JButton(">");
+			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	
 	public MonthView(Component comp, FakeDate fakeDate) {
 		date = fakeDate;
@@ -44,6 +45,7 @@ public class MonthView extends JPanel {
 		panel.add(nextButton, "gapleft 10");
 		add(panel, "gapleft 30, wrap");
 		add(monthViewPanel);
+	
 	}
 	
 	public JButton getPreviousButton() {

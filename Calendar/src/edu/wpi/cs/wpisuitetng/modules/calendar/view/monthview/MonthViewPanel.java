@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -26,7 +27,7 @@ public class MonthViewPanel extends JPanel {
 	
 	public MonthViewPanel(int year, int month, int dayOfMonth) {
 		setMonth(year, month, dayOfMonth);
-		
+		this.setBackground(Color.white);
 		this.setLayout(new MigLayout("insets 0 0 0 0"));
 		add(new JLabel("SUN"));
 		add(new JLabel("MON"));

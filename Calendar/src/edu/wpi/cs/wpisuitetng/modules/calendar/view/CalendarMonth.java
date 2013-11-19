@@ -86,6 +86,9 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 	
 	private void buildYearLayout()
 	{
+		Font font = this.getFont();
+		this.setBoxPaddingX((this.getBoxPaddingX() / 2));
+		this.setFont(font.deriveFont(8f));
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
 		this.setSelectionBackground(SELECTION);
