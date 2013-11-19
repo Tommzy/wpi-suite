@@ -48,7 +48,7 @@ public class EventTable extends JPanel {
     table.setAutoCreateRowSorter(true);
 
     // Create the scroll pane and add the table to it.
-    final JScrollPane scrollPane = new JScrollPane(table);
+    final JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     add(eventTableLabel);
     // Add the scroll pane to this panel.
     add(scrollPane);
@@ -76,7 +76,7 @@ public class EventTable extends JPanel {
       {"Code Review", "Nov 13, 2013",
         "16:00 - 17:00", "SL 402", },
       {"Quittin' Time", "Nov 13, 2013",
-        "17:00 - 17:15", "SL 402", },
+        "17:00 - 17:15", "SL 402", }
     };
 
     /**
