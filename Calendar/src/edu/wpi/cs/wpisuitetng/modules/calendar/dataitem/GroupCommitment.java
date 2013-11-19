@@ -13,7 +13,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /**commitement 
@@ -21,16 +23,22 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  *
  */
 public class GroupCommitment extends Commitment{
-	ArrayList<User> Users ;
+	ArrayList<User> groupMembers ;
+	User owner;
 	
-	public GroupCommitment(String name, Date date, float startTime,User[] user) {
-		super(name, date, startTime);
-		this.Users = new ArrayList<User>();
-		int size = user.length;
+	public GroupCommitment(String name, GregorianCalendar startTime, String location,
+			String description,User owner,ArrayList<User> groupMembers) {
+		super(name, startTime, location, description);
+		this.groupMembers = groupMembers;
+		this.owner = owner;
+		int size = groupMembers.size();
+		
 		//Adding the given users to the user list.
+		/*
 		for(int i = 0; i < size;i++){
-			this.Users.add(user[i]);
+			this.groupMembers.add(groupMembers[i]);
 		}
+		*/
 		// TODO Auto-generated constructor stub
 	}
 

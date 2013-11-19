@@ -13,14 +13,16 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class GroupEvent extends Event{
 	ArrayList<User> Users ;
 
-	public GroupEvent(String name, Date date, float startTime, float endTime, User[] user) {
-		super(name, date, startTime, endTime);
+	public GroupEvent(String name,  GregorianCalendar startTime, GregorianCalendar endTime, User[] user,String location, String description) {
+		super(name, startTime, endTime, location, description);
 		this.Users = new ArrayList<User>();
 		int size = user.length;
 		//Adding the given users to the user list.

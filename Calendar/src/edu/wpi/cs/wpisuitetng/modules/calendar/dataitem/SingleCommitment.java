@@ -12,11 +12,14 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 public class SingleCommitment extends Commitment{
 
-	public SingleCommitment(String name, Date date, float startTime) {
-		super(name, date, startTime);
+	public SingleCommitment(String name,  GregorianCalendar startTime,String location, String description) {
+		super(name, startTime,location, description);
 		// TODO Auto-generated constructor stub
 	}
 

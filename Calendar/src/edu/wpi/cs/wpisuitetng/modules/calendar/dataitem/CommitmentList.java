@@ -11,6 +11,8 @@
  *******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+
 public class CommitmentList extends CalendarItemsList{
 	
 	CommitmentList(){

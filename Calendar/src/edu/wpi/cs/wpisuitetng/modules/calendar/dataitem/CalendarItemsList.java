@@ -13,6 +13,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 
 import java.util.ArrayList;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
+
 
 /**Abstruct class of calendar items list
  * @author Tommzy
