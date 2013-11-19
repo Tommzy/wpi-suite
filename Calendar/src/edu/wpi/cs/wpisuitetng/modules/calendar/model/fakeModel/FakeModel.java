@@ -3,9 +3,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
-public class FakeModel extends MainCalendarModel{
+public class FakeModel extends CalendarItemListModel{
 	private FakeDate currentDate;
 	private Calendar cal = GregorianCalendar.getInstance();
 	private static FakeModel modelInstance = new FakeModel();

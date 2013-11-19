@@ -55,7 +55,7 @@ public class MainCalendarView extends JPanel {
    *
    * @param mainCalendarModel the main calendar model
    */
-  public MainCalendarView(MainCalendarModel mainCalendarModel) {
+  public MainCalendarView(CalendarItemListModel mainCalendarModel) {
     // Create toggle buttons for different calendar view
     final JPanel calendarViewSwitch = new JPanel();
     calendarViewSwitch.setLayout(new BoxLayout(calendarViewSwitch,

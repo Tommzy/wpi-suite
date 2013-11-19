@@ -55,7 +55,7 @@ public class AddEventTabPanel extends JTabbedPane {
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
 		//Calendar
-		calendarPanel = new MainCalendarView(new MainCalendarModel());
+		calendarPanel = new MainCalendarView(new CalendarItemListModel());
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
 		//Tables

@@ -22,7 +22,7 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarMonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
