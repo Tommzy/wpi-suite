@@ -24,6 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
 @SuppressWarnings("serial")
 public class AddEventTabPanel extends JTabbedPane {
 
+	
 	/** The add event panel. */
 	JPanel addEventPanel;
 	
@@ -89,4 +90,5 @@ public class AddEventTabPanel extends JTabbedPane {
 		this.setPreferredSize(new Dimension(800, 700));
 		
 	}
+	
 }
