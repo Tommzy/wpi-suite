@@ -13,24 +13,17 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-
-
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
-import net.miginfocom.swing.MigLayout;
 /**
  * The Class for the table of events.
  */
+@SuppressWarnings("serial")
 public class EventTable extends JPanel {
 
   /**

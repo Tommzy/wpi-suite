@@ -4,18 +4,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
  * TableSortDemo.java requires no other files.
  */
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import net.miginfocom.swing.MigLayout;
 
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridLayout;
 
 // TODO: Auto-generated Javadoc
 /**

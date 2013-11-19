@@ -68,10 +68,10 @@ public class AddEventTabPanel extends JTabbedPane {
 //		eventScroll = new JScrollPane(eventTable);
 		tablesPanel.add(eventTable);
 		// Tasks
-		TaskTable taskTable = new TaskTable();
-		taskTable.setLayout(new BoxLayout(taskTable, BoxLayout.Y_AXIS));
+		CommitmentTable commitmentTable = new CommitmentTable();
+		commitmentTable.setLayout(new BoxLayout(commitmentTable, BoxLayout.Y_AXIS));
 //		taskScroll = new JScrollPane(taskTable);
-		tablesPanel.add(taskTable);
+		tablesPanel.add(commitmentTable);
 		// Filters
 		FiltersTable filtersTable = new FiltersTable();
 		filtersTable.setLayout(new BoxLayout(filtersTable, BoxLayout.Y_AXIS));
