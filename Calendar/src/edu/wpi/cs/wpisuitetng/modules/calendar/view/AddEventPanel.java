@@ -28,30 +28,30 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEvent
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
-public class AddEventPanel extends JPanel{
+public class AddEventPanel extends JPanel {
 	JButton btnSubmit;
-	
+
 	JLabel nameLabel;
-	
+
 	JTextField nameTextField;
-	
+
 	JLabel startDateLabel, endDateLabel;
-	
-	JTextField startDateTextField, startTimeTextField,
-		endDateTextField, endTimeTextField;
+
+	JTextField startDateTextField, startTimeTextField, endDateTextField,
+			endTimeTextField;
 
 	JLabel locatoinLabel;
-	
+
 	JTextField locationTextField;
-	
+
 	JLabel descriptionLabel;
-	
+
 	JTextArea descriptionTextArea;
-	
+
 	JLabel inviteeLabel;
-	
+
 	JTextArea inviteeTextArea;
-	
+
 	JCheckBox allDayEventCheckBox;
 	
 	public AddEventPanel(MigLayout miglayout, JTabbedPane tabbedPane) {
@@ -60,39 +60,38 @@ public class AddEventPanel extends JPanel{
 		contentPanel.setSize(this.getWidth() / 2, this.getHeight());
 		rightPanel.setSize(this.getWidth() / 2, this.getHeight());
 		nameLabel = new JLabel("Name:");
-		
+
 		nameTextField = new JTextField(10);
-		
+
 		startDateLabel = new JLabel("Starts:");
-		
+
 		startDateTextField = new JTextField(10);
-		
+
 		startTimeTextField = new JTextField(4);
-		
+
 		endDateLabel = new JLabel("Ends:");
-		
+
 		endDateTextField = new JTextField(10);
-		
+
 		endTimeTextField = new JTextField(4);
 	
 
 			
 		locatoinLabel = new JLabel("Where:");
-		
+
 		locationTextField = new JTextField(10);
-		
+
 		descriptionLabel = new JLabel("Description:");
-		
+
 		descriptionTextArea = new JTextArea();
 		descriptionTextArea.setPreferredSize(new Dimension(300, 200));
 		
 		inviteeLabel = new JLabel("Invitee:");
-		
+
 		inviteeTextArea = new JTextArea();
 		inviteeTextArea.setPreferredSize(new Dimension(300, 200));
 		allDayEventCheckBox = new JCheckBox("All Day Event?");
-		
-		
+
 		btnSubmit = new JButton("Submit");
 		btnSubmit.addActionListener(new AddEventPanelController(tabbedPane, btnSubmit));
 	
@@ -115,5 +114,41 @@ public class AddEventPanel extends JPanel{
 		this.add(contentPanel);
 		
 		this.add(rightPanel);
+	}
+
+	public String getTxtNewname() {
+		if (this.nameTextField.getText().equals(""))
+			return null;
+		else
+			return this.nameTextField.getText();
+	}
+
+//	public GregorianCalendar getNewDate(String data) throws ParseException {
+//		String dateString = "";
+//		if (data.equals("startTime"))
+//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
+//		else if (data.equals("endTime"))
+//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
+//
+//		try {
+//			GregorianCalendar date;
+//			// Date example ("12/31/13 20:35")
+//			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
+//			return date;
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//
+//			// throw e.printStackTrace();
+//			return null;
+//		}
+//		// The function returns Null if the try breaks
+//	}
+
+	public String getNewLocation() {
+		return this.locationTextField.getText();
+	}
+
+	public String getNewDescription() {
+		return this.descriptionTextArea.getText();
 	}
 }

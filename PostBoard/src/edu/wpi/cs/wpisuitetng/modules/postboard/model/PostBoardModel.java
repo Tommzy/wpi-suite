@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+
 /**
  * This is a model for the post board. It contains all of the messages
  * to be displayed on the board. It extends AbstractListModel so that

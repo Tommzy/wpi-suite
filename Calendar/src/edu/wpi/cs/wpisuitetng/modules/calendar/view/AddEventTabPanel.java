@@ -16,7 +16,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.MainCalendarModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
 /**
  * The Class AddEventTabPanel.

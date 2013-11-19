@@ -39,7 +39,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
  *
  */
 public class MainCalendarController implements ActionListener{
-	MainCalendarModel model;
+	CalendarItemListModel model;
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
@@ -60,7 +60,7 @@ public class MainCalendarController implements ActionListener{
 	 * @param model 
 	 * @param view
 	 */
-	public MainCalendarController(MainCalendarModel model, MainCalendarView view) {
+	public MainCalendarController(CalendarItemListModel model, MainCalendarView view) {
 		this.model = model;
 		this.view = view;
 		yearView = new CalendarYearView();
