@@ -36,6 +36,19 @@ public class ToolbarController implements ActionListener {
 			if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
 				AddEventPanelController.getInstance().getTabbedPane().add(new AddEventPanel(new MigLayout(), AddEventPanelController.getInstance().getTabbedPane()));
 				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(1, "Add Event");
+				JButton closeButton = new JButton("x");
+				closeButton.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						AddEventPanelController.getInstance().getBtnSubmit().doClick();
+						
+					}
+					
+				});
+			
+				AddEventPanelController.getInstance().getTabbedPane().setSelectedIndex(1);
+				
 			}
 		}
 		
