@@ -6,19 +6,46 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
+import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.AddEventModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 
 public class ToolbarController implements ActionListener {
-	AddEventModel addEventModel;
 	
-	public ToolbarController(AddEventModel addEventModel) {
-		this.addEventModel = addEventModel;
+	private static ToolbarController instance;
+	private JButton addEventButton;
+	
+	public ToolbarController() {
+		
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		addEventModel.getAddEventModel();
-		//JOptionPane.showMessageDialog(null, "HellO");
+	public JButton getAddEventButton() {
+		return addEventButton;
 	}
 
+	public void setAddEventButton(JButton addEventButton) {
+		this.addEventButton = addEventButton;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println(e.getSource());
+		System.out.println(addEventButton);
+		if (e.getSource() == addEventButton) {
+			if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
+				AddEventPanelController.getInstance().getTabbedPane().add(new AddEventPanel(new MigLayout(), AddEventPanelController.getInstance().getTabbedPane()));
+				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(1, "Add Event");
+			}
+		}
+		
+	}
+
+	public static ToolbarController getInstance() {
+		if (instance == null) {
+			instance = new ToolbarController();
+		}
+		
+		return instance;
+	}
 }

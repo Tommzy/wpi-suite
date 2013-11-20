@@ -15,6 +15,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
+
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,5 +65,7 @@ public class ToolbarPanel extends JPanel {
     add(btnScheduleEvent);
     add(btnManageFilter);
 
+    ToolbarController.getInstance().setAddEventButton(btnAddEvent);
+    btnAddEvent.addActionListener(ToolbarController.getInstance());
   }
 }

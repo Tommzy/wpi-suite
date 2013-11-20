@@ -16,6 +16,8 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
 /**
@@ -50,6 +52,10 @@ public class AddEventTabPanel extends JTabbedPane {
 	 * Adds the event tab panel.
 	 */
 	public AddEventTabPanel() {
+		
+		// add eventTabPanel to AddEventPanelController
+		AddEventPanelController.getInstance().setTabbedPane(this);
+		
 		//Content Viewer
 		contentView = new JPanel();
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
