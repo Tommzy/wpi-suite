@@ -28,7 +28,7 @@ public class CommitmentTable extends JPanel {
     super(new GridLayout(1, 0));
     
     // Table label
-    final JLabel commitmentTableLabel = new JLabel("Tasks");
+    final JLabel commitmentTableLabel = new JLabel("Commitments");
     commitmentTableLabel.setAlignmentX(CENTER_ALIGNMENT);
     commitmentTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
     
@@ -58,7 +58,7 @@ public class CommitmentTable extends JPanel {
     /** The column names. */
     private String[]   columnNames = 
     {
-      "Task", "Date", "Time",
+      "Commitment", "Date", "Time",
     };
     
     /** The data. */

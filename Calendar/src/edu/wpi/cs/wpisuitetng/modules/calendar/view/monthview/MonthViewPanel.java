@@ -39,12 +39,14 @@ public class MonthViewPanel extends JPanel {
 		this.setLayout(new MigLayout("insets 0 0 0 0"));
 		
 		for (int i = 1; i < weekdayNamesAbbr.length; i++) {
+			JLabel weekday = new JLabel(weekdayNamesAbbr[i]);
+			weekday.setOpaque(true);
+			weekday.setBackground(new Color(138, 173, 209));
 			if (i != weekdayNamesAbbr.length - 1) 
-				add(new JLabel(weekdayNamesAbbr[i]));
+				add(weekday, "width :100%:");
 			else
-				add(new JLabel(weekdayNamesAbbr[i]), "wrap");
+				add(weekday, "width :100%:, wrap");
 		}
-		System.out.println(weekdayNamesAbbr.length);
 		for (int i = 0; i < 5; i ++) {
 			for (int j = 0; j < 7; j ++) {
 				MonthViewGridPanel panel = new MonthViewGridPanel();
