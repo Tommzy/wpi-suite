@@ -29,21 +29,13 @@ public class AddCommitmentPanel extends JPanel{
 
 	JTextField nameTextField;
 
-	JLabel startDateLabel, endDateLabel;
+	JLabel startDateLabel;
 
 	JTextField startDateTextField, startTimeTextField;
-
-	JLabel locatoinLabel;
-
-	JTextField locationTextField;
 
 	JLabel descriptionLabel;
 
 	JTextArea descriptionTextArea;
-
-	JLabel inviteeLabel;
-
-	JTextArea inviteeTextArea;
 
 	public AddCommitmentPanel(MigLayout miglayout) {
 		JPanel contentPanel = new JPanel(miglayout);
@@ -57,20 +49,10 @@ public class AddCommitmentPanel extends JPanel{
 
 		startTimeTextField = new JTextField(4);
 
-		locatoinLabel = new JLabel("Where:");
-
-		locationTextField = new JTextField(10);
-
 		descriptionLabel = new JLabel("Description:");
 
 		descriptionTextArea = new JTextArea();
 		descriptionTextArea.setPreferredSize(new Dimension(300, 300));
-
-		inviteeLabel = new JLabel("Invitee:");
-
-		inviteeTextArea = new JTextArea();
-		inviteeTextArea.setPreferredSize(new Dimension(300, 300));
-
 
 		btnSubmit = new JButton("Submit");
 
@@ -79,13 +61,8 @@ public class AddCommitmentPanel extends JPanel{
 		contentPanel.add(startDateLabel);
 		contentPanel.add(startDateTextField);
 		contentPanel.add(startTimeTextField);
-		contentPanel.add(endDateLabel);
-		contentPanel.add(locatoinLabel);
-		contentPanel.add(locationTextField, "wrap");
 		contentPanel.add(descriptionLabel);
 		contentPanel.add(descriptionTextArea, "span 4");
-		contentPanel.add(inviteeLabel);
-		contentPanel.add(inviteeTextArea, "wrap, span 4");
 		contentPanel.add(btnSubmit);
 
 		this.add(contentPanel);
@@ -98,29 +75,22 @@ public class AddCommitmentPanel extends JPanel{
 			return this.nameTextField.getText();
 	}
 
-	public Date getNewDate(String data){
+	public GregorianCalendar getNewDate(String data) throws ParseException {
 		String dateString = "";
-		if(data.equals("startTime"))
+		if (data.equals("startTime"))
 			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-		else if(data.equals("endTime"))
-			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-
 		try {
-			Date date;
-			//Date example ("12/31/13 20:35")
-			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
+			GregorianCalendar date = new GregorianCalendar();
+			// Date example ("12/31/13 20:35")
+			date.setTime(new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString));
 			return date;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+			// throw e.printStackTrace();
+			return null;
 		}
-		//The function returns Null if the try breaks
-
-		return null;
-	}
-
-	public String getNewLocation(){
-		return this.locationTextField.getText();
+		// The function returns Null if the try breaks
 	}
 
 	public String getNewDescription(){

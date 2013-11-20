@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 public class SingleCommitment extends Commitment{
 
 	public SingleCommitment(String name,  GregorianCalendar startTime,String location, String description) {
-		super(name, startTime,location, description);
+		super(name, startTime, description);
 		// TODO Auto-generated constructor stub
 	}
 

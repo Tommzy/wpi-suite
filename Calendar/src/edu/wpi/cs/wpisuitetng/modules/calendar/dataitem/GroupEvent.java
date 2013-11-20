@@ -22,7 +22,7 @@ public class GroupEvent extends Event{
 	ArrayList<User> Users ;
 
 	public GroupEvent(String name,  GregorianCalendar startTime, GregorianCalendar endTime, User[] user,String location, String description) {
-		super(name, startTime, endTime, location, description);
+		super(name, startTime, endTime, description);
 		this.Users = new ArrayList<User>();
 		int size = user.length;
 		//Adding the given users to the user list.

@@ -64,17 +64,26 @@ public class AddCalendarItemController implements ActionListener{
 		
 		//don't want to make a new event if there is no name
 		if ((name.length() > 0) & (endTime != null)) {
+<<<<<<< HEAD
 			Event sentEvent = new Event(name, startTime, endTime, location, description);
 			// Add the message to the model
 			model.addCalendarItem(sentEvent);//
 		}else if((name.length() > 0) & (endTime == null)){
 			Commitment sentCommitment = new Commitment(name, startTime,location, description);
+=======
+			Event sentEvent = new Event(name, startTime, endTime, description);
+			// Add the message to the model
+			model.addCalendarItem(sentEvent);//
+		}else if((name.length() > 0) & (endTime == null)){
+			Commitment sentCommitment = new Commitment(name, startTime, description);
+>>>>>>> c1fa8dade0b6e737ab6e21a33fcb1de5e671feb3
 			// Add the message to the model
 			model.addCalendarItem(sentCommitment);
 		}
 		
 		// Send a request to the core to save this message
 		if ((name.length() > 0) & (endTime != null)) {
+<<<<<<< HEAD
 			Event sentEvent = new Event(name, startTime, endTime, location, description);
 			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
 			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
@@ -85,11 +94,24 @@ public class AddCalendarItemController implements ActionListener{
 			// Add the message to the model
 			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
 			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
+=======
+			Event sentEvent = new Event(name, startTime, endTime, description);
+			final Request request = Network.getInstance().makeRequest("calendar/addcalendaritem", HttpMethod.PUT); // PUT == create
+			request.setBody(sentEvent.toJSON()); // put the new message in the body of the request
+			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
+			request.send(); // send the request
+		}else if((name.length() > 0) & (endTime == null)){
+			Commitment sentCommitment = new Commitment(name, startTime, description);
+			// Add the message to the model
+			final Request request = Network.getInstance().makeRequest("calendar/addcalendaritem", HttpMethod.PUT); // PUT == create
+			request.setBody(sentCommitment.toJSON()); // put the new message in the body of the request
+>>>>>>> c1fa8dade0b6e737ab6e21a33fcb1de5e671feb3
 			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 		}
 
 	}
+<<<<<<< HEAD
 	
 	public void actionAddCommitment(ActionEvent commitment) {
 		// Get the text that was entered
@@ -108,6 +130,8 @@ public class AddCalendarItemController implements ActionListener{
 			model.addCalendarItem(sentCommitment);
 		}
 	}
+=======
+>>>>>>> c1fa8dade0b6e737ab6e21a33fcb1de5e671feb3
 
 
 	/** ATTENTION AT THIS PART
@@ -117,5 +141,9 @@ public class AddCalendarItemController implements ActionListener{
 	public void addCalendarItemToModel(CalendarItem item) {
 		model.addCalendarItem(item);
 	}
+<<<<<<< HEAD
 
 }
+=======
+}
+>>>>>>> c1fa8dade0b6e737ab6e21a33fcb1de5e671feb3

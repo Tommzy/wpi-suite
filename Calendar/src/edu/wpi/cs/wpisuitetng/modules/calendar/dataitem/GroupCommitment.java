@@ -28,7 +28,7 @@ public class GroupCommitment extends Commitment{
 	
 	public GroupCommitment(String name, GregorianCalendar startTime, String location,
 			String description,User owner,ArrayList<User> groupMembers) {
-		super(name, startTime, location, description);
+		super(name, startTime, description);
 		this.groupMembers = groupMembers;
 		this.owner = owner;
 		int size = groupMembers.size();
