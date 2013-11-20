@@ -24,7 +24,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarMonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
