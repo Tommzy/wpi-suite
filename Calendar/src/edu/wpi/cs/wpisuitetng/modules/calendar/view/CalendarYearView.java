@@ -67,7 +67,7 @@ public class CalendarYearView extends JScrollPane {
 		contentPanel.add(buttonPanel, "alignx center, dock north");
 		 		
 		JPanel calendarPanel = new JPanel(new BorderLayout());
-		CalendarMonth = new CalendarMonth(false);
+		CalendarMonth = new CalendarMonth();
 		calendarPanel.add(CalendarMonth, BorderLayout.CENTER);
 				
 		calendarPanel.add(CalendarMonth, BorderLayout.CENTER);		

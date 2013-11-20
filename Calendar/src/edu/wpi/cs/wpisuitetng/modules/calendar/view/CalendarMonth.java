@@ -44,47 +44,8 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 
 	/**
 	 * Constructor for the iteration calendar.
-	 * @param parent IterationPanel
-	 * @param vm ViewMode
-	 * @param displayIteration Iteration
 	 */
-	public CalendarMonth(boolean isSingleMonth)
-	{
-		if (isSingleMonth)
-		{
-			buildMonthLayout();
-		}
-		else
-		{
-			buildYearLayout();
-		}
-	}
-	
-	/**
-	 * Builds the layout
-	 */
-	private void buildMonthLayout()
-	{
-		Dimension preferredSize = new Dimension();
-		Font font = this.getFont();
-		preferredSize.width = 500;
-		
-		this.setPreferredColumnCount(1);
-		this.setPreferredRowCount(1);
-		this.setBoxPaddingX((this.getBoxPaddingX() * 8));
-		this.setBoxPaddingY((this.getBoxPaddingY() * 8));
-		this.setFont(font.deriveFont(24f));
-		this.setPreferredSize(preferredSize);
-		this.setSelectionBackground(SELECTION);
-		this.setFlaggedDayForeground(START_END_DAY);
-		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
-		this.setAlignmentX(CENTER_ALIGNMENT);
-		this.addActionListener(this);
-		
-		this.addKeyListener(this);
-	}
-	
-	private void buildYearLayout()
+	public CalendarMonth()
 	{
 		Font font = this.getFont();
 		this.setBoxPaddingX((this.getBoxPaddingX() / 2));
