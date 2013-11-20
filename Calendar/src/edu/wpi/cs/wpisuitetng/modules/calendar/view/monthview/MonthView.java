@@ -3,6 +3,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.text.DateFormatSymbols;
 
 import javax.swing.*;
 
@@ -19,7 +20,7 @@ import net.miginfocom.swing.MigLayout;
 public class MonthView extends JPanel {
 	private MonthViewPanel monthViewPanel;
 	private JLabel monthTitleLabel = new JLabel();
-	private MonthName monthName = new MonthName();
+	private String[] monthNames = new DateFormatSymbols().getMonths();
 	private FakeDate date;
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
@@ -77,7 +78,7 @@ public class MonthView extends JPanel {
 	}
 	
 	public String getTitle(int year, int month) {
-		return "" + monthName.getMonthName(month) + " " + year;
+		return "" + monthNames[month] + " " + year;
 	}
 	
 	public void repaint() {

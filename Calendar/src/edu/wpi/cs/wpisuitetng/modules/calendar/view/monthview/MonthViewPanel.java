@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Color;
+import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -23,7 +24,8 @@ public class MonthViewPanel extends JPanel {
 	private List<MonthViewGridPanel> monthViewList = new ArrayList<MonthViewGridPanel>();
 	private int row = 3, column = 4;
 	private Calendar cal = GregorianCalendar.getInstance();
-	private MonthName monthName = new MonthName();
+	private String[] monthNamesAbbr = new DateFormatSymbols().getShortMonths();
+	private String[] weekdayNamesAbbr = new DateFormatSymbols().getShortWeekdays();
 	
 	/**
 	 * given the beginning day of the month view, the day that will appear on the upper-left corner
@@ -35,14 +37,14 @@ public class MonthViewPanel extends JPanel {
 		setMonth(year, month, dayOfMonth);
 		this.setBackground(Color.white);
 		this.setLayout(new MigLayout("insets 0 0 0 0"));
-		add(new JLabel("SUN"));
-		add(new JLabel("MON"));
-		add(new JLabel("TUE"));
-		add(new JLabel("WED"));
-		add(new JLabel("THU"));
-		add(new JLabel("FRI"));
-		add(new JLabel("SAT"), "wrap");
 		
+		for (int i = 1; i < weekdayNamesAbbr.length; i++) {
+			if (i != weekdayNamesAbbr.length - 1) 
+				add(new JLabel(weekdayNamesAbbr[i]));
+			else
+				add(new JLabel(weekdayNamesAbbr[i]), "wrap");
+		}
+		System.out.println(weekdayNamesAbbr.length);
 		for (int i = 0; i < 5; i ++) {
 			for (int j = 0; j < 7; j ++) {
 				MonthViewGridPanel panel = new MonthViewGridPanel();
@@ -80,7 +82,7 @@ public class MonthViewPanel extends JPanel {
 	
 	public String getHeaderLabelText(int year, int month, int date) {
 		if (date == 1) {
-			return "" + monthName.getMonthNameAbbr(month) + " " + date; 
+			return "" + monthNamesAbbr[month] + " " + date; 
 		} else {
 			return "" + date;
 		}
