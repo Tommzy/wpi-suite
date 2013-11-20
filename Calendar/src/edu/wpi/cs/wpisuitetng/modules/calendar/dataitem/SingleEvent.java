@@ -21,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 public class SingleEvent extends Event{
 
 	public SingleEvent(String name, GregorianCalendar startTime, GregorianCalendar endTime,String location,String description) {
-		super(name, startTime, endTime,location, description);
+		super(name, startTime, endTime, description);
 		// TODO Auto-generated constructor stub
 	}
 

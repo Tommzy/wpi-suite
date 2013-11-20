@@ -1,5 +1,4 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -7,8 +6,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
@@ -16,27 +15,35 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-public class AddCalendarItemController implements ActionListener{
+public class AddCommitmentController implements ActionListener{
 
-	private final CalendarItemListModel model;
-	private final AddEventPanel viewEvent;
+	private final CommitmentListModel model;
 	private final AddCommitmentPanel viewCommitment;
 	
-
+	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	
 	/**
 	 * Construct an AddMessageController for the given model, view pair
 	 * @param model the model containing the messages
 	 * @param view the view where the user enters new messages
 	 */
-	public AddCalendarItemController(CalendarItemListModel model, AddEventPanel viewEvent, AddCommitmentPanel viewCommitment) {
+	public AddCommitmentController(CommitmentListModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
-		this.viewEvent = viewEvent;
 		this.viewCommitment = viewCommitment;
-
-		
+		addTestToDatabase();
 	}
-
+ 
+	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
+	public void addTestToDatabase(){
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
+		request.addObserver(observer); // add an observer to process the response
+		request.send();
+	}
+	
+	public CalendarItem testReturn(){
+		return observer.testReturn();
+	}
 	
 	
 	/* 
@@ -47,66 +54,46 @@ public class AddCalendarItemController implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// Get the text that was entered
-		String name = viewEvent.getTxtNewname();
+		String name = viewCommitment.getTxtNewname();
 		GregorianCalendar startTime = null;
 		try {
-			startTime = viewEvent.getNewDate("startTime");
+			startTime = viewCommitment.getNewDate("startTime");
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
-		GregorianCalendar endTime = null;
-		try {
-			endTime = viewEvent.getNewDate("endTime");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String location = viewEvent.getNewLocation();
-		String description = viewEvent.getNewDescription();
+		String description = viewCommitment.getNewDescription();
 		
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
 		
 //		//don't want to make a new event if there is no name
-//		if ((name.length() > 0) & (endTime != null)) {
-//
-//			Event sentEvent = new Event(name, startTime, endTime, description);
-//			// Add the message to the model
-//			model.addCalendarItem(sentEvent);//
-//		}else if((name.length() > 0) & (endTime == null)){
+//		if(name.length() > 0){
 //			Commitment sentCommitment = new Commitment(name, startTime, description);
 //			// Add the message to the model
-//			model.addCalendarItem(sentCommitment);
+//			model.addCommitment(sentCommitment);
 //		}
 		
 		// Send a request to the core to save this message
-		if ((name.length() > 0) & (endTime != null)) {
-			Event sentEvent = new Event(name, startTime, endTime, description);
-			final Request request = Network.getInstance().makeRequest("calendar/addcalendaritem", HttpMethod.PUT); // PUT == create
-			request.setBody(sentEvent.toJSON()); // put the new message in the body of the request
-			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
-			request.send(); // send the request
-		}else if((name.length() > 0) & (endTime == null)){
+		if(name.length() > 0){
 			Commitment sentCommitment = new Commitment(name, startTime, description);
 			// Add the message to the model
-			final Request request = Network.getInstance().makeRequest("calendar/addcalendaritem", HttpMethod.PUT); // PUT == create
+			final Request request = Network.getInstance().makeRequest("calendar/commitmentlist", HttpMethod.PUT); // PUT == create
 			request.setBody(sentCommitment.toJSON()); // put the new message in the body of the request
-			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
+			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 		}
-		
 
 	}
-	
-	
 
 
 	/** ATTENTION AT THIS PART
 	 * When the new Calendar item is received back from the server, add it to the local model.
 	 * @param message
 	 */
-	public void addCalendarItemToModel(CalendarItem item) {
-		model.addCalendarItem(item);
+	public void addCommitmentToModel(CalendarItem item) {
+		model.addCommitment(item);
 	}
 }
+
+

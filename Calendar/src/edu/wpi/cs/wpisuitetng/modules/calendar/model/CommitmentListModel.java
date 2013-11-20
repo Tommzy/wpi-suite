@@ -1,15 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Yuchen Zhang
- ******************************************************************************/
-
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.ArrayList;
@@ -17,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
-
-//import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 
 
@@ -30,41 +16,40 @@ import javax.swing.AbstractListModel;
  * 
  */
 @SuppressWarnings({ "serial", "rawtypes" })
-public class CalendarItemListModel extends AbstractListModel {
+public class CommitmentListModel extends AbstractListModel {
 
 	/** The list of messages on the board */
 	List<CalendarItem> itemList;
 	
 	//the static object to allow the requirement model to be 
-	private static CalendarItemListModel instance; 
-
-	/**
-	 * Constructs a new CalendarItemList with no messages.
-	 */
-	public CalendarItemListModel() {
-		itemList = new ArrayList<CalendarItem>();
-
-	}
-
-	
+	private static CommitmentListModel instance;
 	/**
 
-	 * @return the instance of the CalendarItemList model singleton. */
-	public static CalendarItemListModel getInstance()
+	 * @return the instance of the CommitmentList model singleton. */
+	public static CommitmentListModel getInstance()
 	{
 		if(instance == null)
 		{
-			instance = new CalendarItemListModel();
+			instance = new CommitmentListModel();
 		}
 
 		return instance;
 	}
+	/**
+	 * Constructs a new CalendarItemList with no messages.
+	 */
+	public CommitmentListModel() {
+		itemList = new ArrayList<CalendarItem>();
+
+	}
 	
+	
+
 	/**add new calendar item to the list. 
 	 * ToDo: through exception
 	 * @param newItem
 	 */
-	public void addCalendarItem(CalendarItem newItem) {
+	public void addCommitment(CalendarItem newItem) {
 		// Add the message
 			itemList.add(newItem);
 
@@ -79,7 +64,7 @@ public class CalendarItemListModel extends AbstractListModel {
 	 * 
 	 * @param itemArray the array of CalendarItem to add
 	 */
-	public void addCalendarItems(CalendarItem[] itemArray) {
+	public void addCommitment(CalendarItem[] itemArray) {
 		for (int i = 0; i < itemArray.length; i++) {
 				this.itemList.add(itemArray[i]);
 		}
@@ -130,5 +115,4 @@ public class CalendarItemListModel extends AbstractListModel {
 		// TODO Auto-generated method stub
 		return itemList.get(itemList.size() - 1 - index).toString();
 	}
-
 }

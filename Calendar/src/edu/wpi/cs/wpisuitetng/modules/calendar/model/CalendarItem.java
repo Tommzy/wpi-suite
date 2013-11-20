@@ -29,7 +29,6 @@ public abstract class CalendarItem implements Model {
 	
 	String name;
 	GregorianCalendar startTime;
-	String location; //Why is this necessary for commitments?
 	String description;
 	
 
@@ -37,10 +36,9 @@ public abstract class CalendarItem implements Model {
 	 * Constructs a Calendar Item for the given values
 	 * @param message
 	 */
-	public CalendarItem(String name, GregorianCalendar startTime, String location, String description){
+	public CalendarItem(String name, GregorianCalendar startTime, String description){
 		this.name = name;
 		this.startTime = startTime;
-		this.location=location;
 		this.description=description;
 
 	}

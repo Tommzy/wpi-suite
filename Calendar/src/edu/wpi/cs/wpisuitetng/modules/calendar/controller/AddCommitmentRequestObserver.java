@@ -5,35 +5,40 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-public class AddCalendarItemRequestObserver implements RequestObserver {
+public class AddCommitmentRequestObserver implements RequestObserver {
 
-	private AddCalendarItemController controller;
-
+	private final AddCommitmentController controller;
 	
-	public AddCalendarItemRequestObserver(AddCalendarItemController controller) {
+	public AddCommitmentRequestObserver(AddCommitmentController controller) {
 		this.controller = controller;
 	}
+	public CalendarItem testItem;
 
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
 		final ResponseModel response = iReq.getResponse();
-
-		// Parse the message out of the response body
-		final CalendarItem item = CalendarItem.fromJSON(response.getBody());
 		
+		//Parse the calendar item out of the response body
+		final CalendarItem item = CalendarItem.fromJSON(response.getBody());
+		testItem = item;
 		//Pass the messaged back to the controller
-		controller.addCalendarItemToModel(item);
+		controller.addCommitmentToModel(item);
+		System.out.print(item);
+		
+	}
+	
+	public CalendarItem testReturn(){
+		return testItem;
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a Calendar Item failed.");
+		System.err.println("The request to add a commitment failed.");	
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a Calendar Item failed.");
-
+		System.err.println("The request to add a commitment failed.");
 	}
 }

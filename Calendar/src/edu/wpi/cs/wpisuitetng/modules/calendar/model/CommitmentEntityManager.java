@@ -22,7 +22,7 @@ public class CommitmentEntityManager extends CalendarItemEntityManager {
 		// Ask the database to retrieve all objects of the type Commitment
 		// Passing a dummy PostBoardMessage lets the db know what type of object to retrieve
 		// Passing the project makes it only get messages from that project
-		List<Model> messages = db.retrieveAll(new Commitment("dummy",new GregorianCalendar(),"dummy","dummy"), s.getProject());
+		List<Model> messages = db.retrieveAll(new Commitment("dummy",new GregorianCalendar(),"dummy"), s.getProject());
 
 		// Return the list of commitments as an array
 		return messages.toArray(new Commitment[0]);
@@ -32,7 +32,7 @@ public class CommitmentEntityManager extends CalendarItemEntityManager {
 	@Override
 	public int Count() throws WPISuiteException {
 		// Return the number of PostBoardMessages currently in the database
-		return db.retrieveAll(new Commitment("dummy",new GregorianCalendar(),"dummy","dummy")).size();
+		return db.retrieveAll(new Commitment("dummy",new GregorianCalendar(),"dummy")).size();
 	}
 
 }

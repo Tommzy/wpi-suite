@@ -4,12 +4,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
-public class GetCalendarItemRequestObserver implements RequestObserver{
+public class GetCommitmentRequestObserver implements RequestObserver{
 
-	public GetCalendarItemController controller;
+	public GetCommitmentController controller;
 	
 	
-	public GetCalendarItemRequestObserver(GetCalendarItemController controller) {
+	public GetCommitmentRequestObserver(GetCommitmentController controller) {
 		this.controller = controller;
 	}
 
@@ -53,3 +53,4 @@ public class GetCalendarItemRequestObserver implements RequestObserver{
 //	}
 
 }
+
