@@ -10,6 +10,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.AddEventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 
 public class ToolbarController implements ActionListener {
 	
@@ -34,7 +35,7 @@ public class ToolbarController implements ActionListener {
 		System.out.println(addEventButton);
 		if (e.getSource() == addEventButton) {
 			if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
-				AddEventPanelController.getInstance().getTabbedPane().add(new AddEventPanel(new MigLayout(), AddEventPanelController.getInstance().getTabbedPane()));
+				AddEventPanelController.getInstance().getTabbedPane().add(new AddCommitmentPanel(new MigLayout()));
 				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(1, "Add Event");
 				JButton closeButton = new JButton("x");
 				closeButton.addActionListener(new ActionListener() {

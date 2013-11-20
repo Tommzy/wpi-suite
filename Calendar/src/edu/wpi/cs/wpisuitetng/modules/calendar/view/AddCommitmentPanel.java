@@ -18,6 +18,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
@@ -79,7 +80,7 @@ public class AddCommitmentPanel extends JPanel{
 		contentPanel.add(startDateLabel);
 		contentPanel.add(startDateTextField);
 		contentPanel.add(startTimeTextField);
-		contentPanel.add(endDateLabel);
+//		contentPanel.add(endDateLabel);
 		contentPanel.add(locatoinLabel);
 		contentPanel.add(locationTextField, "wrap");
 		contentPanel.add(descriptionLabel);
