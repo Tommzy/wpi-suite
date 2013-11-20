@@ -11,6 +11,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.AddEventModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentList;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 
@@ -68,7 +69,7 @@ public class ToolbarController implements ActionListener {
     if (e.getSource() == addCommitmentButton) {
       JTabbedPane pane = AddCommitmentPanelController.getInstance().getTabbedPane();
       if (AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
-        AddEventPanelController.getInstance().getTabbedPane().add(new AddCommitmentPanel(new MigLayout()));
+        AddEventPanelController.getInstance().getTabbedPane().add(new AddCommitmentPanel(new CommitmentList(),new MigLayout()));
         AddEventPanelController.getInstance().getTabbedPane().setTitleAt(1, "Add Commitment");
         JButton closeButton = new JButton("x");
         closeButton.addActionListener(new ActionListener() {

@@ -12,7 +12,7 @@ public class AddCommitmentPanelController implements ActionListener {
   JButton btnSubmit;
   public static AddCommitmentPanelController instance;
 
-  public AddCommitmentPanelController() {
+  public AddCommitmentPanelController( ) {
   }
   
   public static AddCommitmentPanelController getInstance() {

@@ -17,7 +17,7 @@ import java.util.Date;
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
-
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentList;
 import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
@@ -64,11 +64,13 @@ public class AddCommitmentPanel extends JPanel {
 
   /**
    * Instantiates a new adds the commitment panel.
+ * @param commitmentList 
    * 
    * @param miglayout
    *          the miglayout
    */
-  public AddCommitmentPanel(MigLayout miglayout) {
+  public AddCommitmentPanel(CommitmentList commitmentList, MigLayout miglayout) {
+	 
     JPanel contentPanel = new JPanel(miglayout);
     nameLabel = new JLabel("Name:");
 
@@ -109,6 +111,7 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(inviteeTextArea, "wrap, span 4");
     contentPanel.add(btnSubmit);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    btnSubmit.addActionListener(new AddCommitmentController(commitmentList));
     AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
     this.add(contentPanel);
   }
