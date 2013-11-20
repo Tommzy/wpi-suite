@@ -109,26 +109,26 @@ public class AddEventPanel extends JPanel {
 			return this.nameTextField.getText();
 	}
 
-//	public GregorianCalendar getNewDate(String data) throws ParseException {
-//		String dateString = "";
-//		if (data.equals("startTime"))
-//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-//		else if (data.equals("endTime"))
-//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-//
-//		try {
-//			GregorianCalendar date;
-//			// Date example ("12/31/13 20:35")
-//			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
-//			return date;
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//
-//			// throw e.printStackTrace();
-//			return null;
-//		}
-//		// The function returns Null if the try breaks
-//	}
+	public GregorianCalendar getNewDate(String data) throws ParseException {
+		String dateString = "";
+		if (data.equals("startTime"))
+			dateString = (this.startDateTextField + " " + this.startTimeTextField);
+		else if (data.equals("endTime"))
+			dateString = (this.endDateTextField + " " + this.endTimeTextField);
+
+		try {
+			GregorianCalendar date = new GregorianCalendar();
+			// Date example ("12/31/13 20:35")
+			date.setTime(new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString));
+			return date;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+
+			// throw e.printStackTrace();
+			return null;
+		}
+		// The function returns Null if the try breaks
+	}
 
 	public String getNewLocation() {
 		return this.locationTextField.getText();

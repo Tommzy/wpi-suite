@@ -5,11 +5,11 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
-public class AddCalendarItemRequestObserver implements RequestObserver {
+public class AddCommitmentRequestObserver implements RequestObserver {
 
-	private final AddCalendarItemController controller;
+	private final AddCommitmentController controller;
 	
-	public AddCalendarItemRequestObserver(AddCalendarItemController controller) {
+	public AddCommitmentRequestObserver(AddCommitmentController controller) {
 		this.controller = controller;
 	}
 
@@ -22,16 +22,16 @@ public class AddCalendarItemRequestObserver implements RequestObserver {
 		final CalendarItem item = CalendarItem.fromJSON(response.getBody());
 		
 		//Pass the messaged back to the controller
-		controller.addCalendarItemToModel(item);
+		controller.addCommitmentToModel(item);
 	}
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a calendar item failed.");	
+		System.err.println("The request to add a commitment failed.");	
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a calendar item failed.");
+		System.err.println("The request to add a commitment failed.");
 	}
 }

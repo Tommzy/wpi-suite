@@ -11,9 +11,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class Commitment extends CalendarItem{
 
-	public Commitment(String name, GregorianCalendar startTime, String location,
+	public Commitment(String name, GregorianCalendar startTime,
 			String description) {
-		super(name, startTime, location, description);
+		super(name, startTime, description);
 		// TODO Auto-generated constructor stub
 	}
 
