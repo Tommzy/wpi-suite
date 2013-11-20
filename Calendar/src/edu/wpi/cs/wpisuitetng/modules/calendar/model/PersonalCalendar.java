@@ -17,6 +17,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
  * @author Team3
  * 
  */
+
 public class PersonalCalendar extends CalendarModel{
 	//These data fields may become redundant, but for now they are included for convenience.
   String userName;

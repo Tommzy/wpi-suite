@@ -11,7 +11,9 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+
 import com.google.gson.Gson;
+
 
 /**
  * This is a class for a Team Calendar structure. It includes information about the project it belongs to.
@@ -19,6 +21,7 @@ import com.google.gson.Gson;
  * @author Team3
  * 
  */
+
 
 public class TeamCalendar extends CalendarModel{
 	
@@ -43,5 +46,6 @@ public class TeamCalendar extends CalendarModel{
     final Gson parser = new Gson();
     return parser.fromJson(json, TeamCalendar.class);
   }
+
 
 }
