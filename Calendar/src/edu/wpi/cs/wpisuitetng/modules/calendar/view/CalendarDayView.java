@@ -92,7 +92,7 @@ public class CalendarDayView extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Resize panel as size of main window changes.
 	 */
 	public void repaint() {
 		super.repaint();

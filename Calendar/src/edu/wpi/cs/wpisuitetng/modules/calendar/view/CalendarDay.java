@@ -52,7 +52,7 @@ public class CalendarDay extends JPanel {
 	
 	/**
 	 * Constructor
-	 * Empty calendar
+	 * Create view of a calendar day
 	 */
 	public CalendarDay() {
 		GridBagConstraints c = new GridBagConstraints();
@@ -204,7 +204,7 @@ public class CalendarDay extends JPanel {
 	}
 
 	/**
-	 * Simple innner class for connecting events with it's corresponding
+	 * Simple inner class for connecting events with it's corresponding
 	 * visual representation
 	 */
 	private class EventCard {
@@ -220,7 +220,7 @@ public class CalendarDay extends JPanel {
 	
 	/**
 	 * Format number to String. 
-	 * If number is less than 10, then display add a "0" ahead of the number. 
+	 * If number is less than 10, then display a "0" ahead of the number. 
 	 * @param i The number to be formatted
 	 * @return Formatted number in string format. 
 	 */

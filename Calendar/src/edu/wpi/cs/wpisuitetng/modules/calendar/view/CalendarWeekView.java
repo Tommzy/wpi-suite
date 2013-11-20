@@ -145,6 +145,9 @@ public class CalendarWeekView extends JPanel {
 
 	}
 	
+	/**
+	 * Resize panel as size of main window changes.
+	 */
 	public void repaint() {
 		super.repaint();
 		if (this.getParent() == null) {
