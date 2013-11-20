@@ -9,7 +9,6 @@ import java.util.Date;
 
 
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 
 import com.google.gson.Gson;
 
@@ -17,7 +16,6 @@ import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
-
 
 /**
  * Model to contain a single calendar item on the calendar
@@ -28,7 +26,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public abstract class CalendarItem implements Model {
 	
 	String name;
-	GregorianCalendar startTime;
+	Date startTime;
+	String location; //Why is this necessary for commitments?
 	String description;
 	
 
@@ -36,9 +35,10 @@ public abstract class CalendarItem implements Model {
 	 * Constructs a Calendar Item for the given values
 	 * @param message
 	 */
-	public CalendarItem(String name, GregorianCalendar startTime, String description){
+	public CalendarItem(String name, Date startTime, String location, String description){
 		this.name = name;
 		this.startTime = startTime;
+		this.location=location;
 		this.description=description;
 
 	}
@@ -47,7 +47,9 @@ public abstract class CalendarItem implements Model {
 	 * Returns a JSON-encoded string representation of this message object
 	 */
 	@Override
-	public abstract String toJSON();
+	public String toJSON() {
+		return new Gson().toJson(this, CalendarItem.class);
+	}
 
 	/**
 	 * Returns an instance of PostBoardMessage constructed using the given
@@ -68,7 +70,7 @@ public abstract class CalendarItem implements Model {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItem[] fromJsonArray(String json){
+	public static CalendarItem[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, CalendarItem[].class);
 	}
@@ -97,9 +99,6 @@ public abstract class CalendarItem implements Model {
 
 	@Override
 	public Boolean identify(Object o) {return null;}
-	
-	
-	
 
 //	@Override
 //	public Permission getPermission(User u) {return null;}
