@@ -17,7 +17,9 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentListModel;
 import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
@@ -60,16 +62,17 @@ public class AddCommitmentPanel extends JPanel {
   /** The invitee text area. */
   JTextArea  inviteeTextArea;
 
-
-
+//  private final CommitmentListModel lstCommitmentItemModel;
+ 
   /**
    * Instantiates a new adds the commitment panel.
    * 
    * @param miglayout
    *          the miglayout
    */
-  public AddCommitmentPanel(MigLayout miglayout) {
+  public AddCommitmentPanel(CommitmentListModel lstCommitmentListModel, MigLayout miglayout) {
     JPanel contentPanel = new JPanel(miglayout);
+     
     nameLabel = new JLabel("Name:");
 
     nameTextField = new JTextField(10);
@@ -94,6 +97,9 @@ public class AddCommitmentPanel extends JPanel {
     inviteeTextArea.setPreferredSize(new Dimension(300, 300));
 
     btnSubmit = new JButton("Submit");
+    
+//    CommitmentListModel lstCommitmentListModel = null;
+
 
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField);
@@ -109,6 +115,7 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(inviteeTextArea, "wrap, span 4");
     contentPanel.add(btnSubmit);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    btnSubmit.addActionListener(new AddCommitmentController(lstCommitmentListModel,this));
     AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
     this.add(contentPanel);
   }

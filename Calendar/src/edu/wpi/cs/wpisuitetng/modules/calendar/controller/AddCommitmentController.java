@@ -19,7 +19,7 @@ public class AddCommitmentController implements ActionListener{
 
 	private final CommitmentListModel model;
 	private final AddCommitmentPanel viewCommitment;
-	
+	 
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
 	/**
@@ -30,12 +30,13 @@ public class AddCommitmentController implements ActionListener{
 	public AddCommitmentController(CommitmentListModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
 		this.viewCommitment = viewCommitment;
-		addTestToDatabase();
+
 	}
- 
+  
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
+	
 	public void addTestToDatabase(){
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+		final Request request = Network.getInstance().makeRequest("calendar/calendaritem", HttpMethod.PUT); // PUT == create
 		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send();
@@ -53,6 +54,9 @@ public class AddCommitmentController implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		
+		addTestToDatabase();
+		System.out.print(event);
 		// Get the text that was entered
 		String name = viewCommitment.getTxtNewname();
 		GregorianCalendar startTime = null;
@@ -73,11 +77,12 @@ public class AddCommitmentController implements ActionListener{
 		if(name.length() > 0){
 			Commitment sentCommitment = new Commitment(name, startTime, description);
 			// Add the message to the model
-			final Request request = Network.getInstance().makeRequest("calendar/commitmentlist", HttpMethod.PUT); // PUT == create
+			final Request request = Network.getInstance().makeRequest("calendar/calendaritem", HttpMethod.PUT); // PUT == create
 			request.setBody(sentCommitment.toJSON()); // put the new message in the body of the request
 			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 		}
+
 
 	}
 
