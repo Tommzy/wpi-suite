@@ -18,6 +18,8 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
+import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+
 
 
 /**
@@ -32,6 +34,9 @@ public class CalendarItemListModel extends AbstractListModel {
 
 	/** The list of messages on the board */
 	List<CalendarItem> itemList;
+	
+	//the static object to allow the requirement model to be 
+	private static CalendarItemListModel instance; 
 
 	/**
 	 * Constructs a new CalendarItemList with no messages.
@@ -41,6 +46,20 @@ public class CalendarItemListModel extends AbstractListModel {
 
 	}
 
+	
+	/**
+	
+	 * @return the instance of the CalendarItemList model singleton. */
+	public static CalendarItemListModel getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new CalendarItemListModel();
+		}
+		
+		return instance;
+	}
+	
 	/**add new calendar item to the list. 
 	 * ToDo: through exception
 	 * @param newItem

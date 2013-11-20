@@ -33,81 +33,81 @@ public class AddCalendarItemController implements ActionListener{
 		this.viewCommitment = viewCommitment;
 	}
 
-//	/* 
-//	 * This method is called when the user clicks the Submit button
-//	 * 
-//	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-//	 */
-//	@Override
-//	public void actionPerformed(ActionEvent event) {
-//		// Get the text that was entered
-//		String name = viewEvent.getTxtNewname();
-//		GregorianCalendar startTime = null;
-//		try {
-//			startTime = viewEvent.getNewDate("startTime");
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} 
-//		GregorianCalendar endTime = null;
-//		try {
-//			endTime = viewEvent.getNewDate("endTime");
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		String location = viewEvent.getNewLocation();
-//		String description = viewEvent.getNewDescription();
-//		
-//		// Make sure there is text
-//		// OR THROUGH EXCEPTION?
-//		
-//		//don't want to make a new event if there is no name
-//		if ((name.length() > 0) & (endTime != null)) {
-//			Event sentEvent = new Event(name, startTime, endTime, location, description);
-//			// Add the message to the model
-//			model.addCalendarItem(sentEvent);//
-//		}else if((name.length() > 0) & (endTime == null)){
-//			Commitment sentCommitment = new Commitment(name, startTime,location, description);
-//			// Add the message to the model
-//			model.addCalendarItem(sentCommitment);
-//		}
-//		
-////		// Send a request to the core to save this message
-////		if ((name.length() > 0) & (endTime != null)) {
-////			Event sentEvent = new Event(name, startTime, endTime, location, description);
-////			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
-////			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
-////			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
-////			request.send(); // send the request
-////		}else if((name.length() > 0) & (endTime == null)){
-////			Commitment sentCommitment = new Commitment(name, startTime,location, description);
-////			// Add the message to the model
-////			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
-////			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
-////			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
-////			request.send(); // send the request
-////		}
-//
-//	}
-//	
-//	public void actionAddCommitment(ActionEvent commitment) {
-//		// Get the text that was entered
-//		String name = viewCommitment.getTxtNewname();
-//		Date startTime = viewCommitment.getNewDate("startTime");
-//		String location = viewCommitment.getNewLocation();
-//		String description = viewCommitment.getNewDescription();
-//		
-//		// Make sure there is text
-//		// OR THROUGH EXCEPTION?
-//		
-//		//don't want to make a new event if there is no name
-//		if (name.length() > 0) {
-//			Commitment sentCommitment = new Commitment(name, startTime, location, description);
-//			// Add the message to the model
-//			model.addCalendarItem(sentCommitment);
-//		}
-//	}
+	/* 
+	 * This method is called when the user clicks the Submit button
+	 * 
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		// Get the text that was entered
+		String name = viewEvent.getTxtNewname();
+		GregorianCalendar startTime = null;
+		try {
+			startTime = viewEvent.getNewDate("startTime");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		GregorianCalendar endTime = null;
+		try {
+			endTime = viewEvent.getNewDate("endTime");
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String location = viewEvent.getNewLocation();
+		String description = viewEvent.getNewDescription();
+		
+		// Make sure there is text
+		// OR THROUGH EXCEPTION?
+		
+		//don't want to make a new event if there is no name
+		if ((name.length() > 0) & (endTime != null)) {
+			Event sentEvent = new Event(name, startTime, endTime, location, description);
+			// Add the message to the model
+			model.addCalendarItem(sentEvent);//
+		}else if((name.length() > 0) & (endTime == null)){
+			Commitment sentCommitment = new Commitment(name, startTime,location, description);
+			// Add the message to the model
+			model.addCalendarItem(sentCommitment);
+		}
+		
+		// Send a request to the core to save this message
+		if ((name.length() > 0) & (endTime != null)) {
+			Event sentEvent = new Event(name, startTime, endTime, location, description);
+			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
+			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
+			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
+			request.send(); // send the request
+		}else if((name.length() > 0) & (endTime == null)){
+			Commitment sentCommitment = new Commitment(name, startTime,location, description);
+			// Add the message to the model
+			final Request request = Network.getInstance().makeRequest("postboard/postboardmessage", HttpMethod.PUT); // PUT == create
+			request.setBody(new Event(name, startTime, endTime, location, description).toJSON()); // put the new message in the body of the request
+			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
+			request.send(); // send the request
+		}
+
+	}
+	
+	public void actionAddCommitment(ActionEvent commitment) {
+		// Get the text that was entered
+		String name = viewCommitment.getTxtNewname();
+		Date startTime = viewCommitment.getNewDate("startTime");
+		String location = viewCommitment.getNewLocation();
+		String description = viewCommitment.getNewDescription();
+		
+		// Make sure there is text
+		// OR THROUGH EXCEPTION?
+		
+		//don't want to make a new event if there is no name
+		if (name.length() > 0) {
+			Commitment sentCommitment = new Commitment(name, startTime, location, description);
+			// Add the message to the model
+			model.addCalendarItem(sentCommitment);
+		}
+	}
 
 
 	/** ATTENTION AT THIS PART
@@ -118,9 +118,4 @@ public class AddCalendarItemController implements ActionListener{
 		model.addCalendarItem(item);
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 }

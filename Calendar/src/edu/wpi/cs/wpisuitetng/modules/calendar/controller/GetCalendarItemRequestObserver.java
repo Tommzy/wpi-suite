@@ -8,6 +8,7 @@ public class GetCalendarItemRequestObserver implements RequestObserver{
 
 	public GetCalendarItemController controller;
 	
+	
 	public GetCalendarItemRequestObserver(GetCalendarItemController controller) {
 		this.controller = controller;
 	}
