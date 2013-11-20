@@ -5,34 +5,35 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentListModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
-public class GetCalendarItemController implements ActionListener {
+public class GetCommitmentController implements ActionListener {
 
 
-	private GetCalendarItemRequestObserver observer;
-	private static GetCalendarItemController instance;
+	private GetCommitmentRequestObserver observer;
+	private static GetCommitmentController instance;
 		
 	
 	/**
 	 * Constructs the controller given a RequirementModel
 	 */
-	private GetCalendarItemController() {
+	private GetCommitmentController() {
 		
-		observer = new GetCalendarItemRequestObserver(this);
+		observer = new GetCommitmentRequestObserver(this);
 	}
 	
 	/**
 	
 	 * @return the instance of the GetRequirementController or creates one if it does not
 	 * exist. */
-	public static GetCalendarItemController getInstance()
+	public static GetCommitmentController getInstance()
 	{
 		if(instance == null)
 		{
-			instance = new GetCalendarItemController();
+			instance = new GetCommitmentController();
 		}
 		
 		return instance;
@@ -46,7 +47,7 @@ public class GetCalendarItemController implements ActionListener {
 
 		// Send a request to the core to save this requirement
 		final Request request = Network.getInstance().makeRequest(
-				"Calendar/CalendarItem", HttpMethod.GET); // GET == read
+				"calendar/commitment", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the
 										// response
 		request.send(); // send the request
@@ -62,16 +63,17 @@ public class GetCalendarItemController implements ActionListener {
 	 */
 	public void receivedMessages(CalendarItem[] items) {
 		// Empty the local model to eliminate duplications
-		CalendarItemListModel.getInstance().emptyModel();
+		CommitmentListModel.getInstance().emptyModel();
 		
 		// Make sure the response was not null
 		if (items != null) {
 			
 			// add the requirements to the local model
-			CalendarItemListModel.getInstance().addCalendarItems(items);
+			CommitmentListModel.getInstance().addCommitment(items);
 		}
 	}
 	
 	
 
 }
+

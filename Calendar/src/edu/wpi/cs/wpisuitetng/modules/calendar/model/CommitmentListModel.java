@@ -20,7 +20,21 @@ public class CommitmentListModel extends AbstractListModel {
 
 	/** The list of messages on the board */
 	List<CalendarItem> itemList;
+	
+	//the static object to allow the requirement model to be 
+	private static CommitmentListModel instance;
+	/**
 
+	 * @return the instance of the CommitmentList model singleton. */
+	public static CommitmentListModel getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new CommitmentListModel();
+		}
+
+		return instance;
+	}
 	/**
 	 * Constructs a new CalendarItemList with no messages.
 	 */
@@ -28,6 +42,8 @@ public class CommitmentListModel extends AbstractListModel {
 		itemList = new ArrayList<CalendarItem>();
 
 	}
+	
+	
 
 	/**add new calendar item to the list. 
 	 * ToDo: through exception
@@ -99,5 +115,4 @@ public class CommitmentListModel extends AbstractListModel {
 		// TODO Auto-generated method stub
 		return itemList.get(itemList.size() - 1 - index).toString();
 	}
-
 }

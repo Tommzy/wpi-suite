@@ -18,7 +18,7 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
+//import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementModel;
 
 
 
@@ -48,7 +48,7 @@ public class CalendarItemListModel extends AbstractListModel {
 
 	
 	/**
-	
+
 	 * @return the instance of the CalendarItemList model singleton. */
 	public static CalendarItemListModel getInstance()
 	{
@@ -56,7 +56,7 @@ public class CalendarItemListModel extends AbstractListModel {
 		{
 			instance = new CalendarItemListModel();
 		}
-		
+
 		return instance;
 	}
 	
