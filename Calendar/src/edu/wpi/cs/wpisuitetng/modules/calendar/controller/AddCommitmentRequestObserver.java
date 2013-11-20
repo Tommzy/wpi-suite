@@ -26,7 +26,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		controller.addCommitmentToModel(item);
 		System.out.print(item);
 		
-	}
+	} 
 	
 	public CalendarItem testReturn(){
 		return testItem;
