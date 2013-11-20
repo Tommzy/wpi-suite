@@ -22,6 +22,8 @@ public class AddCalendarItemController implements ActionListener{
 	private final AddEventPanel viewEvent;
 	private final AddCommitmentPanel viewCommitment;
 	
+
+	
 	/**
 	 * Construct an AddMessageController for the given model, view pair
 	 * @param model the model containing the messages
@@ -31,8 +33,12 @@ public class AddCalendarItemController implements ActionListener{
 		this.model = model;
 		this.viewEvent = viewEvent;
 		this.viewCommitment = viewCommitment;
+
+		
 	}
 
+	
+	
 	/* 
 	 * This method is called when the user clicks the Submit button
 	 * 
@@ -62,17 +68,17 @@ public class AddCalendarItemController implements ActionListener{
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
 		
-		//don't want to make a new event if there is no name
-		if ((name.length() > 0) & (endTime != null)) {
-
-			Event sentEvent = new Event(name, startTime, endTime, description);
-			// Add the message to the model
-			model.addCalendarItem(sentEvent);//
-		}else if((name.length() > 0) & (endTime == null)){
-			Commitment sentCommitment = new Commitment(name, startTime, description);
-			// Add the message to the model
-			model.addCalendarItem(sentCommitment);
-		}
+//		//don't want to make a new event if there is no name
+//		if ((name.length() > 0) & (endTime != null)) {
+//
+//			Event sentEvent = new Event(name, startTime, endTime, description);
+//			// Add the message to the model
+//			model.addCalendarItem(sentEvent);//
+//		}else if((name.length() > 0) & (endTime == null)){
+//			Commitment sentCommitment = new Commitment(name, startTime, description);
+//			// Add the message to the model
+//			model.addCalendarItem(sentCommitment);
+//		}
 		
 		// Send a request to the core to save this message
 		if ((name.length() > 0) & (endTime != null)) {
@@ -89,8 +95,11 @@ public class AddCalendarItemController implements ActionListener{
 			request.addObserver(new AddCalendarItemRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 		}
+		
 
 	}
+	
+	
 
 
 	/** ATTENTION AT THIS PART

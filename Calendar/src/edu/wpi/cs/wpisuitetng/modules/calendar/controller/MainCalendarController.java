@@ -56,6 +56,11 @@ public class MainCalendarController implements ActionListener{
 			case "YEAR" :
 				CalendarYearView yearView = new CalendarYearView();
 				view.getCalendarView().add(yearView);
+				Integer x = new Integer(1);
+				//
+				AddCommitmentController controller = new AddCommitmentController(model,);
+				controller.actionPerformed(event);
+				
 				break;
 			case "MONTH" :
 				break;

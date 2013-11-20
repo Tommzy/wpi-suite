@@ -20,6 +20,8 @@ public class AddCommitmentController implements ActionListener{
 	private final CommitmentListModel model;
 	private final AddCommitmentPanel viewCommitment;
 	
+	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
+	
 	/**
 	 * Construct an AddMessageController for the given model, view pair
 	 * @param model the model containing the messages
@@ -28,8 +30,22 @@ public class AddCommitmentController implements ActionListener{
 	public AddCommitmentController(CommitmentListModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
 		this.viewCommitment = viewCommitment;
+		addTestToDatabase();
 	}
-
+ 
+	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
+	public void addTestToDatabase(){
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
+		request.addObserver(observer); // add an observer to process the response
+		request.send();
+	}
+	
+	public CalendarItem testReturn(){
+		return observer.testReturn();
+	}
+	
+	
 	/* 
 	 * This method is called when the user clicks the Submit button
 	 * 
@@ -51,12 +67,12 @@ public class AddCommitmentController implements ActionListener{
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
 		
-		//don't want to make a new event if there is no name
-		if(name.length() > 0){
-			Commitment sentCommitment = new Commitment(name, startTime, description);
-			// Add the message to the model
-			model.addCommitment(sentCommitment);
-		}
+//		//don't want to make a new event if there is no name
+//		if(name.length() > 0){
+//			Commitment sentCommitment = new Commitment(name, startTime, description);
+//			// Add the message to the model
+//			model.addCommitment(sentCommitment);
+//		}
 		
 		// Send a request to the core to save this message
 		if(name.length() > 0){
