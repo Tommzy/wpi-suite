@@ -93,7 +93,9 @@ public class AddEventPanel extends JPanel {
 		allDayEventCheckBox = new JCheckBox("All Day Event?");
 
 		btnSubmit = new JButton("Submit");
-		btnSubmit.addActionListener(new AddEventPanelController(tabbedPane, btnSubmit));
+		AddEventPanelController.getInstance().setTabbedPane(tabbedPane);
+		AddEventPanelController.getInstance().setBtnSubmit(btnSubmit);
+		btnSubmit.addActionListener(AddEventPanelController.getInstance());
 	
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField, "wrap");

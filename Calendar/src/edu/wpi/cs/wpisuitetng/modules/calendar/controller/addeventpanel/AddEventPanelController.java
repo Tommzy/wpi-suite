@@ -10,11 +10,36 @@ public class AddEventPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
 	JButton btnSubmit;
-	
-	public AddEventPanelController(JTabbedPane tabbedPane, JButton button) {
-		this.tabbedPane = tabbedPane;
-		btnSubmit = button;
+	public static AddEventPanelController instance;
+
+	public AddEventPanelController() {
 	}
+	
+	public static AddEventPanelController getInstance() {
+		if (instance == null) {
+			instance = new AddEventPanelController();
+		}
+		
+		return instance;
+	}
+	
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
+
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
+	}
+
+	public JButton getBtnSubmit() {
+		return btnSubmit;
+	}
+
+	public void setBtnSubmit(JButton btnSubmit) {
+		this.btnSubmit = btnSubmit;
+	}
+
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
