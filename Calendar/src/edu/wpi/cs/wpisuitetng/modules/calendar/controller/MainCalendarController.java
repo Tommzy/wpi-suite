@@ -64,7 +64,7 @@ public class MainCalendarController implements ActionListener{
 		this.model = model;
 		this.view = view;
 		yearView = new CalendarYearView();
-		monthView = new MonthView(view.getCalendarView(), FakeModel.getInstance().getCurrentDate());
+		monthView = new MonthView();
 		dayView = new CalendarDayView(sampleEvent, view.getCalendarView());
 		weekView = new CalendarWeekView(sampleEvent);
 		

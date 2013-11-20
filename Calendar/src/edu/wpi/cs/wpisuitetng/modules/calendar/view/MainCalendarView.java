@@ -45,7 +45,7 @@ public class MainCalendarView extends JPanel {
   List<JToggleButton> toggleButtonPeriod = new ArrayList<JToggleButton>();
   
   /** The calendar view. */
-  JPanel              calendarView = new JPanel();
+  JPanel  calendarView = new JPanel();
   
   /** The scroll area which contains the calendar view. */
   JScrollPane calendarScroll = new JScrollPane(calendarView);

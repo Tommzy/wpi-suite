@@ -25,6 +25,12 @@ public class MonthViewPanel extends JPanel {
 	private Calendar cal = GregorianCalendar.getInstance();
 	private MonthName monthName = new MonthName();
 	
+	/**
+	 * given the beginning day of the month view, the day that will appear on the upper-left corner
+	 * @param year
+	 * @param month
+	 * @param dayOfMonth
+	 */
 	public MonthViewPanel(int year, int month, int dayOfMonth) {
 		setMonth(year, month, dayOfMonth);
 		this.setBackground(Color.white);

@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeDate;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -19,23 +20,17 @@ public class MonthView extends JPanel {
 	private MonthViewPanel monthViewPanel;
 	private JLabel monthTitleLabel = new JLabel();
 	private MonthName monthName = new MonthName();
-	private Component superComponent;
 	private FakeDate date;
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	
-	public MonthView(Component comp, FakeDate fakeDate) {
-		date = fakeDate;
-		superComponent = comp;
-		//System.out.println(comp);
+	public MonthView() {
+		date = FakeModel.getInstance().getCurrentDate();
+
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		FakeDate monthStartDate = new FakeDate(date.getYear(), date.getMonth(), 1);
-		//System.out.println(monthStartDate);
-		int w = monthStartDate.getDayOfWeek();
-		for (int i = 0; i < w - 1; i ++) {
-			monthStartDate = monthStartDate.getPrecursorDate();
-		}
-		//System.out.println(monthStartDate);
+		
+		FakeDate monthStartDate = getFirstDayOfMonthView(date);
+		
 		monthViewPanel = new MonthViewPanel(monthStartDate.getYear(), monthStartDate.getMonth(), monthStartDate.getDayOfMonth());
 		monthTitleLabel.setText(getTitle(date.getYear(), date.getMonth()));
 		add(monthTitleLabel, "wrap");
@@ -43,9 +38,22 @@ public class MonthView extends JPanel {
 		panel.add(previousButton);
 		panel.add(todayButton, "gapleft 10");
 		panel.add(nextButton, "gapleft 10");
-		add(panel, "gapleft 30, wrap");
+		add(panel, "wrap");
 		add(monthViewPanel);
+	}
 	
+	/**
+	 * 
+	 * @return the first date that will show up on the upper left corner of MonthView 
+	 */
+	public FakeDate getFirstDayOfMonthView(FakeDate date) {
+		FakeDate monthStartDate = new FakeDate(date.getYear(), date.getMonth(), 1);
+		int w = monthStartDate.getDayOfWeek();
+		for (int i = 0; i < w - 1; i ++) {
+			monthStartDate = monthStartDate.getPrecursorDate();
+		}
+		
+		return monthStartDate;
 	}
 	
 	public JButton getPreviousButton() {
@@ -78,8 +86,9 @@ public class MonthView extends JPanel {
 			return;
 		}
 		double percentage = 0.9;
-		if (superComponent != null && new Dimension((int)(superComponent.getSize().getWidth() * percentage), (int)(superComponent.getSize().getHeight() * percentage)) != this.getPreferredSize()) {
-			setPreferredSize(new Dimension((int)(superComponent.getSize().getWidth() * percentage), (int)(superComponent.getSize().getHeight() * percentage)));
+		
+		if (getParent() != null && new Dimension((int)(getParent().getSize().getWidth() * percentage), (int)(getParent().getSize().getHeight() * percentage)) != this.getPreferredSize()) {
+			setPreferredSize(new Dimension((int)(getParent().getSize().getWidth() * percentage), (int)(getParent().getSize().getHeight() * percentage)));
 			//System.out.println(superComponent.getSize());
 		}
 		
