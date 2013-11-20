@@ -12,119 +12,170 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+
 import net.miginfocom.swing.MigLayout;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AddCommitmentPanel.
+ */
 @SuppressWarnings("serial")
-public class AddCommitmentPanel extends JPanel{
+public class AddCommitmentPanel extends JPanel {
 
-	JButton btnSubmit;
+  /** The btn submit. */
+  JButton    btnSubmit;
 
-	JLabel nameLabel;
+  /** The name label. */
+  JLabel     nameLabel;
 
-	JTextField nameTextField;
+  /** The name text field. */
+  JTextField nameTextField;
 
-	JLabel startDateLabel, endDateLabel;
+  /** The end date label. */
+  JLabel     startDateLabel, endDateLabel;
 
-	JTextField startDateTextField, startTimeTextField;
+  /** The start time text field. */
+  JTextField startDateTextField, startTimeTextField;
 
-	JLabel locatoinLabel;
+  /** The location label. */
+  JLabel     locationLabel;
 
-	JTextField locationTextField;
+  /** The location text field. */
+  JTextField locationTextField;
 
-	JLabel descriptionLabel;
+  /** The description label. */
+  JLabel     descriptionLabel;
 
-	JTextArea descriptionTextArea;
+  /** The description text area. */
+  JTextArea  descriptionTextArea;
 
-	JLabel inviteeLabel;
+  /** The invitee label. */
+  JLabel     inviteeLabel;
 
-	JTextArea inviteeTextArea;
-
-	public AddCommitmentPanel(MigLayout miglayout) {
-		JPanel contentPanel = new JPanel(miglayout);
-		nameLabel = new JLabel("Name:");
-
-		nameTextField = new JTextField(10);
-
-		startDateLabel = new JLabel("Starts:");
-
-		startDateTextField = new JTextField(10);
-
-		startTimeTextField = new JTextField(4);
-
-		locatoinLabel = new JLabel("Where:");
-
-		locationTextField = new JTextField(10);
-
-		descriptionLabel = new JLabel("Description:");
-
-		descriptionTextArea = new JTextArea();
-		descriptionTextArea.setPreferredSize(new Dimension(300, 300));
-
-		inviteeLabel = new JLabel("Invitee:");
-
-		inviteeTextArea = new JTextArea();
-		inviteeTextArea.setPreferredSize(new Dimension(300, 300));
+  /** The invitee text area. */
+  JTextArea  inviteeTextArea;
 
 
-		btnSubmit = new JButton("Submit");
 
-		contentPanel.add(nameLabel);
-		contentPanel.add(nameTextField);
-		contentPanel.add(startDateLabel);
-		contentPanel.add(startDateTextField);
-		contentPanel.add(startTimeTextField);
-//		contentPanel.add(endDateLabel);
-		contentPanel.add(locatoinLabel);
-		contentPanel.add(locationTextField, "wrap");
-		contentPanel.add(descriptionLabel);
-		contentPanel.add(descriptionTextArea, "span 4");
-		contentPanel.add(inviteeLabel);
-		contentPanel.add(inviteeTextArea, "wrap, span 4");
-		contentPanel.add(btnSubmit);
+  /**
+   * Instantiates a new adds the commitment panel.
+   * 
+   * @param miglayout
+   *          the miglayout
+   */
+  public AddCommitmentPanel(MigLayout miglayout) {
+    JPanel contentPanel = new JPanel(miglayout);
+    nameLabel = new JLabel("Name:");
 
-		this.add(contentPanel);
-	}
+    nameTextField = new JTextField(10);
 
-	public String getTxtNewname(){
-		if (this.nameTextField.getText().equals(""))
-			return null;
-		else
-			return this.nameTextField.getText();
-	}
+    startDateLabel = new JLabel("Time:");
 
-	public Date getNewDate(String data){
-		String dateString = "";
-		if(data.equals("startTime"))
-			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-		else if(data.equals("endTime"))
-			dateString = (this.startDateTextField + " " + this.startTimeTextField);
+    startDateTextField = new JTextField(10);
 
-		try {
-			Date date;
-			//Date example ("12/31/13 20:35")
-			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
-			return date;
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		//The function returns Null if the try breaks
+    startTimeTextField = new JTextField(4);
 
-		return null;
-	}
+    locationLabel = new JLabel("Where:");
+    locationTextField = new JTextField(10);
 
-	public String getNewLocation(){
-		return this.locationTextField.getText();
-	}
+    descriptionLabel = new JLabel("Description:");
 
-	public String getNewDescription(){
-		return this.descriptionTextArea.getText();
-	}
+    descriptionTextArea = new JTextArea();
+    descriptionTextArea.setPreferredSize(new Dimension(300, 300));
+
+    inviteeLabel = new JLabel("Invitee:");
+
+    inviteeTextArea = new JTextArea();
+    inviteeTextArea.setPreferredSize(new Dimension(300, 300));
+
+    btnSubmit = new JButton("Submit");
+
+    contentPanel.add(nameLabel);
+    contentPanel.add(nameTextField);
+    contentPanel.add(startDateLabel);
+    contentPanel.add(startDateTextField);
+    contentPanel.add(startTimeTextField, "wrap");
+    // This is not in commitments anymore, still here if added back
+    // contentPanel.add(locatoinLabel);
+    // contentPanel.add(locationTextField, "wrap");
+    contentPanel.add(descriptionLabel);
+    contentPanel.add(descriptionTextArea, "span 4");
+    contentPanel.add(inviteeLabel);
+    contentPanel.add(inviteeTextArea, "wrap, span 4");
+    contentPanel.add(btnSubmit);
+    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
+    this.add(contentPanel);
+  }
+
+
+
+  /**
+   * Gets the txt newname.
+   * 
+   * @return the txt newname
+   */
+  public String getTxtNewname() {
+    if(this.nameTextField.getText().equals(""))
+      return null;
+    else
+      return this.nameTextField.getText();
+  }
+
+
+
+  /**
+   * Gets the new date.
+   * 
+   * @param data
+   *          the data
+   * @return the new date
+   */
+  public Date getNewDate(String data) {
+    String dateString = "";
+    if(data.equals("startTime"))
+      dateString = (this.startDateTextField + " " + this.startTimeTextField);
+    else if(data.equals("endTime"))
+      dateString = (this.startDateTextField + " " + this.startTimeTextField);
+
+    try {
+      Date date;
+      // Date example ("12/31/13 20:35")
+      date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
+      return date;
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    // The function returns Null if the try breaks
+
+    return null;
+  }
+
+
+
+  /**
+   * Gets the new location.
+   * 
+   * @return the new location
+   */
+  public String getNewLocation() {
+    return this.locationTextField.getText();
+  }
+
+
+
+  /**
+   * Gets the new description.
+   * 
+   * @return the new description
+   */
+  public String getNewDescription() {
+    return this.descriptionTextArea.getText();
+  }
 }

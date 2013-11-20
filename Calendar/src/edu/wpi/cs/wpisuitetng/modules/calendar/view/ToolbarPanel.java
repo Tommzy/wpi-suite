@@ -65,7 +65,10 @@ public class ToolbarPanel extends JPanel {
     add(btnScheduleEvent);
     add(btnManageFilter);
 
-    ToolbarController.getInstance().setAddEventButton(btnAddTask);
+    ToolbarController.getInstance().setAddEventButton(btnAddEvent);
+    btnAddEvent.addActionListener(ToolbarController.getInstance());
+    
+    ToolbarController.getInstance().setAddCommitmentButton(btnAddTask);
     btnAddTask.addActionListener(ToolbarController.getInstance());
   }
 }
