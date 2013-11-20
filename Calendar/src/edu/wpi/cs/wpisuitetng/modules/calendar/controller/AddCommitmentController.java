@@ -21,7 +21,7 @@ public class AddCommitmentController implements ActionListener{
 	private final AddCommitmentPanel viewCommitment;
 	
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
-	
+	 
 	/**
 	 * Construct an AddMessageController for the given model, view pair
 	 * @param model the model containing the messages
@@ -45,7 +45,7 @@ public class AddCommitmentController implements ActionListener{
 		return observer.testReturn();
 	}
 	
-	
+	 
 	/* 
 	 * This method is called when the user clicks the Submit button
 	 * 
@@ -56,14 +56,9 @@ public class AddCommitmentController implements ActionListener{
 		// Get the text that was entered
 		String name = viewCommitment.getTxtNewname();
 		GregorianCalendar startTime = null;
-		try {
-			startTime = viewCommitment.getNewDate("startTime");
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
+		startTime = viewCommitment.getNewDate("startTime");
 		String description = viewCommitment.getNewDescription();
-		
+		 
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
 		

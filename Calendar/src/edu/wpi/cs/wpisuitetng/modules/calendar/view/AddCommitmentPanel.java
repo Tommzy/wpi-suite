@@ -13,11 +13,11 @@ import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
-
 import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
@@ -136,7 +136,7 @@ public class AddCommitmentPanel extends JPanel {
    *          the data
    * @return the new date
    */
-  public Date getNewDate(String data) {
+  public GregorianCalendar getNewDate(String data) {
     String dateString = "";
     if(data.equals("startTime"))
       dateString = (this.startDateTextField + " " + this.startTimeTextField);
@@ -147,7 +147,9 @@ public class AddCommitmentPanel extends JPanel {
       Date date;
       // Date example ("12/31/13 20:35")
       date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
-      return date;
+      GregorianCalendar cal = new GregorianCalendar();
+      cal.setTime(date);
+      return cal;
     } catch (ParseException e) {
       // TODO Auto-generated catch block
       e.printStackTrace();
