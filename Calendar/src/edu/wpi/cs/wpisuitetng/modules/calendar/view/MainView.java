@@ -31,14 +31,14 @@ import java.awt.GridLayout;
 public class MainView extends JPanel {
 	
 	JTabbedPane addEventTabPanel;
-
+	JTabbedPane addCommitTabPanel;
 	/**
 	 * Create the main panel.
 	 */
 	public MainView() {
 		addEventTabPanel = new AddEventTabPanel();
 		add(addEventTabPanel);
-		
+		//addCommitTabPanel = new AddCommitTabPanel;
 		
 		
 //		JPanel calendarPanel = new MainCalendarView(new MainCalendarModel());

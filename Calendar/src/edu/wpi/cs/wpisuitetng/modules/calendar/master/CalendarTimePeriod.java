@@ -19,8 +19,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.master;
  *
  */
 public enum CalendarTimePeriod {
-	DAY, 
-	WEEK,
-	MONTH,
-	YEAR
+	Day, 
+	Week,
+	Month,
+	Year,
 }

@@ -12,6 +12,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 	public AddCommitmentRequestObserver(AddCommitmentController controller) {
 		this.controller = controller;
 	}
+	public CalendarItem testItem;
 
 	@Override
 	public void responseSuccess(IRequest iReq) {
@@ -20,9 +21,15 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		
 		//Parse the calendar item out of the response body
 		final CalendarItem item = CalendarItem.fromJSON(response.getBody());
-		
+		testItem = item;
 		//Pass the messaged back to the controller
 		controller.addCommitmentToModel(item);
+		System.out.print(item);
+		
+	} 
+	
+	public CalendarItem testReturn(){
+		return testItem;
 	}
 
 	@Override

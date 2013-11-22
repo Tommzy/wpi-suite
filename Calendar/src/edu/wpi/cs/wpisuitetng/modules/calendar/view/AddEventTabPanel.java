@@ -16,51 +16,86 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 
+/**
+ * The Class AddEventTabPanel.
+ */
 @SuppressWarnings("serial")
 public class AddEventTabPanel extends JTabbedPane {
 
-	JPanel addEventPanel;
-	JPanel calendarPanel;
-	JPanel tablesPanel;
-	JPanel contentView;
-
 	
+	/** The add event panel. */
+	JPanel addEventPanel;
+	
+	/** The calendar panel. */
+	JPanel calendarPanel;
+	
+	/** The tables panel. */
+	JPanel tablesPanel;
+	
+	/** The content view. */
+	JPanel contentView;
+	
+	/** The event scroll. */
+	JScrollPane eventScroll;
+	
+	/** The task scroll. */
+	JScrollPane taskScroll;
+	
+	/** The filter scroll. */
+	JScrollPane filterScroll;
+	
+	/**
+	 * Adds the event tab panel.
+	 */
 	public AddEventTabPanel() {
 		
-		addEventPanel = new AddEventPanel(new MigLayout());
-		
+		// add eventTabPanel to AddEventPanelController
+		AddEventPanelController.getInstance().setTabbedPane(this);
+		AddCommitmentPanelController.getInstance().setTabbedPane(this);
+		//Content Viewer
 		contentView = new JPanel();
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
+		//Calendar
 		calendarPanel = new MainCalendarView(new CalendarItemListModel());
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
+		//Tables
 		tablesPanel = new JPanel();
 		tablesPanel.setLayout(new BoxLayout(tablesPanel, BoxLayout.Y_AXIS));
+		
+		// Events
 		EventTable eventTable = new EventTable();
+		eventTable.setLayout(new BoxLayout(eventTable, BoxLayout.Y_AXIS));
+//		eventScroll = new JScrollPane(eventTable);
 		tablesPanel.add(eventTable);
-		TaskTable taskTable = new TaskTable();
-		tablesPanel.add(taskTable);
+		// Tasks
+		CommitmentTable commitmentTable = new CommitmentTable();
+		commitmentTable.setLayout(new BoxLayout(commitmentTable, BoxLayout.Y_AXIS));
+//		taskScroll = new JScrollPane(taskTable);
+		tablesPanel.add(commitmentTable);
+		// Filters
 		FiltersTable filtersTable = new FiltersTable();
+		filtersTable.setLayout(new BoxLayout(filtersTable, BoxLayout.Y_AXIS));
+//		filterScroll = new JScrollPane(filtersTable);
 		tablesPanel.add(filtersTable);
 		
 		contentView.add(calendarPanel);	
 		contentView.add(tablesPanel);
 		
-		addEventPanel.setLayout(new FlowLayout());
+		
 		this.add(contentView, 0);
-		this.add(addEventPanel, 1);
 		
 		this.setTitleAt(0, "Calendar");
 		
-		this.setTitleAt(1, "New Event");
-		
-		//this.setPreferredSize(getMaximumSize());
-		//this.setSize(getMaximumSize());
 		
 		this.setPreferredSize(new Dimension(800, 700));
 		
 	}
+	
 }

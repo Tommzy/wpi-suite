@@ -36,7 +36,7 @@ public class GetCommitmentController implements ActionListener {
 			instance = new GetCommitmentController();
 		}
 		
-		return instance;
+		return instance; 
 	}
 	
 	
@@ -69,7 +69,7 @@ public class GetCommitmentController implements ActionListener {
 		if (items != null) {
 			
 			// add the requirements to the local model
-			CommitmentListModel.getInstance().addCommitment(items);
+			CommitmentListModel.getInstance().addCommitments(items);
 		}
 	}
 	

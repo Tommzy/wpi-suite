@@ -13,6 +13,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -24,14 +26,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.border.Border;
+
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
+
 
 /**
  *
  */
 @SuppressWarnings("serial")
-public class CalendarYearMonthView extends JXMonthView implements ActionListener, KeyListener {
+public class CalendarMonth extends JXMonthView implements ActionListener, KeyListener {
 
 	public static final Color START_END_DAY = new Color(47, 150, 9);
 	public static final Color SELECTION = new Color(236,252,144);
@@ -39,20 +44,12 @@ public class CalendarYearMonthView extends JXMonthView implements ActionListener
 
 	/**
 	 * Constructor for the iteration calendar.
-	 * @param parent IterationPanel
-	 * @param vm ViewMode
-	 * @param displayIteration Iteration
 	 */
-	public CalendarYearMonthView()
+	public CalendarMonth()
 	{
-		buildLayout();
-	}
-	
-	/**
-	 * Builds the layout
-	 */
-	private void buildLayout()
-	{
+		Font font = this.getFont();
+		this.setBoxPaddingX((this.getBoxPaddingX() / 2));
+		this.setFont(font.deriveFont(8f));
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
 		this.setSelectionBackground(SELECTION);
@@ -62,7 +59,6 @@ public class CalendarYearMonthView extends JXMonthView implements ActionListener
 		this.addActionListener(this);
 				
 		this.addKeyListener(this);
-
 	}
 
 	/**

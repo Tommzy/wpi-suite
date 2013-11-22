@@ -40,6 +40,7 @@ public class GroupCommitment extends Commitment{
 		}
 		*/
 		// TODO Auto-generated constructor stub
+		// meow
 	}
 
 }

@@ -7,20 +7,28 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *    Yuchen Zhang
+ *    Team3
  ******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**
  * This controller responds to actions from view MainCalendarView and
@@ -32,6 +40,18 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
 public class MainCalendarController implements ActionListener{
 	CalendarItemListModel model;
 	MainCalendarView view;
+	CalendarYearView yearView;
+	MonthView monthView;
+	CalendarDayView dayView;
+	CalendarWeekView weekView;
+	
+	// for test display use
+	DayEvent[] sampleEvent = {
+			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
+			new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 16, 15, 50, 0), new GregorianCalendar(2013, 5, 16, 16, 5, 0)), 
+			new DayEvent("Abcd", new GregorianCalendar(2013, 5, 16, 15, 55, 0), new GregorianCalendar(2013, 5, 16, 16, 15, 0)), 
+			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 16, 15, 56, 0), new GregorianCalendar(2013, 5, 16, 16, 16, 0)),
+			new DayEvent("Hey", new GregorianCalendar(2013, 5, 18, 8, 50, 0), new GregorianCalendar(2013, 5, 18, 10, 5, 0)) };
 	
 	/**
 	 * Create a MainCalendarController. 
@@ -42,6 +62,11 @@ public class MainCalendarController implements ActionListener{
 	public MainCalendarController(CalendarItemListModel model, MainCalendarView view) {
 		this.model = model;
 		this.view = view;
+		yearView = new CalendarYearView();
+		monthView = new MonthView();
+		dayView = new CalendarDayView(sampleEvent, view.getCalendarView());
+		weekView = new CalendarWeekView(sampleEvent);
+		
 	}
 	
 	/**
@@ -53,15 +78,17 @@ public class MainCalendarController implements ActionListener{
 		resetToggleButton();
 		toggleButton.setSelected(true);
 		switch (toggleButton.getText()) {
-			case "YEAR" :
-				CalendarYearView yearView = new CalendarYearView();
+			case "Year" :
 				view.getCalendarView().add(yearView);
 				break;
-			case "MONTH" :
+			case "Month" :
+				view.getCalendarView().add(monthView, "span");			
 				break;
-			case "WEEK" :
+			case "Week" :
+				view.getCalendarView().add(weekView);
 				break;
-			case "DAY" :
+			case "Day" :
+				view.getCalendarView().add(dayView);				
 				break;
 			default: break;
 		}
@@ -89,4 +116,6 @@ public class MainCalendarController implements ActionListener{
 			timePeriodChanged((JToggleButton) e.getSource());
 		}
 	}
+	
+	
 }

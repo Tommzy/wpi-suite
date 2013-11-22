@@ -23,6 +23,14 @@ public class CommitmentListModel extends AbstractListModel {
 	
 	//the static object to allow the requirement model to be 
 	private static CommitmentListModel instance;
+
+	/**
+	 * Constructs a new CalendarItemList with no messages.
+	 */
+	public CommitmentListModel() {
+		itemList = new ArrayList<CalendarItem>();
+	}
+	
 	/**
 
 	 * @return the instance of the CommitmentList model singleton. */
@@ -35,16 +43,7 @@ public class CommitmentListModel extends AbstractListModel {
 
 		return instance;
 	}
-	/**
-	 * Constructs a new CalendarItemList with no messages.
-	 */
-	public CommitmentListModel() {
-		itemList = new ArrayList<CalendarItem>();
-
-	}
-	
-	
-
+ 
 	/**add new calendar item to the list. 
 	 * ToDo: through exception
 	 * @param newItem
@@ -64,7 +63,7 @@ public class CommitmentListModel extends AbstractListModel {
 	 * 
 	 * @param itemArray the array of CalendarItem to add
 	 */
-	public void addCommitment(CalendarItem[] itemArray) {
+	public void addCommitments(CalendarItem[] itemArray) {
 		for (int i = 0; i < itemArray.length; i++) {
 				this.itemList.add(itemArray[i]);
 		}
