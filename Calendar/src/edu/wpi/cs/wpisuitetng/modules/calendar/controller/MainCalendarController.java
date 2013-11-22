@@ -22,7 +22,7 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
@@ -38,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
  *
  */
 public class MainCalendarController implements ActionListener{
-	CalendarItemListModel model;
+	Commitment commitmentModel;
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
@@ -82,14 +82,14 @@ public class MainCalendarController implements ActionListener{
 		}
 		return instance;
 	}
-	public CalendarItemListModel getModel() {
-		return model;
-	}
-
-
-	public void setModel(CalendarItemListModel model) {
-		this.model = model;
-	}
+//	public Commitment getCommitmentModel() {
+//		return commitmentModel;
+//	}
+//
+//
+//	public void setModel(CalendarItemListModel model) {
+//		this.model = model;
+//	}
 
 
 	public MainCalendarView getView() {

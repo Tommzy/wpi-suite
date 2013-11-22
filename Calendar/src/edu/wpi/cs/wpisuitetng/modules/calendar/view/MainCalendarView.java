@@ -29,7 +29,6 @@ import javax.swing.UIManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 // TODO: Auto-generated Javadoc
@@ -65,7 +64,7 @@ public class MainCalendarView extends JPanel {
    *
    * @param mainCalendarModel the main calendar model
    */
-  public MainCalendarView(CalendarItemListModel mainCalendarModel) {
+  public MainCalendarView() {
     // Create toggle buttons for different calendar view
     final JPanel calendarViewSwitch = new JPanel();
     calendarViewSwitch.setLayout(new BoxLayout(calendarViewSwitch,
@@ -80,7 +79,8 @@ public class MainCalendarView extends JPanel {
     add(calendarViewSwitch);
     
     MainCalendarController mainCalendarController = MainCalendarController.getInstance();
-    mainCalendarController.setModel(mainCalendarModel);
+    //I got rid of this -Mark
+    //mainCalendarController.setModel(mainCalendarModel);
     mainCalendarController.setView(this);
     mainCalendarController.setWeekView(new CalendarWeekView());
     mainCalendarController.setMonthView(new MonthView());

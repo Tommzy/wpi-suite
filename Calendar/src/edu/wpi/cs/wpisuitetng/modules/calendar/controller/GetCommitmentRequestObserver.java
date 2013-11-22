@@ -22,7 +22,9 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		CalendarItem[] items = CalendarItem.fromJsonArray(iReq.getResponse().getBody());
-		controller.receivedMessages(items);
+		//TODO
+		//put this back in
+		//controller.receivedMessages(items);
 	}
 	
 	/*

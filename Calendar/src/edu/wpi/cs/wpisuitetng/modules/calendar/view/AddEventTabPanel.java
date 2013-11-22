@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+
 
 /**
  * The Class AddEventTabPanel.
@@ -62,7 +62,8 @@ public class AddEventTabPanel extends JTabbedPane {
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
 		//Calendar
-		calendarPanel = new MainCalendarView(new CalendarItemListModel());
+		//Removed arguments. should be updated
+		calendarPanel = new MainCalendarView();
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
 		//Tables

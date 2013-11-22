@@ -77,11 +77,15 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
-		map.put("calendar"+"calendaritem", new CommitmentEntityManager(data));
+		
+		//String for our calendar data
+		//string can be anything
+		map.put("calendar"+"commitment", new CommitmentEntityManager(data));
+		//map.put("calendar"+"event", new EventEntityManager(data));
 
 
 		//add just your module to this list
-		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager"};
+		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager","calendar"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);
 		String ssid = null;
 		

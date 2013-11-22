@@ -4,8 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentListModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -61,7 +59,7 @@ public class GetCommitmentController implements ActionListener {
 	 * @param messages
 	 *            an array of messages received from the server
 	 */
-	public void receivedMessages(CalendarItem[] items) {
+	/*public void receivedMessages(CalendarItem[] items) {
 		// Empty the local model to eliminate duplications
 		CommitmentListModel.getInstance().emptyModel();
 		
@@ -71,7 +69,7 @@ public class GetCommitmentController implements ActionListener {
 			// add the requirements to the local model
 			CommitmentListModel.getInstance().addCommitments(items);
 		}
-	}
+	}*/
 	
 	
 
