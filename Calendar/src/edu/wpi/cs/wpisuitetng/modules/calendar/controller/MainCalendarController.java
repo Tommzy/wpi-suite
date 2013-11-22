@@ -44,6 +44,7 @@ public class MainCalendarController implements ActionListener{
 	MonthView monthView;
 	CalendarDayView dayView;
 	CalendarWeekView weekView;
+	public static MainCalendarController instance;
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -59,6 +60,7 @@ public class MainCalendarController implements ActionListener{
 	 * @param model 
 	 * @param view
 	 */
+	/*
 	public MainCalendarController(CalendarItemListModel model, MainCalendarView view) {
 		this.model = model;
 		this.view = view;
@@ -68,7 +70,78 @@ public class MainCalendarController implements ActionListener{
 		weekView = new CalendarWeekView(sampleEvent);
 		
 	}
+	*/
+	public MainCalendarController() {
+		
+	}
 	
+	
+	public static MainCalendarController getInstance() {
+		if (instance == null) {
+			instance = new MainCalendarController();
+		}
+		return instance;
+	}
+	public CalendarItemListModel getModel() {
+		return model;
+	}
+
+
+	public void setModel(CalendarItemListModel model) {
+		this.model = model;
+	}
+
+
+	public MainCalendarView getView() {
+		return view;
+	}
+
+
+	public void setView(MainCalendarView view) {
+		this.view = view;
+	}
+
+
+	public CalendarYearView getYearView() {
+		return yearView;
+	}
+
+
+	public void setYearView(CalendarYearView yearView) {
+		this.yearView = yearView;
+	}
+
+
+	public MonthView getMonthView() {
+		return monthView;
+	}
+
+
+	public void setMonthView(MonthView monthView) {
+		this.monthView = monthView;
+	}
+
+
+	public CalendarDayView getDayView() {
+		return dayView;
+	}
+
+
+	public void setDayView(CalendarDayView dayView) {
+		this.dayView = dayView;
+	}
+
+
+	public CalendarWeekView getWeekView() {
+		return weekView;
+	}
+
+
+	public void setWeekView(CalendarWeekView weekView) {
+		this.weekView = weekView;
+	}
+
+
 	/**
 	 * Changed view when time period toggle button changes. 
 	 * 
