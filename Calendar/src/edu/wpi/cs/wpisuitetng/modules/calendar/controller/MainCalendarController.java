@@ -23,7 +23,7 @@ import javax.swing.JToggleButton;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
@@ -45,6 +45,7 @@ public class MainCalendarController implements ActionListener{
 	CalendarDayView dayView;
 	CalendarWeekView weekView;
 	public static MainCalendarController instance;
+	private DateController dateController = new DateController();
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -75,6 +76,13 @@ public class MainCalendarController implements ActionListener{
 		
 	}
 	
+	/**
+	 * @see package edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController
+	 * @return
+	 */
+	public DateController getDateController() {
+		return dateController;
+	}
 	
 	public static MainCalendarController getInstance() {
 		if (instance == null) {

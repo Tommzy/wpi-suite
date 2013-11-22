@@ -1,14 +1,12 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.text.DateFormatSymbols;
 
 import javax.swing.*;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeDate;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -21,16 +19,16 @@ public class MonthView extends JPanel {
 	private MonthViewPanel monthViewPanel;
 	private JLabel monthTitleLabel = new JLabel();
 	private String[] monthNames = new DateFormatSymbols().getMonths();
-	private FakeDate date;
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	
 	public MonthView() {
-		date = FakeModel.getInstance().getCurrentDate();
+		
+		DateController date = MainCalendarController.getInstance().getDateController();
 
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		
-		FakeDate monthStartDate = getFirstDayOfMonthView(date);
+		DateController monthStartDate = getFirstDayOfMonthView(date);
 		
 		monthViewPanel = new MonthViewPanel(monthStartDate.getYear(), monthStartDate.getMonth(), monthStartDate.getDayOfMonth());
 		monthTitleLabel.setText(getTitle(date.getYear(), date.getMonth()));
@@ -47,8 +45,8 @@ public class MonthView extends JPanel {
 	 * 
 	 * @return the first date that will show up on the upper left corner of MonthView 
 	 */
-	public FakeDate getFirstDayOfMonthView(FakeDate date) {
-		FakeDate monthStartDate = new FakeDate(date.getYear(), date.getMonth(), 1);
+	public DateController getFirstDayOfMonthView(DateController date) {
+		DateController monthStartDate = new DateController(date.getYear(), date.getMonth(), 1);
 		int w = monthStartDate.getDayOfWeek();
 		for (int i = 0; i < w - 1; i ++) {
 			monthStartDate = monthStartDate.getPrecursorDate();
