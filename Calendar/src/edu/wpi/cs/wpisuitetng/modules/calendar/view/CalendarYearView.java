@@ -19,12 +19,10 @@ import net.miginfocom.swing.MigLayout;
  * The Class CalendarYearView for displaying the year.
  */
 
-public class CalendarYearView extends JScrollPane {
+public class CalendarYearView extends JScrollPane implements CalendarViewInterface {
 
 	private JButton nextYear;
 	private JButton prevYear;
-	private JButton nextMonth;
-	private JButton prevMonth;
 	private JButton today;
 	CalendarMonth CalendarMonth;
 	
@@ -41,27 +39,19 @@ public class CalendarYearView extends JScrollPane {
 		
 		JPanel buttonPanel = new JPanel();
 		
-		nextYear = new JButton(">>");
+		nextYear = new JButton(">");
 		nextYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-		nextMonth = new JButton(">");
-		nextMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
 		today = new JButton ("Today");
 		today.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-		prevMonth = new JButton("<");
-		prevMonth.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 		
-		prevYear = new JButton("<<");
+		prevYear = new JButton("<");
 		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		setupButtonListeners();
 		
 		buttonPanel.add(prevYear);
-		buttonPanel.add(prevMonth);
 		buttonPanel.add(today);
-		buttonPanel.add(nextMonth);
 		buttonPanel.add(nextYear);
 		
 		contentPanel.add(buttonPanel, "alignx center, dock north");
@@ -85,14 +75,14 @@ public class CalendarYearView extends JScrollPane {
 		{
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				nextYear();
+				next();
 			}	
 		});
 		
 		prevYear.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				previousYear();
+				previous();
 			}
 		});
 		
@@ -103,26 +93,12 @@ public class CalendarYearView extends JScrollPane {
 			}
 		});
 		
-		prevMonth.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				previousMonth();
-			}
-		});
-		
-		nextMonth.addActionListener(new ActionListener(){
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				nextMonth();
-			}
-		});
-		
 	}
 	
 	/**
 	 * Switches the calendar to the previous year.
 	 */
-	private void previousYear()
+	public void previous()
 	{
 		Calendar cal = CalendarMonth.getCalendar();
 		cal.add(Calendar.YEAR, -1);
@@ -132,36 +108,16 @@ public class CalendarYearView extends JScrollPane {
 	/**
 	 * Switches the calendar to the current date
 	 */
-	private void today()
+	public void today()
 	{
 		Calendar cal = Calendar.getInstance();
 		CalendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 	
 	/**
-	 * Switches the calendar to the next month.
-	 */
-	private void nextMonth()
-	{
-		Calendar cal = CalendarMonth.getCalendar();
-		cal.add(Calendar.MONTH, 1);
-		CalendarMonth.setFirstDisplayedDay(cal.getTime());
-	}
-	
-	/**
-	 * Switches the calendar to the previous month.
-	 */
-	private void previousMonth()
-	{
-		Calendar cal = CalendarMonth.getCalendar();
-		cal.add(Calendar.MONTH, -1);
-		CalendarMonth.setFirstDisplayedDay(cal.getTime());
-	}
-	
-	/**
 	 * Switches the calendar to the next year.
 	 */
-	private void nextYear()
+	public void next()
 	{
 		Calendar cal = CalendarMonth.getCalendar();
 		cal.add(Calendar.YEAR, +1);
