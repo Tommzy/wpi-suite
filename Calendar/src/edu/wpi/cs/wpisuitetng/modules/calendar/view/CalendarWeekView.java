@@ -47,18 +47,19 @@ public class CalendarWeekView extends JPanel {
 	public CalendarWeekView() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay();
+		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
+		date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() );
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay();
+			week[i] = new CalendarDay(4, date);
 			week[i].eventWidthMultiplier = 4;
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader(date);
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
+			date.add(GregorianCalendar.DATE, 1);
 		}
 	}
 	
@@ -69,18 +70,19 @@ public class CalendarWeekView extends JPanel {
 	public CalendarWeekView(ArrayList<DayEvent> events) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay();
+		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
+		date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() );
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay();
+			week[i] = new CalendarDay(4, date);
 			week[i].eventWidthMultiplier = 4;
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader(date);
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
+			date.add(GregorianCalendar.DATE, 1);
 		}
 		
 		for (int i=0; i < events.size(); i++) {
@@ -96,18 +98,19 @@ public class CalendarWeekView extends JPanel {
 	public CalendarWeekView (DayEvent[] events) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay();
+		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
+		date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek());
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay();
+			week[i] = new CalendarDay(4, date);
 			week[i].eventWidthMultiplier = 4;
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader(date);
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
+			date.add(GregorianCalendar.DATE, 1);
 		}
 		
 		for (int i=0; i < events.length; i++) {

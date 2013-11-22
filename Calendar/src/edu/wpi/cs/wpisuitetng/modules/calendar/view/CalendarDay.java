@@ -15,21 +15,26 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Rectangle;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.plaf.basic.BasicLabelUI;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 
@@ -47,14 +52,18 @@ public class CalendarDay extends JPanel {
 	private HashMap<EventCard, GridBagConstraints> eventConstraint = new HashMap<EventCard, GridBagConstraints>();
 	private final int minimalInterval = 2;
 	private int currentMaxWidth = 1;
-	int eventWidthMultiplier;
+	int eventWidthMultiplier = 1;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
+	private final static String NON_THIN = "[^iIl1\\.,']";
+	Calendar date;
 	
 	/**
 	 * Constructor
 	 * Create view of a calendar day
 	 */
-	public CalendarDay() {
+	public CalendarDay(int eventWidthMultiplier, Calendar date) {
+		this.eventWidthMultiplier = eventWidthMultiplier;
+		this.date = date;
 		GridBagConstraints c = new GridBagConstraints();
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
@@ -63,7 +72,7 @@ public class CalendarDay extends JPanel {
 		repaint();
 		add(view, BorderLayout.CENTER);
 	}
-
+	
 	/**
 	 * Initialize box of calendar panel.
 	 * An event has a resolution of 2 min in this implementation.
@@ -117,8 +126,12 @@ public class CalendarDay extends JPanel {
 	/**
 	 * Initialize the header shown on the top.
 	 */
-	protected void initHeader(Calendar date) {
-		JLabel header = new JLabel("<HTML><div style='text-align:center'>" + format(date.get(GregorianCalendar.MONTH) + 1) + "-" + format(date.get(GregorianCalendar.DATE)) + "-" + date.get(GregorianCalendar.YEAR) + "<br />" + weekdays[date.get(GregorianCalendar.DAY_OF_WEEK)] + "</div></HTML>");
+	protected void initHeader() {
+		JLabel header = new JLabel("<HTML><div style='text-align:center'>" + 
+					format(date.get(GregorianCalendar.MONTH) + 1) + "-" + 
+					format(date.get(GregorianCalendar.DATE)) + "-" + 
+					date.get(GregorianCalendar.YEAR) + "<br />" + 
+					weekdays[date.get(GregorianCalendar.DAY_OF_WEEK)] + "</div></HTML>");
 		header.setHorizontalAlignment(SwingConstants.CENTER);
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		add(header, BorderLayout.NORTH);
@@ -131,12 +144,24 @@ public class CalendarDay extends JPanel {
 	public void addEvent(DayEvent event) {
 		ArrayList<EventCard> conflict = new ArrayList<EventCard>();
 		int newGridX = 0;
-		boolean hasOverlap = false;
+		boolean hasOverlap = false; 
+		String eventName = event.getEventName();
+		
+		// Set up JLabel to display the event
+		final JLabel newEvent = new JLabel(); 
+		newEvent.setVerticalAlignment(SwingConstants.TOP);
+		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
+		newEvent.setOpaque(true);   //Make the label show it's background
+		newEvent.setBackground(new Color(200, 240, 200));
+		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
+//		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
+		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
+//		newEvent.setText(ellipsize(label, newEvent.getSize().width));
 		
 		// Construct label of the event
 		String label = "";
 		if (event.getTimeSpan() < 30) {
-			label = "<HTML><p>" + event.getEventName() + "</p></HTML>";
+			label = "<HTML><p>" + ellipsize(event.getEventName(), newEvent.getMaximumSize().width) + "</p></HTML>";
 		}
 		if (event.getTimeSpan() >= 30 ) {
 			label = "<HTML><p style='text-align:center'>" + event.getEventName() + "<br />" + 
@@ -146,16 +171,8 @@ public class CalendarDay extends JPanel {
 					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</p></HTML>";
 		}
 		
-		// Set up JLabel to display the event
-		final JLabel newEvent = new JLabel(); 
 		newEvent.setText(label);
-		newEvent.setVerticalAlignment(SwingConstants.TOP);
-		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
-		newEvent.setOpaque(true);   //Make the label show it's background
-		newEvent.setBackground(new Color(200, 240, 200));
-		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier, newEvent.getMinimumSize().height));
-
+		
 		int labelSize = event.getTimeSpan() / minimalInterval; // 1 min = 1/minimalInterval px height
 
 		for (EventCard eventCard : eventCards) {
@@ -232,10 +249,53 @@ public class CalendarDay extends JPanel {
 			return Integer.toString(i);
 	}
 	
+	/**
+	 * Calculate text width
+	 * @param str a string whose width to be calculated 
+	 * @return width of the string
+	 */
+	private static int textWidth(String str) {
+	    return (int) (str.length() /*- str.replaceAll(NON_THIN, "").length() / 2*/);
+	}
+	
+	/**
+	 * Chop off text if it exceeds label length
+	 * @param text
+	 * @param max
+	 * @return
+	 */
+	public static String ellipsize(String text, int max) {
+
+	    if (textWidth(text) <= max)
+	        return text;
+
+	    // Start by chopping off at the word before max
+	    // This is an over-approximation due to thin-characters...
+	    int end = text.lastIndexOf(' ', max - 1);
+
+	    // Just one long word. Chop it off.
+	    if (end == -1)
+	        return text.substring(0, max-1) + ".";
+
+	    // Step forward as long as textWidth allows.
+	    int newEnd = end;
+	    do {
+	        end = newEnd;
+	        newEnd = text.indexOf(' ', end + 1);
+
+	        // No more spaces.
+	        if (newEnd == -1)
+	            newEnd = text.length();
+
+	    } while (textWidth(text.substring(0, newEnd) + "...") < max);
+
+	    return text.substring(0, end) + "...";
+	}
+	
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		CalendarDay d = new CalendarDay();
+		CalendarDay d = new CalendarDay(1, GregorianCalendar.getInstance());
 		d.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
 		d.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
 		d.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 

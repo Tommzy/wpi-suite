@@ -34,16 +34,17 @@ public class CalendarDayView extends JPanel {
 	CalendarDay cd;
 	Calendar date = GregorianCalendar.getInstance();
 	private Component superComponent;
+	
 	/**
 	 * Constructor
 	 * Empty calendar
 	 */
-	public CalendarDayView() {
+	public CalendarDayView(Component comp) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay();
+		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
-		cd.initHeader(date);
+		cd.initHeader();
 		cd.view.setMinimumSize(new Dimension(500, 450));
 		add(cd, "width 100%:100%:100%");
 	
@@ -54,12 +55,12 @@ public class CalendarDayView extends JPanel {
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarDayView(ArrayList<DayEvent> events) {
+	public CalendarDayView(ArrayList<DayEvent> events, Component comp) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay();
+		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
-		cd.initHeader(date);
+		cd.initHeader();
 		cd.view.setMinimumSize(new Dimension(500, 450));
 		add(cd);
 		
@@ -77,10 +78,10 @@ public class CalendarDayView extends JPanel {
 	public CalendarDayView (DayEvent[] events, Component comp) {
 		this.superComponent = comp;
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay();
+		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
-		cd.initHeader(date);
+		cd.initHeader();
 		cd.view.setPreferredSize(new Dimension(500, 450));
 		add(cd, "width :100%:");
 		
@@ -113,7 +114,7 @@ public class CalendarDayView extends JPanel {
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		CalendarDayView d = new CalendarDayView();
+		CalendarDayView d = new CalendarDayView(frame);
 		d.cd.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
