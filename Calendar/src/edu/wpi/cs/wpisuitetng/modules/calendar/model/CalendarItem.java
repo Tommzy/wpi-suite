@@ -56,9 +56,9 @@ public abstract class CalendarItem implements Model {
 	 * @param json the json-encoded PostBoardMessage to deserialize
 	 * @return the PostBoardMessage contained in the given JSON
 	 */
-	public static CalendarItem fromJSON(String json) {
+	public static Commitment fromJSON(String json) {
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem.class);
+		return parser.fromJson(json, Commitment.class);
 	}
 	
 	/**
@@ -68,9 +68,9 @@ public abstract class CalendarItem implements Model {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItem[] fromJsonArray(String json){
+	public static Commitment[] fromJsonArray(String json){
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem[].class);
+		return parser.fromJson(json, Commitment[].class);
 	}
 
 	/*

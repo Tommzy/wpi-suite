@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
@@ -21,7 +22,7 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		CalendarItem[] items = CalendarItem.fromJsonArray(iReq.getResponse().getBody());
+		Commitment[] items = Commitment.fromJsonArray(iReq.getResponse().getBody());
 		//TODO
 		//put this back in
 		//controller.receivedMessages(items);

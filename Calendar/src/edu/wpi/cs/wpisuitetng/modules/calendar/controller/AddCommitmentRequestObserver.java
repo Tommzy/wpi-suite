@@ -1,6 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -12,7 +13,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 	public AddCommitmentRequestObserver(AddCommitmentController controller) {
 		this.controller = controller;
 	}
-	public CalendarItem testItem;
+	public Commitment testItem;
 
 	
 	@Override
@@ -21,7 +22,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		//Parse the calendar item out of the response body
-		final CalendarItem item = CalendarItem.fromJSON(response.getBody());
+		final Commitment item = CalendarItem.fromJSON(response.getBody());
 		testItem = item;
 		//Pass the messaged back to the controller
 		//Needs to put commitment back into the system
@@ -31,7 +32,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		
 	} 
 	
-	public CalendarItem testReturn(){
+	public Commitment testReturn(){
 		return testItem;
 	}
 

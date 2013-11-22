@@ -37,7 +37,7 @@ public class AddCommitmentController implements ActionListener{
 		request.send();
 	}
 	
-	public CalendarItem testReturn(){
+	public Commitment testReturn(){
 		return observer.testReturn();
 	}
 	
