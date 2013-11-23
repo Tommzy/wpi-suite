@@ -27,7 +27,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
  * Generate day calendar view. 
@@ -36,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 @SuppressWarnings("serial")
 public class CalendarWeekView extends JPanel {
 	CalendarDay[] week = new CalendarDay[8];
-	Calendar date = GregorianCalendar.getInstance();
+	DateController date = MainCalendarController.getInstance().getDateController();
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
 	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
 	
@@ -47,18 +49,19 @@ public class CalendarWeekView extends JPanel {
 	public CalendarWeekView() {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay();
+		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
+		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay();
+			week[i] = new CalendarDay(4, date);
 			week[i].eventWidthMultiplier = 4;
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader(date);
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
+			date = date.getNextDate();
 		}
 	}
 	
@@ -69,18 +72,19 @@ public class CalendarWeekView extends JPanel {
 	public CalendarWeekView(ArrayList<DayEvent> events) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay();
+		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
+		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay();
+			week[i] = new CalendarDay(4, date);
 			week[i].eventWidthMultiplier = 4;
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader(date);
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
+			date = date.getNextDate();
 		}
 		
 		for (int i=0; i < events.size(); i++) {
@@ -96,18 +100,19 @@ public class CalendarWeekView extends JPanel {
 	public CalendarWeekView (DayEvent[] events) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay();
+		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
+		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay();
+			week[i] = new CalendarDay(4, date);
 			week[i].eventWidthMultiplier = 4;
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader(date);
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
+			date = date.getNextDate();
 		}
 		
 		for (int i=0; i < events.length; i++) {
@@ -123,6 +128,17 @@ public class CalendarWeekView extends JPanel {
 	 */
 	private void addEvent (DayEvent event, int dayOfWeek) {
 		week[dayOfWeek].addEvent(event);
+	}
+	
+	/**
+	 * Set first day of week. 
+	 * @param dc
+	 * @return
+	 */
+	private DateController setFirstDayOfWeek (DateController dc) {
+		DateController temp = new DateController(dc.getYear(), dc.getMonth(), dc.getDayOfMonth());
+		temp.set(Calendar.DAY_OF_WEEK, dc.getFirstDayOfWeek());
+		return temp;
 	}
 	
 	//Test the detailed view, adding some new events

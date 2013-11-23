@@ -23,7 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
  * Generate day calendar view. 
@@ -32,20 +34,22 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 @SuppressWarnings("serial")
 public class CalendarDayView extends JPanel {
 	CalendarDay cd;
-	Calendar date = GregorianCalendar.getInstance();
+	DateController date = MainCalendarController.getInstance().getDateController();
 	private Component superComponent;
+	
 	/**
 	 * Constructor
 	 * Empty calendar
 	 */
-	public CalendarDayView() {
+	public CalendarDayView(Component comp) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay();
+		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
-		cd.initHeader(date);
+		cd.initHeader();
+		cd.view.setPreferredSize(new Dimension(700, 450));
 		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd, "width 100%:100%:100%");
+		add(cd, "width :100%:");
 	
 		
 	}
@@ -54,14 +58,14 @@ public class CalendarDayView extends JPanel {
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarDayView(ArrayList<DayEvent> events) {
+	public CalendarDayView(ArrayList<DayEvent> events, Component comp) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay();
+		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
-		cd.initHeader(date);
+		cd.initHeader();
 		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd);
+		add(cd, "width :100%:");
 		
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i));
@@ -77,11 +81,11 @@ public class CalendarDayView extends JPanel {
 	public CalendarDayView (DayEvent[] events, Component comp) {
 		this.superComponent = comp;
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay();
+		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
-		cd.initHeader(date);
-		cd.view.setPreferredSize(new Dimension(500, 450));
+		cd.initHeader();
+//		cd.view.setPreferredSize(new Dimension(500, 450));
 		add(cd, "width :100%:");
 		
 		for (int i=0; i < events.length; i++) {
@@ -113,17 +117,18 @@ public class CalendarDayView extends JPanel {
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		CalendarDayView d = new CalendarDayView();
-		d.cd.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
+		CalendarDayView d = new CalendarDayView(frame);
+		
+		d.cd.addEvent(new DayEvent("Whoopsssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
 		d.cd.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
 		d.cd.addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
 		
-		JScrollPane scroll = new JScrollPane(d);
+		
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(scroll);
+		frame.add(d);
 		
 		frame.pack();
 		frame.setVisible(true);
