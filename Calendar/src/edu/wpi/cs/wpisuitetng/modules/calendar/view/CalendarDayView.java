@@ -23,7 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
  * Generate day calendar view. 
@@ -32,7 +34,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 @SuppressWarnings("serial")
 public class CalendarDayView extends JPanel {
 	CalendarDay cd;
-	Calendar date = GregorianCalendar.getInstance();
+	DateController date = MainCalendarController.getInstance().getDateController();
 	private Component superComponent;
 	
 	/**
@@ -45,8 +47,9 @@ public class CalendarDayView extends JPanel {
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader();
+		cd.view.setPreferredSize(new Dimension(700, 450));
 		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd, "width 100%:100%:100%");
+		add(cd, "width :100%:");
 	
 		
 	}
@@ -62,7 +65,7 @@ public class CalendarDayView extends JPanel {
 		cd.initTimeLabels();
 		cd.initHeader();
 		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd);
+		add(cd, "width :100%:");
 		
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i));
@@ -82,7 +85,7 @@ public class CalendarDayView extends JPanel {
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader();
-		cd.view.setPreferredSize(new Dimension(500, 450));
+//		cd.view.setPreferredSize(new Dimension(500, 450));
 		add(cd, "width :100%:");
 		
 		for (int i=0; i < events.length; i++) {
@@ -115,16 +118,17 @@ public class CalendarDayView extends JPanel {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarDayView d = new CalendarDayView(frame);
-		d.cd.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
+		
+		d.cd.addEvent(new DayEvent("Whoopsssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
 		d.cd.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
 		d.cd.addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
 		
-		JScrollPane scroll = new JScrollPane(d);
+		
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(scroll);
+		frame.add(d);
 		
 		frame.pack();
 		frame.setVisible(true);

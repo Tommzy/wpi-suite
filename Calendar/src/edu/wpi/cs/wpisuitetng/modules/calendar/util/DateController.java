@@ -51,6 +51,10 @@ public class DateController {
 		return cal.get(GregorianCalendar.DAY_OF_WEEK);
 	}
 	
+	public int getFirstDayOfWeek() {
+		return cal.getFirstDayOfWeek();
+	}
+	
 	/**
 	 * use the GregorianCalendar index to retrieve information of calendar
 	 * usage: the following statement is 
@@ -71,6 +75,13 @@ public class DateController {
 		cal.add(GregorianCalendar.DATE, -1);
 		DateController newDate = new DateController(this);
 		cal.add(GregorianCalendar.DATE, 1);
+		return newDate;
+	}
+	
+	public DateController getNextDate() {
+		cal.add(GregorianCalendar.DATE, 1);
+		DateController newDate = new DateController(this);
+		cal.add(GregorianCalendar.DATE, -1);
 		return newDate;
 	}
 }
