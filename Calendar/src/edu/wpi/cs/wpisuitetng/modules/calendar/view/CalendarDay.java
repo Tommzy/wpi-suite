@@ -36,7 +36,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicLabelUI;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
  * Generate day calendar view. 
@@ -55,13 +57,13 @@ public class CalendarDay extends JPanel {
 	int eventWidthMultiplier = 1;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
 	private final static String NON_THIN = "[^iIl1\\.,']";
-	Calendar date;
+	DateController date;
 	
 	/**
 	 * Constructor
 	 * Create view of a calendar day
 	 */
-	public CalendarDay(int eventWidthMultiplier, Calendar date) {
+	public CalendarDay(int eventWidthMultiplier, DateController date) {
 		this.eventWidthMultiplier = eventWidthMultiplier;
 		this.date = date;
 		GridBagConstraints c = new GridBagConstraints();
@@ -128,10 +130,10 @@ public class CalendarDay extends JPanel {
 	 */
 	protected void initHeader() {
 		JLabel header = new JLabel("<HTML><div style='text-align:center'>" + 
-					format(date.get(GregorianCalendar.MONTH) + 1) + "-" + 
-					format(date.get(GregorianCalendar.DATE)) + "-" + 
-					date.get(GregorianCalendar.YEAR) + "<br />" + 
-					weekdays[date.get(GregorianCalendar.DAY_OF_WEEK)] + "</div></HTML>");
+					format(date.getMonth() + 1) + "-" + 
+					format(date.getDayOfMonth()) + "-" + 
+					date.getYear() + "<br />" + 
+					weekdays[date.getDayOfWeek()] + "</div></HTML>");
 		header.setHorizontalAlignment(SwingConstants.CENTER);
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		add(header, BorderLayout.NORTH);
@@ -295,8 +297,8 @@ public class CalendarDay extends JPanel {
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		CalendarDay d = new CalendarDay(1, GregorianCalendar.getInstance());
-		d.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
+		CalendarDay d = new CalendarDay(1, MainCalendarController.getInstance().getDateController());
+		d.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
 		d.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
 		d.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
 		d.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
