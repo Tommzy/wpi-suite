@@ -43,9 +43,9 @@ public class MonthViewPanel extends JPanel {
 			weekday.setOpaque(true);
 			weekday.setBackground(new Color(138, 173, 209));
 			if (i != weekdayNamesAbbr.length - 1) 
-				add(weekday, "width :100%:");
+				add(weekday, "width :14%:");
 			else
-				add(weekday, "width :100%:, wrap");
+				add(weekday, "width :14%:, wrap");
 		}
 		for (int i = 0; i < 5; i ++) {
 			for (int j = 0; j < 7; j ++) {
