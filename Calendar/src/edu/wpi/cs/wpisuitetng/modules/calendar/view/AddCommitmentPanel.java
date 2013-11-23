@@ -17,7 +17,9 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
@@ -92,6 +94,8 @@ public class AddCommitmentPanel extends JPanel {
 
     inviteeTextArea = new JTextArea();
     inviteeTextArea.setPreferredSize(new Dimension(300, 300));
+    
+    Commitment model = null;
 
     btnSubmit = new JButton("Submit");
 
@@ -109,6 +113,7 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(inviteeTextArea, "wrap, span 4");
     contentPanel.add(btnSubmit);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    btnSubmit.addActionListener(new AddCommitmentController(model,this));
     AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
     this.add(contentPanel);
   }
@@ -138,10 +143,16 @@ public class AddCommitmentPanel extends JPanel {
    */
   public GregorianCalendar getNewDate(String data) {
     String dateString = "";
-    if(data.equals("startTime"))
-      dateString = (this.startDateTextField + " " + this.startTimeTextField);
-    else if(data.equals("endTime"))
-      dateString = (this.startDateTextField + " " + this.startTimeTextField);
+    if(data.equals("startTime")){
+      dateString = (this.startDateTextField.getText() + " " + this.startTimeTextField.getText());
+      System.out.println("Get start time success! " + dateString);
+    }
+    else if(data.equals("endTime")){
+    	
+    	dateString = (this.startDateTextField.getText() + " " + this.startTimeTextField.getText());
+    	System.out.println("Get end time success! ");
+    }
+      
 
     try {
       Date date;
@@ -155,7 +166,7 @@ public class AddCommitmentPanel extends JPanel {
       e.printStackTrace();
     }
     // The function returns Null if the try breaks
-
+//    GregorianCalendar cal = new GregorianCalendar(1992,8,19,23,4);
     return null;
   }
 

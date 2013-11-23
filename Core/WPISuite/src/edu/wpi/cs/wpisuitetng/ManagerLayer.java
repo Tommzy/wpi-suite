@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
@@ -68,6 +69,7 @@ public class ManagerLayer {
 		data = DataStore.getDataStore();
 		map = new HashMap<String, EntityManager>();
 		sessions = new SessionManager();
+		Commitment model;
 		
 		//TODO pull these mappings from some config file and reflect them
 		map.put("coreproject", new ProjectManager(data));

@@ -63,7 +63,7 @@ public class Commitment implements Model{
 
 	@Override
 	public String toJSON() {
-		return new Gson().toJson(this, CalendarItem.class);
+		return new Gson().toJson(this, Commitment.class);
 	}
 
 	@Override
