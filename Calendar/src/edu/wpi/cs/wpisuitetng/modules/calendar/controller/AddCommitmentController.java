@@ -50,8 +50,8 @@ public class AddCommitmentController implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
-		addTestToDatabase();
-		System.out.print(event);
+		//addTestToDatabase();
+		System.out.println("this is event!----->" + event);
 		// Get the text that was entered
 		String name = viewCommitment.getTxtNewname();
 		GregorianCalendar startTime = null;
@@ -72,10 +72,11 @@ public class AddCommitmentController implements ActionListener{
 		if(name.length() > 0){
 			Commitment sentCommitment = new Commitment(name, startTime, description);
 			// Add the message to the model
-			final Request request = Network.getInstance().makeRequest("calendar/calendaritem", HttpMethod.PUT); // PUT == create
+			final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
 			request.setBody(sentCommitment.toJSON()); // put the new message in the body of the request
 			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
+			System.out.println("from AddCommitmentController." + request.getBody());
 		}
 
 

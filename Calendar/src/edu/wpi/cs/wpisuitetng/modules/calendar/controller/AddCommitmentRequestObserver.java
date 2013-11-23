@@ -23,12 +23,11 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		
 		//Parse the calendar item out of the response body
 		final Commitment item = CalendarItem.fromJSON(response.getBody());
-		testItem = item;
 		//Pass the messaged back to the controller
 		//Needs to put commitment back into the system
 		//TODO
 		//controller.addCommitmentToModel(item);
-		System.out.print(item);
+		System.out.print("From AddCommitmentObserver." + response.getBody());
 		
 	} 
 	
