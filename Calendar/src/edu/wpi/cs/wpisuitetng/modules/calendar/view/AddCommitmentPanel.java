@@ -17,6 +17,7 @@ import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
@@ -95,7 +96,7 @@ public class AddCommitmentPanel extends JPanel {
     inviteeTextArea = new JTextArea();
     inviteeTextArea.setPreferredSize(new Dimension(300, 300));
     
-    Commitment model = null;
+    CommitmentsModel model = null;
 
     btnSubmit = new JButton("Submit");
 
