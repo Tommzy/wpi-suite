@@ -17,16 +17,6 @@ public class Commitment implements Model{
 	private String description;
 	private int id = -1;
 	
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
 	public Commitment(String name, GregorianCalendar startTime,
 			String description) {
 		this.name = name;
@@ -36,6 +26,70 @@ public class Commitment implements Model{
 		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * Getter function for id
+	 * @return id
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 * Setter function for id
+	 * @param id
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 * Getter function for name
+	 * @return name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * Setter function of name
+	 * @param name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Getter function of description
+	 * @return description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * Setter function of description
+	 * @param description
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Getter function of startTime
+	 * @return startTime
+	 */
+	public GregorianCalendar getStartTime() {
+		return startTime;
+	}
+
+	/**
+	 * Setter function of startTime
+	 * @param startTime
+	 */
+	public void setStartTime(GregorianCalendar startTime) {
+		this.startTime = startTime;
+	}
+
 
 	@Override
 	public Permission getPermission(User u) {

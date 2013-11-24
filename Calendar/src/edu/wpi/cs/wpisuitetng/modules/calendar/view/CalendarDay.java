@@ -14,8 +14,10 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Rectangle;
@@ -56,7 +58,6 @@ public class CalendarDay extends JPanel {
 	private int currentMaxWidth = 1;
 	int eventWidthMultiplier = 1;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
-	private final static String NON_THIN = "[^iIl1\\.,']";
 	DateController date;
 	
 	/**
@@ -70,8 +71,8 @@ public class CalendarDay extends JPanel {
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
 		initGridBox();
-		revalidate();
-		repaint();
+//		revalidate();
+//		repaint();
 		add(view, BorderLayout.CENTER);
 	}
 	
@@ -149,8 +150,21 @@ public class CalendarDay extends JPanel {
 		boolean hasOverlap = false; 
 		String eventName = event.getEventName();
 		
+		// Construct label of the event
+		String label = "";
+		if (event.getTimeSpan() < 30) {
+			label = "<HTML><div style='text-align:center'>" + event.getEventName() + "</div></HTML>";
+		}
+		if (event.getTimeSpan() >= 30 ) {
+			label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
+					format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
+					format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
+					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
+					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</div></HTML>";
+		}
+		
 		// Set up JLabel to display the event
-		final JLabel newEvent = new JLabel(); 
+		EventLabel newEvent = new EventLabel(label); 
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
@@ -158,24 +172,11 @@ public class CalendarDay extends JPanel {
 		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
-//		newEvent.setText(ellipsize(label, newEvent.getSize().width));
 		
-		// Construct label of the event
-		String label = "";
-		if (event.getTimeSpan() < 30) {
-			label = "<HTML><p>" + ellipsize(event.getEventName(), newEvent.getMaximumSize().width) + "</p></HTML>";
-		}
-		if (event.getTimeSpan() >= 30 ) {
-			label = "<HTML><p style='text-align:center'>" + event.getEventName() + "<br />" + 
-					format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-					format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
-					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</p></HTML>";
-		}
 		
-		newEvent.setText(label);
 		
-		int labelSize = event.getTimeSpan() / minimalInterval; // 1 min = 1/minimalInterval px height
+		int labelSpan = event.getTimeSpan() < 20? 20 : event.getTimeSpan();
+		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
 
 		for (EventCard eventCard : eventCards) {
 			if (event.isActiveDuringTimeStamp(eventCard.event.getStartTime())
@@ -207,19 +208,19 @@ public class CalendarDay extends JPanel {
 		cLocal.gridwidth = 1;
 		cLocal.weightx = 1; 
 		cLocal.weighty = 1;
-		SwingUtilities.invokeLater(new Runnable() {
-			//Just add the new event at the correct position
-			public void run() {
+//		SwingUtilities.invokeLater(new Runnable() {
+//			//Just add the new event at the correct position
+//			public void run() {
 				view.add(newEvent, cLocal);
-			}
-		});
+//			}
+//		});
 		
 		//Keep track of the new event, and revalidate/repaint the view
 		EventCard eventCard = new EventCard(event, newEvent);
 		eventCards.add(eventCard);
 		eventConstraint.put(eventCard, cLocal);
-		revalidate();
-		repaint();
+//		revalidate();
+//		repaint();
 	}
 
 	/**
@@ -252,12 +253,55 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
+	 * 
+	 */
+	@Override
+	public void paint(Graphics g) {
+		Component[] components = view.getComponents();
+		
+		for (int i = 0; i < components.length; i++) {
+//			System.out.println(components[i].toString());
+			if (components[i] instanceof EventLabel) {
+				if ((! ((EventLabel)components[i]).getText().equals(null)) && (((EventLabel)components[i]).getSize().width != 0)) {
+					System.out.println(components[i].getSize().toString());
+					String currentLabel = ((EventLabel)components[i]).getOriginalContent();
+					// Split up string to pull content from html tags
+					String[] content = currentLabel.split("<br />");
+					content[0] = content[0].split(">")[content[0].split(">").length - 1];
+					content[content.length - 1] = content[content.length - 1].split("<")[0];
+					// Trim string line by line 
+					for (int j = 0; j < content.length; j++) {
+						content [j] = ellipsize(content[j], ((EventLabel)components[i]).getSize().width);
+					}
+					
+					// Add html tags into the new label strings
+					String newText = "<HTML><div style='text-align:center'>";
+					for (int j = 0; j < content.length; j++) {
+						if (j != content.length - 1) {
+							newText += content[j] + "<br />";
+						}
+						else {
+							newText += content[j];
+						}
+					}
+					newText += "</div></HTML>";
+					System.out.println(newText);
+					((EventLabel)components[i]).setText(newText);
+
+				}
+			}
+		}
+		super.paint(g);
+		
+	}
+	
+	/**
 	 * Calculate text width
 	 * @param str a string whose width to be calculated 
 	 * @return width of the string
 	 */
 	private static int textWidth(String str) {
-	    return (int) (str.length() /*- str.replaceAll(NON_THIN, "").length() / 2*/);
+	    return (int) (str.length() * 6.5 /*- str.replaceAll(NON_THIN, "").length() / 2*/);
 	}
 	
 	/**
@@ -273,11 +317,11 @@ public class CalendarDay extends JPanel {
 
 	    // Start by chopping off at the word before max
 	    // This is an over-approximation due to thin-characters...
-	    int end = text.lastIndexOf(' ', max - 1);
+	    int end = text.lastIndexOf(' ', (int) (max / 6.5 - 3));
 
 	    // Just one long word. Chop it off.
 	    if (end == -1)
-	        return text.substring(0, max-1) + ".";
+	        return text.substring(0, (int) (max / 6.5 - 3)) + "...";
 
 	    // Step forward as long as textWidth allows.
 	    int newEnd = end;
@@ -298,16 +342,16 @@ public class CalendarDay extends JPanel {
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarDay d = new CalendarDay(1, MainCalendarController.getInstance().getDateController());
-		d.addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
-		d.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-		d.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 50, 0), new GregorianCalendar(2013, 5, 21, 10, 21, 0))); 
+//		d.addEvent(new DayEvent("Whoopssssssssssssssssssssssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
+//		d.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
+//		d.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+//		d.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+		d.addEvent(new DayEvent("Heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", new GregorianCalendar(2013, 5, 21, 8, 50, 0), new GregorianCalendar(2013, 5, 21, 10, 21, 0))); 
 		
-		JScrollPane scroll = new JScrollPane(d);
+//		JScrollPane scroll = new JScrollPane(d);
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(scroll);
+		frame.add(d);
 		
 		frame.pack();
 		frame.setVisible(true);
