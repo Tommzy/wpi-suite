@@ -56,8 +56,8 @@ public class CalendarWeekView extends JPanel {
 		add(week[0]);
 		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(4, date);
-			week[i].eventWidthMultiplier = 4;
+			week[i] = new CalendarDay(7, date);
+			week[i].eventWidthMultiplier = 7;
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
@@ -79,8 +79,8 @@ public class CalendarWeekView extends JPanel {
 		add(week[0]);
 		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(4, date);
-			week[i].eventWidthMultiplier = 4;
+			week[i] = new CalendarDay(7, date);
+			week[i].eventWidthMultiplier = 7;
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			add(week[i]);
