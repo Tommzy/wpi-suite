@@ -11,6 +11,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.Calendar;
+
 import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
@@ -25,6 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public abstract class CalendarModel implements Model {
   EventList events;
   CommitmentList commitments;
+  
+  // ------------------Interface Functions-----------------
   
   @Override
   public void save() {
@@ -67,4 +71,49 @@ public abstract class CalendarModel implements Model {
     // TODO Auto-generated method stub
     
   }
+  
+  //----------------------- Non-Interface Functions---------------------------
+  
+  /**
+   * Copy all calendar data from the donor calendar into this calendar.
+   */
+  public void copyFrom(CalendarModel donor) {
+    //First, copy the project
+    setProject(donor.getProject());
+    
+    //Next, copy the list of events.
+    copyEvents(donor);
+    
+    //Lastly, copy the list of commitments.
+    copyCommitments(donor);
+    
+    //NOTE: When adding to Calendar, update this function! PWA!
+    
+  }
+  
+  /**
+   * Copy all of the events from the donor calendar into this calendar.
+   */
+  public void copyEvents(CalendarModel donor) {
+    int eventsToCopy = donor.events.itemList.size();
+    
+    for (int i = 0; i < eventsToCopy; i++) {
+      this.events.itemList[i] = donor.events.itemList[i];
+    }
+    //TODO: Fix this function. It doesn't look right.
+  }
+  
+}
+  /**
+   * Copy all of the commitments from the donor calendar into this calendar.
+   */
+  public void copyCommitments(CalendarModel donor) {
+    int commitsToCopy = donor.commitments.itemList.size();
+  
+    for (int i = 0; i < commitsToCopy; i++) {
+      this.commitments.itemList[i] = donor.commitments.itemList[i];
+    }
+    //TODO: Fix this function. It doesn't look right.
+  }
+
 }

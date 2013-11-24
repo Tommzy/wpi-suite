@@ -25,7 +25,8 @@ import com.google.gson.Gson;
 
 public class TeamCalendar extends CalendarModel{
 	
-	String projName; //Do we want to print the project name in the gui?
+	private String projName; //Do we want to print the project name in the gui?
+	private int projID;
   
   /**
    * @return a JSON-encoded string representation of this message object
@@ -47,5 +48,19 @@ public class TeamCalendar extends CalendarModel{
     return parser.fromJson(json, TeamCalendar.class);
   }
 
-
+  /**
+   * @return the number ID of the project this TeamCalendar belongs to.
+   */
+  public int getProjID() {
+    return projID;
+  }
+  
+  /**
+   * Sets the TeamCalendar's projID to the given value
+   * @param newId integer value to set projID to
+   */
+  public void setProjID(int newId) {
+    projID = newId;
+  }
+  
 }
