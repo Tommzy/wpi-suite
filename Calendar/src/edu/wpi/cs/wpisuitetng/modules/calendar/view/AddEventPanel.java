@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.GregorianCalendar;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -24,6 +25,9 @@ import javax.swing.text.Element;
 import javax.swing.text.Position;
 import javax.swing.text.Segment;
 
+import org.jdesktop.swingx.JXDatePicker;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import net.miginfocom.swing.MigLayout;
 
@@ -37,7 +41,9 @@ public class AddEventPanel extends JPanel {
 
 	JLabel startDateLabel, endDateLabel;
 
-	JTextField startDateTextField, startTimeTextField, endDateTextField,
+	JXDatePicker startDatePicker;
+
+	JTextField startTimeTextField, endDateTextField,
 			endTimeTextField;
 
 	JLabel locatoinLabel;
@@ -65,7 +71,11 @@ public class AddEventPanel extends JPanel {
 
 		startDateLabel = new JLabel("Starts:");
 
-		startDateTextField = new JTextField(10);
+		startDatePicker = new JXDatePicker();
+		startDatePicker.setDate(new GregorianCalendar(MainCalendarController.getInstance().getDateController().getYear(), 
+				MainCalendarController.getInstance().getDateController().getMonth(), 
+				MainCalendarController.getInstance().getDateController().getDayOfMonth()).getTime());
+		startDatePicker.setInputVerifier(null);
 
 		startTimeTextField = new JTextField(4);
 
@@ -100,7 +110,7 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField, "wrap");
 		contentPanel.add(startDateLabel);
-		contentPanel.add(startDateTextField);
+		contentPanel.add(startDatePicker);
 		contentPanel.add(startTimeTextField, "wrap");
 		contentPanel.add(endDateLabel);
 		contentPanel.add(endDateTextField);
