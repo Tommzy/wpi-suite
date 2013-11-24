@@ -17,6 +17,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -27,7 +28,9 @@ import javax.swing.UIManager;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,6 +53,13 @@ public class MainCalendarView extends JPanel {
   /** The scroll area which contains the calendar view. */
   JScrollPane calendarScroll = new JScrollPane(calendarView);
 
+  //for test display use
+	DayEvent[] sampleEvent = {
+			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
+			new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 16, 15, 50, 0), new GregorianCalendar(2013, 5, 16, 16, 5, 0)), 
+			new DayEvent("Abcd", new GregorianCalendar(2013, 5, 16, 15, 55, 0), new GregorianCalendar(2013, 5, 16, 16, 15, 0)), 
+			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 16, 15, 56, 0), new GregorianCalendar(2013, 5, 16, 16, 16, 0)),
+			new DayEvent("Hey", new GregorianCalendar(2013, 5, 18, 8, 50, 0), new GregorianCalendar(2013, 5, 18, 10, 5, 0)) };
   /**
    * Create the calendar area within main panel.
    *
@@ -64,12 +74,18 @@ public class MainCalendarView extends JPanel {
     	UIManager.put("ToggleButton.font",new Font("Times New Roman",Font.BOLD,12));
     	final JToggleButton toggleBtn = new JToggleButton(value.name());
       toggleButtonPeriod.add(toggleBtn);
-      toggleBtn.addActionListener(new MainCalendarController(mainCalendarModel,
-          this));
+      toggleBtn.addActionListener(MainCalendarController.getInstance());
       calendarViewSwitch.add(toggleBtn);
     }
     add(calendarViewSwitch);
     
+    MainCalendarController mainCalendarController = MainCalendarController.getInstance();
+    mainCalendarController.setModel(mainCalendarModel);
+    mainCalendarController.setView(this);
+    mainCalendarController.setWeekView(new CalendarWeekView());
+    mainCalendarController.setMonthView(new MonthView());
+    mainCalendarController.setDayView(new CalendarDayView(sampleEvent, calendarView));
+    mainCalendarController.setYearView(new CalendarYearView());
     calendarScroll.setPreferredSize(new Dimension (1000, 300));
  
 	add(calendarScroll);
