@@ -12,10 +12,10 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 public class Commitment implements Model{
 
-	String name;
-	GregorianCalendar startTime;
-	String description;
-	int id = -1;
+	private String name;
+	private GregorianCalendar startTime;
+	private String description;
+	private int id = -1;
 	
 	public int getId() {
 		return id;

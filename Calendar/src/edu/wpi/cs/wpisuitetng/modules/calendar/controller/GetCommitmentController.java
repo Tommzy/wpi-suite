@@ -2,8 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.dataitem.CommitmentList;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -12,18 +12,26 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 public class GetCommitmentController implements ActionListener {
 
+	private GetCommitmentRequestObserver observer;
 
-	private final CommitmentsModel model;
-
-	public GetCommitmentController(CommitmentsModel model) {
-		this.model = model;
+	public GetCommitmentController() {
+		observer = new GetCommitmentRequestObserver(this);;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this message
-		final Request request = Network.getInstance().makeRequest("Commitment/Commitmentmessage", HttpMethod.GET); // GET == read
-		request.addObserver(new GetCommitmentRequestObserver(this)); // add an observer to process the response
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
+		request.addObserver(observer); // add an observer to process the response
+		request.send(); // send the request
+	}
+	
+	/**
+	 * Sends an HTTP request to retrieve all requirements
+	 */
+	public void retrieveCommitments() {
+		final Request request = Network.getInstance().makeRequest("requirementmanager/requirement", HttpMethod.GET); // GET == read
+		request.addObserver(observer); // add an observer to process the response
 		request.send(); // send the request
 	}
 	
@@ -35,18 +43,17 @@ public class GetCommitmentController implements ActionListener {
 	 */
 	public void receivedCommitments(Commitment[] Commitments) {
 		// Empty the local model to eliminate duplications
-		model.emptyModel();
+		CommitmentsModel.getInstance().emptyModel();
 		
 		// Make sure the response was not null
 		if (Commitments != null) {
 			
 			// add the Commitments to the local model
-			model.addCommitments(Commitments);
+			CommitmentsModel.getInstance().addCommitments(Commitments);
 		}
 	}
-	
 
-	}
+	
 	
 	
 

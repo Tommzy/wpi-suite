@@ -51,6 +51,8 @@ public class CommitmentsModel extends AbstractListModel{
 		nextID = 0;
 	}
 	
+	
+	
 	/**
 	
 	 * @return the instance of the Commitment model singleton. */
@@ -116,11 +118,11 @@ public class CommitmentsModel extends AbstractListModel{
 				break;
 			}
 		}
-		try {
+//		try {
 //			ViewEventController.getInstance().refreshTable();
 //			ViewEventController.getInstance().refreshTree();
-		}
-		catch(Exception e) {}
+//		}
+//		catch(Exception e) {}
 	}
 
 	/**
@@ -179,11 +181,11 @@ public class CommitmentsModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
-		try{
+//		try{
 //			ViewEventController.getInstance().refreshTable();
 //			ViewEventController.getInstance().refreshTree();
-		}
-		catch (Exception e) {}
+//		}
+//		catch (Exception e) {}
 	}
 	
 	/**
@@ -197,17 +199,14 @@ public class CommitmentsModel extends AbstractListModel{
 			if(Commitments[i].getId() >= nextID) nextID = Commitments[i].getId() + 1;
 		}
 		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		
+		
+		//************Refresh GUI HERE!!!!!!!!!!!!!!!!!!!!!!!!!***************************************
 //		ViewEventController.getInstance().refreshTable();
 //		ViewEventController.getInstance().refreshTree();
 	}
 
-	/**
-	 * Returns the list of the Commitments
-	
-	 * @return the Commitments held within the CommitmentsModel. */
-	public List<Commitment> getCommitments() {
-		return Commitments;
-	}
+
 
 	/**
 	 * Returns the list of children for the given Commitment.
@@ -315,4 +314,12 @@ public class CommitmentsModel extends AbstractListModel{
 //		return estimate;
 //	}
 //	
+	
+	
+	/**
+	
+	 * @return the Commitments held within the CommitmentsModel. */
+	public List<Commitment> getCommitments() {
+		return Commitments;
+	}
 }
