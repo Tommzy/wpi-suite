@@ -29,7 +29,14 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
  */
 @SuppressWarnings("serial")
 public class EventLabel extends JLabel {
-	String originalContent;
+	private String originalContent;
+	/**
+	 * @param originalContent the originalContent to set
+	 */
+	public void setOriginalContent(String originalContent) {
+		this.originalContent = originalContent;
+	}
+
 	/**
 	 * 
 	 */
@@ -76,6 +83,10 @@ public class EventLabel extends JLabel {
 		super(text, icon, horizontalAlignment);
 	}
 	
+	/**
+	 * getter for originalContent
+	 * @return originalContent
+	 */
 	public String getOriginalContent () {
 		return originalContent;
 	}

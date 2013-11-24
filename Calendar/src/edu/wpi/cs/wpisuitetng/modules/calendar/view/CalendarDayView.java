@@ -43,8 +43,7 @@ public class CalendarDayView extends JPanel {
 	 */
 	public CalendarDayView(Component comp) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(1, date);
-		cd.eventWidthMultiplier = 1;
+		cd = new CalendarDay(date);
 		cd.initTimeLabels();
 		cd.initHeader();
 		cd.view.setPreferredSize(new Dimension(700, 450));
@@ -60,8 +59,7 @@ public class CalendarDayView extends JPanel {
 	 */
 	public CalendarDayView(ArrayList<DayEvent> events, Component comp) {
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(1, date);
-		cd.eventWidthMultiplier = 1;
+		cd = new CalendarDay(date);
 		cd.initTimeLabels();
 		cd.initHeader();
 		cd.view.setMinimumSize(new Dimension(500, 450));
@@ -81,8 +79,7 @@ public class CalendarDayView extends JPanel {
 	public CalendarDayView (DayEvent[] events, Component comp) {
 		this.superComponent = comp;
 		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(1, date);
-		cd.eventWidthMultiplier = 1;
+		cd = new CalendarDay(date);
 		cd.initTimeLabels();
 		cd.initHeader();
 //		cd.view.setPreferredSize(new Dimension(500, 450));
