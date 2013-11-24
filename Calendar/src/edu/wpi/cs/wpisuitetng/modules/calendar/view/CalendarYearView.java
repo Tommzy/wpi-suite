@@ -111,6 +111,8 @@ public class CalendarYearView extends JScrollPane{
 	public void today()
 	{
 		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DATE, 1);
 		CalendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 	
