@@ -43,6 +43,14 @@ public class DateController {
 		return cal.get(GregorianCalendar.MONTH);
 	}
 	
+	public int getWeekOfYear() {
+		return cal.get(GregorianCalendar.WEEK_OF_YEAR);
+	}
+	
+	public int getWeekOfMonth() {
+		return cal.get(GregorianCalendar.WEEK_OF_MONTH);
+	}
+	
 	public int getDayOfMonth() {
 		return cal.get(GregorianCalendar.DAY_OF_MONTH);
 	}
@@ -82,6 +90,14 @@ public class DateController {
 	
 	public void setToPreviousDate() {
 		cal.add(GregorianCalendar.DATE, -1);
+	}
+	
+	public void setToNextWeek() {
+		cal.add(GregorianCalendar.WEEK_OF_MONTH, 1);
+	}
+	
+	public void setToPreviousWeek() {
+		cal.add(GregorianCalendar.WEEK_OF_MONTH, -1);
 	}
 	
 	public void setToNextMonth() {

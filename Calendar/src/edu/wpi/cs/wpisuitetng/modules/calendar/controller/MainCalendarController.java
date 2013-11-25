@@ -175,6 +175,10 @@ public class MainCalendarController implements ActionListener{
 		}
 		view.getCalendarView().revalidate();
 		view.getCalendarView().repaint();
+		
+		monthView.updateMonthView();
+		//weekView.updateWeekView();
+		//dayView.updateDayView();
 	}
 	
 	/**

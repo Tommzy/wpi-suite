@@ -106,7 +106,7 @@ public class CalendarDay extends JPanel {
 		c.weightx = 0;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH;
+		c.anchor = GridBagConstraints.WEST;
 
 		for (int i = 0; i < 24*(60/minimalInterval); i++) {
 			//Even hours
