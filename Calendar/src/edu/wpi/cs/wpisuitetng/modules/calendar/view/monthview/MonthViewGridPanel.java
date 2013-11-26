@@ -4,10 +4,14 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
@@ -90,7 +94,7 @@ public class MonthViewGridPanel extends JPanel {
 	public void repaint() {
 		super.repaint();
 		if (MainCalendarController.getInstance().getDateController().equals(date)) {
-			this.setBackground(Color.green);
+			this.setBackground(Color.orange);
 		} else {
 			this.setBackground(new Color(138, 173, 209));
 		}
@@ -105,5 +109,24 @@ public class MonthViewGridPanel extends JPanel {
 		
 		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
 	}
+
+	public void filtCommitment(Collection<Commitment> commitment) {
+		Iterator<Commitment> itr = commitment.iterator();
+		while (itr.hasNext()) {
+			Commitment cmt = itr.next();
+			Calendar calStartTime = cmt.getStartTime();
+			if (calStartTime.get(GregorianCalendar.YEAR) == date.getYear()
+				&& calStartTime.get(GregorianCalendar.MONTH) == date.getMonth()
+				&& calStartTime.get(GregorianCalendar.DATE) == date.getDayOfMonth()) {
+				addCommitmentToTable(cmt);
+			}
+		}
+		
+	}
+	
+	public void addCommitmentToTable(Commitment cmt) {
+		textArea.append(cmt.getName() + "\n");
+	}
+	
 	
 }

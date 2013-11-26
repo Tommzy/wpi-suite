@@ -2,12 +2,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Dimension;
 import java.text.DateFormatSymbols;
+import java.util.Collection;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.monthview.MonthViewController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
@@ -61,6 +63,7 @@ public class MonthView extends JPanel {
 	public void updateMonthView() {
 		this.removeAll();
 		DateController date = MainCalendarController.getInstance().getDateController();
+		
 		DateController monthStartDate = getFirstDayOfMonthView(date);
 		
 		monthViewPanel = new MonthViewPanel(monthStartDate.getYear(), monthStartDate.getMonth(), monthStartDate.getDayOfMonth());
@@ -75,8 +78,6 @@ public class MonthView extends JPanel {
 		add(monthViewPanel);
 		repaint();
 	}
-	
-	
 	
 	public JButton getPreviousButton() {
 		return previousButton;
