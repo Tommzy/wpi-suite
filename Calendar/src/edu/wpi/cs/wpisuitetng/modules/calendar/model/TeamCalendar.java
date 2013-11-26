@@ -14,15 +14,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import com.google.gson.Gson;
 
-
 /**
  * This is a class for a Team Calendar structure. It includes information about the project it belongs to.
+ * Each project should have only one TeamCalendar. The TeamCalendar can be viewed by all members of the team,
+ * and members with the correct permissions will be able to add events and commitments to the TeamCalendar.
  * 
  * @author Team3
  * 
  */
-
-
 public class TeamCalendar extends CalendarModel{
 	
 	private String projName; //Do we want to print the project name in the gui?
