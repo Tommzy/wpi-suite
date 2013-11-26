@@ -108,7 +108,7 @@ public class CalendarDay extends JPanel {
 		c.weightx = 0;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH;
+		c.anchor = GridBagConstraints.WEST;
 
 		for (int i = 0; i < 24*(60/minimalInterval); i++) {
 			//Even hours
@@ -122,6 +122,35 @@ public class CalendarDay extends JPanel {
 				Box box = Box.createVerticalBox();
 				box.add(Box.createVerticalStrut(1));
 				box.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.lightGray));
+				view.add(box, c);
+			}
+		}
+	}
+	
+	/**
+	 * Initialize the time labels shown to the right.
+	 * Every hour is displayed. 
+	 */
+	protected void initTimeLabelsForMonth() {
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.weightx = 0;
+		c.weighty = 1;
+		c.fill = GridBagConstraints.BOTH;
+		c.anchor = GridBagConstraints.WEST;
+
+		for (int i = 0; i < 24*(60/minimalInterval); i++) {
+			//Even hours
+			c.gridy = i;
+			if (i % (60/minimalInterval) == 0) {
+				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
+				timeLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
+				view.add(timeLabel, c);
+			} 
+			else {
+				Box box = Box.createVerticalBox();
+				box.add(Box.createVerticalStrut(1));
+				box.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
 				view.add(box, c);
 			}
 		}

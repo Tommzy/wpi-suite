@@ -50,8 +50,8 @@ public class CalendarWeekView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		week[0] = new CalendarDay(date);
-		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		week[0].initTimeLabelsForMonth();
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
 		date = setFirstDayOfWeek(date);
@@ -70,10 +70,10 @@ public class CalendarWeekView extends JPanel {
 	 */
 	public CalendarWeekView(ArrayList<DayEvent> events) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
+		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		week[0] = new CalendarDay(date);
-		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		week[0].initTimeLabelsForMonth();
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
 		date = setFirstDayOfWeek(date);
@@ -97,10 +97,10 @@ public class CalendarWeekView extends JPanel {
 	 */
 	public CalendarWeekView (DayEvent[] events) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
+		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		week[0] = new CalendarDay(date);
-		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		week[0].initTimeLabelsForMonth();
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
 		date = setFirstDayOfWeek(date);
