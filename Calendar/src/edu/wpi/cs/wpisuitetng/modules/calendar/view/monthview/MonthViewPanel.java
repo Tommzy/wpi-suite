@@ -11,14 +11,9 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-<<<<<<< HEAD
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-=======
->>>>>>> f146443228ff534c2ed2bf50ada011c0ab51f266
-import net.miginfocom.swing.MigLayout;
 
 /**
  * MontViewPanel is a sub-component of MonthView
@@ -109,6 +104,11 @@ public class MonthViewPanel extends JPanel {
 	
 	public Collection<Commitment> getMonthCommitmentList() {
 		return cmtList;
+	}
+
+	public void repaintAll() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

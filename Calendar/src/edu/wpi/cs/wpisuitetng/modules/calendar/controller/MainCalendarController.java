@@ -190,18 +190,18 @@ public class MainCalendarController implements ActionListener{
 		}
 		view.getCalendarView().revalidate();
 		view.getCalendarView().repaint();
-<<<<<<< HEAD
+
 		try { 
 			mainView.getMainTabPane().getCommitmentTable().update();
 		} catch (NullPointerException e) {
 			
 		}
-=======
+
 		
 		monthView.updateMonthView();
 		//weekView.updateWeekView();
 		//dayView.updateDayView();
->>>>>>> f146443228ff534c2ed2bf50ada011c0ab51f266
+
 	}
 	
 	public CalendarTimePeriod getSelectedCalendarView() {

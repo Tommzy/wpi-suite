@@ -1,7 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Color;
-<<<<<<< HEAD
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
@@ -14,11 +13,9 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-=======
 
 import javax.swing.*;
 
->>>>>>> f146443228ff534c2ed2bf50ada011c0ab51f266
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -27,6 +24,7 @@ public class MonthViewGridPanel extends JPanel {
 	private JLabel headerLabel = new JLabel();
 	private JTextArea textArea = new JTextArea();
 	public static int mod = 1;
+	DateController date;
 	public MonthViewGridPanel() {
 		setBackground(Color.white);
 		textArea.setEditable(false);
@@ -58,7 +56,7 @@ public class MonthViewGridPanel extends JPanel {
 		textArea.setText(s);
 	}
 	
-<<<<<<< HEAD
+
 	public DateController getDateContrller() {
 		return date;
 	}
@@ -83,6 +81,9 @@ public class MonthViewGridPanel extends JPanel {
 	}
 
 	public void filtCommitment(Collection<Commitment> commitment) {
+		if (date == null) {
+			return;
+		}
 		Iterator<Commitment> itr = commitment.iterator();
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
@@ -101,6 +102,4 @@ public class MonthViewGridPanel extends JPanel {
 	}
 	
 	
-=======
->>>>>>> f146443228ff534c2ed2bf50ada011c0ab51f266
 }
