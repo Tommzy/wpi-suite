@@ -27,10 +27,6 @@ public class DateController {
 //		System.out.println(cal);
 	}
 	
-	public DateController(Calendar cale) {
-		cal.set(cale.get(Calendar.YEAR), cale.get(Calendar.MONTH), cale.get(Calendar.DATE));
-	}
-	
 	public DateController(DateController date) {
 		cal = (Calendar) cal.clone();
 		cal.set(date.getYear(), date.getMonth(), date.getDayOfMonth());
@@ -45,6 +41,14 @@ public class DateController {
 	
 	public int getMonth() {
 		return cal.get(GregorianCalendar.MONTH);
+	}
+	
+	public int getWeekOfYear() {
+		return cal.get(GregorianCalendar.WEEK_OF_YEAR);
+	}
+	
+	public int getWeekOfMonth() {
+		return cal.get(GregorianCalendar.WEEK_OF_MONTH);
 	}
 	
 	public int getDayOfMonth() {
@@ -88,6 +92,14 @@ public class DateController {
 		cal.add(GregorianCalendar.DATE, -1);
 	}
 	
+	public void setToNextWeek() {
+		cal.add(GregorianCalendar.WEEK_OF_MONTH, 1);
+	}
+	
+	public void setToPreviousWeek() {
+		cal.add(GregorianCalendar.WEEK_OF_MONTH, -1);
+	}
+	
 	public void setToNextMonth() {
 		cal.add(GregorianCalendar.MONTH, 1);
 	}
@@ -117,34 +129,6 @@ public class DateController {
 
 	public int getFirstDayOfWeek() {
 		return cal.getFirstDayOfWeek();
-	}
-	
-	public String toString() {
-		return getYear() + " " + getMonth() + " " + getDayOfMonth();
-	}
-	
-	public DateController clone() {
-		return new DateController(getYear(), getMonth(), getDayOfMonth());
-	}
-	
-	public boolean equals(Object o) {
-		if (!(o instanceof DateController)) {
-			return false;
-		}
-		
-		if (((DateController)o).getYear() != getYear()) {
-			return false;
-		}
-		
-		if (((DateController)o).getMonth() != getMonth()) {
-			return false;
-		}
-		
-		if (((DateController)o).getDayOfMonth() != getDayOfMonth()) {
-			return false;
-		}
-		
-		return true;
 	}
 	
 }

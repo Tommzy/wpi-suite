@@ -14,10 +14,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,8 +37,11 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
  */
 @SuppressWarnings("serial")
 public class CalendarDayView extends JPanel {
+	private static final Component Component = null;
 	CalendarDay cd;
 	DateController date = MainCalendarController.getInstance().getDateController();
+	private JButton previousButton = new JButton("<"), 
+			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	private Component superComponent;
 	
 	/**
@@ -42,15 +49,25 @@ public class CalendarDayView extends JPanel {
 	 * Empty calendar
 	 */
 	public CalendarDayView(Component comp) {
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(previousButton);
+		btnPanel.add(todayButton, "gapleft 10");
+		btnPanel.add(nextButton, "gapleft 10");
+		setupButtonListeners();		
+		
+		JPanel dayPanel = new JPanel();
+		this.superComponent = comp;
+		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader();
-		cd.view.setPreferredSize(new Dimension(700, 450));
-		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd, "width :100%:");
-	
+		cd.view.setPreferredSize(new Dimension(500, 450));
+		dayPanel.add(cd, "width :100%:");
+		
+		add(btnPanel, "wrap");
+		add(dayPanel, "width :100%:");
 		
 	}
 	
@@ -59,17 +76,29 @@ public class CalendarDayView extends JPanel {
 	 * @param events A list of events to be added to calendar
 	 */
 	public CalendarDayView(ArrayList<DayEvent> events, Component comp) {
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(previousButton);
+		btnPanel.add(todayButton, "gapleft 10");
+		btnPanel.add(nextButton, "gapleft 10");
+		setupButtonListeners();		
+		
+		JPanel dayPanel = new JPanel();
+		this.superComponent = comp;
+		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader();
-		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd, "width :100%:");
+		cd.view.setPreferredSize(new Dimension(500, 450));
+		dayPanel.add(cd, "width :100%:");
 		
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i));
 		}
+		
+		add(btnPanel, "wrap");
+		add(dayPanel, "width :100%:");
 		
 	}
 
@@ -79,21 +108,108 @@ public class CalendarDayView extends JPanel {
 	 * @param events An array of events to be added to calendar
 	 */
 	public CalendarDayView (DayEvent[] events, Component comp) {
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(previousButton);
+		btnPanel.add(todayButton, "gapleft 10");
+		btnPanel.add(nextButton, "gapleft 10");
+		setupButtonListeners();		
+		
+		JPanel dayPanel = new JPanel();
 		this.superComponent = comp;
+		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		cd = new CalendarDay(1, date);
 		cd.eventWidthMultiplier = 1;
 		cd.initTimeLabels();
 		cd.initHeader();
-//		cd.view.setPreferredSize(new Dimension(500, 450));
-		add(cd, "width :100%:");
+		cd.view.setPreferredSize(new Dimension(500, 450));
+		dayPanel.add(cd, "width :100%:");
 		
 		for (int i=0; i < events.length; i++) {
 			addEvent(events[i]);
 		}
 		
+		add(btnPanel, "wrap");
+		add(dayPanel, "width :100%:");
+		
 		
 	}
+	
+	
+	
+	private void setupButtonListeners() {
+		previousButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				previousDay();
+			}	
+		});
+		
+		todayButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				currentDay();
+			}	
+		});	
+		
+		nextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				nextDay();
+			}	
+		});	
+	}
+	
+	private void previousDay() {
+		System.out.println("Previous Day Pressed");
+		DateController date = MainCalendarController.getInstance().getDateController();
+		date.setToPreviousDate();
+		updateDayView();
+	}
+	
+	private void currentDay() {
+		System.out.println("Current Day Pressed");
+		DateController date = MainCalendarController.getInstance().getDateController();
+		date.setToToday();
+		updateDayView();
+	}
+	
+	private void nextDay() {
+		System.out.println("Next Day Pressed");
+		DateController date = MainCalendarController.getInstance().getDateController();
+		date.setToNextDate();
+		updateDayView();
+	}
+	
+	
+	public void updateDayView() {
+		
+		//Component comp = this.superComponent;
+		this.removeAll();
+		DateController date = MainCalendarController.getInstance().getDateController();
+		
+		JPanel btnPanel = new JPanel();
+		btnPanel.add(previousButton);
+		btnPanel.add(todayButton, "gapleft 10");
+		btnPanel.add(nextButton, "gapleft 10");
+		//setupButtonListeners();		
+		
+		JPanel dayPanel = new JPanel();
+		this.superComponent = this.getParent();
+		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
+		setLayout(new MigLayout("insets 0 0 0 0"));
+		cd = new CalendarDay(1, date);
+		cd.eventWidthMultiplier = 1;
+		cd.initTimeLabels();
+		cd.initHeader();
+		cd.view.setPreferredSize(new Dimension(500, 450));
+		dayPanel.add(cd, "width :100%:");
+		
+		add(btnPanel, "wrap");
+		add(dayPanel, "width :100%:");
+		//repaint();
+	}
+	
 	
 	/**
 	 * Resize panel as size of main window changes.
