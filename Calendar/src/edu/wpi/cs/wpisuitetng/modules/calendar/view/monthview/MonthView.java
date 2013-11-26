@@ -51,7 +51,6 @@ public class MonthView extends JPanel {
 		for (int i = 0; i < w - 1; i ++) {
 			monthStartDate = monthStartDate.getPrecursorDate();
 		}
-		
 		return monthStartDate;
 	}
 	
