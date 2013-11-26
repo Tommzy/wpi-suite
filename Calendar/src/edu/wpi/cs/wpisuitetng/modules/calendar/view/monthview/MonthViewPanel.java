@@ -1,20 +1,15 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Color;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -54,7 +49,7 @@ public class MonthViewPanel extends JPanel {
 		}
 		for (int i = 0; i < 5; i ++) {
 			for (int j = 0; j < 7; j ++) {
-				final MonthViewGridPanel panel = new MonthViewGridPanel(new DateController(cal));
+				MonthViewGridPanel panel = new MonthViewGridPanel();
 				monthViewList.add(panel);
 				
 				String s;
@@ -68,38 +63,6 @@ public class MonthViewPanel extends JPanel {
 				panel.setHeader(getHeaderLabelText(cal.get(GregorianCalendar.YEAR),
 						cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DATE)));
 				cal.add(GregorianCalendar.DATE, 1);
-				panel.addMouseListener(new MouseListener() {
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						panel.setToThisDate();
-					}
-
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				});
 			}
 		}
 	}
@@ -127,11 +90,6 @@ public class MonthViewPanel extends JPanel {
 		}
 	}
 	
-	public void repaintAll() {
-		Iterator<MonthViewGridPanel> itr = monthViewList.iterator();
-		while (itr.hasNext()) {
-			itr.next().repaint();
-		}
-	}
+	
 	
 }
