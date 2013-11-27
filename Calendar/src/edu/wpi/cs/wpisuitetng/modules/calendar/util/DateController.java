@@ -27,6 +27,10 @@ public class DateController {
 //		System.out.println(cal);
 	}
 	
+	public DateController(Calendar cale) {
+		cal.set(cale.get(Calendar.YEAR), cale.get(Calendar.MONTH), cale.get(Calendar.DATE));
+	}
+	
 	public DateController(DateController date) {
 		cal = (Calendar) cal.clone();
 		cal.set(date.getYear(), date.getMonth(), date.getDayOfMonth());
@@ -129,6 +133,34 @@ public class DateController {
 
 	public int getFirstDayOfWeek() {
 		return cal.getFirstDayOfWeek();
+	}
+	
+	public String toString() {
+		return getYear() + " " + getMonth() + " " + getDayOfMonth();
+	}
+	
+	public DateController clone() {
+		return new DateController(getYear(), getMonth(), getDayOfMonth());
+	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof DateController)) {
+			return false;
+		}
+		
+		if (((DateController)o).getYear() != getYear()) {
+			return false;
+		}
+		
+		if (((DateController)o).getMonth() != getMonth()) {
+			return false;
+		}
+		
+		if (((DateController)o).getDayOfMonth() != getDayOfMonth()) {
+			return false;
+		}
+		
+		return true;
 	}
 	
 }
