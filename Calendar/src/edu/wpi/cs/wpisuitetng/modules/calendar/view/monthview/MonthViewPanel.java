@@ -148,9 +148,6 @@ public class MonthViewPanel extends JPanel {
 		return cmtList;
 	}
 
-	public void repaintAll() {
-		// TODO Auto-generated method stub
-		
-	}
+
 	
 }
