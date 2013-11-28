@@ -82,7 +82,7 @@ public class MainCalendarView extends JPanel {
     //I got rid of this -Mark
     //mainCalendarController.setModel(mainCalendarModel);
     mainCalendarController.setView(this);
-    mainCalendarController.setWeekView(new CalendarWeekView());
+    mainCalendarController.setWeekView(new CalendarWeekView(sampleEvent));
     mainCalendarController.setMonthView(new MonthView());
     mainCalendarController.setDayView(new CalendarDayView(sampleEvent, calendarView));
     mainCalendarController.setYearView(new CalendarYearView());
