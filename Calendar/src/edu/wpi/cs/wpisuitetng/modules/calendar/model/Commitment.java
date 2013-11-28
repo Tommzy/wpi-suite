@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -13,7 +14,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class Commitment implements Model{
 
 	String name;
-	GregorianCalendar startTime;
+	Calendar startTime;
 	String description;
 	int id = -1;
 	
@@ -27,10 +28,10 @@ public class Commitment implements Model{
 	}
 
 
-	public Commitment(String name, GregorianCalendar startTime,
+	public Commitment(String name, Calendar calendar,
 			String description) {
 		this.name = name;
-		this.startTime = startTime;
+		this.startTime = calendar;
 		this.description = description;
 		//super(name, startTime, description);
 		// TODO Auto-generated constructor stub
@@ -93,6 +94,16 @@ public class Commitment implements Model{
 	public static Commitment[] fromJsonArray(String json){
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment[].class);
+	}
+
+
+	public Calendar getStartTime() {
+		return startTime;
+	}
+
+
+	public String getName() {
+		return name;
 	}
 
 }

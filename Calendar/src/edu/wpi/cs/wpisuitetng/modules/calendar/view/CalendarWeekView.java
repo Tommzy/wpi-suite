@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +48,7 @@ public class CalendarWeekView extends JPanel {
 	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
-	
+	JPanel weekPanel = new JPanel();
 	/**
 	 * Constructor
 	 * Empty calendar
@@ -60,7 +61,6 @@ public class CalendarWeekView extends JPanel {
 		btnPanel.add(nextButton, "gapleft 10");
 		setupButtonListeners();
 
-		JPanel weekPanel = new JPanel();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		week[0] = new CalendarDay(0, date);
@@ -94,7 +94,6 @@ public class CalendarWeekView extends JPanel {
 		btnPanel.add(nextButton, "gapleft 10");
 		setupButtonListeners();
 
-		JPanel weekPanel = new JPanel();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		week[0] = new CalendarDay(0, date);
@@ -133,7 +132,6 @@ public class CalendarWeekView extends JPanel {
 		btnPanel.add(nextButton, "gapleft 10");
 		setupButtonListeners();
 
-		JPanel weekPanel = new JPanel();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		week[0] = new CalendarDay(0, date);
@@ -223,39 +221,28 @@ public class CalendarWeekView extends JPanel {
 	}
 	
 	private void previousWeek() {
-		System.out.println("Previous Week Pressed");
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToPreviousWeek();
 		updateWeekView();
 	}
 	
 	private void currentWeek() {
-		System.out.println("Current Week Pressed");
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToToday();
 		updateWeekView();
 	}
 	
 	private void nextWeek() {
-		System.out.println("Next Week Pressed");
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToNextWeek();
 		updateWeekView();
 	}
 	
 	public void updateWeekView() {
-		this.removeAll();
-		DateController date = MainCalendarController.getInstance().getDateController();
-		
-		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		JPanel btnPanel = new JPanel();
-		btnPanel.add(previousButton);
-		btnPanel.add(todayButton, "gapleft 10");
-		btnPanel.add(nextButton, "gapleft 10");
-
-		JPanel weekPanel = new JPanel();
+		weekPanel.removeAll();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
+		date = MainCalendarController.getInstance().getDateController();
+		
 		week[0] = new CalendarDay(0, date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
@@ -266,12 +253,12 @@ public class CalendarWeekView extends JPanel {
 			week[i].eventWidthMultiplier = 4;
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader();
-			week[i].view.setPreferredSize(new Dimension(100, 450));
+			week[i].view.setPreferredSize(new Dimension(100, 450));	
 			weekPanel.add(week[i]);
 		}
 		
-		add(btnPanel, "wrap");
-		add(weekPanel, "wrap");
+		revalidate();
+		repaint();
 	}
 	
 	/**

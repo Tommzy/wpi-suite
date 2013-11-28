@@ -57,7 +57,8 @@ public class MonthViewController implements ActionListener {
 		} else if (e.getSource() == btnToday) {
 			date.setToToday();
 		}
-		monthView.updateMonthView();	
+		monthView.updateMonthView();
+		MainCalendarController.getInstance().getMainView().getMainTabPane().getCommitmentTable().update();
 	}
 	
 	public static MonthViewController getInstance() {

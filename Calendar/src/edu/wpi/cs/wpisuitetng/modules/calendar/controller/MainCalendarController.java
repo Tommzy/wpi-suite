@@ -28,6 +28,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**
@@ -46,7 +47,8 @@ public class MainCalendarController implements ActionListener{
 	CalendarWeekView weekView;
 	public static MainCalendarController instance;
 	private DateController dateController = new DateController();
-	
+	private CalendarTimePeriod selectedCalendarView;
+	MainView mainView;
 	// for test display use
 	DayEvent[] sampleEvent = {
 			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
@@ -109,7 +111,14 @@ public class MainCalendarController implements ActionListener{
 		this.view = view;
 	}
 
+	public MainView getMainView() {
+		return mainView;
+	}
 
+	public void setMainView(MainView mainView) {
+		this.mainView = mainView;
+	}
+	
 	public CalendarYearView getYearView() {
 		return yearView;
 	}
@@ -159,26 +168,36 @@ public class MainCalendarController implements ActionListener{
 		resetToggleButton();
 		toggleButton.setSelected(true);
 		switch (toggleButton.getText()) {
-			case "Year" :
-				view.getCalendarView().add(yearView);
-				break;
-			case "Month" :
-				view.getCalendarView().add(monthView, "span");			
-				break;
-			case "Week" :
-				view.getCalendarView().add(weekView);
-				break;
-			case "Day" :
-				view.getCalendarView().add(dayView);				
-				break;
-			default: break;
+		case "Year" :
+			view.getCalendarView().add(yearView);
+			selectedCalendarView = CalendarTimePeriod.Year;
+			break;
+		case "Month" :
+			view.getCalendarView().add(monthView, "span");
+			selectedCalendarView = CalendarTimePeriod.Month;
+			break;
+		case "Week" :
+			view.getCalendarView().add(weekView);
+			selectedCalendarView = CalendarTimePeriod.Week;
+			break;
+		case "Day" :
+			view.getCalendarView().add(dayView);		
+			selectedCalendarView = CalendarTimePeriod.Day;
+			break;
+		default: break;
 		}
 		view.getCalendarView().revalidate();
 		view.getCalendarView().repaint();
 		
 		monthView.updateMonthView();
-		//weekView.updateWeekView();
-		//dayView.updateDayView();
+		weekView.updateWeekView();
+		dayView.updateDayView();
+		
+		try { 
+			mainView.getMainTabPane().getCommitmentTable().update();
+		} catch (NullPointerException e) {
+			
+		}
 	}
 	
 	/**
@@ -202,5 +221,12 @@ public class MainCalendarController implements ActionListener{
 		}
 	}
 	
+	public CalendarTimePeriod getSelectedCalendarView() {
+		return selectedCalendarView;
+	}
+
+	public void setSelectedCalendarView(CalendarTimePeriod selectedCalendarView) {
+		this.selectedCalendarView = selectedCalendarView;
+	}
 	
 }

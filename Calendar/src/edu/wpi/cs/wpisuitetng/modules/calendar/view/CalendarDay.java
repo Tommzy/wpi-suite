@@ -93,6 +93,9 @@ public class CalendarDay extends JPanel {
 			Box box = Box.createVerticalBox();
 			box.add(Box.createVerticalStrut(1));
 			view.add(box, c);
+			c.gridx = 1;
+			c.weightx =1;
+			view.add(box, c);
 		}
 	}
 	
