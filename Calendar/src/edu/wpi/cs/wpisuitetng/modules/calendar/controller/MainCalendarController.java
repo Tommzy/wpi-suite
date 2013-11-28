@@ -45,10 +45,12 @@ public class MainCalendarController implements ActionListener{
 	MonthView monthView;
 	CalendarDayView dayView;
 	CalendarWeekView weekView;
+	MainView mainView;
+
 	public static MainCalendarController instance;
 	private DateController dateController = new DateController();
 	private CalendarTimePeriod selectedCalendarView;
-	MainView mainView;
+	
 	// for test display use
 	DayEvent[] sampleEvent = {
 			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
@@ -101,7 +103,14 @@ public class MainCalendarController implements ActionListener{
 //		this.model = model;
 //	}
 
+	public MainView getMainView() {
+		return mainView;
+	}
 
+	public void setMainView(MainView mainView) {
+		this.mainView = mainView;
+	}
+	
 	public MainCalendarView getView() {
 		return view;
 	}
@@ -111,14 +120,6 @@ public class MainCalendarController implements ActionListener{
 		this.view = view;
 	}
 
-	public MainView getMainView() {
-		return mainView;
-	}
-
-	public void setMainView(MainView mainView) {
-		this.mainView = mainView;
-	}
-	
 	public CalendarYearView getYearView() {
 		return yearView;
 	}
@@ -188,6 +189,13 @@ public class MainCalendarController implements ActionListener{
 		}
 		view.getCalendarView().revalidate();
 		view.getCalendarView().repaint();
+
+		try { 
+			mainView.getMainTabPane().getCommitmentTable().update();
+		} catch (NullPointerException e) {
+			
+		}
+
 		
 		monthView.updateMonthView();
 		weekView.updateWeekView();
@@ -200,6 +208,14 @@ public class MainCalendarController implements ActionListener{
 		}
 	}
 	
+	public CalendarTimePeriod getSelectedCalendarView() {
+		return selectedCalendarView;
+	}
+
+	public void setSelectedCalendarView(CalendarTimePeriod selectedCalendarView) {
+		this.selectedCalendarView = selectedCalendarView;
+	}
+
 	/**
 	 * Helper function for function timePeriodChanged(JToggleButton). 
 	 * This function resets all the toggle buttons in calendar part. 
@@ -221,12 +237,5 @@ public class MainCalendarController implements ActionListener{
 		}
 	}
 	
-	public CalendarTimePeriod getSelectedCalendarView() {
-		return selectedCalendarView;
-	}
-
-	public void setSelectedCalendarView(CalendarTimePeriod selectedCalendarView) {
-		this.selectedCalendarView = selectedCalendarView;
-	}
 	
 }

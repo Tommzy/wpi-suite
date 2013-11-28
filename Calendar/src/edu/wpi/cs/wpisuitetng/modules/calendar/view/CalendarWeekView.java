@@ -1,14 +1,14 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Team3
- ******************************************************************************/
+* Copyright (c) 2013 -- WPI Suite
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Team3
+******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
@@ -34,12 +34,11 @@ import javax.swing.JScrollPane;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthViewPanel;
 
 /**
- * Generate day calendar view. 
- * 
- */
+* Generate day calendar view.
+*
+*/
 @SuppressWarnings("serial")
 public class CalendarWeekView extends JPanel {
 	CalendarDay[] week = new CalendarDay[8];
@@ -63,15 +62,14 @@ public class CalendarWeekView extends JPanel {
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay(0, date);
+		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(4, date);
-			week[i].eventWidthMultiplier = 4;
+			week[i] = new CalendarDay(date);
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
@@ -96,15 +94,14 @@ public class CalendarWeekView extends JPanel {
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay(0, date);
+		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(4, date);
-			week[i].eventWidthMultiplier = 4;
+			week[i] = new CalendarDay(date);
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
@@ -134,15 +131,14 @@ public class CalendarWeekView extends JPanel {
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		week[0] = new CalendarDay(0, date);
+		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(4, date);
-			week[i].eventWidthMultiplier = 4;
+			week[i] = new CalendarDay(date);
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
@@ -202,7 +198,8 @@ public class CalendarWeekView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				previousWeek();
-			}	
+			}
+	
 		});
 		
 		todayButton.addActionListener(new ActionListener() {
@@ -243,14 +240,13 @@ public class CalendarWeekView extends JPanel {
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		date = MainCalendarController.getInstance().getDateController();
 		
-		week[0] = new CalendarDay(0, date);
+		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(4, date);
-			week[i].eventWidthMultiplier = 4;
+			week[i] = new CalendarDay(date);
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));	

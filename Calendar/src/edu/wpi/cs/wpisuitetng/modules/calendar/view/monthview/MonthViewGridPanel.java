@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
+
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -21,10 +23,12 @@ public class MonthViewGridPanel extends JPanel {
 	private JLabel headerLabel = new JLabel();
 	private JTextArea textArea = new JTextArea();
 	public static int mod = 1;
+
 	public DateController date;
 	
 	public MonthViewGridPanel(DateController date) {
 		this.date = date.clone();
+
 		setBackground(Color.white);
 		textArea.setEditable(false);
 		textArea.addMouseListener(new MouseListener() {
@@ -86,7 +90,7 @@ public class MonthViewGridPanel extends JPanel {
 	public void setTextArea(String s) {
 		textArea.setText(s);
 	}
-	
+
 	public DateController getDateContrller() {
 		return date;
 	}
@@ -111,6 +115,9 @@ public class MonthViewGridPanel extends JPanel {
 	}
 
 	public void filtCommitment(Collection<Commitment> commitment) {
+		if (date == null) {
+			return;
+		}
 		Iterator<Commitment> itr = commitment.iterator();
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
