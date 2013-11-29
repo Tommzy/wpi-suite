@@ -16,29 +16,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Rectangle;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicLabelUI;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
@@ -421,22 +412,7 @@ public class CalendarDay extends JPanel {
 						}
 					}
 					newText += "</div></HTML>";
-					System.out.println(newText);
 					((EventLabel)components[i]).setText(newText);
-					
-//					if (! ((EventLabel)components[i]).getOriginalContent().equals(newText)) {
-//						for (int j = 0; j < calendarCards.size(); j++) {
-//							if ((EventLabel)components[i] == calendarCards.get(j).label) {
-//								if (calendarCards.get(j).commitment != null) {
-//									((EventLabel)components[i]).setToolTipText(formatToolTip(calendarCards.get(j).commitment));
-//								}
-//								else if (calendarCards.get(j).event != null) {
-//									((EventLabel)components[i]).setToolTipText(formatToolTip(calendarCards.get(j).event));
-//								}
-//							}
-//						}
-//						
-//					}
 					
 				}
 			}

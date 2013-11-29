@@ -42,8 +42,7 @@ public class CalendarDayView extends JPanel {
 	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
 	CalendarDay cd;
 	DateController date = MainCalendarController.getInstance().getDateController();
-	private Component superComponent;
-	
+
 	/**
 	 * Constructor
 	 * Empty calendar
@@ -68,13 +67,19 @@ public class CalendarDayView extends JPanel {
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarDayView(ArrayList<DayEvent> events, Component comp) {
-		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(date);
-		cd.initTimeLabels();
-		cd.initHeader();
-		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd, "width :100%:");
+	public CalendarDayView(ArrayList<DayEvent> events) {
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
+		week[0] = new CalendarDay(date);
+		week[0].initTimeLabels();
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+		week[0].add(header, BorderLayout.NORTH);
+		add(week[0]);
+		
+		week[1] = new CalendarDay(date);
+		week[1].initHeader();
+		week[1].view.setPreferredSize(new Dimension(900,450));
+		add(week[1]);
 		
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i));
@@ -87,14 +92,19 @@ public class CalendarDayView extends JPanel {
 	 * Constructor that consumes an array of DayEvents
 	 * @param events An array of events to be added to calendar
 	 */
-	public CalendarDayView (DayEvent[] events, Component comp) {
-		this.superComponent = comp;
-		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(date);
-		cd.initTimeLabels();
-		cd.initHeader();
-//		cd.view.setPreferredSize(new Dimension(500, 450));
-		add(cd, "width :100%:");
+	public CalendarDayView (DayEvent[] events) {
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
+		week[0] = new CalendarDay(date);
+		week[0].initTimeLabels();
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+		week[0].add(header, BorderLayout.NORTH);
+		add(week[0]);
+		
+		week[1] = new CalendarDay(date);
+		week[1].initHeader();
+		week[1].view.setPreferredSize(new Dimension(900,450));
+		add(week[1]);
 		
 		for (int i=0; i < events.length; i++) {
 			addEvent(events[i]);
@@ -119,7 +129,7 @@ public class CalendarDayView extends JPanel {
 	 * @param event Event to be added.
 	 */
 	private void addEvent (DayEvent event) {
-		cd.addEvent(event);
+		week[1].addEvent(event);
 	}
 	
 	//Test the detailed view, adding some new events
