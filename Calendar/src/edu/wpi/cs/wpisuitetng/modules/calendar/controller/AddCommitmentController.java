@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
@@ -12,7 +13,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
 public class AddCommitmentController implements ActionListener{
 
-	private final Commitment model;
+	private final CommitmentsModel model;
 	private final AddCommitmentPanel viewCommitment;
 	 
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
@@ -22,10 +23,9 @@ public class AddCommitmentController implements ActionListener{
 	 * @param model the model containing the messages
 	 * @param view the view where the user enters new messages
 	 */
-	public AddCommitmentController(Commitment model, AddCommitmentPanel viewCommitment) {
+	public AddCommitmentController(CommitmentsModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
 		this.viewCommitment = viewCommitment;
-
 	}
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
@@ -87,9 +87,9 @@ public class AddCommitmentController implements ActionListener{
 	 * When the new Calendar item is received back from the server, add it to the local model.
 	 * @param message
 	 */
-	/*public void addCommitmentToModel(CalendarItem item) {
+	public void addCommitmentToModel(Commitment item) {
 		model.addCommitment(item);
-	}*/
+	}
 }
 
 

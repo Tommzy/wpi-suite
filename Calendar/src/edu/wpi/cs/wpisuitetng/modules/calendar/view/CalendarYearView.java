@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
  * The Class CalendarYearView for displaying the year.
  */
 
-public class CalendarYearView extends JScrollPane implements CalendarViewInterface {
+public class CalendarYearView extends JScrollPane{
 
 	private JButton nextYear;
 	private JButton prevYear;
@@ -111,6 +111,8 @@ public class CalendarYearView extends JScrollPane implements CalendarViewInterfa
 	public void today()
 	{
 		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DATE, 1);
 		CalendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 	

@@ -25,7 +25,7 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 		Commitment[] items = Commitment.fromJsonArray(iReq.getResponse().getBody());
 		//TODO
 		//put this back in
-		//controller.receivedMessages(items);
+		controller.receivedCommitments(items);
 	}
 	
 	/*
@@ -34,26 +34,19 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 		fail(iReq, null);
+		System.err.println("The request to get commitments Errored.");
 	}
 
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
+		Commitment[] errorCommitment = { new Commitment("Error", null, "Error") };
+		controller.receivedCommitments(errorCommitment);
+		System.err.println("The request to get commitments Errored.");
 		
 	}
 
-//	/*
-//	 * Put an error message in the PostBoardPanel if the request fails.
-//	 * 
-//	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
-//	 */
-//	@Override
-//	public void fail(IRequest iReq, Exception exception) {
-//		CalendarItem[] errorMessage = {new CalendarItem()};
-//		controller.receivedMessages(errorMessage);
-//		
-//	}
 
 }
 

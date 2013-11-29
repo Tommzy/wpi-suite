@@ -56,6 +56,12 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 		this.setFlaggedDayForeground(START_END_DAY);
 		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
 		this.setAlignmentX(CENTER_ALIGNMENT);
+		
+		Calendar cal = this.getCalendar();
+		cal.set(Calendar.MONTH, 0);;
+		cal.set(Calendar.DATE, 1);
+		this.setFirstDisplayedDay(cal.getTime());
+		
 		this.addActionListener(this);
 				
 		this.addKeyListener(this);
