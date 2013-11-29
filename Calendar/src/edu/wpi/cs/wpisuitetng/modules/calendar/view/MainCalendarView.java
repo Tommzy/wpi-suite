@@ -84,7 +84,7 @@ public class MainCalendarView extends JPanel {
     mainCalendarController.setView(this);
     mainCalendarController.setWeekView(new CalendarWeekView(sampleEvent));
     mainCalendarController.setMonthView(new MonthView());
-    mainCalendarController.setDayView(new CalendarDayView(sampleEvent, calendarView));
+    mainCalendarController.setDayView(new CalendarDayView(sampleEvent));
     mainCalendarController.setYearView(new CalendarYearView());
     calendarScroll.setPreferredSize(new Dimension (1000, 300));
  
