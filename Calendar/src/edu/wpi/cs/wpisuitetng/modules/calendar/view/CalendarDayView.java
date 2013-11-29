@@ -12,13 +12,18 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -33,6 +38,8 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
  */
 @SuppressWarnings("serial")
 public class CalendarDayView extends JPanel {
+	CalendarDay[] week = new CalendarDay[2];
+	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
 	CalendarDay cd;
 	DateController date = MainCalendarController.getInstance().getDateController();
 	private Component superComponent;
@@ -41,16 +48,20 @@ public class CalendarDayView extends JPanel {
 	 * Constructor
 	 * Empty calendar
 	 */
-	public CalendarDayView(Component comp) {
-		setLayout(new MigLayout("insets 0 0 0 0"));
-		cd = new CalendarDay(date);
-		cd.initTimeLabels();
-		cd.initHeader();
-		cd.view.setPreferredSize(new Dimension(700, 450));
-		cd.view.setMinimumSize(new Dimension(500, 450));
-		add(cd, "width :100%:");
-	
+	public CalendarDayView() {
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
+		week[0] = new CalendarDay(date);
+		week[0].initTimeLabels();
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+		week[0].add(header, BorderLayout.NORTH);
+		add(week[0]);
 		
+		week[1] = new CalendarDay(date);
+		week[1].initHeader();
+		week[1].view.setPreferredSize(new Dimension(900,450));
+		add(week[1]);
+			
 	}
 	
 	/**
@@ -97,10 +108,10 @@ public class CalendarDayView extends JPanel {
 	 */
 	public void repaint() {
 		super.repaint();
-		if (superComponent == null) {
+		if (this.getParent() == null) {
 			return;
 		}
-		setPreferredSize(new Dimension((int)(superComponent.getSize().getWidth()*0.9), (int)(this.getPreferredSize().getHeight())));
+		this.setPreferredSize(new Dimension((int)(this.getParent().getSize().getWidth() * 0.9), (int)(this.getPreferredSize().getHeight())));
 	}
 	
 	/**
@@ -114,7 +125,7 @@ public class CalendarDayView extends JPanel {
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
-		CalendarDayView d = new CalendarDayView(frame);
+		CalendarDayView d = new CalendarDayView();
 		
 		d.cd.addEvent(new DayEvent("Whoopsssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
 		d.cd.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 

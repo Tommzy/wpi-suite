@@ -50,7 +50,7 @@ public class CalendarWeekView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		week[0] = new CalendarDay(date);
-		week[0].initTimeLabelsForMonth();
+		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
@@ -72,7 +72,7 @@ public class CalendarWeekView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		week[0] = new CalendarDay(date);
-		week[0].initTimeLabelsForMonth();
+		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
@@ -99,7 +99,7 @@ public class CalendarWeekView extends JPanel {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		week[0] = new CalendarDay(date);
-		week[0].initTimeLabelsForMonth();
+		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		add(week[0]);
@@ -107,7 +107,7 @@ public class CalendarWeekView extends JPanel {
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay(date);
 			week[i].initHeader();
-			week[i].view.setPreferredSize(new Dimension(100, 450));
+			week[i].view.setPreferredSize(new Dimension(130, 450));
 			add(week[i]);
 			date = date.getNextDate();
 		}
