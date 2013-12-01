@@ -66,10 +66,9 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		date = setFirstDayOfWeek(date);
@@ -98,10 +97,9 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		date = setFirstDayOfWeek(date);
@@ -135,10 +133,9 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		date = setFirstDayOfWeek(date);
@@ -229,7 +226,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
+		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		for (int i = 1; i < weekdays.length; i++) {
