@@ -47,9 +47,7 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 	 */
 	public CalendarMonth()
 	{
-		Font font = this.getFont();
 		this.setBoxPaddingX((this.getBoxPaddingX() / 2));
-		this.setFont(font.deriveFont(8f));
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
 		this.setSelectionBackground(SELECTION);
@@ -58,7 +56,7 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 		this.setAlignmentX(CENTER_ALIGNMENT);
 		
 		Calendar cal = this.getCalendar();
-		cal.set(Calendar.MONTH, 0);;
+		cal.set(Calendar.MONTH, 0);
 		cal.set(Calendar.DATE, 1);
 		this.setFirstDisplayedDay(cal.getTime());
 		
@@ -105,6 +103,20 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 	@Override
 	public void keyReleased(KeyEvent e) {
 		//TODO
+	}
+	
+	@Override
+	public void repaint() {
+		super.repaint();
+		
+		if (this.getParent() == null) {
+			return;
+		}
+		
+		this.setPreferredSize(new Dimension
+				((int)(this.getParent().getSize().getWidth() * 0.9),
+				(int)(this.getParent().getSize().getHeight() * 0.9))
+		);
 	}
 
 }

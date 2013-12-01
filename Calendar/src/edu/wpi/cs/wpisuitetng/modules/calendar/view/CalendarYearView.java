@@ -3,11 +3,13 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,12 +21,12 @@ import net.miginfocom.swing.MigLayout;
  * The Class CalendarYearView for displaying the year.
  */
 
-public class CalendarYearView extends JScrollPane{
+public class CalendarYearView extends JPanel{
 
 	private JButton nextYear;
 	private JButton prevYear;
 	private JButton today;
-	CalendarMonth CalendarMonth;
+	CalendarMonth calendarMonth;
 	
 	/**
 	 * Constructor for IterationCalendarPanel.
@@ -34,8 +36,7 @@ public class CalendarYearView extends JScrollPane{
 	 */
 	public CalendarYearView()
 	{
-		JPanel contentPanel = new JPanel();
-		contentPanel.setLayout(new MigLayout());
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel buttonPanel = new JPanel();
 		
@@ -54,16 +55,13 @@ public class CalendarYearView extends JScrollPane{
 		buttonPanel.add(today);
 		buttonPanel.add(nextYear);
 		
-		contentPanel.add(buttonPanel, "alignx center, dock north");
+		add(buttonPanel);
 		 		
-		JPanel calendarPanel = new JPanel(new BorderLayout());
-		CalendarMonth = new CalendarMonth();
-		calendarPanel.add(CalendarMonth, BorderLayout.CENTER);
-				
-		calendarPanel.add(CalendarMonth, BorderLayout.CENTER);		
-		contentPanel.add(calendarPanel, "alignx center, push, span, height :90%:");
+		calendarMonth = new CalendarMonth();
+		calendarMonth.setFont(calendarMonth.getFont().deriveFont(6f));
+		add(calendarMonth);
+		
 					
-		this.setViewportView(contentPanel);	
 	}
 	
 	/**
@@ -100,9 +98,9 @@ public class CalendarYearView extends JScrollPane{
 	 */
 	public void previous()
 	{
-		Calendar cal = CalendarMonth.getCalendar();
+		Calendar cal = calendarMonth.getCalendar();
 		cal.add(Calendar.YEAR, -1);
-		CalendarMonth.setFirstDisplayedDay(cal.getTime());
+		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 	
 	/**
@@ -113,7 +111,7 @@ public class CalendarYearView extends JScrollPane{
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MONTH, 0);
 		cal.set(Calendar.DATE, 1);
-		CalendarMonth.setFirstDisplayedDay(cal.getTime());
+		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 	
 	/**
@@ -121,23 +119,31 @@ public class CalendarYearView extends JScrollPane{
 	 */
 	public void next()
 	{
-		Calendar cal = CalendarMonth.getCalendar();
+		Calendar cal = calendarMonth.getCalendar();
 		cal.add(Calendar.YEAR, +1);
-		CalendarMonth.setFirstDisplayedDay(cal.getTime());
+		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 	
-	/*
-	public void repaint() {
-		super.repaint();
+	public void paint(Graphics g) {
+		if (this.getParent() == null) {
+			return;
+		}
 		
+		calendarMonth.setFont(calendarMonth.getFont().deriveFont(
+				(float) this.getParent().getSize().width / 80));
+		
+		super.paint(g);
+	}
+	
+	public void repaint() {
 		if (this.getParent() == null) {
 			return;
 		}
 		
 		this.setPreferredSize(new Dimension
 				((int)(this.getParent().getSize().getWidth() * 0.9),
-				(int)(this.getParent().getSize().getHeight() * 0.9))
+				(int)(this.getParent().getSize().getWidth() * 0.9))
 		);
 	}
-	*/
+	
 }
