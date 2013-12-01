@@ -107,7 +107,7 @@ public class CommitmentTable extends JPanel implements Updatable {
 			int day = cal.get(Calendar.DATE);
 			int hour = cal.get(Calendar.HOUR_OF_DAY);
 			int minute = cal.get(Calendar.MINUTE);
-			data[i][2] = "" + hour + ":" + minute;
+			data[i][2] = "" + hour + ":" + (minute < 10 ? "0" + minute : minute);
 			data[i][1] = "" + (month + 1) + "/" + day;
 
 		}

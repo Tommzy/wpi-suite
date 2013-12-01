@@ -14,19 +14,11 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.border.Border;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
@@ -53,7 +45,7 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 		this.setSelectionBackground(SELECTION);
 		this.setFlaggedDayForeground(START_END_DAY);
 		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
-		this.setAlignmentY(TOP_ALIGNMENT);
+		this.setAlignmentY(CENTER_ALIGNMENT);
 		this.setAlignmentX(CENTER_ALIGNMENT);
 		
 		Calendar cal = this.getCalendar();

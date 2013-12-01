@@ -139,11 +139,21 @@ public class CalendarYearView extends JPanel{
 		if (this.getParent() == null) {
 			return;
 		}
+		
+		if (Math.abs(calendarMonth.getHeight() - getHeight()) < 30) {
+			this.setPreferredSize(new Dimension
+					((int)(this.getParent().getSize().getWidth() * 0.9),
+							(int)(this.getParent().getSize().getHeight() * 0.95)));
+			System.out.println(1);
+		} else {
+			
 		this.setPreferredSize(new Dimension
 				((int)(this.getParent().getSize().getWidth() * 0.9),
 				Math.max((int)(this.getParent().getSize().getWidth() * 0.9 * 0.75) ,
 				(int)(this.getParent().getSize().getHeight() * 0.95)))
 		);
+		
+		}
 	}
 	
 }
