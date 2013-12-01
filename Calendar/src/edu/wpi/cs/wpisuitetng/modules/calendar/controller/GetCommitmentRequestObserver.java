@@ -25,7 +25,14 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 		Commitment[] items = Commitment.fromJsonArray(iReq.getResponse().getBody());
 		//TODO
 		//put this back in
+	
+		System.out.println("Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
+		System.out.println("Success! Here is GetCommitmentRequestController in object way "+ "   " + items[0]+items[3]+items[4].getName()+items[4].getStartTime());
+		System.out.println("Success! Here is GetCommitmentRequestController in object to string way "+ "   " + items.toString()+ items[0].toString()+items[3].toString()+items[4].getName().toString()+items[4].getStartTime().toString());
+
 		controller.receivedCommitments(items);
+
+		
 	}
 	
 	/*

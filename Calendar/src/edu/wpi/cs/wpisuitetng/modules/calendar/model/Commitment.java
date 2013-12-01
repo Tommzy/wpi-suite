@@ -2,10 +2,13 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.Permission;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -17,12 +20,16 @@ public class Commitment implements Model{
 	private String description;
 	private int id = -1;
 	
+	
+
+	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+	private Project project;
+	
 	public Commitment(String name, GregorianCalendar startTime,
 			String description) {
 		this.name = name;
 		this.startTime = startTime;
 		this.description = description;
-		//super(name, startTime, description);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -91,28 +98,28 @@ public class Commitment implements Model{
 	}
 
 
+	
 	@Override
-	public Permission getPermission(User u) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPermission(Permission p, User u) {
-		// TODO Auto-generated method stub
+	public Permission getPermission(User u) 
+	{
 		
+		return permissionMap.get(u);
 	}
 
+	@Override
+	public void setPermission(Permission p, User u) 
+	{
+		permissionMap.put(u, p);
+	}
+	
 	@Override
 	public Project getProject() {
-		// TODO Auto-generated method stub
-		return null;
+		return project;
 	}
-
+	
 	@Override
 	public void setProject(Project p) {
-		// TODO Auto-generated method stub
-		
+		this.project = p;
 	}
 
 	@Override

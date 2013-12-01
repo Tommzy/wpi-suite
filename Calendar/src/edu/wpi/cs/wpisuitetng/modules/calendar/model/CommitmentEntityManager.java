@@ -15,6 +15,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.List;
+
 import com.google.gson.JsonSyntaxException;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -25,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
+import edu.wpi.cs.wpisuitetng.modules.Model;
 
 /** This is the entity manager for Commitments in the CommitmentEntityManager module. The provided
  *  methods include functionality for creating, updating, getting specific Commitments, and 
@@ -87,6 +90,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 *  @param s The current user session
 	 *  @param model The Commitment to be saved to the database
 	 *  @throws WPISuiteException  "Unable to save Commitment."
+	 *  **********************************HERE WE Changed The Code!!!!!!************************************************
 	 */
 	public void save(Session s, Commitment model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
@@ -96,16 +100,17 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if (!db.save(model, s.getProject())) {
 			throw new WPISuiteException("Unable to save Commitment.");
 		}
+//		db.save(model);
 	}
 
 	/** Takes a Commitment and assigns a unique id if necessary
 	 * 
-	 * @param req The Commitment that possibly needs a unique id
+	 * @param commitment The Commitment that possibly needs a unique id
 	 * @throws WPISuiteException "Count failed"
 	 */
-	public void assignUniqueID(Commitment req) throws WPISuiteException{
-		if (req.getId() == -1){// -1 is a flag that says a unique id is needed            
-			req.setId(Count() + 1); // Makes first Commitment have id = 1
+	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
+		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
+			commitment.setId(Count() + 1); // Makes first Commitment have id = 1
 		}
 	}
 
@@ -118,6 +123,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
+		System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Commitment(null, null, null)));
 		return db.retrieveAll(new Commitment(null, null, null)).size();
 	}
 
@@ -132,7 +138,10 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
+		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
+//		return db.retrieveAll(new Commitment(null, null, null));
+
 	}
 
 	/**  For the current user session, Takes a specific id for a Commitment and returns it 

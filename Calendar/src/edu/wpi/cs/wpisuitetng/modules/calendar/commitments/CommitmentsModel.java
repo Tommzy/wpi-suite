@@ -198,7 +198,7 @@ public class CommitmentsModel extends AbstractListModel{
 			this.Commitments.add(Commitments[i]);
 			if(Commitments[i].getId() >= nextID) nextID = Commitments[i].getId() + 1;
 		}
-		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		//this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 		
 		
 		//************Refresh GUI HERE!!!!!!!!!!!!!!!!!!!!!!!!!***************************************

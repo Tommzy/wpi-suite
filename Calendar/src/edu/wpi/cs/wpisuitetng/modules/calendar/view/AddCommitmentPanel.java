@@ -19,6 +19,7 @@ import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import net.miginfocom.swing.MigLayout;

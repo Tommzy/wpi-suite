@@ -196,10 +196,12 @@ public class ManagerLayer {
 		if(args[2] == null || args[2].equalsIgnoreCase(""))
 		{
 			m = map.get(args[0]+args[1]).getAll(s);
+			System.out.println(s.toString());
 		}
 		else
 		{
 			m = map.get(args[0]+args[1]).getEntity(s,args[2]);
+			System.out.println("B");
 		}
 		
         //return (m == null) ? "null" : gson.toJson(m, m.getClass());
