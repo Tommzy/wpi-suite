@@ -20,7 +20,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -33,6 +35,8 @@ import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
@@ -40,14 +44,19 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
  * 
  */
 @SuppressWarnings("serial")
-public class CalendarDayView extends JPanel {
+public class CalendarDayView extends JPanel implements Updatable{
 	CalendarDay[] day = new CalendarDay[2];
 	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
 	DateController date = MainCalendarController.getInstance().getDateController();
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	JPanel dayPanel = new JPanel();
-
+	
+	// a commitment list copy 
+	// commitment table will retrieve this cmtList and display accordingly
+	// if MainCalendarController says it is on the Day view
+	private Collection<Commitment> cmtList = new ArrayList<Commitment>();
+	
 	/**
 	 * Constructor
 	 * Empty calendar
@@ -197,24 +206,21 @@ public class CalendarDayView extends JPanel {
 	}
 	
 	private void previousDay() {
-		System.out.println("Previous Day Pressed");
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToPreviousDate();
-		updateDayView();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	private void currentDay() {
-		System.out.println("Current Day Pressed");
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToToday();
-		updateDayView();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	private void nextDay() {
-		System.out.println("Next Day Pressed");
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToNextDate();
-		updateDayView();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	public void updateDayView() {
@@ -234,8 +240,39 @@ public class CalendarDayView extends JPanel {
 		day[1].initHeader();
 		day[1].view.setPreferredSize(new Dimension(1200,450));
 		dayPanel.add(day[1], "width :100%:");
+		parseCommitment();
 		revalidate();
 		repaint();
+	}
+	
+	public Collection<Commitment> getDayViewCommitmentList() {
+		return cmtList;
+	}
+	
+	public void parseCommitment() {
+		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
+		
+		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		dateController.setToNextDate();
+		
+		GregorianCalendar calendarEnd = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
+		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();
+		this.cmtList = cmtList;
+		Iterator<Commitment> itr = cmtList.iterator();
+		while (itr.hasNext()) {
+			Commitment cmt = itr.next();
+			GregorianCalendar eventStartTime = cmt.getStartTime();
+			GregorianCalendar eventEndTime = (GregorianCalendar) cmt.getStartTime().clone();
+			eventEndTime.add(Calendar.HOUR, 1);
+			DayEvent dayEvent = new DayEvent(cmt.getName(), eventStartTime, eventEndTime);
+			addEvent(dayEvent);
+			//System.out.println(cmt.getName() + " " + eventStartTime.get(GregorianCalendar.HOUR_OF_DAY) + " " + eventEndTime.get(GregorianCalendar.HOUR_OF_DAY));
+		}
 	}
 	
 	//Test the detailed view, adding some new events
@@ -257,6 +294,11 @@ public class CalendarDayView extends JPanel {
 		frame.pack();
 		frame.setVisible(true);
 
+	}
+
+	@Override
+	public void update() {
+		updateDayView();
 	}
 	
 }

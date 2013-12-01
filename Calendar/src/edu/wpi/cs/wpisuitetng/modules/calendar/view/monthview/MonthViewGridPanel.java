@@ -121,7 +121,7 @@ public class MonthViewGridPanel extends JPanel {
 		Iterator<Commitment> itr = commitment.iterator();
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
-			Calendar calStartTime = cmt.getStartTime();
+			GregorianCalendar calStartTime = cmt.getStartTime();
 			if (calStartTime.get(GregorianCalendar.YEAR) == date.getYear()
 				&& calStartTime.get(GregorianCalendar.MONTH) == date.getMonth()
 				&& calStartTime.get(GregorianCalendar.DATE) == date.getDayOfMonth()) {

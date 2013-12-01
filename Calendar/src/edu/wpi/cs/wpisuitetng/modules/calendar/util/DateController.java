@@ -16,15 +16,11 @@ public class DateController {
 	
 	public DateController() {
 		cal = (Calendar) cal.clone();
-		
-		//System.out.println(cal);
 	}
 	
 	public DateController(int year, int month, int date) {
 		cal = (Calendar) cal.clone();
-		
 		cal.set(year, month, date);
-//		System.out.println(cal);
 	}
 	
 	public DateController(Calendar cale) {
@@ -34,8 +30,6 @@ public class DateController {
 	public DateController(DateController date) {
 		cal = (Calendar) cal.clone();
 		cal.set(date.getYear(), date.getMonth(), date.getDayOfMonth());
-		
-//		System.out.println(cal);
 	}
 	
 	

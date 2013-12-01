@@ -21,7 +21,9 @@ import java.awt.event.ActionListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -33,6 +35,8 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
@@ -40,7 +44,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 *
 */
 @SuppressWarnings("serial")
-public class CalendarWeekView extends JPanel {
+public class CalendarWeekView extends JPanel implements Updatable{
 	CalendarDay[] week = new CalendarDay[8];
 	DateController date = MainCalendarController.getInstance().getDateController();
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
@@ -48,6 +52,7 @@ public class CalendarWeekView extends JPanel {
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	JPanel weekPanel = new JPanel();
+	private Collection<Commitment> cmtList = new ArrayList<Commitment>();
 	/**
 	 * Constructor
 	 * Empty calendar
@@ -200,25 +205,27 @@ public class CalendarWeekView extends JPanel {
 	private void previousWeek() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToPreviousWeek();
-		updateWeekView();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	private void currentWeek() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToToday();
-		updateWeekView();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	private void nextWeek() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToNextWeek();
-		updateWeekView();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	public void updateWeekView() {
 		weekPanel.removeAll();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		date = MainCalendarController.getInstance().getDateController();
+		// Please do not change the dateController of MainCalendarController directly
+		// use clone() if necessary
+		date = MainCalendarController.getInstance().getDateController().clone();
 		
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
@@ -233,10 +240,37 @@ public class CalendarWeekView extends JPanel {
 			weekPanel.add(week[i]);
 		}
 		
+		parseCommitment();
+		
 		revalidate();
 		repaint();
 	}
 	
+	private void parseCommitment() {
+		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
+		
+		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		dateController.setToNextWeek();
+		
+		GregorianCalendar calendarEnd = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
+		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();
+		this.cmtList  = cmtList;
+		Iterator<Commitment> itr = cmtList.iterator();
+		while (itr.hasNext()) {
+			Commitment cmt = itr.next();
+			GregorianCalendar eventStartTime = cmt.getStartTime();
+			GregorianCalendar eventEndTime = (GregorianCalendar) cmt.getStartTime().clone();
+			eventEndTime.add(Calendar.HOUR, 1);
+			DayEvent dayEvent = new DayEvent(cmt.getName(), eventStartTime, eventEndTime);
+			addEvent(dayEvent, eventStartTime.get(GregorianCalendar.DAY_OF_WEEK));
+		}
+	}
+
 	/**
 	 * Resize panel as size of main window changes.
 	 */
@@ -266,6 +300,15 @@ public class CalendarWeekView extends JPanel {
 			frame.pack();
 			frame.setVisible(true);
 
+		}
+
+		@Override
+		public void update() {
+			updateWeekView();
+		}
+
+		public Collection<Commitment> getDayViewCommitmentList() {
+			return cmtList;
 		}
 		
 	

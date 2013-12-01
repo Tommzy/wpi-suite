@@ -15,21 +15,25 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.master.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**
  * This controller responds to actions from view MainCalendarView and
@@ -46,7 +50,10 @@ public class MainCalendarController implements ActionListener{
 	CalendarDayView dayView;
 	CalendarWeekView weekView;
 	MainView mainView;
-
+	
+	// contains the year view, month view and 
+	private Collection<Updatable> updateList = new ArrayList<Updatable>();
+	
 	public static MainCalendarController instance;
 	private DateController dateController = new DateController();
 	private CalendarTimePeriod selectedCalendarView;
@@ -187,17 +194,15 @@ public class MainCalendarController implements ActionListener{
 			break;
 		default: break;
 		}
+		
+		updateAll();
+		
 		view.getCalendarView().revalidate();
 		view.getCalendarView().repaint();
 
-		try { 
-			mainView.getMainTabPane().getCommitmentTable().update();
-		} catch (NullPointerException e) {
-			
-		}
 
-		
-		monthView.updateMonthView();
+		/*
+		monthView.update();
 		weekView.updateWeekView();
 		dayView.updateDayView();
 		
@@ -206,6 +211,7 @@ public class MainCalendarController implements ActionListener{
 		} catch (NullPointerException e) {
 			
 		}
+		*/
 	}
 	
 	public CalendarTimePeriod getSelectedCalendarView() {
@@ -234,6 +240,18 @@ public class MainCalendarController implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JToggleButton) {
 			timePeriodChanged((JToggleButton) e.getSource());
+		}
+	}
+	
+	public void addToUpdateList(Updatable component) {
+		updateList.add(component);
+	}
+	
+	public void updateAll() {
+		Iterator<Updatable> itr = updateList.iterator();
+		
+		while (itr.hasNext()) {
+			itr.next().update();
 		}
 	}
 	

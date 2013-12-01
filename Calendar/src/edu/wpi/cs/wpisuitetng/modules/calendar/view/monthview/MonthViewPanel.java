@@ -55,8 +55,8 @@ public class MonthViewPanel extends JPanel {
 			else
 				add(weekday, "width :14%:, wrap");
 		}
-		Calendar calendarStart = new GregorianCalendar(year, month, dayOfMonth, 0, 0);
-		Calendar calendarEnd = new GregorianCalendar(year, month, dayOfMonth, 0, 0);
+		GregorianCalendar calendarStart = new GregorianCalendar(year, month, dayOfMonth, 0, 0);
+		GregorianCalendar calendarEnd = new GregorianCalendar(year, month, dayOfMonth, 0, 0);
 		calendarEnd.add(Calendar.DATE, 35);
 		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
 		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();

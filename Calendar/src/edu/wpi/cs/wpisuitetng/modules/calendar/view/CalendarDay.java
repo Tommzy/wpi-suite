@@ -149,6 +149,7 @@ public class CalendarDay extends JPanel {
 	 * @param event Event to be added
 	 */
 	public void addEvent(DayEvent event) {
+		System.out.println(event.getEventName() + event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY));
 		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
@@ -395,10 +396,8 @@ public class CalendarDay extends JPanel {
 		resizeAllLabel();
 		int preferredWidth = this.getSize().width / currentMaxWidth;
 		for (int i = 0; i < components.length; i++) {
-//			System.out.println(components[i].toString());
 			if (components[i] instanceof EventLabel) {
 				if ((! ((EventLabel)components[i]).getText().equals(null)) && (((EventLabel)components[i]).getSize().width != 0)) {
-//					System.out.println(components[i].getSize().toString());
 					
 					String currentLabel = ((EventLabel)components[i]).getOriginalContent();
 					// Split up string to pull content from html tags
@@ -421,7 +420,6 @@ public class CalendarDay extends JPanel {
 						}
 					}
 					newText += "</div></HTML>";
-					System.out.println(newText);
 					((EventLabel)components[i]).setText(newText);
 					
 //					if (! ((EventLabel)components[i]).getOriginalContent().equals(newText)) {

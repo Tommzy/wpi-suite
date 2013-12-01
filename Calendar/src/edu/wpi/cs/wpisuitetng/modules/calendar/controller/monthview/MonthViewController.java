@@ -7,8 +7,8 @@ import java.util.GregorianCalendar;
 import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.master.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 public class MonthViewController implements ActionListener {
 	private static MonthViewController instance;
@@ -57,8 +57,7 @@ public class MonthViewController implements ActionListener {
 		} else if (e.getSource() == btnToday) {
 			date.setToToday();
 		}
-		monthView.updateMonthView();
-		MainCalendarController.getInstance().getMainView().getMainTabPane().getCommitmentTable().update();
+		MainCalendarController.getInstance().updateAll();
 	}
 	
 	public static MonthViewController getInstance() {

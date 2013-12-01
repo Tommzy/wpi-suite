@@ -14,7 +14,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public class Commitment implements Model {
 
 	String name;
-	Calendar startTime;
+	GregorianCalendar startTime;
 	String description;
 	int id = -1;
 
@@ -26,7 +26,7 @@ public class Commitment implements Model {
 		this.id = id;
 	}
 
-	public Commitment(String name, Calendar calendar,
+	public Commitment(String name, GregorianCalendar calendar,
 			String description) {
 		this.name = name;
 		this.startTime = calendar;
@@ -93,7 +93,7 @@ public class Commitment implements Model {
 		return parser.fromJson(json, Commitment[].class);
 	}
 
-	public Calendar getStartTime() {
+	public GregorianCalendar getStartTime() {
 		return startTime;
 	}
 
@@ -116,15 +116,15 @@ public class Commitment implements Model {
 	 * Determine if the Commitment is active during a certain time stamp For GUI
 	 * use
 	 * 
-	 * @param when
+	 * @param calendar
 	 *            the time stamp
 	 * @return true if active during the time stamp, false otherwise
 	 */
-	public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
+	public boolean isActiveDuringTimeStamp(Calendar calendar) {
 		// On Calendar view, commitment will be shown as an one-hour long block.
 		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
 		endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
-		if (when.before(startTime) || when.after(endTimeOnGUI)) {
+		if (calendar.before(startTime) || calendar.after(endTimeOnGUI)) {
 			return false;
 		} else {
 			return true;

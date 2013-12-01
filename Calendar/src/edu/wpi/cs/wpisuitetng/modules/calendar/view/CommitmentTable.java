@@ -12,15 +12,16 @@ import javax.swing.table.AbstractTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.master.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.FakeCommitmentModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 /**
@@ -30,7 +31,7 @@ import java.util.Iterator;
  * for a user/project.
  */
 @SuppressWarnings("serial")
-public class CommitmentTable extends JPanel {
+public class CommitmentTable extends JPanel implements Updatable {
 	Object[][] data;
 
 	/**
@@ -39,7 +40,7 @@ public class CommitmentTable extends JPanel {
 	public CommitmentTable() {
 		super(new GridLayout(1, 0));
 		update();
-
+		MainCalendarController.getInstance().addToUpdateList(this);
 	}
 
 	public void setupTable() {
@@ -79,6 +80,11 @@ public class CommitmentTable extends JPanel {
 			cmtList = MainCalendarController.getInstance().getMonthView()
 					.getMonthViewPanel().getMonthCommitmentList();
 			break;
+		case Day:
+			cmtList = MainCalendarController.getInstance().getDayView().getDayViewCommitmentList();
+			break;
+		case Week:
+			cmtList = MainCalendarController.getInstance().getWeekView().getDayViewCommitmentList();
 		default:
 			break;
 		}
@@ -90,12 +96,12 @@ public class CommitmentTable extends JPanel {
 		}
 		int length = cmtList.size();
 		Iterator<Commitment> itr = cmtList.iterator();
-		System.out.println(length);
+//		System.out.println(length);
 		data = new Object[length][3];
 		for (int i = 0; i < length; i++) {
 			Commitment cmt = itr.next();
 			data[i][0] = cmt.getName();
-			Calendar cal = cmt.getStartTime();
+			GregorianCalendar cal = cmt.getStartTime();
 			int year = cal.get(Calendar.YEAR);
 			int month = cal.get(Calendar.MONTH);
 			int day = cal.get(Calendar.DATE);

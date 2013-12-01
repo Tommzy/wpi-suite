@@ -3,14 +3,15 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 public class CommitmentFilter {
-	private Calendar startTime, endTime;
+	private GregorianCalendar startTime, endTime;
 	
-	public CommitmentFilter(Calendar startTime, Calendar endTime) {
+	public CommitmentFilter(GregorianCalendar startTime, GregorianCalendar endTime) {
 		this.startTime = startTime;
 		this.endTime = endTime;
 	}

@@ -1,17 +1,19 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
+package edu.wpi.cs.wpisuitetng.modules.calendar.master;
 
 import java.awt.Dimension;
 import java.text.DateFormatSymbols;
-import java.util.Collection;
-import java.util.GregorianCalendar;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.monthview.MonthViewController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthViewGridPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthViewPanel;
 
 /**
  * MonthView
@@ -19,7 +21,7 @@ import net.miginfocom.swing.MigLayout;
  *
  */
 @SuppressWarnings("serial")
-public class MonthView extends JPanel {
+public class MonthView extends JPanel implements Updatable{
 	private MonthViewPanel monthViewPanel;
 	private JLabel monthTitleLabel = new JLabel();
 	private String[] monthNames = new DateFormatSymbols().getMonths();
@@ -30,7 +32,7 @@ public class MonthView extends JPanel {
 
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		
-		updateMonthView();
+		update();
 		
 		MonthViewController controller = MonthViewController.getInstance();
 		controller.setMonthView(this);
@@ -60,7 +62,7 @@ public class MonthView extends JPanel {
 	 * construct a monthViewPanel according to the date of DateController
 	 * @return
 	 */
-	public void updateMonthView() {
+	public void update() {
 		this.removeAll();
 		DateController date = MainCalendarController.getInstance().getDateController();
 		
@@ -112,8 +114,6 @@ public class MonthView extends JPanel {
 		
 		if (getParent() != null && new Dimension((int)(getParent().getSize().getWidth() * percentage), (int)(getParent().getSize().getHeight() * percentage)) != this.getPreferredSize()) {
 			setPreferredSize(new Dimension((int)(getParent().getSize().getWidth() * percentage), (int)(getParent().getSize().getHeight() * percentage)));
-			//System.out.println(superComponent.getSize());
-
 		}
 		
 		 
