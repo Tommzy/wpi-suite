@@ -48,7 +48,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	CalendarDay[] week = new CalendarDay[8];
 	DateController date = MainCalendarController.getInstance().getDateController();
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
-	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
+	JLabel header = new JLabel("<HTML><div style='font-size:10'>&nbsp;<br />&nbsp;</div></HTML>");
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	JPanel weekPanel = new JPanel();
@@ -280,6 +280,9 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			return;
 		}
 		this.setPreferredSize(new Dimension((int)(this.getParent().getSize().getWidth() * 0.9), (int)(this.getPreferredSize().getHeight())));
+		for (int i = 1; i < week.length; i++) {
+			week[i].setPreferredSize(new Dimension((int) (week[i].getParent().getPreferredSize().width / 7), (int) (week[i].getParent().getPreferredSize().getHeight())));
+		}
 	}
 	
 	//Test the detailed view, adding some new events

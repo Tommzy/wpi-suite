@@ -90,20 +90,5 @@ public class EventLabel extends JLabel {
 	public String getOriginalContent () {
 		return originalContent;
 	}
-	
-	//Test the detailed view, adding some new events
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-
-		EventLabel label = new EventLabel("aaewfihuiuhetrewhfiniufnewfrew yurehghriuehtiuhewiuhiurwehtiuwehghrewnciuewqrhtehgiuhregwmieurwnwivciu");
-		frame.add(label);
-
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		frame.pack();
-		frame.setVisible(true);
-
-	}
-	
 
 }

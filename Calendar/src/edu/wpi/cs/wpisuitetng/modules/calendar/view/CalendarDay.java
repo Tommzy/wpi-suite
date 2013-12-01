@@ -118,6 +118,7 @@ public class CalendarDay extends JPanel {
 			c.gridy = i;
 			if (i % (60/minimalInterval) == 0) {
 				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
+				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
 				timeLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
 				view.add(timeLabel, c);
 			} 
@@ -134,7 +135,7 @@ public class CalendarDay extends JPanel {
 	 * Initialize the header shown on the top.
 	 */
 	protected void initHeader() {
-		JLabel header = new JLabel("<HTML><div style='text-align:center'>" + 
+		JLabel header = new JLabel("<HTML><div style='text-align:center; font-size:10'>" + 
 					format(date.getMonth() + 1) + "-" + 
 					format(date.getDayOfMonth()) + "-" + 
 					date.getYear() + "<br />" + 
@@ -159,6 +160,7 @@ public class CalendarDay extends JPanel {
 		
 		// Set up JLabel to display the event
 		EventLabel newEvent = new EventLabel(label); 
+		newEvent.setFont(newEvent.getFont().deriveFont(10f));
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
@@ -227,7 +229,8 @@ public class CalendarDay extends JPanel {
 		label = formatLabel(commitment);
 		
 		// Set up JLabel to display the event
-		EventLabel newCommitment = new EventLabel(label); 
+		EventLabel newCommitment = new EventLabel(label);
+		newCommitment.setFont(newCommitment.getFont().deriveFont(10f));
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background

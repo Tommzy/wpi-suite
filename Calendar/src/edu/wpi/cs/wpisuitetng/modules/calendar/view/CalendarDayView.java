@@ -46,7 +46,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 @SuppressWarnings("serial")
 public class CalendarDayView extends JPanel implements Updatable{
 	CalendarDay[] day = new CalendarDay[2];
-	JLabel header = new JLabel("<HTML><div>&nbsp;<br />&nbsp;</div></HTML>");
+	JLabel header = new JLabel("<HTML><div style = 'font-size:10'>&nbsp;<br />&nbsp;</div></HTML>");
 	DateController date = MainCalendarController.getInstance().getDateController();
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
@@ -70,6 +70,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
+		dayPanel.setPreferredSize(new Dimension(1200, 1035));
 		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
 		day[0] = new CalendarDay(date);
 		day[0].initTimeLabels();
