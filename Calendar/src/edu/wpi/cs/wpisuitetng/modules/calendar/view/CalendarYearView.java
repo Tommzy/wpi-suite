@@ -130,7 +130,7 @@ public class CalendarYearView extends JPanel{
 		}
 		
 		calendarMonth.setFont(calendarMonth.getFont().deriveFont(
-				(float) this.getParent().getSize().width / 80));
+				Math.max(8f,(float) this.getParent().getSize().width / 85)));
 		
 		super.paint(g);
 	}
@@ -139,10 +139,10 @@ public class CalendarYearView extends JPanel{
 		if (this.getParent() == null) {
 			return;
 		}
-		
 		this.setPreferredSize(new Dimension
 				((int)(this.getParent().getSize().getWidth() * 0.9),
-				(int)(this.getParent().getSize().getWidth() * 0.9))
+				Math.max((int)(this.getParent().getSize().getWidth() * 0.9 * 0.75) ,
+				(int)(this.getParent().getSize().getHeight() * 0.95)))
 		);
 	}
 	

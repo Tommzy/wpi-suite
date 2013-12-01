@@ -53,6 +53,7 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 		this.setSelectionBackground(SELECTION);
 		this.setFlaggedDayForeground(START_END_DAY);
 		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+		this.setAlignmentY(TOP_ALIGNMENT);
 		this.setAlignmentX(CENTER_ALIGNMENT);
 		
 		Calendar cal = this.getCalendar();
@@ -114,8 +115,8 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 		}
 		
 		this.setPreferredSize(new Dimension
-				((int)(this.getParent().getSize().getWidth() * 0.9),
-				(int)(this.getParent().getSize().getHeight() * 0.9))
+				((int)(this.getParent().getSize().getWidth() * 0.95) ,
+				(int)(this.getParent().getSize().getHeight() * 0.95))
 		);
 	}
 
