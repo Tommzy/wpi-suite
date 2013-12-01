@@ -96,6 +96,23 @@ public class Commitment implements Model{
 	public void setStartTime(GregorianCalendar startTime) {
 		this.startTime = startTime;
 	}
+	
+    /**
+     * Determine if the Commitment is active during a certain time stamp
+     * For GUI use
+     * @param when the time stamp
+     * @return true if active during the time stamp, false otherwise
+     */
+    public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
+        // On Calendar view, commitment will be shown as an one-hour long block. 
+    	GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
+    	endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
+    	if (when.before(startTime) || when.after(endTimeOnGUI)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
 
 	
