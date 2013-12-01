@@ -10,6 +10,22 @@ public class AddEventPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
 	JButton btnSubmit;
+	JButton btnCancel;
+	
+	/**
+	 * @return the btnCancel
+	 */
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+	/**
+	 * @param btnCancel the btnCancel to set
+	 */
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
+	}
+
 	public static AddEventPanelController instance;
 
 	public AddEventPanelController() {
@@ -44,6 +60,9 @@ public class AddEventPanelController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSubmit) {
+			tabbedPane.removeTabAt(1);
+		}
+		else if (e.getSource() == btnCancel) {
 			tabbedPane.removeTabAt(1);
 		}
 
