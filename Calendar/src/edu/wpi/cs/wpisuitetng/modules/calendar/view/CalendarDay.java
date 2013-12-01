@@ -149,7 +149,6 @@ public class CalendarDay extends JPanel {
 	 * @param event Event to be added
 	 */
 	public void addEvent(DayEvent event) {
-		System.out.println(event.getEventName() + event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY));
 		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 

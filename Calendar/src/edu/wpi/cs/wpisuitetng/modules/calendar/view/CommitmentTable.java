@@ -12,9 +12,9 @@ import javax.swing.table.AbstractTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.FakeCommitmentModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 import java.awt.Font;
 import java.awt.GridLayout;

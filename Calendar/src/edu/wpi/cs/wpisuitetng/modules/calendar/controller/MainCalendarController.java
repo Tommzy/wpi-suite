@@ -25,7 +25,6 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.MonthView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
@@ -34,6 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**
  * This controller responds to actions from view MainCalendarView and
