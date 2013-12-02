@@ -66,7 +66,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		week[0] = new CalendarDay(date);
+		week[0] = new CalendarDay(null);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
@@ -97,7 +97,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		week[0] = new CalendarDay(date);
+		week[0] = new CalendarDay(null);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
@@ -133,7 +133,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		week[0] = new CalendarDay(date);
+		week[0] = new CalendarDay(null);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
