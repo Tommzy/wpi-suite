@@ -100,7 +100,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if (!db.save(model, s.getProject())) {
 			throw new WPISuiteException("Unable to save Commitment.");
 		}
-//		db.save(model);
+		//db.save(model,s.getProject());
 	}
 
 	/** Takes a Commitment and assigns a unique id if necessary
@@ -140,7 +140,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Return the list of Commitments as an array
 		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
-//		return db.retrieveAll(new Commitment(null, null, null));
 
 	}
 
