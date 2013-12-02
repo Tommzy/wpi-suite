@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.Date;
@@ -13,6 +23,14 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+
+/**
+ * Basic Commitment class that contains the data to be stored for a Commitment
+ * 
+ * 
+ * @version $Revision: 1.0 $
+ * @author Hui Zheng
+ */
 public class Commitment implements Model{
 
 	private String name;

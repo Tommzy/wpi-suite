@@ -18,7 +18,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 
 /**Abstruct class of calendar items list
- * @author Tommzy
+ * @author Hui Zheng
  *
  */
 public abstract class CalendarItemsList {

@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
  * 
  *
  * @version $Revision: 1.0 $
- * @author Team3
+ * @author Tommzy
  */
 @SuppressWarnings("serial")
 public class CommitmentsModel extends AbstractListModel{

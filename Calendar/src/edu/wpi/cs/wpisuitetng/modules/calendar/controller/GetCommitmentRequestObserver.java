@@ -1,10 +1,28 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
+
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
+
+/**
+ * This controller coordinates retrieving all of the Commitment
+ * from the server.
+ *
+ * @version $Revision: 1.0 $
+ * @author Hui Zheng & EJ & Jared
+ */
 public class GetCommitmentRequestObserver implements RequestObserver{
 
 	public GetCommitmentController controller;
@@ -27,9 +45,6 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 		//put this back in
 	
 		System.out.println("Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
-		System.out.println("Success! Here is GetCommitmentRequestController in object way "+ "   " + items[0]+items[3]+items[4].getName()+items[4].getStartTime());
-		System.out.println("Success! Here is GetCommitmentRequestController in object to string way "+ "   " + items.toString()+ items[0].toString()+items[3].toString()+items[4].getName().toString()+items[4].getStartTime().toString());
-
 		controller.receivedCommitments(items);
 
 		

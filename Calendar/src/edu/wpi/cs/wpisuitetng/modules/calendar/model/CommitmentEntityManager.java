@@ -25,14 +25,23 @@ import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /** This is the entity manager for Commitments in the CommitmentEntityManager module. The provided
  *  methods include functionality for creating, updating, getting specific Commitments, and 
  *  getting all Commitments. Current, Commitments are project specific, so
- *  Commitments pulled from the database will only be for the current current project.   
+ *  Commitments pulled from the database will only be for the current current project.
+ *     
+ * This is the entity manager for the Commitment in the
+ * Calendar module.
+ *
+ * @version $Revision: 1.0 $
+ * @author Hui Zheng & EJ
  */
 public class CommitmentEntityManager implements EntityManager<Commitment> {
 	/** The database */
@@ -102,6 +111,21 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		}
 		//db.save(model,s.getProject());
 	}
+	
+	
+	/**
+	 * Ensures that a user is of the specified role
+	 * @param session the session
+	 * @param role the role being verified
+	
+	 * @throws WPISuiteException user isn't authorized for the given role */
+	private void ensureRole(Session session, Role role) throws WPISuiteException {
+		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		if(!user.getRole().equals(role)) {
+			throw new UnauthorizedException();
+		}
+	}
+	
 
 	/** Takes a Commitment and assigns a unique id if necessary
 	 * 
@@ -231,6 +255,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
+		ensureRole(s, Role.ADMIN);
 		Commitment oldReq = getEntity(s,   id    )[0];
 
 		if (db.delete(oldReq) == oldReq){
@@ -247,9 +272,11 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 *  exists, but has a deleted status. 
 	 * 
 	 *  @param s The current user session
+	 * @throws WPISuiteException 
 	 *  @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
-	public void deleteAll(Session s)  {
+	public void deleteAll(Session s) throws WPISuiteException  {
+		ensureRole(s, Role.ADMIN);
 		db.deleteAll(new Commitment(null, null, null), s.getProject());
 	}
 

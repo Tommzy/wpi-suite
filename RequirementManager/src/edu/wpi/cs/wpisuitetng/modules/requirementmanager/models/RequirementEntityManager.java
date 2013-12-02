@@ -111,12 +111,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	public void save(Session s, Requirement model) {
 		db.save(model, s.getProject());
 	}
-	
 	/**
 	 * Ensures that a user is of the specified role
 	 * @param session the session
 	 * @param role the role being verified
-	
 	 * @throws WPISuiteException user isn't authorized for the given role */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
 		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
@@ -129,10 +127,6 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 	 * Deletes a requirement from the database
 	 * @param s the session
 	 * @param id the id of the requirement to delete
-	
-	
-	
-	
 	 * @return true if the deletion was successful * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String) */
 	@Override
@@ -141,11 +135,12 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		return (db.delete(getEntity(s, id)[0]) != null) ? true : false;
 	}
 	
+	
+	
+	
 	/**
 	 * Deletes all requirements from the database
 	 * @param s the session
-	
-	
 	 * @throws WPISuiteException * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session) * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
 	@Override
@@ -154,12 +149,10 @@ public class RequirementEntityManager implements EntityManager<Requirement> {
 		db.deleteAll(new Requirement(), s.getProject());
 	}
 	
+	
+	
 	/**
 	 * Returns the number of requirements in the database
-	
-	
-	
-	
 	 * @return number of requirements stored * @throws WPISuiteException * @throws WPISuiteException * @throws WPISuiteException
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count() */
 	@Override
