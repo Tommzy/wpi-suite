@@ -12,14 +12,14 @@ import java.util.GregorianCalendar;
  *
  */
 public class DateController {
-	private Calendar cal = GregorianCalendar.getInstance();
+	private GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
 	
 	public DateController() {
-		cal = (Calendar) cal.clone();
+		cal = (GregorianCalendar) cal.clone();
 	}
 	
 	public DateController(int year, int month, int date) {
-		cal = (Calendar) cal.clone();
+		cal = (GregorianCalendar) cal.clone();
 		cal.set(year, month, date);
 	}
 	
@@ -28,7 +28,7 @@ public class DateController {
 	}
 	
 	public DateController(DateController date) {
-		cal = (Calendar) cal.clone();
+		cal = (GregorianCalendar) cal.clone();
 		cal.set(date.getYear(), date.getMonth(), date.getDayOfMonth());
 	}
 	
@@ -99,7 +99,7 @@ public class DateController {
 	}
 	
 	public void setToToday() {
-		cal = GregorianCalendar.getInstance();
+		cal = (GregorianCalendar) GregorianCalendar.getInstance();
 	}
 
 	public DateController getNextDate() {
@@ -149,4 +149,7 @@ public class DateController {
 			cal.add(GregorianCalendar.WEEK_OF_MONTH, -1);
 	}
 	
+	public GregorianCalendar getCalendar() {
+		return cal;
+	}
 }
