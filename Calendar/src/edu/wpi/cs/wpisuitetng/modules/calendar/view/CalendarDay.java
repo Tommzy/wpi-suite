@@ -150,7 +150,7 @@ public class CalendarDay extends JPanel {
 		String label = formatLabel(event);
 		
 		// Set up JLabel to display the event
-		EventLabel newEvent = new EventLabel(label);
+		EventLabel newEvent = new EventLabel(label); 
 		newEvent.setFont(newEvent.getFont().deriveFont(10f));
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
@@ -220,7 +220,7 @@ public class CalendarDay extends JPanel {
 		label = formatLabel(commitment);
 		
 		// Set up JLabel to display the event
-		EventLabel newCommitment = new EventLabel(label); 
+		EventLabel newCommitment = new EventLabel(label);
 		newCommitment.setFont(newCommitment.getFont().deriveFont(10f));
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
@@ -389,10 +389,8 @@ public class CalendarDay extends JPanel {
 		resizeAllLabel();
 		int preferredWidth = this.getSize().width / currentMaxWidth;
 		for (int i = 0; i < components.length; i++) {
-//			System.out.println(components[i].toString());
 			if (components[i] instanceof EventLabel) {
 				if ((! ((EventLabel)components[i]).getText().equals(null)) && (((EventLabel)components[i]).getSize().width != 0)) {
-//					System.out.println(components[i].getSize().toString());
 					
 					String currentLabel = ((EventLabel)components[i]).getOriginalContent();
 					// Split up string to pull content from html tags

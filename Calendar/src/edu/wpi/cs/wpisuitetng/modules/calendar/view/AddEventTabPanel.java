@@ -48,7 +48,7 @@ public class AddEventTabPanel extends JTabbedPane {
 	
 	/** The filter scroll. */
 	JScrollPane filterScroll;
-	
+	CommitmentTable commitmentTable;
 	/**
 	 * Adds the event tab panel.
 	 */
@@ -76,7 +76,7 @@ public class AddEventTabPanel extends JTabbedPane {
 //		eventScroll = new JScrollPane(eventTable);
 		tablesPanel.add(eventTable);
 		// Tasks
-		CommitmentTable commitmentTable = new CommitmentTable();
+		commitmentTable = new CommitmentTable();
 		commitmentTable.setLayout(new BoxLayout(commitmentTable, BoxLayout.Y_AXIS));
 //		taskScroll = new JScrollPane(taskTable);
 		tablesPanel.add(commitmentTable);
@@ -97,6 +97,10 @@ public class AddEventTabPanel extends JTabbedPane {
 		
 		this.setPreferredSize(new Dimension(800, 700));
 		
+	}
+
+	public CommitmentTable getCommitmentTable() {
+		return commitmentTable;
 	}
 	
 }

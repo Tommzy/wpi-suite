@@ -12,26 +12,24 @@ import java.util.GregorianCalendar;
  *
  */
 public class DateController {
-	private Calendar cal = GregorianCalendar.getInstance();
+	private GregorianCalendar cal = (GregorianCalendar) GregorianCalendar.getInstance();
 	
 	public DateController() {
-		cal = (Calendar) cal.clone();
-		
-		//System.out.println(cal);
+		cal = (GregorianCalendar) cal.clone();
 	}
 	
 	public DateController(int year, int month, int date) {
-		cal = (Calendar) cal.clone();
-		
+		cal = (GregorianCalendar) cal.clone();
 		cal.set(year, month, date);
-//		System.out.println(cal);
+	}
+	
+	public DateController(Calendar cale) {
+		cal.set(cale.get(Calendar.YEAR), cale.get(Calendar.MONTH), cale.get(Calendar.DATE));
 	}
 	
 	public DateController(DateController date) {
-		cal = (Calendar) cal.clone();
+		cal = (GregorianCalendar) cal.clone();
 		cal.set(date.getYear(), date.getMonth(), date.getDayOfMonth());
-		
-//		System.out.println(cal);
 	}
 	
 	
@@ -49,10 +47,6 @@ public class DateController {
 	
 	public int getDayOfWeek() {
 		return cal.get(GregorianCalendar.DAY_OF_WEEK);
-	}
-	
-	public int getFirstDayOfWeek() {
-		return cal.getFirstDayOfWeek();
 	}
 	
 	/**
@@ -78,10 +72,84 @@ public class DateController {
 		return newDate;
 	}
 	
-	public DateController getNextDate() {
+	
+
+	public void setToNextDate() {
 		cal.add(GregorianCalendar.DATE, 1);
+	}
+	
+	public void setToPreviousDate() {
+		cal.add(GregorianCalendar.DATE, -1);
+	}
+	
+	public void setToNextMonth() {
+		cal.add(GregorianCalendar.MONTH, 1);
+	}
+	
+	public void setToPreviousMonth() {
+		cal.add(GregorianCalendar.MONTH, -1);
+	}
+	
+	public void setToNextYear() {
+		cal.add(GregorianCalendar.YEAR, 1);
+	}
+	
+	public void setToPreviousYear() {
+		cal.add(GregorianCalendar.YEAR, -1);
+	}
+	
+	public void setToToday() {
+		cal = (GregorianCalendar) GregorianCalendar.getInstance();
+	}
+
+	public DateController getNextDate() {
+		cal.add(GregorianCalendar.DATE, +1);
 		DateController newDate = new DateController(this);
 		cal.add(GregorianCalendar.DATE, -1);
 		return newDate;
+	}
+
+	public int getFirstDayOfWeek() {
+		return cal.getFirstDayOfWeek();
+	}
+	
+	public String toString() {
+		return getYear() + " " + getMonth() + " " + getDayOfMonth();
+	}
+	
+	public DateController clone() {
+		return new DateController(getYear(), getMonth(), getDayOfMonth());
+	}
+	
+	public boolean equals(Object o) {
+		if (!(o instanceof DateController)) {
+			return false;
+		}
+		
+		if (((DateController)o).getYear() != getYear()) {
+			return false;
+		}
+		
+		if (((DateController)o).getMonth() != getMonth()) {
+			return false;
+		}
+		
+		if (((DateController)o).getDayOfMonth() != getDayOfMonth()) {
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public void setToNextWeek() {
+		cal.add(GregorianCalendar.WEEK_OF_MONTH, 1);
+	}
+		
+	public void setToPreviousWeek() {
+			cal.add(GregorianCalendar.WEEK_OF_MONTH, -1);
+	}
+	
+	public GregorianCalendar getCalendar() {
+		return cal;
 	}
 }

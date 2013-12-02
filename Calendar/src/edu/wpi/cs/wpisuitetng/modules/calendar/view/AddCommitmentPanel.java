@@ -12,14 +12,16 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.awt.Dimension;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import net.miginfocom.swing.MigLayout;
@@ -32,19 +34,25 @@ import net.miginfocom.swing.MigLayout;
 public class AddCommitmentPanel extends JPanel {
 
   /** The btn submit. */
-  JButton    btnSubmit;
+  JButton    btnSubmit, btnCancel;
 
   /** The name label. */
   JLabel     nameLabel;
+  
+  /** The error msg box for name. */
+  JErrorMessageLabel nameErrMsg;
 
   /** The name text field. */
   JTextField nameTextField;
 
-  /** The end date label. */
-  JLabel     startDateLabel, endDateLabel;
+  /** The date label. */
+  JLabel     startDateLabel;
 
   /** The start time text field. */
-  JTextField startDateTextField, startTimeTextField;
+  JFormattedTextField startDatePicker, startTimeTextField;
+  
+  /** The error msg box for date and time. */
+  JErrorMessageLabel	startDateTimeErrMsg; 
 
   /** The location label. */
   JLabel     locationLabel;
@@ -77,12 +85,19 @@ public class AddCommitmentPanel extends JPanel {
     nameLabel = new JLabel("Name:");
 
     nameTextField = new JTextField(10);
+    
+    nameErrMsg = new JErrorMessageLabel("Name can not be empty! ");
 
     startDateLabel = new JLabel("Time:");
 
-    startDateTextField = new JTextField(10);
-
-    startTimeTextField = new JTextField(4);
+    try {
+		startDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		startTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));		
+	} catch (ParseException pe) {
+		System.out.println("Date / time formatter is bad: " + pe.getMessage());
+	}
+    
+    startDateTimeErrMsg = new JErrorMessageLabel();
 
     locationLabel = new JLabel("Where:");
     locationTextField = new JTextField(10);
@@ -100,23 +115,42 @@ public class AddCommitmentPanel extends JPanel {
     CommitmentsModel model = null;
 
     btnSubmit = new JButton("Submit");
+    btnCancel = new JButton ("Cancel");
+    
+    // Set up properties and values
+	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
+
+    startDatePicker.setColumns(8);
+	startDatePicker.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
+	startDatePicker.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
+	startTimeTextField.setColumns(4);
+	startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
+	
+	startTimeTextField.setValue(getCurrentTime());
 
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField);
+    contentPanel.add(nameErrMsg, "wrap");
     contentPanel.add(startDateLabel);
-    contentPanel.add(startDateTextField);
-    contentPanel.add(startTimeTextField, "wrap");
+    contentPanel.add(startDatePicker);
+    contentPanel.add(startTimeTextField);
+    contentPanel.add(startDateTimeErrMsg, "wrap");
     // This is not in commitments anymore, still here if added back
-    // contentPanel.add(locatoinLabel);
+    // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
     contentPanel.add(descriptionLabel);
     contentPanel.add(descriptionTextArea, "span 4");
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeTextArea, "wrap, span 4");
     contentPanel.add(btnSubmit);
+    contentPanel.add(btnCancel);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
     btnSubmit.addActionListener(new AddCommitmentController(model,this));
     AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
+    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
     this.add(contentPanel);
   }
 
@@ -146,12 +180,12 @@ public class AddCommitmentPanel extends JPanel {
   public GregorianCalendar getNewDate(String data) {
     String dateString = "";
     if(data.equals("startTime")){
-      dateString = (this.startDateTextField.getText() + " " + this.startTimeTextField.getText());
+      dateString = (this.startDatePicker.getValue() + " " + this.startTimeTextField.getValue());
       System.out.println("Get start time success! " + dateString);
     }
     else if(data.equals("endTime")){
     	
-    	dateString = (this.startDateTextField.getText() + " " + this.startTimeTextField.getText());
+    	dateString = (this.startDatePicker.getValue() + " " + this.startTimeTextField.getValue());
     	System.out.println("Get end time success! ");
     }
       
@@ -193,4 +227,208 @@ public class AddCommitmentPanel extends JPanel {
   public String getNewDescription() {
     return this.descriptionTextArea.getText();
   }
+  
+  public String getCurrentTime() {
+		String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
+		String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
+		return hour + ":" + minute;
+	}
+	
+	private String formatInt (int i) {
+		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
+	}
+	
+	private boolean checkContent() {
+		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
+			return true;
+		}
+		else 
+			return false;
+	}
+	
+	private class TextVerifier extends InputVerifier {
+		JLabel errMsg; 
+		JButton btnSubmit;
+		
+		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
+			this.errMsg = (JLabel) errMsg;
+			this.btnSubmit = btnSubmit;
+		}
+		
+		@Override
+		public boolean verify(JComponent input) {
+			JTextField tf = (JTextField) input;
+			if (tf.getText().trim().equals("")) {
+				errMsg.setText("Invalid Name! ");
+				btnSubmit.setEnabled(checkContent());
+			}
+			else {
+				errMsg.setText("");
+				btnSubmit.setEnabled(checkContent());
+			}
+			return (! tf.getText().trim().equals(""));
+		}
+	}
+	
+	private class TimeVerifier extends InputVerifier {
+		JLabel errMsg; 
+		JButton btnSubmit;
+		
+		public TimeVerifier(JComponent errMsg, JButton btnSubmit) {
+			this.errMsg = (JLabel) errMsg;
+			this.btnSubmit = btnSubmit;
+		}
+		
+		@Override
+		public boolean verify(JComponent input) {
+			JTextField tf = (JTextField) input;
+			String content[] = tf.getText().split(":");
+			if ((! content[0].trim().equals("")) && (! content[1].trim().equals(""))) {
+				if (Integer.parseInt(content[0].trim()) > 23 || Integer.parseInt(content[1].trim()) > 59) {
+					errMsg.setText("Invalid Time! ");
+					btnSubmit.setEnabled(checkContent());
+					return false;
+				}
+				else {
+					content[0] = formatInt(Integer.parseInt(content[0].trim()));
+					content[1] = formatInt(Integer.parseInt(content[1].trim()));
+					tf.setText(content[0] + ":" + content[1]);
+					errMsg.setText("");
+					btnSubmit.setEnabled(checkContent());
+					return true;
+				}
+			}
+			else {
+				errMsg.setText("Invalid Time! ");
+				btnSubmit.setEnabled(checkContent());
+				return false;
+			}
+		}
+	}
+	
+	private class DateVerifier extends InputVerifier {
+		JLabel errMsg; 
+		JButton btnSubmit;
+		
+		public DateVerifier(JComponent errMsg, JButton btnSubmit) {
+			this.errMsg = (JLabel) errMsg;
+			this.btnSubmit = btnSubmit;
+		}
+
+		@Override
+		public boolean verify(JComponent input) {
+			JTextField tf = (JTextField) input;
+			ArrayList<Integer> month31day = new ArrayList<Integer>();
+			month31day.add(1);
+			month31day.add(3);
+			month31day.add(5);
+			month31day.add(7);
+			month31day.add(8);
+			month31day.add(10);
+			month31day.add(12);
+			final ArrayList<Integer> month30day = new ArrayList<Integer>();
+			month30day.add(4);
+			month30day.add(6);
+			month30day.add(9);
+			month30day.add(11);
+			
+			String[] content = tf.getText().split("/");
+			if ((! content[0].trim().equals("")) && (! content[1].trim().equals("")) && (! content[2].trim().equals(""))) {
+				if (! content[2].trim().contains(" ")) {
+					if (month31day.contains(Integer.parseInt(content[0].trim())) ) {
+						if (Integer.parseInt(content[1].trim()) > 31) {
+							errMsg.setText("Invalid Date! ");
+							btnSubmit.setEnabled(checkContent());
+							return false;
+						}
+						else {
+							content[0] = formatInt(Integer.parseInt(content[0].trim()));
+							content[1] = formatInt(Integer.parseInt(content[1].trim()));
+							tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
+							errMsg.setText("");
+							btnSubmit.setEnabled(checkContent());
+							return true;
+						}
+					}
+					else if (month30day.contains(Integer.parseInt(content[0].trim())) ) {
+						if (Integer.parseInt(content[1].trim()) > 30) {
+							errMsg.setText("Invalid Date! ");
+							btnSubmit.setEnabled(checkContent());
+							return false;
+						}
+						else {
+							content[0] = formatInt(Integer.parseInt(content[0].trim()));
+							content[1] = formatInt(Integer.parseInt(content[1].trim()));
+							tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
+							errMsg.setText("");
+							btnSubmit.setEnabled(checkContent());
+							return true;
+						}
+					}
+					else if (Integer.parseInt(content[0].trim()) == 2 ) {
+						if (Integer.parseInt(content[2].trim()) % 4 != 0) {
+							if (Integer.parseInt(content[1].trim()) > 28) {
+								errMsg.setText("Invalid Date! ");
+								btnSubmit.setEnabled(checkContent());
+								return false;
+							}
+							else {
+								content[0] = formatInt(Integer.parseInt(content[0].trim()));
+								content[1] = formatInt(Integer.parseInt(content[1].trim()));
+								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
+								errMsg.setText("");
+								btnSubmit.setEnabled(checkContent());
+								return true;
+							}
+						}
+						else if (Integer.parseInt(content[2].trim()) % 400 != 0 ) {
+							if (Integer.parseInt(content[1].trim()) > 29) {
+								errMsg.setText("Invalid Date! ");
+								btnSubmit.setEnabled(checkContent());
+								return false;
+							}
+							else {
+								content[0] = formatInt(Integer.parseInt(content[0].trim()));
+								content[1] = formatInt(Integer.parseInt(content[1].trim()));
+								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
+								errMsg.setText("");
+								btnSubmit.setEnabled(checkContent());
+								return true;
+							}
+						}
+						else {
+							if (Integer.parseInt(content[1].trim()) > 28) {
+								errMsg.setText("Invalid Date! ");
+								btnSubmit.setEnabled(checkContent());
+								return false;
+							}
+							else {
+								content[0] = formatInt(Integer.parseInt(content[0].trim()));
+								content[1] = formatInt(Integer.parseInt(content[1].trim()));
+								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
+								errMsg.setText("");
+								btnSubmit.setEnabled(checkContent());
+								return true;
+							}
+						}
+					}
+					else {
+						errMsg.setText("Invalid Date! ");
+						btnSubmit.setEnabled(checkContent());
+						return false;
+					}
+				}
+				else {
+					errMsg.setText("Invalid Date! ");
+					btnSubmit.setEnabled(checkContent());
+					return false;
+				}
+			}
+			else {
+				errMsg.setText("Invalid Date! ");
+				btnSubmit.setEnabled(checkContent());
+				return false;
+			}
+		}
+	}
 }

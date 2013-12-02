@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -55,57 +56,16 @@ public class Commitment implements Model{
 	 * Getter function for id
 	 * @return id
 	 */
+
 	public int getId() {
 		return id;
 	}
 
-	/**
-	 * Setter function for id
-	 * @param id
-	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	/**
-	 * Getter function for name
-	 * @return name
-	 */
-	public String getName() {
-		return name;
-	}
 
-	/**
-	 * Setter function of name
-	 * @param name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Getter function of description
-	 * @return description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 * Setter function of description
-	 * @param description
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	/**
-	 * Getter function of startTime
-	 * @return startTime
-	 */
-	public GregorianCalendar getStartTime() {
-		return startTime;
-	}
 
 	/**
 	 * Setter function of startTime
@@ -165,13 +125,13 @@ public class Commitment implements Model{
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -180,15 +140,53 @@ public class Commitment implements Model{
 		return null;
 	}
 
-	//TODO javadoc comment
+	// TODO javadoc comment
 	public static Commitment fromJSON(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment.class);
 	}
-	
-	public static Commitment[] fromJsonArray(String json){
+
+	public static Commitment[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment[].class);
+	}
+
+	public GregorianCalendar getStartTime() {
+		return startTime;
+	}
+
+	public String toString() {
+		return startTime.get(Calendar.YEAR) + " "
+				+ startTime.get(Calendar.MONTH) + " "
+				+ startTime.get(Calendar.DATE) + " " + name + " " + description;
+
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * Determine if the Commitment is active during a certain time stamp For GUI
+	 * use
+	 * 
+	 * @param calendar
+	 *            the time stamp
+	 * @return true if active during the time stamp, false otherwise
+	 */
+	public boolean isActiveDuringTimeStamp(Calendar calendar) {
+		// On Calendar view, commitment will be shown as an one-hour long block.
+		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
+		endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
+		if (calendar.before(startTime) || calendar.after(endTimeOnGUI)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }
