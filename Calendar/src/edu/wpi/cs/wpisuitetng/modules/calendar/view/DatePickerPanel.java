@@ -31,6 +31,7 @@ public class DatePickerPanel extends JPanel {
 		datePicker = new DatePicker(year, month, date);
 		headerLabel = new DatePickerPanelHeaderLabel(new DateController(year, month, date));
 		datePicker.setHeaderLabel(headerLabel);
+		datePicker.setSuperDateController(dateController);
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		add(headerLabel, "wrap");
 		JButton backButton = new JButton("<");
@@ -59,5 +60,11 @@ public class DatePickerPanel extends JPanel {
 		add(datePicker);
 		revalidate();
 		repaint();
+		//System.out.println(dateController);
 	}
+	
+	public DateController getSelectedDate() {
+		return dateController;
+	}
+	
 }

@@ -17,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 public class DatePicker extends JPanel {
 	protected DateController dateController = new DateController();
+	protected DateController superDateController = null;
 	protected DateController dateIte;
 	protected Collection<DatePickerLabel> dateList = new ArrayList<DatePickerLabel>();
 	protected JLabel headerLabel = null;
@@ -105,7 +106,7 @@ public class DatePicker extends JPanel {
 				label.setBackground(Color.white);
 			}
 		}
-		
+		superDateController = dateController.clone();
 		updateHeaderLabel();
 	}
 	
@@ -126,4 +127,9 @@ public class DatePicker extends JPanel {
 	public void setHeaderLabel(JLabel label) {
 		headerLabel = label;
 	}
+	
+	public void setSuperDateController(DateController date) {
+		superDateController = date;
+	}
+	
 }
