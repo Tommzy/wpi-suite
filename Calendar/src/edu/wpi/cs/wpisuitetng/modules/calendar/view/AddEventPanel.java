@@ -33,7 +33,7 @@ public class AddEventPanel extends JPanel {
 	JLabel nameLabel;
 
 	JTextField nameTextField;
-	
+
 	JErrorMessageLabel nameErrMsg;
 
 	JLabel startDateLabel, endDateLabel;
@@ -41,7 +41,7 @@ public class AddEventPanel extends JPanel {
 	JFormattedTextField startDatePicker, endDatePicker;
 
 	JFormattedTextField startTimeTextField, endTimeTextField;
-	
+
 	JErrorMessageLabel startDateTimeErrMsg, endDateTimeErrMsg;
 
 	JLabel locationLabel;
@@ -57,42 +57,48 @@ public class AddEventPanel extends JPanel {
 	JTextArea inviteeTextArea;
 
 	JCheckBox allDayEventCheckBox;
-	
+
+	/**
+	 * Instantiates a new add event panel.
+	 * 
+	 * @param miglayout
+	 * @param tabbedPane
+	 */
 	public AddEventPanel(MigLayout miglayout, JTabbedPane tabbedPane) {
 		// Set up panel
 		JPanel contentPanel = new JPanel(miglayout);
 		JPanel rightPanel = new JPanel();
 		contentPanel.setSize(this.getWidth() / 2, this.getHeight());
 		rightPanel.setSize(this.getWidth() / 2, this.getHeight());
-		
+
 		// Initiate fields. 
 		nameLabel = new JLabel("Name:");
 
 		nameTextField = new JTextField(10);
-		
+
 		nameErrMsg = new JErrorMessageLabel("Name can not be empty! ");
-		
+
 		startDateLabel = new JLabel("Starts:");
-		
+
 		startDateTimeErrMsg = new JErrorMessageLabel();
 
 		endDateLabel = new JLabel("Ends:");
 
 		endDateTimeErrMsg = new JErrorMessageLabel();
-		
+
 		// Initiate time fields. Add input verifiers and listener
 		try {
 			startDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			startTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));
 			endDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			endTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));
-			
+
 		} catch (ParseException pe) {
 			System.out.println("Date / time formatter is bad: " + pe.getMessage());
 		}
-	
 
-			
+
+
 		locationLabel = new JLabel("Where:");
 
 		locationTextField = new JTextField(10);
@@ -101,7 +107,7 @@ public class AddEventPanel extends JPanel {
 
 		descriptionTextArea = new JTextArea();
 		descriptionTextArea.setPreferredSize(new Dimension(400, 100));
-		
+
 		inviteeLabel = new JLabel("Invitee:");
 
 		inviteeTextArea = new JTextArea();
@@ -116,10 +122,10 @@ public class AddEventPanel extends JPanel {
 		AddEventPanelController.getInstance().setBtnCancel(btnCancel);
 		btnSubmit.addActionListener(AddEventPanelController.getInstance());
 		btnCancel.addActionListener(AddEventPanelController.getInstance());
-		
+
 		// Set up properties
 		nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
-		
+
 		startDatePicker.setColumns(8);
 		startDatePicker.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
 		startTimeTextField.setColumns(4);
@@ -128,7 +134,7 @@ public class AddEventPanel extends JPanel {
 		endDatePicker.setInputVerifier(new DateVerifier(endDateTimeErrMsg, btnSubmit));
 		endTimeTextField.setColumns(4);
 		endTimeTextField.setInputVerifier(new TimeVerifier(endDateTimeErrMsg, btnSubmit));
-		
+
 		// add listener first, then set value so that listener can be triggered. 
 		startDatePicker.addPropertyChangeListener("value", new PropertyChangeListener() {
 
@@ -137,12 +143,12 @@ public class AddEventPanel extends JPanel {
 				String startDate = (String) startDatePicker.getValue();
 				endDatePicker.setValue(startDate);
 			}
-			
+
 		});
 		startDatePicker.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
 				formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
 				formatInt(MainCalendarController.getInstance().getDateController().getYear()));
-		
+
 		startTimeTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
 
 			@Override
@@ -157,12 +163,12 @@ public class AddEventPanel extends JPanel {
 					endTimeTextField.setValue("23:59");
 				}
 			}
-			
+
 		});
 		startTimeTextField.setValue(getCurrentTime());
-		
+
 		endTimeTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
-			
+
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				// TODO Auto-generated method stub
@@ -214,12 +220,12 @@ public class AddEventPanel extends JPanel {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
-		
+
 		endDatePicker.addPropertyChangeListener("value", new PropertyChangeListener() {
-			
+
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				// TODO Auto-generated method stub
@@ -271,10 +277,10 @@ public class AddEventPanel extends JPanel {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
-		
+
 		// Add to panel
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField, "span 2");
@@ -297,7 +303,7 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(btnSubmit);
 		contentPanel.add(btnCancel);
 		this.add(contentPanel);
-		
+
 		this.add(rightPanel);
 	}
 
@@ -308,45 +314,66 @@ public class AddEventPanel extends JPanel {
 			return this.nameTextField.getText();
 	}
 
-//	public GregorianCalendar getNewDate(String data) throws ParseException {
-//		String dateString = "";
-//		if (data.equals("startTime"))
-//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-//		else if (data.equals("endTime"))
-//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
-//
-//		try {
-//			GregorianCalendar date;
-//			// Date example ("12/31/13 20:35")
-//			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
-//			return date;
-//		} catch (ParseException e) {
-//			// TODO Auto-generated catch block
-//
-//			// throw e.printStackTrace();
-//			return null;
-//		}
-//		// The function returns Null if the try breaks
-//	}
+	//	public GregorianCalendar getNewDate(String data) throws ParseException {
+	//		String dateString = "";
+	//		if (data.equals("startTime"))
+	//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
+	//		else if (data.equals("endTime"))
+	//			dateString = (this.startDateTextField + " " + this.startTimeTextField);
+	//
+	//		try {
+	//			GregorianCalendar date;
+	//			// Date example ("12/31/13 20:35")
+	//			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
+	//			return date;
+	//		} catch (ParseException e) {
+	//			// TODO Auto-generated catch block
+	//
+	//			// throw e.printStackTrace();
+	//			return null;
+	//		}
+	//		// The function returns Null if the try breaks
+	//	}
 
+	/**
+	 * Gets the new location
+	 * 
+	 * @return The new Location
+	 */
 	public String getNewLocation() {
 		return this.locationTextField.getText();
 	}
 
+	/**
+	 * Gets the new description
+	 * 
+	 * @return The new location
+	 */
 	public String getNewDescription() {
 		return this.descriptionTextArea.getText();
 	}
-	
+
+	/**
+	 * Gets the current time
+	 * 
+	 * @return the current hour and minute
+	 */
 	public String getCurrentTime() {
 		String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
 		String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
 		return hour + ":" + minute;
 	}
-	
+
+	/**
+	 * Formats an integer so that the is always two digits
+	 * 
+	 * @param i The integer to format
+	 * @return THe formatted integer
+	 */
 	private String formatInt (int i) {
 		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
 	}
-	
+
 	private boolean checkContent() {
 		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") && endDateTimeErrMsg.getContentText().equals("")) {
 			return true;
@@ -354,16 +381,16 @@ public class AddEventPanel extends JPanel {
 		else 
 			return false;
 	}
-	
+
 	private class TextVerifier extends InputVerifier {
 		JErrorMessageLabel errMsg; 
 		JButton btnSubmit;
-		
+
 		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JErrorMessageLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
-		
+
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -378,16 +405,16 @@ public class AddEventPanel extends JPanel {
 			return (! tf.getText().trim().equals(""));
 		}
 	}
-	
+
 	private class TimeVerifier extends InputVerifier {
 		JErrorMessageLabel errMsg; 
 		JButton btnSubmit;
-		
+
 		public TimeVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JErrorMessageLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
-		
+
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -415,11 +442,11 @@ public class AddEventPanel extends JPanel {
 			}
 		}
 	}
-	
+
 	private class DateVerifier extends InputVerifier {
 		JErrorMessageLabel errMsg; 
 		JButton btnSubmit;
-		
+
 		public DateVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JErrorMessageLabel) errMsg;
 			this.btnSubmit = btnSubmit;
@@ -441,7 +468,7 @@ public class AddEventPanel extends JPanel {
 			month30day.add(6);
 			month30day.add(9);
 			month30day.add(11);
-			
+
 			String[] content = tf.getText().split("/");
 			if ((! content[0].trim().equals("")) && (! content[1].trim().equals("")) && (! content[2].trim().equals(""))) {
 				if (! content[2].trim().contains(" ")) {
