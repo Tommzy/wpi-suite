@@ -20,6 +20,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
+// TODO: Auto-generated Javadoc
 /**
  * This Panel sets the main view framework when users go to Calendar module. 
  * It contains several sub panels. 
@@ -30,7 +31,10 @@ import java.awt.GridLayout;
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
 	
+	/** The add event tab panel. */
 	AddEventTabPanel addEventTabPanel;
+	
+	/** The add commit tab panel. */
 	JTabbedPane addCommitTabPanel;
 	/**
 	 * Create the main panel.
@@ -45,6 +49,12 @@ public class MainView extends JPanel {
 //		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 //		add(calendarPanel);
 	}
+	
+	/**
+	 * Gets the main tab pane.
+	 *
+	 * @return the main tab pane
+	 */
 	public AddEventTabPanel getMainTabPane() {
 		return addEventTabPanel;
 	}

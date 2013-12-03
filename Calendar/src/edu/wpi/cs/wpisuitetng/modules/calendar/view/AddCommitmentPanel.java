@@ -198,7 +198,6 @@ public class AddCommitmentPanel extends JPanel {
 			cal.setTime(date);
 			return cal;
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		// The function returns Null if the try breaks
@@ -229,8 +228,8 @@ public class AddCommitmentPanel extends JPanel {
 	}
 
 	/**
-	 * Gets the current time
-	 * 
+	 * Gets the current time.
+	 *
 	 * @return the current hour and minute
 	 */
 	public String getCurrentTime() {
@@ -240,8 +239,8 @@ public class AddCommitmentPanel extends JPanel {
 	}
 
 	/**
-	 * Formats an integer so that the is always two digits
-	 * 
+	 * Formats an integer so that the is always two digits.
+	 *
 	 * @param i The integer to format
 	 * @return THe formatted integer
 	 */
@@ -249,6 +248,11 @@ public class AddCommitmentPanel extends JPanel {
 		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
 	}
 
+	/**
+	 * Check content.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean checkContent() {
 		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
 			return true;
@@ -257,15 +261,31 @@ public class AddCommitmentPanel extends JPanel {
 			return false;
 	}
 
+	/**
+	 * The Class TextVerifier.
+	 */
 	private class TextVerifier extends InputVerifier {
+		
+		/** The err msg. */
 		JLabel errMsg; 
+		
+		/** The btn submit. */
 		JButton btnSubmit;
 
+		/**
+		 * Instantiates a new text verifier.
+		 *
+		 * @param errMsg the err msg
+		 * @param btnSubmit the btn submit
+		 */
 		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
+		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -281,15 +301,31 @@ public class AddCommitmentPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * The Class TimeVerifier.
+	 */
 	private class TimeVerifier extends InputVerifier {
+		
+		/** The err msg. */
 		JLabel errMsg; 
+		
+		/** The btn submit. */
 		JButton btnSubmit;
 
+		/**
+		 * Instantiates a new time verifier.
+		 *
+		 * @param errMsg the err msg
+		 * @param btnSubmit the btn submit
+		 */
 		public TimeVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
+		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -317,15 +353,31 @@ public class AddCommitmentPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * The Class DateVerifier.
+	 */
 	private class DateVerifier extends InputVerifier {
+		
+		/** The err msg. */
 		JLabel errMsg; 
+		
+		/** The btn submit. */
 		JButton btnSubmit;
 
+		/**
+		 * Instantiates a new date verifier.
+		 *
+		 * @param errMsg the err msg
+		 * @param btnSubmit the btn submit
+		 */
 		public DateVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
+		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;

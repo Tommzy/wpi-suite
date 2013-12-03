@@ -52,21 +52,38 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
  */
 @SuppressWarnings("serial")
 public class CalendarDay extends JPanel {
+	
+	/** The view. */
 	JPanel view = new JPanel(new GridBagLayout());
 //	JScrollPane scroll = new JScrollPane(view,
 //			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
-	ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
+	/** The calendar cards. */
+ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
+	
+	/** The event constraint. */
 	private HashMap<CalendarCard, GridBagConstraints> eventConstraint = new HashMap<CalendarCard, GridBagConstraints>();
+	
+	/** The minimal interval. */
 	private final int minimalInterval = 2;
+	
+	/** The current max width. */
 	private int currentMaxWidth = 1;
+	
+	/** The weekdays. */
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
+	
+	/** The date controller. */
 	DateController dateController;
+	
+	/** The commitment time span. */
 	private final int COMMITMENT_TIME_SPAN = 60;
 	
 	/**
 	 * Constructor
-	 * Create view of a calendar day
+	 * Create view of a calendar day.
+	 *
+	 * @param date the date
 	 */
 	public CalendarDay(DateController date) {
 		this.dateController = date;
@@ -180,7 +197,8 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Add an event to calendar
+	 * Add an event to calendar.
+	 *
 	 * @param event Event to be added
 	 */
 	public void addEvent(DayEvent event) {
@@ -249,8 +267,9 @@ public class CalendarDay extends JPanel {
 	}
 
 	/**
-	 * Add an event to calendar
-	 * @param event Event to be added
+	 * Add an event to calendar.
+	 *
+	 * @param commitment the commitment
 	 */
 	public void addCommitment(Commitment commitment) {
 		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
@@ -319,7 +338,8 @@ public class CalendarDay extends JPanel {
 	}
 
 	/**
-	 * Create label text for an event based on event's length
+	 * Create label text for an event based on event's length.
+	 *
 	 * @param event Event that needs a label text
 	 * @return Label for that event
 	 */
@@ -339,8 +359,9 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Create label text for an event based on event's length
-	 * @param event Event that needs a label text
+	 * Create label text for an event based on event's length.
+	 *
+	 * @param commitment the commitment
 	 * @return Label for that event
 	 */
 	private String formatLabel(Commitment commitment) {
@@ -352,6 +373,12 @@ public class CalendarDay extends JPanel {
 		return label;
 	}
 
+	/**
+	 * Format tool tip.
+	 *
+	 * @param event the event
+	 * @return the string
+	 */
 	private String formatToolTip(DayEvent event) {
 		String label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
 				format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -362,8 +389,9 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Create label text for an event based on event's length
-	 * @param event Event that needs a label text
+	 * Create label text for an event based on event's length.
+	 *
+	 * @param commitment the commitment
 	 * @return Label for that event
 	 */
 	private String formatToolTip(Commitment commitment) {
@@ -376,8 +404,8 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Create label text for a commitment based on event's length
-	 * @param commitment Commitment that needs a label text
+	 * Create label text for a commitment based on event's length.
+	 *
 	 * @return Label for that commitment
 	 */
 //	private String formatLabel(Commitment commitment) {
@@ -393,16 +421,33 @@ public class CalendarDay extends JPanel {
 	 */
 	private class CalendarCard {
 		
+		/** The event. */
 		private DayEvent event;
+		
+		/** The commitment. */
 		private Commitment commitment;
+		
+		/** The label. */
 		private JLabel label;
 
+		/**
+		 * Instantiates a new calendar card.
+		 *
+		 * @param commitment the commitment
+		 * @param commitmentLabel the commitment label
+		 */
 		public CalendarCard(Commitment commitment, JLabel commitmentLabel) {
 			this.commitment = commitment;
 			this.label = commitmentLabel;
 		}
 
 
+		/**
+		 * Instantiates a new calendar card.
+		 *
+		 * @param event the event
+		 * @param eventLabel the event label
+		 */
 		public CalendarCard(DayEvent event, JLabel eventLabel) {
 			this.event = event;
 			this.label = eventLabel;
@@ -424,7 +469,9 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Override function of paint(Graphics g)
+	 * Override function of paint(Graphics g).
+	 *
+	 * @param g the g
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -480,7 +527,7 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * Resize all label.
 	 */
 	private void resizeAllLabel() {
 		// TODO Auto-generated method stub
@@ -493,8 +540,9 @@ public class CalendarDay extends JPanel {
 	}
 
 	/**
-	 * Calculate text width
-	 * @param str a string whose width to be calculated 
+	 * Calculate text width.
+	 *
+	 * @param str a string whose width to be calculated
 	 * @return width of the string
 	 */
 	private static int textWidth(String str) {
@@ -502,10 +550,11 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Chop off text if it exceeds label length
-	 * @param text
-	 * @param max
-	 * @return
+	 * Chop off text if it exceeds label length.
+	 *
+	 * @param text the text
+	 * @param max the max
+	 * @return the string
 	 */
 	public static String ellipsize(String text, int max) {
 
@@ -542,6 +591,11 @@ public class CalendarDay extends JPanel {
 	}
 	
 	//Test the detailed view, adding some new events
+	/**
+	 * The main method.
+	 *
+	 * @param args the arguments
+	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarDay d = new CalendarDay(MainCalendarController.getInstance().getDateController());

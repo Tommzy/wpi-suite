@@ -13,7 +13,6 @@ import javax.swing.table.AbstractTableModel;
 
 import java.awt.Font;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class for the table for filtering.
  */
