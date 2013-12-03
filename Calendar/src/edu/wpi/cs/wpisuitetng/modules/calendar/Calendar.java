@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 
 import edu.wpi.cs.wpisuitetng.janeway.modules.IJanewayModule;
 import edu.wpi.cs.wpisuitetng.janeway.modules.JanewayTabModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarHolder;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 
@@ -51,6 +52,9 @@ public class Calendar implements IJanewayModule {
     final JanewayTabModel tab = new JanewayTabModel("Calendar", new ImageIcon(),
         toolbar, mainPanel);
     tabs.add(tab);
+    
+    //Initialize CalendarHolder. We don't need it right now though.
+    CalendarHolder.getInstance();
   }
 
   /**

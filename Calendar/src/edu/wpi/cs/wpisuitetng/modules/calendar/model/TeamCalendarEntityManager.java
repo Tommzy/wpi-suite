@@ -142,7 +142,9 @@ public class TeamCalendarEntityManager implements EntityManager<TeamCalendar> {
    */
   @Override
   public void save(Session s, TeamCalendar model) throws WPISuiteException {
-    
+    if (model.getProjID().equals("0")) {
+      model.setProjID(s.getProject().getIdNum());
+    }
     db.save(model);
   }
   

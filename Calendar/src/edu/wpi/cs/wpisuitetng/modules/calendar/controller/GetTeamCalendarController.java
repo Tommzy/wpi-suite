@@ -64,9 +64,9 @@ public class GetTeamCalendarController {
   }
   
   /**
-   * Sends an HTTP request to retrieve all Iterations
+   * Sends an HTTP request to retrieve all TeamCalendars
    */
-  public void retrieveIterations() {
+  public void retrieveTeamCalendars() {
     final Request request = Network.getInstance().makeRequest("calendar/teamcalendar", HttpMethod.GET); // GET == read
     request.addObserver(observer); // add an observer to process the response
     request.send(); // send the request
@@ -84,6 +84,9 @@ public class GetTeamCalendarController {
     {	
       // add the Iterations to the local model
       CalendarHolder.getInstance().addTeamCalendar(teamCalendar[0]);
+    }
+    else { //If that TeamCalendar does not exist, make it on the client side.
+      CalendarHolder.getInstance().makeTeamCalendar();
     }
   }
 }

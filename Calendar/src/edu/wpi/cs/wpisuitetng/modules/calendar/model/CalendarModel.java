@@ -27,7 +27,6 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 public abstract class CalendarModel implements Model {
   SortedEventList events;
   SortedCommitmentList commitments;
-  Project project;
   
   // ------------------Interface Functions-----------------
   

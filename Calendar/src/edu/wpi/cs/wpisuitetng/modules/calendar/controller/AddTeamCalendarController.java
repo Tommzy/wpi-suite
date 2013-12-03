@@ -10,6 +10,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.TeamCalendar;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -22,7 +25,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 
 
-public class AddTeamCalendarController {
+public class AddTeamCalendarController implements ActionListener{
   
   private static AddTeamCalendarController instance;
   private AddTeamCalendarRequestObserver observer;
@@ -58,5 +61,11 @@ public class AddTeamCalendarController {
     request.addObserver(observer); // add an observer to process the response
     request.send(); 
   }
+
+  @Override
+  public void actionPerformed(ActionEvent e) {
+    // TODO Auto-generated method stub
+
+  } 
 
 }

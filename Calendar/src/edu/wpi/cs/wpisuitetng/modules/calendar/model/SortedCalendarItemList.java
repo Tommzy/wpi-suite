@@ -12,9 +12,26 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.GregorianCalendar;
+import java.util.ArrayList;
 
-public class SortedCalendarItemList {
-  private CalendarItem[] itemList;
+import javax.swing.AbstractListModel;
+
+public class SortedCalendarItemList extends AbstractListModel<CalendarItem> {
+  private ArrayList<CalendarItem> itemList;
+  
+  /**
+   * This is the general-use constructor.
+   */
+  public SortedCalendarItemList() {
+    itemList = new ArrayList<CalendarItem>();
+  }
+  /**
+   * This constructor is for child classes only!
+   * @param newItemList List of CalendarItems to be used. Should already be sorted.
+   */
+   public SortedCalendarItemList(ArrayList<CalendarItem> newItemList) {
+    itemList = newItemList;
+  }
   
   /**
    * Add the given CalendarItem to the given index.
@@ -22,14 +39,12 @@ public class SortedCalendarItemList {
    * @param where The index to add the new item at.
    */
   private void addItemHere(CalendarItem newItem, int where) {
-    if (where >= itemList.length) {
-      itemList[itemList.length] = newItem;
+    itemList.ensureCapacity(itemList.size() + 1);
+    if (where >= itemList.size()) {
+      itemList.add(newItem);
     }
     else {
-      for (int i = itemList.length; i >= where; i--) {
-        itemList[i] = itemList[i - 1];
-      }//end for
-      itemList[where] = newItem;
+        itemList.add(where, newItem);
     }//end else
   }//end function
   
@@ -38,8 +53,8 @@ public class SortedCalendarItemList {
    * @param newItem The CalendarItem to be added.
    */
   public void addCalendarItem(CalendarItem newItem) {
-    for (int i = 0; i < itemList.length; i++) {
-      if (newItem.startTime.before(itemList[i].startTime)) {
+    for (int i = 0; i < itemList.size(); i++) {
+      if (newItem.startTime.before(this.getElementAt(i).startTime)) {
         addItemHere(newItem, i);
         return;
       }//end if
@@ -47,36 +62,44 @@ public class SortedCalendarItemList {
     }//end for
     //If we get here, our new item was not before anything in the list.
     //Therefore, it should go to the end of the list.
-    addItemHere(newItem, itemList.length);
+    addItemHere(newItem, itemList.size());
   }//end function
   
-//TODO: Function to remove a specific item from a list.
+  public void removeCalendarItem(CalendarItem whatToRemove) {
+    itemList.remove(whatToRemove);
+  }
   
   /**
    * Find all of the items within a specific date range, and return a sorted array of CalendarItems with only those items.
    * @param startRange GregorianCalendar with the date/time that you want to start at
    * @param endRange GregorianCalendar with the date/time that you want to end at.
-   * @returns (sorted) array of CalendarItems with all of the CalendarItems between startTime and endTime.
+   * @returns (sorted) list of CalendarItems with all of the CalendarItems between startTime and endTime.
    */
-  public CalendarItem[] getDateRange(GregorianCalendar startRange, GregorianCalendar endRange) {
-    CalendarItem[] itemsInRange = new CalendarItem[itemList.length];
-    int numItemsFound = 0;
-    for (int i = 0; i < itemList.length; i++) {
-      if ( ( (itemList[i].startTime.after(startRange)) && (itemList[i].startTime.before(endRange)) )
-          || (itemList[i].startTime.equals(startRange)) || (itemList[i].startTime.equals(endRange)) ) {
-        itemsInRange[numItemsFound] = itemList[i];
-        numItemsFound++;
+  protected ArrayList<CalendarItem> getDateRange(GregorianCalendar startRange, GregorianCalendar endRange) {
+    ArrayList<CalendarItem> itemsInRange = new ArrayList<CalendarItem>(itemList.size());
+    for (int i = 0; i < itemList.size(); i++) {
+      if ( ( (this.getElementAt(i).startTime.after(startRange)) && 
+    		  (this.getElementAt(i).startTime.before(endRange)) )
+          || (this.getElementAt(i).startTime.equals(startRange)) || 
+              (this.getElementAt(i).startTime.equals(endRange)) ) {
+        itemsInRange.add(this.getElementAt(i));
       }//end if
     }//end for
     return itemsInRange;
-    //TODO: Refine this function!
   } //end func
   
   /**
    * @return the number of items in the list
    */
   public int getSize() {
-    return itemList.length;
+    return itemList.size();
   }
+
+  @Override
+  public CalendarItem getElementAt(int index) {
+    Object[] itemArray = itemList.toArray();
+    return (CalendarItem) itemArray[index];
+  }
+
   
-}
+}//end class
