@@ -8,64 +8,69 @@ import javax.swing.JTabbedPane;
 
 public class AddCommitmentPanelController implements ActionListener {
 
-  JTabbedPane tabbedPane;
-  JButton btnSubmit;
-  JButton btnCancel;
-  
-  /**
-   * @return the btnCancel
-   */
-  public JButton getBtnCancel() {
-	  return btnCancel;
-  }
+	JTabbedPane tabbedPane;
+	JButton btnSubmit;
+	JButton btnCancel;
 
-  /**
-   * @param btnCancel the btnCancel to set
-   */
-  public void setBtnCancel(JButton btnCancel) {
-	  this.btnCancel = btnCancel;
-  }
+	/**
+	 * @return the btnCancel
+	 */
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
 
-  public static AddCommitmentPanelController instance;
+	/**
+	 * @param btnCancel the btnCancel to set
+	 */
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
+	}
 
-  public AddCommitmentPanelController( ) {
-  }
-  
-  public static AddCommitmentPanelController getInstance() {
-    if (instance == null) {
-      instance = new AddCommitmentPanelController();
-    }
-    
-    return instance;
-  }
-  
-  public JTabbedPane getTabbedPane() {
-    return tabbedPane;
-  }
+	public static AddCommitmentPanelController instance;
 
-  public void setTabbedPane(JTabbedPane tabbedPane) {
-    this.tabbedPane = tabbedPane;
-  }
+	public AddCommitmentPanelController( ) {
+	}
 
-  public JButton getBtnSubmit() {
-    return btnSubmit;
-  }
+	public static AddCommitmentPanelController getInstance() {
+		if (instance == null) {
+			instance = new AddCommitmentPanelController();
+		}
 
-  public void setBtnSubmit(JButton btnSubmit) {
-    this.btnSubmit = btnSubmit;
-  }
+		return instance;
+	}
 
-  
-  
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    if (e.getSource() == btnSubmit) {
-      tabbedPane.removeTabAt(1);
-    }
-    else if (e.getSource() == btnCancel) {
-        tabbedPane.removeTabAt(1);
-      }
+	public JTabbedPane getTabbedPane() {
+		return tabbedPane;
+	}
 
-  }
+	public void setTabbedPane(JTabbedPane tabbedPane) {
+		this.tabbedPane = tabbedPane;
+	}
+
+	public JButton getBtnSubmit() {
+		return btnSubmit;
+	}
+
+	public void setBtnSubmit(JButton btnSubmit) {
+		this.btnSubmit = btnSubmit;
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource().getClass().equals(JButton.class)) {
+			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+		}
+
+//		if (e.getSource() == btnSubmit) {
+//			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+//		}
+//		else if (e.getSource() == btnCancel) {
+//			System.out.println(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+//			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+//		}
+
+	}
 
 }
