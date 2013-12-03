@@ -222,8 +222,8 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		// Please do not change the dateController of MainCalendarController directly
 		// use clone() if necessary
-		date = MainCalendarController.getInstance().getDateController().clone();
-		
+		date = MainCalendarController.getInstance().getDateController();
+		DateController originalDate = date.clone();
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
@@ -236,7 +236,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].view.setPreferredSize(new Dimension(100, 450));	
 			weekPanel.add(week[i]);
 		}
-		
+		MainCalendarController.getInstance().setDateController(originalDate);
 		parseCommitment();
 		
 		revalidate();

@@ -21,6 +21,8 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Rectangle;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -59,7 +61,7 @@ public class CalendarDay extends JPanel {
 	private final int minimalInterval = 2;
 	private int currentMaxWidth = 1;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
-	DateController date;
+	DateController dateController;
 	private final int COMMITMENT_TIME_SPAN = 60;
 	
 	/**
@@ -67,7 +69,7 @@ public class CalendarDay extends JPanel {
 	 * Create view of a calendar day
 	 */
 	public CalendarDay(DateController date) {
-		this.date = date;
+		this.dateController = date;
 		GridBagConstraints c = new GridBagConstraints();
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
@@ -75,6 +77,38 @@ public class CalendarDay extends JPanel {
 //		revalidate();
 //		repaint();
 		add(view, BorderLayout.CENTER);
+		addMouseListener(new MouseListener() {
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(dateController);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 	
 	/**
@@ -136,10 +170,10 @@ public class CalendarDay extends JPanel {
 	 */
 	protected void initHeader() {
 		JLabel header = new JLabel("<HTML><div style='text-align:center; font-size:10'>" + 
-					format(date.getMonth() + 1) + "-" + 
-					format(date.getDayOfMonth()) + "-" + 
-					date.getYear() + "<br />" + 
-					weekdays[date.getDayOfWeek()] + "</div></HTML>");
+					format(dateController.getMonth() + 1) + "-" + 
+					format(dateController.getDayOfMonth()) + "-" + 
+					dateController.getYear() + "<br />" + 
+					weekdays[dateController.getDayOfWeek()] + "</div></HTML>");
 		header.setHorizontalAlignment(SwingConstants.CENTER);
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		add(header, BorderLayout.NORTH);

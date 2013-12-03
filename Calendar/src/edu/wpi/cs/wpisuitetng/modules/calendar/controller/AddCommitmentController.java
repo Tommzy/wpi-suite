@@ -16,7 +16,7 @@ public class AddCommitmentController implements ActionListener{
 	private final CommitmentsModel model;
 	private final AddCommitmentPanel viewCommitment;
 	 
-	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
+	Commitment testCommit1 = new Commitment("First test",(GregorianCalendar) new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
 	/**
 	 * Construct an AddMessageController for the given model, view pair

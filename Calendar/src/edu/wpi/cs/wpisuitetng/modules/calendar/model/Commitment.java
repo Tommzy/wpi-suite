@@ -1,6 +1,5 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -98,9 +97,9 @@ public class Commitment implements Model {
 	}
 
 	public String toString() {
-		return startTime.get(Calendar.YEAR) + " "
-				+ startTime.get(Calendar.MONTH) + " "
-				+ startTime.get(Calendar.DATE) + " " + name + " " + description;
+		return startTime.get(GregorianCalendar.YEAR) + " "
+				+ startTime.get(GregorianCalendar.MONTH) + " "
+				+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
 
 	}
 
@@ -120,7 +119,7 @@ public class Commitment implements Model {
 	 *            the time stamp
 	 * @return true if active during the time stamp, false otherwise
 	 */
-	public boolean isActiveDuringTimeStamp(Calendar calendar) {
+	public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
 		// On Calendar view, commitment will be shown as an one-hour long block.
 		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
 		endTimeOnGUI.set(GregorianCalendar.HOUR, 1);

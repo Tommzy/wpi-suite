@@ -254,6 +254,10 @@ public class MainCalendarController implements ActionListener{
 			itr.next().update();
 		}
 	}
+
+	public void setDateController(DateController originalDate) {
+		dateController = originalDate.clone();
+	}
 	
 	
 }

@@ -43,8 +43,6 @@ public class ToolbarController implements ActionListener {
 
   @Override
   public void actionPerformed(ActionEvent e) {
-    System.out.println(e.getSource());
-    System.out.println(addEventButton);
     if (e.getSource() == addEventButton) {
       if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
         AddEventPanelController.getInstance().getTabbedPane().add(new AddEventPanel(new MigLayout(),  AddEventPanelController.getInstance().getTabbedPane()));
