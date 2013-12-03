@@ -23,7 +23,7 @@ public class MainFrame {
 		//frame.add(monthView);
 		DateController date = new DateController(2015, 1, 1);
 		//System.out.println(date.getDayOfWeek());
-		frame.add(new DatePickerPanel(2015, 1, 2));
+		frame.add(new DatePickerPanel(2015, 1, 2, null));
 		frame.pack();	
 	}
 	

@@ -10,6 +10,12 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
@@ -24,6 +30,7 @@ import javax.swing.text.MaskFormatter;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
@@ -38,7 +45,9 @@ public class AddEventPanel extends JPanel {
 
 	JLabel startDateLabel, endDateLabel;
 
-	JFormattedTextField startDatePicker, endDatePicker;
+	JFormattedTextField startDateTextField, endDateTextField;
+	
+	DatePickerPanel startDatePicker, endDatePicker;
 
 	JFormattedTextField startTimeTextField, endTimeTextField;
 	
@@ -82,9 +91,9 @@ public class AddEventPanel extends JPanel {
 		
 		// Initiate time fields. Add input verifiers and listener
 		try {
-			startDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
+			startDateTextField = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			startTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));
-			endDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
+			endDateTextField = new JFormattedTextField(new MaskFormatter("##/##/####"));
 			endTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));
 			
 		} catch (ParseException pe) {
@@ -120,26 +129,30 @@ public class AddEventPanel extends JPanel {
 		// Set up properties
 		nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
 		
-		startDatePicker.setColumns(8);
-		startDatePicker.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
+		
+		
+		startDateTextField.setColumns(8);
+		startDateTextField.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
+		startDatePicker = new DatePickerPanel(startDateTextField);
 		startTimeTextField.setColumns(4);
 		startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
-		endDatePicker.setColumns(8);
-		endDatePicker.setInputVerifier(new DateVerifier(endDateTimeErrMsg, btnSubmit));
+		endDateTextField.setColumns(8);
+		endDateTextField.setInputVerifier(new DateVerifier(endDateTimeErrMsg, btnSubmit));
+		endDatePicker = new DatePickerPanel(endDateTextField);
 		endTimeTextField.setColumns(4);
 		endTimeTextField.setInputVerifier(new TimeVerifier(endDateTimeErrMsg, btnSubmit));
 		
 		// add listener first, then set value so that listener can be triggered. 
-		startDatePicker.addPropertyChangeListener("value", new PropertyChangeListener() {
+		startDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				String startDate = (String) startDatePicker.getValue();
-				endDatePicker.setValue(startDate);
+				String startDate = (String) startDateTextField.getValue();
+				endDateTextField.setValue(startDate);
 			}
 			
 		});
-		startDatePicker.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+		startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
 				formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
 				formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 		
@@ -166,15 +179,15 @@ public class AddEventPanel extends JPanel {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				// TODO Auto-generated method stub
-				String startDate = (String) startDatePicker.getValue();
-				String endDate = (String) endDatePicker.getValue(); 
+				String startDate = (String) startDateTextField.getValue();
+				String endDate = (String) endDateTextField.getValue(); 
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 				try {
 					Date start = df.parse(startDate);
 					Date end = df.parse(endDate);
 					if (start.after(end)) {
 						endDateTimeErrMsg.setText("End date can not be ahead of start date!");
-						endDatePicker.requestFocus();
+						endDateTextField.requestFocus();
 						btnSubmit.setEnabled(checkContent());
 					}
 					else if (start.equals(end)) {
@@ -216,84 +229,29 @@ public class AddEventPanel extends JPanel {
 				}
 				
 			}
-		});
-		
-		endDatePicker.addPropertyChangeListener("value", new PropertyChangeListener() {
-			
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO Auto-generated method stub
-				String startDate = (String) startDatePicker.getValue();
-				String endDate = (String) endDatePicker.getValue(); 
-				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-				try {
-					Date start = df.parse(startDate);
-					Date end = df.parse(endDate);
-					if (start.after(end)) {
-						endDateTimeErrMsg.setText("End date can not be ahead of start date!");
-						endDatePicker.requestFocus();
-						btnSubmit.setEnabled(checkContent());
-					}
-					else if (start.equals(end)) {
-						String startTime = (String) startTimeTextField.getValue();
-						String endTime = (String) endTimeTextField.getValue();
-						String[] startHourMin = startTime.split(":");
-						String[] endHourMin = endTime.split(":");
-						if (Integer.parseInt(startHourMin[0]) > Integer.parseInt(endHourMin[0])) {
-							endDateTimeErrMsg.setText("End time can not be ahead of start time!");
-							endTimeTextField.requestFocus();
-							btnSubmit.setEnabled(checkContent());
-						}
-						else if (Integer.parseInt(startHourMin[0]) == Integer.parseInt(endHourMin[0])) {
-							if (Integer.parseInt(startHourMin[1]) > Integer.parseInt(endHourMin[1])) {
-								endDateTimeErrMsg.setText("End time can not be ahead of start time!");
-								endTimeTextField.requestFocus();
-								btnSubmit.setEnabled(checkContent());
-							}
-							else {
-								if (endDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
-									endDateTimeErrMsg.setText("");
-								btnSubmit.setEnabled(checkContent());
-							}
-						}
-						else {
-							if (endDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
-								endDateTimeErrMsg.setText("");
-							btnSubmit.setEnabled(checkContent());
-						}
-					}
-					else {
-						if (endDateTimeErrMsg.getContentText().equals("End date can not be ahead of start date!"))
-							endDateTimeErrMsg.setText("");
-						btnSubmit.setEnabled(checkContent());
-					}
-				} catch (ParseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-			}
-		});
+		});	
 		
 		// Add to panel
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField, "span 2");
 		contentPanel.add(nameErrMsg, "wrap");
 		contentPanel.add(startDateLabel);
-		contentPanel.add(startDatePicker);
+		contentPanel.add(startDateTextField);
 		contentPanel.add(startTimeTextField);
-		contentPanel.add(startDateTimeErrMsg, "wrap, push, span 2");
+		contentPanel.add(startDateTimeErrMsg, "wrap, span 2");
+		contentPanel.add(startDatePicker, "cell 1 2, wrap, span");
 		contentPanel.add(endDateLabel);
-		contentPanel.add(endDatePicker);
+		contentPanel.add(endDateTextField);
 		contentPanel.add(endTimeTextField);
-		contentPanel.add(endDateTimeErrMsg, "wrap, push, span 2");
+		contentPanel.add(endDateTimeErrMsg, "wrap, span 2");
+		contentPanel.add(endDatePicker, "cell 1 4, wrap, span");
 		contentPanel.add(locationLabel);
 		contentPanel.add(locationTextField, "wrap, span 2");
 		contentPanel.add(descriptionLabel);
-		contentPanel.add(descriptionTextArea, "wrap, span 4");
+		contentPanel.add(descriptionTextArea, "wrap, span ");
 		contentPanel.add(inviteeLabel);
-		contentPanel.add(inviteeTextArea, "wrap, span 4");
-		contentPanel.add(allDayEventCheckBox);
+		contentPanel.add(inviteeTextArea, "wrap, span ");
+		contentPanel.add(allDayEventCheckBox, "wrap");
 		contentPanel.add(btnSubmit);
 		contentPanel.add(btnCancel);
 		this.add(contentPanel);
@@ -367,7 +325,11 @@ public class AddEventPanel extends JPanel {
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
-			if (tf.getText().trim().equals("")) {
+			if (tf.getText().equals("")) {
+				errMsg.setText("Name can not be empty! ");
+				btnSubmit.setEnabled(checkContent());
+			}
+			else if (tf.getText().trim().equals("")) {
 				errMsg.setText("Invalid Name! ");
 				btnSubmit.setEnabled(checkContent());
 			}

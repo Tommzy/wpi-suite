@@ -49,7 +49,10 @@ public class AddCommitmentPanel extends JPanel {
   JLabel     startDateLabel;
 
   /** The start time text field. */
-  JFormattedTextField startDatePicker, startTimeTextField;
+  JFormattedTextField startDateTextField, startTimeTextField;
+  
+  /** The start date picker */ 
+  DatePickerPanel startDatePicker;
   
   /** The error msg box for date and time. */
   JErrorMessageLabel	startDateTimeErrMsg; 
@@ -91,7 +94,7 @@ public class AddCommitmentPanel extends JPanel {
     startDateLabel = new JLabel("Time:");
 
     try {
-		startDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		startDateTextField = new JFormattedTextField(new MaskFormatter("##/##/####"));
 		startTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));		
 	} catch (ParseException pe) {
 		System.out.println("Date / time formatter is bad: " + pe.getMessage());
@@ -120,11 +123,12 @@ public class AddCommitmentPanel extends JPanel {
     // Set up properties and values
 	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
 
-    startDatePicker.setColumns(8);
-	startDatePicker.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
-	startDatePicker.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+    startDateTextField.setColumns(8);
+	startDateTextField.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
+	startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
 			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
 			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
+	startDatePicker = new DatePickerPanel(startDateTextField);
 	startTimeTextField.setColumns(4);
 	startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
 	
@@ -134,9 +138,10 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(nameTextField);
     contentPanel.add(nameErrMsg, "wrap");
     contentPanel.add(startDateLabel);
-    contentPanel.add(startDatePicker);
+    contentPanel.add(startDateTextField);
     contentPanel.add(startTimeTextField);
-    contentPanel.add(startDateTimeErrMsg, "wrap");
+    contentPanel.add(startDateTimeErrMsg, "wrap, span");
+    contentPanel.add(startDatePicker, "cell 1 2, wrap, span");
     // This is not in commitments anymore, still here if added back
     // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
@@ -180,12 +185,12 @@ public class AddCommitmentPanel extends JPanel {
   public GregorianCalendar getNewDate(String data) {
     String dateString = "";
     if(data.equals("startTime")){
-      dateString = (this.startDatePicker.getValue() + " " + this.startTimeTextField.getValue());
+      dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
       System.out.println("Get start time success! " + dateString);
     }
     else if(data.equals("endTime")){
     	
-    	dateString = (this.startDatePicker.getValue() + " " + this.startTimeTextField.getValue());
+    	dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
     	System.out.println("Get end time success! ");
     }
       
@@ -258,7 +263,11 @@ public class AddCommitmentPanel extends JPanel {
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
-			if (tf.getText().trim().equals("")) {
+			if (tf.getText().equals("")) {
+				errMsg.setText("Name can not be empty! ");
+				btnSubmit.setEnabled(checkContent());
+			}
+			else if (tf.getText().trim().equals("")) {
 				errMsg.setText("Invalid Name! ");
 				btnSubmit.setEnabled(checkContent());
 			}
