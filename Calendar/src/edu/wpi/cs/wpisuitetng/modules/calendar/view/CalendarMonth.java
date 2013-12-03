@@ -25,7 +25,7 @@ import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
 
 /**
- *
+ * Generates a month calendar view
  */
 @SuppressWarnings("serial")
 public class CalendarMonth extends JXMonthView implements ActionListener, KeyListener {

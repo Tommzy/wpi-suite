@@ -47,7 +47,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
- * Generate day calendar view. 
+ * Generate a day calendar view. 
  * 
  */
 @SuppressWarnings("serial")
