@@ -46,11 +46,18 @@ public class AddCommitmentController implements ActionListener{
 	}
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
-	
+
 	public void addTestToDatabase(){
 		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
 		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
 		request.addObserver(observer); // add an observer to process the response
+		request.send();
+	}
+	
+	public void addCommitmentToDatabase(Commitment commit){
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+		request.setBody(commit.toJSON()); // put the new message in the body of the request
+		request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
 		request.send();
 	}
 	
