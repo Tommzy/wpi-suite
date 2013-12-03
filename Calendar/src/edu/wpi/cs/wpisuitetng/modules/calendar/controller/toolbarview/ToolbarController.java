@@ -44,44 +44,44 @@ public class ToolbarController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addEventButton) {
-      if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
+      //if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
         AddEventPanelController.getInstance().getTabbedPane().add(new AddEventPanel(new MigLayout(),  AddEventPanelController.getInstance().getTabbedPane()));
-        AddEventPanelController.getInstance().getTabbedPane().setTitleAt(1, "Add Event");
-        JButton closeButton = new JButton("x");
-        closeButton.addActionListener(new ActionListener() {
+        AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Event");
+//        JButton closeButton = new JButton("x");
+//        closeButton.addActionListener(new ActionListener() {
+//
+//          @Override
+//          public void actionPerformed(ActionEvent e) {
+//            AddEventPanelController.getInstance().getBtnSubmit().doClick();
+//
+//          }
+//
+//        });
 
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            AddEventPanelController.getInstance().getBtnSubmit().doClick();
+        AddEventPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
 
-          }
-
-        });
-
-        AddEventPanelController.getInstance().getTabbedPane().setSelectedIndex(1);
-
-      }
+      //}
     }
 
     if (e.getSource() == addCommitmentButton) {
       JTabbedPane pane = AddCommitmentPanelController.getInstance().getTabbedPane();
-      if (AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
+      //if (AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
         AddEventPanelController.getInstance().getTabbedPane().add(new AddCommitmentPanel(new MigLayout()));
-        AddEventPanelController.getInstance().getTabbedPane().setTitleAt(1, "Add Commitment");
-        JButton closeButton = new JButton("x");
-        closeButton.addActionListener(new ActionListener() {
+        AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
+//        JButton closeButton = new JButton("x");
+//        closeButton.addActionListener(new ActionListener() {
+//
+//          @Override
+//          public void actionPerformed(ActionEvent e) {
+//            AddCommitmentPanelController.getInstance().getBtnSubmit().doClick();
+//           }
+//
+//        });
 
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            AddCommitmentPanelController.getInstance().getBtnSubmit().doClick();
-           }
-
-        });
-
-        AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(1);
+        AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
 
       }
-    }
+    //}
 
   }
 
