@@ -104,6 +104,14 @@ public class CommitmentsModel extends AbstractListModel{
 		}
 		return temp;
 	}
+	
+	public List<Commitment> getAllCommitment() {
+		for (int i = 0; i < Commitments.size(); i++) {
+			System.out.println("Commitment out put    " + Commitments.get(i).toString());
+		}
+		return Commitments;
+	}
+	
 	/**
 	 * Removes the Commitment with the given ID
 	 * 
