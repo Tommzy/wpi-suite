@@ -99,6 +99,11 @@ public class AddEventTabPanel extends JTabbedPane {
 		
 	}
 
+	/**
+	 * Gets the commitment table
+	 * 
+	 * @return THe commitment table
+	 */
 	public CommitmentTable getCommitmentTable() {
 		return commitmentTable;
 	}

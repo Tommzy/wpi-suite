@@ -36,9 +36,9 @@ public class AddCommitmentController implements ActionListener{
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
 	/**
-	 * Construct an AddMessageController for the given model, view pair
+	 * Construct an AddCommitmentController for the given model, view pair
 	 * @param model the model containing the messages
-	 * @param view the view where the user enters new messages
+	 * @param viewCommitment the view where the user enters new messages
 	 */
 	public AddCommitmentController(CommitmentsModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
