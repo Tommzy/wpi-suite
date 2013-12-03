@@ -14,19 +14,11 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.border.Border;
 
 import org.jdesktop.swingx.JXMonthView;
 import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
@@ -47,15 +39,20 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 	 */
 	public CalendarMonth()
 	{
-		Font font = this.getFont();
 		this.setBoxPaddingX((this.getBoxPaddingX() / 2));
-		this.setFont(font.deriveFont(8f));
 		this.setPreferredColumnCount(4);
 		this.setPreferredRowCount(3);
 		this.setSelectionBackground(SELECTION);
 		this.setFlaggedDayForeground(START_END_DAY);
 		this.setSelectionMode(SelectionMode.SINGLE_SELECTION);
+		this.setAlignmentY(CENTER_ALIGNMENT);
 		this.setAlignmentX(CENTER_ALIGNMENT);
+		
+		Calendar cal = this.getCalendar();
+		cal.set(Calendar.MONTH, 0);
+		cal.set(Calendar.DATE, 1);
+		this.setFirstDisplayedDay(cal.getTime());
+		
 		this.addActionListener(this);
 				
 		this.addKeyListener(this);
@@ -99,6 +96,20 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 	@Override
 	public void keyReleased(KeyEvent e) {
 		//TODO
+	}
+	
+	@Override
+	public void repaint() {
+		super.repaint();
+		
+		if (this.getParent() == null) {
+			return;
+		}
+		
+		this.setPreferredSize(new Dimension
+				((int)(this.getParent().getSize().getWidth() * 0.95) ,
+				(int)(this.getParent().getSize().getHeight() * 0.95))
+		);
 	}
 
 }

@@ -15,19 +15,24 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.fakeModel.FakeModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**
@@ -38,13 +43,20 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
  *
  */
 public class MainCalendarController implements ActionListener{
-	CalendarItemListModel model;
+	Commitment commitmentModel;
 	MainCalendarView view;
 	CalendarYearView yearView;
 	MonthView monthView;
 	CalendarDayView dayView;
 	CalendarWeekView weekView;
+	MainView mainView;
+	
+	// contains the year view, month view and 
+	private Collection<Updatable> updateList = new ArrayList<Updatable>();
+	
 	public static MainCalendarController instance;
+	private DateController dateController = new DateController();
+	private CalendarTimePeriod selectedCalendarView;
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -75,6 +87,13 @@ public class MainCalendarController implements ActionListener{
 		
 	}
 	
+	/**
+	 * @see package edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController
+	 * @return
+	 */
+	public DateController getDateController() {
+		return dateController;
+	}
 	
 	public static MainCalendarController getInstance() {
 		if (instance == null) {
@@ -82,16 +101,23 @@ public class MainCalendarController implements ActionListener{
 		}
 		return instance;
 	}
-	public CalendarItemListModel getModel() {
-		return model;
+//	public Commitment getCommitmentModel() {
+//		return commitmentModel;
+//	}
+//
+//
+//	public void setModel(CalendarItemListModel model) {
+//		this.model = model;
+//	}
+
+	public MainView getMainView() {
+		return mainView;
 	}
 
-
-	public void setModel(CalendarItemListModel model) {
-		this.model = model;
+	public void setMainView(MainView mainView) {
+		this.mainView = mainView;
 	}
-
-
+	
 	public MainCalendarView getView() {
 		return view;
 	}
@@ -100,7 +126,6 @@ public class MainCalendarController implements ActionListener{
 	public void setView(MainCalendarView view) {
 		this.view = view;
 	}
-
 
 	public CalendarYearView getYearView() {
 		return yearView;
@@ -151,24 +176,52 @@ public class MainCalendarController implements ActionListener{
 		resetToggleButton();
 		toggleButton.setSelected(true);
 		switch (toggleButton.getText()) {
-			case "Year" :
-				view.getCalendarView().add(yearView);
-				break;
-			case "Month" :
-				view.getCalendarView().add(monthView, "span");			
-				break;
-			case "Week" :
-				view.getCalendarView().add(weekView);
-				break;
-			case "Day" :
-				view.getCalendarView().add(dayView);				
-				break;
-			default: break;
+		case "Year" :
+			view.getCalendarView().add(yearView);
+			selectedCalendarView = CalendarTimePeriod.Year;
+			break;
+		case "Month" :
+			view.getCalendarView().add(monthView, "span");
+			selectedCalendarView = CalendarTimePeriod.Month;
+			break;
+		case "Week" :
+			view.getCalendarView().add(weekView);
+			selectedCalendarView = CalendarTimePeriod.Week;
+			break;
+		case "Day" :
+			view.getCalendarView().add(dayView);		
+			selectedCalendarView = CalendarTimePeriod.Day;
+			break;
+		default: break;
 		}
+		
+		updateAll();
+		
 		view.getCalendarView().revalidate();
 		view.getCalendarView().repaint();
+
+
+		/*
+		monthView.update();
+		weekView.updateWeekView();
+		dayView.updateDayView();
+		
+		try { 
+			mainView.getMainTabPane().getCommitmentTable().update();
+		} catch (NullPointerException e) {
+			
+		}
+		*/
 	}
 	
+	public CalendarTimePeriod getSelectedCalendarView() {
+		return selectedCalendarView;
+	}
+
+	public void setSelectedCalendarView(CalendarTimePeriod selectedCalendarView) {
+		this.selectedCalendarView = selectedCalendarView;
+	}
+
 	/**
 	 * Helper function for function timePeriodChanged(JToggleButton). 
 	 * This function resets all the toggle buttons in calendar part. 
@@ -187,6 +240,18 @@ public class MainCalendarController implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() instanceof JToggleButton) {
 			timePeriodChanged((JToggleButton) e.getSource());
+		}
+	}
+	
+	public void addToUpdateList(Updatable component) {
+		updateList.add(component);
+	}
+	
+	public void updateAll() {
+		Iterator<Updatable> itr = updateList.iterator();
+		
+		while (itr.hasNext()) {
+			itr.next().update();
 		}
 	}
 	

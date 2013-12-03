@@ -1,48 +1,60 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentListModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+
+/**
+ * This controller responds when the user clicks the Update button by
+ * adding the contents of the commitment text fields to the model as a new
+ * requirement.
+ * @version $Revision: 1.0 $
+ * @author Hui Zheng & EJ & Jared
+ */
 public class AddCommitmentController implements ActionListener{
 
-	private final CommitmentListModel model;
+	private final CommitmentsModel model;
 	private final AddCommitmentPanel viewCommitment;
 	 
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
 	/**
-	 * Construct an AddMessageController for the given model, view pair
+	 * Construct an AddCommitmentController for the given model, view pair
 	 * @param model the model containing the messages
-	 * @param view the view where the user enters new messages
+	 * @param viewCommitment the view where the user enters new messages
 	 */
-	public AddCommitmentController(CommitmentListModel model, AddCommitmentPanel viewCommitment) {
+	public AddCommitmentController(CommitmentsModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
 		this.viewCommitment = viewCommitment;
-
 	}
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
 	
 	public void addTestToDatabase(){
-		final Request request = Network.getInstance().makeRequest("calendar/calendaritem", HttpMethod.PUT); // PUT == create
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
 		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send();
 	}
 	
-	public CalendarItem testReturn(){
+	public Commitment testReturn(){
 		return observer.testReturn();
 	}
 	
@@ -55,8 +67,8 @@ public class AddCommitmentController implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
-		addTestToDatabase();
-		System.out.print(event);
+		//addTestToDatabase();
+		System.out.println("this is event!----->" + event);
 		// Get the text that was entered
 		String name = viewCommitment.getTxtNewname();
 		GregorianCalendar startTime = null;
@@ -77,10 +89,11 @@ public class AddCommitmentController implements ActionListener{
 		if(name.length() > 0){
 			Commitment sentCommitment = new Commitment(name, startTime, description);
 			// Add the message to the model
-			final Request request = Network.getInstance().makeRequest("calendar/calendaritem", HttpMethod.PUT); // PUT == create
+			final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
 			request.setBody(sentCommitment.toJSON()); // put the new message in the body of the request
 			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
+			System.out.println("from AddCommitmentController." + request.getBody());
 		}
 
 
@@ -91,7 +104,7 @@ public class AddCommitmentController implements ActionListener{
 	 * When the new Calendar item is received back from the server, add it to the local model.
 	 * @param message
 	 */
-	public void addCommitmentToModel(CalendarItem item) {
+	public void addCommitmentToModel(Commitment item) {
 		model.addCommitment(item);
 	}
 }

@@ -29,7 +29,6 @@ import javax.swing.UIManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 // TODO: Auto-generated Javadoc
@@ -53,6 +52,7 @@ public class MainCalendarView extends JPanel {
   /** The scroll area which contains the calendar view. */
   JScrollPane calendarScroll = new JScrollPane(calendarView);
 
+  /*
   //for test display use
 	DayEvent[] sampleEvent = {
 			new DayEvent("Whoops", new GregorianCalendar(2013, 5, 16, 20, 50, 0), new GregorianCalendar(2013, 5, 16, 21, 5, 0)), 
@@ -60,12 +60,13 @@ public class MainCalendarView extends JPanel {
 			new DayEvent("Abcd", new GregorianCalendar(2013, 5, 16, 15, 55, 0), new GregorianCalendar(2013, 5, 16, 16, 15, 0)), 
 			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 16, 15, 56, 0), new GregorianCalendar(2013, 5, 16, 16, 16, 0)),
 			new DayEvent("Hey", new GregorianCalendar(2013, 5, 18, 8, 50, 0), new GregorianCalendar(2013, 5, 18, 10, 5, 0)) };
+			*/
   /**
    * Create the calendar area within main panel.
    *
    * @param mainCalendarModel the main calendar model
    */
-  public MainCalendarView(CalendarItemListModel mainCalendarModel) {
+  public MainCalendarView() {
     // Create toggle buttons for different calendar view
     final JPanel calendarViewSwitch = new JPanel();
     calendarViewSwitch.setLayout(new BoxLayout(calendarViewSwitch,
@@ -80,12 +81,24 @@ public class MainCalendarView extends JPanel {
     add(calendarViewSwitch);
     
     MainCalendarController mainCalendarController = MainCalendarController.getInstance();
-    mainCalendarController.setModel(mainCalendarModel);
+    //I got rid of this -Mark
+    //mainCalendarController.setModel(mainCalendarModel);
+    CalendarWeekView weekView = new CalendarWeekView();
+    MonthView monthView = new MonthView();
+    CalendarDayView dayView = new CalendarDayView();
+ 
     mainCalendarController.setView(this);
-    mainCalendarController.setWeekView(new CalendarWeekView());
-    mainCalendarController.setMonthView(new MonthView());
-    mainCalendarController.setDayView(new CalendarDayView(sampleEvent, calendarView));
+    mainCalendarController.setWeekView(weekView);
+    mainCalendarController.setMonthView(monthView);
+    mainCalendarController.setDayView(dayView);
+    
+    mainCalendarController.addToUpdateList(weekView);
+    mainCalendarController.addToUpdateList(monthView);
+    mainCalendarController.addToUpdateList(dayView);
+    
     mainCalendarController.setYearView(new CalendarYearView());
+    
+   
     calendarScroll.setPreferredSize(new Dimension (1000, 300));
  
 	add(calendarScroll);

@@ -34,6 +34,8 @@ Janeway/janeway.conf
 /Core/WPISuite-Interfaces/build/MANIFEST.MF
 /Core/WPISuite/src/META-INF/MANIFEST.MF
 /Core/WPISuite/WPISuite_TNG_local
+/Core/WPISuite/CAL_DEV
+/Core/WPISuite/CALDEV
 /Core/WPISuite/WebContent/WEB-INF/lib/DefectTracker.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
@@ -45,3 +47,5 @@ Janeway/janeway.conf
 
 RequirementManager/build
 RequirementManager/bin
+
+*.jar

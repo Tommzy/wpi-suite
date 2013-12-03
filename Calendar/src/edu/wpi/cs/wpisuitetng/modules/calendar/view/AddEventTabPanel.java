@@ -19,7 +19,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+
 
 /**
  * The Class AddEventTabPanel.
@@ -48,7 +48,7 @@ public class AddEventTabPanel extends JTabbedPane {
 	
 	/** The filter scroll. */
 	JScrollPane filterScroll;
-	
+	CommitmentTable commitmentTable;
 	/**
 	 * Adds the event tab panel.
 	 */
@@ -62,7 +62,8 @@ public class AddEventTabPanel extends JTabbedPane {
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
 		//Calendar
-		calendarPanel = new MainCalendarView(new CalendarItemListModel());
+		//Removed arguments. should be updated
+		calendarPanel = new MainCalendarView();
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
 		//Tables
@@ -75,7 +76,7 @@ public class AddEventTabPanel extends JTabbedPane {
 //		eventScroll = new JScrollPane(eventTable);
 		tablesPanel.add(eventTable);
 		// Tasks
-		CommitmentTable commitmentTable = new CommitmentTable();
+		commitmentTable = new CommitmentTable();
 		commitmentTable.setLayout(new BoxLayout(commitmentTable, BoxLayout.Y_AXIS));
 //		taskScroll = new JScrollPane(taskTable);
 		tablesPanel.add(commitmentTable);
@@ -96,6 +97,15 @@ public class AddEventTabPanel extends JTabbedPane {
 		
 		this.setPreferredSize(new Dimension(800, 700));
 		
+	}
+
+	/**
+	 * Gets the commitment table
+	 * 
+	 * @return THe commitment table
+	 */
+	public CommitmentTable getCommitmentTable() {
+		return commitmentTable;
 	}
 	
 }

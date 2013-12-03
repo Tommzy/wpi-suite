@@ -14,7 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.*;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItemListModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -30,7 +30,7 @@ import java.awt.GridLayout;
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
 	
-	JTabbedPane addEventTabPanel;
+	AddEventTabPanel addEventTabPanel;
 	JTabbedPane addCommitTabPanel;
 	/**
 	 * Create the main panel.
@@ -39,11 +39,13 @@ public class MainView extends JPanel {
 		addEventTabPanel = new AddEventTabPanel();
 		add(addEventTabPanel);
 		//addCommitTabPanel = new AddCommitTabPanel;
-		
+		MainCalendarController.getInstance().setMainView(this);
 		
 //		JPanel calendarPanel = new MainCalendarView(new MainCalendarModel());
 //		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 //		add(calendarPanel);
 	}
-
+	public AddEventTabPanel getMainTabPane() {
+		return addEventTabPanel;
+	}
 }

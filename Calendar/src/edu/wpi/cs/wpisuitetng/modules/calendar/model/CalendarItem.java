@@ -1,23 +1,8 @@
-/*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    CalDev
- ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
-
 
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -36,7 +21,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Hui Zheng
  *
  */
-public abstract class CalendarItem {
+public abstract class CalendarItem implements Model {
 	
 	String name;
 	GregorianCalendar startTime;
@@ -50,8 +35,26 @@ public abstract class CalendarItem {
 	public CalendarItem(String name, GregorianCalendar startTime, String description){
 		this.name = name;
 		this.startTime = startTime;
-		this.description = description;
+		this.description=description;
 
+	}
+
+	/**
+	 * Returns a JSON-encoded string representation of this message object
+	 */
+	@Override
+	public abstract String toJSON();
+
+	/**
+	 * Returns an instance of PostBoardMessage constructed using the given
+	 * PostBoardMessage encoded as a JSON string.
+	 * 
+	 * @param json the json-encoded PostBoardMessage to deserialize
+	 * @return the PostBoardMessage contained in the given JSON
+	 */
+	public static Commitment fromJSON(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Commitment.class);
 	}
 	
 	/**
@@ -61,9 +64,9 @@ public abstract class CalendarItem {
 	 * @param json a string containing a JSON-encoded array of PostBoardMessage
 	 * @return an array of PostBoardMessage deserialzied from the given json string
 	 */
-	public static CalendarItem[] fromJsonArray(String json){
+	public static Commitment[] fromJsonArray(String json){
 		final Gson parser = new Gson();
-		return parser.fromJson(json, CalendarItem[].class);
+		return parser.fromJson(json, Commitment[].class);
 	}
 
 	/*
@@ -82,10 +85,13 @@ public abstract class CalendarItem {
 	 * do not need to be implemented for a basic model like PostBoardMessage. 
 	 */
 
+	@Override
 	public void save() {}
 
+	@Override
 	public void delete() {}
 
+	@Override
 	public Boolean identify(Object o) {return null;}
 	
 	

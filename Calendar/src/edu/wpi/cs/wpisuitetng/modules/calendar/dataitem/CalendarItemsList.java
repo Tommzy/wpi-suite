@@ -14,10 +14,11 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.dataitem;
 import java.util.ArrayList;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 
 /**Abstruct class of calendar items list
- * @author Tommzy
+ * @author Hui Zheng
  *
  */
 public abstract class CalendarItemsList {
@@ -28,10 +29,10 @@ public abstract class CalendarItemsList {
 	}
 	
 	/**Add calendar item to the item list
-	 * @param calendarItem It's type is CalendarItem
+	 * @param commitment It's type is CalendarItem
 	 */
-	public void addCalendarItem(CalendarItem calendarItem){
+	public void addCalendarItem(Commitment commitment){
 		//
-		this.itemsList.add(calendarItem);
+		//this.itemsList.add(commitment);
 	}
 }

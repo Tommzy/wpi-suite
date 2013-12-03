@@ -97,11 +97,11 @@ public class DayEvent{
 
     /**
      * Determine if the DayEvent is active during a certain time stamp
-     * @param when the time stamp
+     * @param calendar the time stamp
      * @return true if active during the time stamp, false otherwise
      */
-    public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
-        if (when.before(startTime) || when.after(endTime)) {
+    public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
+        if (calendar.before(startTime) || calendar.after(endTime)) {
             return false;
         } else {
             return true;
@@ -115,17 +115,17 @@ public class DayEvent{
      */
     public boolean isActiveDuringDay(Date day){
         Date startDay, endDay;
-        Calendar cal = new GregorianCalendar();
+        GregorianCalendar cal = new GregorianCalendar();
         //Set the startDay to the start of the day when the
         //event is active
         cal.setTime(startTime.getTime());
-        cal.set(Calendar.HOUR_OF_DAY,0);
-        cal.set(Calendar.MINUTE, 0);
+        cal.set(GregorianCalendar.HOUR_OF_DAY,0);
+        cal.set(GregorianCalendar.MINUTE, 0);
         startDay = cal.getTime();
         //Set the endDay to the end of the day pointed by endTime
         cal.setTime(endTime.getTime());
-        cal.set(Calendar.HOUR_OF_DAY,23);
-        cal.set(Calendar.MINUTE, 59);
+        cal.set(GregorianCalendar.HOUR_OF_DAY,23);
+        cal.set(GregorianCalendar.MINUTE, 59);
         endDay = cal.getTime();
 
        return startDay.before(day) && endDay.after(day);

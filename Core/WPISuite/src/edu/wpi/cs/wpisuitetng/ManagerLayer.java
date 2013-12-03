@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
@@ -36,7 +37,7 @@ import edu.wpi.cs.wpisuitetng.modules.defecttracker.entitymanagers.DefectManager
 import edu.wpi.cs.wpisuitetng.modules.postboard.model.PostBoardEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.RequirementEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.requirementmanager.models.iterations.IterationEntityManager;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.TeamCalendarEntityManager;
+
 
 /**
  * This singleton class responds to API requests directed at 
@@ -68,6 +69,7 @@ public class ManagerLayer {
 		data = DataStore.getDataStore();
 		map = new HashMap<String, EntityManager>();
 		sessions = new SessionManager();
+		Commitment model;
 		
 		//TODO pull these mappings from some config file and reflect them
 		map.put("coreproject", new ProjectManager(data));
@@ -77,13 +79,15 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
-		map.put("calendar" + "commitment", new CommitmentEntityManager(data));
-//		map.put("calendar" + "event", new EventEntityManager(data));
-		map.put("calendar" + "teamcalendar", new TeamCalendarEntityManager(data));
+		
+		//String for our calendar data
+		//string can be anything
+		map.put("calendar"+"commitment", new CommitmentEntityManager(data));
+		//map.put("calendar"+"event", new EventEntityManager(data));
 
 
 		//add just your module to this list
-		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager"};
+		String[] fullModuleList = {"core","defecttracker","postboard","requirementmanager","calendar"};
 		((ProjectManager)map.get("coreproject")).setAllModules(fullModuleList);
 		String ssid = null;
 		
@@ -192,10 +196,12 @@ public class ManagerLayer {
 		if(args[2] == null || args[2].equalsIgnoreCase(""))
 		{
 			m = map.get(args[0]+args[1]).getAll(s);
+			System.out.println(s.toString());
 		}
 		else
 		{
 			m = map.get(args[0]+args[1]).getEntity(s,args[2]);
+			System.out.println("B");
 		}
 		
         //return (m == null) ? "null" : gson.toJson(m, m.getClass());

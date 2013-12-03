@@ -26,7 +26,7 @@ public class EventList extends CalendarItemsList{
 	 * @param event
 	 */
 	public void addEvents(Event event){
-		this.addCalendarItem(event);
+		//this.addCalendarItem(event);
 	}
 	
 	
