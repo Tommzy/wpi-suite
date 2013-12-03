@@ -26,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
@@ -85,7 +87,7 @@ public class MainCalendarView extends JPanel {
     //mainCalendarController.setModel(mainCalendarModel);
     CalendarWeekView weekView = new CalendarWeekView();
     MonthView monthView = new MonthView();
-    CalendarDayView dayView = new CalendarDayView();
+    CalendarDayView dayView = new CalendarDayView(CommitmentsModel.getInstance().getAllCommitment());
  
     mainCalendarController.setView(this);
     mainCalendarController.setWeekView(weekView);

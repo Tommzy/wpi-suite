@@ -1,14 +1,14 @@
 /*******************************************************************************
- * Copyright (c) 2013 -- WPI Suite
- *
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- * Team3
- ******************************************************************************/
+* Copyright (c) 2013 -- WPI Suite
+*
+* All rights reserved. This program and the accompanying materials
+* are made available under the terms of the Eclipse Public License v1.0
+* which accompanies this distribution, and is available at
+* http://www.eclipse.org/legal/epl-v10.html
+*
+* Contributors:
+* Team3
+******************************************************************************/
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
@@ -40,9 +40,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
- * This class generates the week calendar view. 
- *
- */
+* Generate day calendar view.
+*
+*/
 @SuppressWarnings("serial")
 public class CalendarWeekView extends JPanel implements Updatable{
 	CalendarDay[] week = new CalendarDay[8];
@@ -66,7 +66,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		week[0] = new CalendarDay(date);
+		week[0] = new CalendarDay(null);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
@@ -79,11 +79,11 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
-
+		
 		add(btnPanel, "wrap");
 		add(weekPanel, "wrap");
 	}
-
+	
 	/**
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
@@ -97,7 +97,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		week[0] = new CalendarDay(date);
+		week[0] = new CalendarDay(null);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
@@ -110,11 +110,11 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
-
+		
 		for (int i=0; i < events.size(); i++) {
 			addEvent(events.get(i), events.get(i).getStartTime().get(GregorianCalendar.DAY_OF_WEEK));
 		}
-
+		
 		add(btnPanel, "wrap");
 		add(weekPanel, "wrap");
 	}
@@ -133,7 +133,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
-		week[0] = new CalendarDay(date);
+		week[0] = new CalendarDay(null);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
@@ -146,16 +146,16 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
-
+		
 		for (int i=0; i < events.length; i++) {
 			addEvent(events[i], events[i].getStartTime().get(GregorianCalendar.DAY_OF_WEEK));
 		}
-
+		
 		add(btnPanel, "wrap");
 		add(weekPanel, "wrap");	
-
+		
 	}
-
+	
 	/**
 	 * Add an event to calendar
 	 * @param event Event to be added.
@@ -163,7 +163,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	private void addEvent (DayEvent event, int dayOfWeek) {
 		week[dayOfWeek].addEvent(event);
 	}
-
+	
 	/**
 	 * Set first day of week. 
 	 * @param dc
@@ -174,27 +174,23 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		temp.set(Calendar.DAY_OF_WEEK, dc.getFirstDayOfWeek());
 		return temp;
 	}
-
-	/**
-	 * Setup the button listeners for the next, 
-	 * previous and current week buttons
-	 */
+	
 	private void setupButtonListeners() {
 		previousButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				previousWeek();
 			}
-
+	
 		});
-
+		
 		todayButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				currentWeek();
 			}	
 		});	
-
+		
 		nextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -202,44 +198,32 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			}	
 		});	
 	}
-
-	/**
-	 * Refreshes the day view with the previous week's information
-	 */
+	
 	private void previousWeek() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToPreviousWeek();
 		MainCalendarController.getInstance().updateAll();
 	}
-
-	/**
-	 * Refreshes the day view with the current week's information
-	 */
+	
 	private void currentWeek() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToToday();
 		MainCalendarController.getInstance().updateAll();
 	}
-
-	/**
-	 * Refreshes the day view with the next week's information
-	 */
+	
 	private void nextWeek() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToNextWeek();
 		MainCalendarController.getInstance().updateAll();
 	}
-
-	/**
-	 * Clears the panel and reconstructs it with a new week
-	 */
+	
 	public void updateWeekView() {
 		weekPanel.removeAll();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
 		// Please do not change the dateController of MainCalendarController directly
 		// use clone() if necessary
-		date = MainCalendarController.getInstance().getDateController().clone();
-
+		date = MainCalendarController.getInstance().getDateController();
+		DateController originalDate = date.clone();
 		week[0] = new CalendarDay(date);
 		week[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
@@ -252,24 +236,24 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].view.setPreferredSize(new Dimension(100, 450));	
 			weekPanel.add(week[i]);
 		}
-
+		MainCalendarController.getInstance().setDateController(originalDate);
 		parseCommitment();
-
+		
 		revalidate();
 		repaint();
 	}
-
+	
 	private void parseCommitment() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
-
+		
 		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
 				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
-
+		
 		dateController.setToNextWeek();
-
+		
 		GregorianCalendar calendarEnd = new GregorianCalendar(dateController.getYear(), 
 				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
-
+		
 		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
 		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();
 		this.cmtList  = cmtList;
@@ -297,38 +281,35 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].setPreferredSize(new Dimension((int) (week[i].getParent().getPreferredSize().width / 7), (int) (week[i].getParent().getPreferredSize().getHeight())));
 		}
 	}
+	
+	//Test the detailed view, adding some new events
+		public static void main(String[] args) {
+			JFrame frame = new JFrame();
+			CalendarWeekView d = new CalendarWeekView();
+			d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
+			d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
+			d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+			d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+			d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
+			
+			JScrollPane scroll = new JScrollPane(d);
+			
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			frame.add(scroll);
+			
+			frame.pack();
+			frame.setVisible(true);
 
-	/**
-	 * Used for testing the day view when launched separately
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		CalendarWeekView d = new CalendarWeekView();
-		d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
-		d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-		d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
+		}
 
-		JScrollPane scroll = new JScrollPane(d);
+		@Override
+		public void update() {
+			updateWeekView();
+		}
 
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(scroll);
-
-		frame.pack();
-		frame.setVisible(true);
-
-	}
-
-	@Override
-	public void update() {
-		updateWeekView();
-	}
-
-	public Collection<Commitment> getDayViewCommitmentList() {
-		return cmtList;
-	}
-
-
+		public Collection<Commitment> getDayViewCommitmentList() {
+			return cmtList;
+		}
+		
+	
 }
