@@ -255,5 +255,8 @@ public class MainCalendarController implements ActionListener{
 		}
 	}
 	
+	public void setDateController(DateController originalDate){
+		dateController = originalDate.clone();
+	}
 	
 }

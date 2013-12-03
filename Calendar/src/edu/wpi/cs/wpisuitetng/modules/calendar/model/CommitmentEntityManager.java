@@ -126,6 +126,27 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		}
 	}
 	
+//	/**
+//	 * Ensures that a user is of the specified project
+//	 * @param session the session
+//	 * @param User the user supposed in the project
+//	 * @throws WPISuiteException user isn't authorized for the given role */
+//	
+//	private void ensureMember(Session session, User user) throws WPISuiteException {
+//		User usera[] = db.retrieve(User.class, "username", session.getUsername(), session.getProject()).toArray(new User[0]);
+//		User userb = session.getUser();
+//		
+//		
+//		System.out.println(usera.toString());
+//
+//		int counter = usera.length;
+//		for (int i = 0; i < counter; i++) {
+//			if (!usera[i].getUsername().equals(user.getUsername())) {
+//				throw new UnauthorizedException();
+//			}
+//		}
+//	}
+	
 
 	/** Takes a Commitment and assigns a unique id if necessary
 	 * 
@@ -135,6 +156,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
 			commitment.setId(Count() + 1); // Makes first Commitment have id = 1
+//			commitment.setId(100);
 		}
 	}
 
@@ -163,6 +185,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
 		System.out.println("Here is the session passed into the getAll() method" + s.toString());
+//		ensureMember(s, user);
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
 
 	}
@@ -231,7 +254,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		//TODO put this back in
 		// Copy new field values into old Commitment. This is because the "same" model must
 		// be saved back into the database
-		//oldReq.updateReq(reqUpdate);
+//		oldReq.updateReq(reqUpdate);
 
 		// Attempt to save. WPISuiteException may be thrown
 		this.save(s,oldReq);

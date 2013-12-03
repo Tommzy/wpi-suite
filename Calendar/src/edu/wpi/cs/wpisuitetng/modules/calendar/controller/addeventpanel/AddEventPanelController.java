@@ -60,10 +60,10 @@ public class AddEventPanelController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSubmit) {
-			tabbedPane.removeTabAt(1);
+			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
 		}
 		else if (e.getSource() == btnCancel) {
-			tabbedPane.removeTabAt(1);
+			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
 		}
 
 	}

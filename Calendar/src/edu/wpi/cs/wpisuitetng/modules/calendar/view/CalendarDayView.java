@@ -71,8 +71,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
 		dayPanel.setPreferredSize(new Dimension(1200, 1035));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		day[0] = new CalendarDay(date);
+		day[0] = new CalendarDay(null);
 		day[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		day[0].add(header, BorderLayout.NORTH);
@@ -95,7 +94,6 @@ public class CalendarDayView extends JPanel implements Updatable{
 	 * @param events A list of events to be added to calendar
 	 */
 	public CalendarDayView(ArrayList<DayEvent> events) {
-
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -104,8 +102,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		day[0] = new CalendarDay(date);
+		day[0] = new CalendarDay(null);
 		day[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		day[0].add(header, BorderLayout.NORTH);
@@ -141,8 +138,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
-		setBorder(BorderFactory.createMatteBorder(0, 1, 0, 1, Color.lightGray));
-		day[0] = new CalendarDay(date);
+		day[0] = new CalendarDay(null);
 		day[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
 		day[0].add(header, BorderLayout.NORTH);
