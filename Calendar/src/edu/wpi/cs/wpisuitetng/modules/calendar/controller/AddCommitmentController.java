@@ -32,6 +32,7 @@ public class AddCommitmentController implements ActionListener{
 
 	private final CommitmentsModel model;
 	private final AddCommitmentPanel viewCommitment;
+	private final Network testNetwork;
 	 
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
@@ -43,6 +44,14 @@ public class AddCommitmentController implements ActionListener{
 	public AddCommitmentController(CommitmentsModel model, AddCommitmentPanel viewCommitment) {
 		this.model = model;
 		this.viewCommitment = viewCommitment;
+		this.testNetwork = Network.getInstance();
+	}
+	
+
+	public AddCommitmentController(CommitmentsModel model, AddCommitmentPanel viewCommitment, Network testNetwork) {
+		this.model = model;
+		this.viewCommitment = viewCommitment;
+		this.testNetwork = testNetwork;
 	}
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
