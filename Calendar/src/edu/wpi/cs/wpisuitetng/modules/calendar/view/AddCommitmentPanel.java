@@ -108,12 +108,12 @@ public class AddCommitmentPanel extends JPanel {
     descriptionLabel = new JLabel("Description:");
 
     descriptionTextArea = new JTextArea();
-    descriptionTextArea.setPreferredSize(new Dimension(300, 300));
+    descriptionTextArea.setPreferredSize(new Dimension(400, 100));
 
     inviteeLabel = new JLabel("Invitee:");
 
     inviteeTextArea = new JTextArea();
-    inviteeTextArea.setPreferredSize(new Dimension(300, 300));
+    inviteeTextArea.setPreferredSize(new Dimension(400, 100));
     
     CommitmentsModel model = null;
 
@@ -135,7 +135,7 @@ public class AddCommitmentPanel extends JPanel {
 	startTimeTextField.setValue(getCurrentTime());
 
     contentPanel.add(nameLabel);
-    contentPanel.add(nameTextField);
+    contentPanel.add(nameTextField, "span 2");
     contentPanel.add(nameErrMsg, "wrap");
     contentPanel.add(startDateLabel);
     contentPanel.add(startDateTextField);
@@ -146,7 +146,7 @@ public class AddCommitmentPanel extends JPanel {
     // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
     contentPanel.add(descriptionLabel);
-    contentPanel.add(descriptionTextArea, "span 4");
+    contentPanel.add(descriptionTextArea, "wrap, span 4");
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeTextArea, "wrap, span 4");
     contentPanel.add(btnSubmit);
