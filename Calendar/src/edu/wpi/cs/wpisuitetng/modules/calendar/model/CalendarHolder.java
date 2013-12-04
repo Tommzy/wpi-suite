@@ -12,6 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddTeamCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetTeamCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateTeamCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.TeamCalendar;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.PersonalCalendar;
 
@@ -67,6 +68,7 @@ public class CalendarHolder {
   
   public void addTeamCommitment (Commitment newCommitment) {
     teamCalendar.addCommitment(newCommitment);
+    this.updateTeamCalendar();
   }
   
   public void addPersonalCommitment (Commitment newCommitment) {
@@ -75,12 +77,27 @@ public class CalendarHolder {
 
   public void addTeamEvent (Event newEvent) {
     teamCalendar.addEvent(newEvent);
+    this.updateTeamCalendar();
   }
   
   public void addPersonalEvent (Event newEvent) {
     personalCalendar.addEvent(newEvent);
   }
+  /**
+   * Updates the whole TeamCalendar in the database.
+   */
+  public void updateTeamCalendar() {
+    UpdateTeamCalendarController.getInstance().updateTeamCalendar(teamCalendar);
+  }
   
+  //TODO: updatePersonalCalendar()
+  //TODO: update functions for specific fields of each calendar.
+  
+  /**
+   * This function is only called if the getTeamCalendarController can't find a TeamCalendar.
+   * Creates a new TeamCalendar, sends it to the database, then retrieves it 
+   * (since its projID will be updated when it is first sent to the database).
+   */
   public void makeTeamCalendar () {
     AddTeamCalendarController.getInstance().addTeamCalendar(new TeamCalendar());
     GetTeamCalendarController.getInstance().retrieveTeamCalendars(); //If this can't retrieve the calendar made by the above function, then infinite loop may happen!
