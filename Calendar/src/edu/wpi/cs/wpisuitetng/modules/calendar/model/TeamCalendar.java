@@ -132,6 +132,8 @@ public class TeamCalendar extends AbstractModel{
    */
   public TeamCalendar() {
     projID = "-1";
+    events = new SortedEventList();
+    commitments = new SortedCommitmentList();
   }
   
   /**

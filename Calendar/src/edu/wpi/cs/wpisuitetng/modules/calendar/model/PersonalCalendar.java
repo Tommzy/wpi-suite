@@ -125,6 +125,11 @@ public class PersonalCalendar extends AbstractModel{
   
   //----------------------- Non-Interface Functions---------------------------
   
+  public PersonalCalendar() {
+    userID = "-1";
+    events = new SortedEventList();
+    commitments = new SortedCommitmentList();
+  }
   
   /**
    * Returns an instance of PersonalCalendar constructed using the given
