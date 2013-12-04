@@ -17,6 +17,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.Permission;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -28,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * 
  */
 
-public class PersonalCalendar implements Model{
+public class PersonalCalendar extends AbstractModel{
   //What data is associated with this calendar?
   String userID;
   SortedEventList events;
@@ -50,13 +51,55 @@ public class PersonalCalendar implements Model{
     // TODO Auto-generated method stub
     
   }
-  
+
+  /**
+   * identify: true if the argument o is equal this object's unique identifier or this object
+   * this method was created for use with the mock database
+   * 
+   * implementations overriding this method should check if o is either a unique identifier, or an instance of this class
+   * if o is an instance of this class, this method should check if it contains the same unique identifier
+   * 
+   * @param o - a unique identifier belonging to an object
+   * @return true if the o is equal to this Model's unique identifier, else false
+   */
   @Override
   public Boolean identify(Object o) {
-    // TODO Auto-generated method stub
-    return null;
+    //First check if this object and the one being passed in are the same thing!
+    if (this.equals(o)) {
+      return true; //They refer to the same object, so they are the same.
+    }
+    
+    //Next check if this is a different PersonalCalendar. 
+    else if (o instanceof PersonalCalendar) {
+      
+      //Now we need to check if their projID matches ours.
+      if ( (((PersonalCalendar) o).getUserID()).equals(this.getUserID())) {
+        return true; //the projID matches!
+      }
+      else {
+        return false; //the projID doesn't match!
+      }
+    }//end else if 
+    
+    //Next check if it's a string.
+    else if (o instanceof String) {
+      if (((String) o).equals(this.getUserID())) { //Does it match our ID?
+        return true; //it matches!
+      }
+      else {
+        return false; //It doesn't match!
+      }
+    }//end else if
+    
+    else {//It's not a PersonalCalendar, and it's not a string
+      return false; //It's probably not what we want.
+    }//end else
+    
   }
 
+  /**
+   * @return the permission associated with this PersonalCalendar
+   */
   @Override
   public Permission getPermission(User u) {
     return permissionMap.get(u);
@@ -67,6 +110,9 @@ public class PersonalCalendar implements Model{
     permissionMap.put(u, p);
   }
 
+  /**
+   * @return the project associated with this PersonalCalendar
+   */
   @Override
   public Project getProject() {
     return project;
@@ -158,6 +204,30 @@ public class PersonalCalendar implements Model{
    */
   public SortedCommitmentList getCommitments() {
     return commitments;
+  }
+  
+  /**
+   * @return the number ID of the user this PersonalCalendar belongs to.
+   */
+  public String getUserID() {
+    return this.userID;
+  }
+  
+  /**
+   * Sets the PersonalCalendar's userID to the given value
+   * @param newId string value to set userID to
+   */
+  public void setUserID(String newId) {
+    userID = newId;
+  }
+  
+  /** Method toString. Outputs a JSON string.
+   * @return String
+   * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+   */
+  @Override
+  public String toString() {
+          return this.toJSON();
   }
   
 }

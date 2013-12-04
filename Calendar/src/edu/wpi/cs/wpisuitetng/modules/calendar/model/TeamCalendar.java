@@ -18,6 +18,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.Permission;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -30,7 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Team3
  * 
  */
-public class TeamCalendar implements Model{
+public class TeamCalendar extends AbstractModel{
 
   String projID;
   SortedEventList events;
@@ -53,13 +54,54 @@ public class TeamCalendar implements Model{
     // TODO Auto-generated method stub
     
   }
-  
+  /**
+   * identify: true if the argument o is equal this object's unique identifier or this object
+   * this method was created for use with the mock database
+   * 
+   * implementations overriding this method should check if o is either a unique identifier, or an instance of this class
+   * if o is an instance of this class, this method should check if it contains the same unique identifier
+   * 
+   * @param o - a unique identifier belonging to an object
+   * @return true if the o is equal to this Model's unique identifier, else false
+   */
   @Override
   public Boolean identify(Object o) {
-    // TODO Auto-generated method stub
-    return null;
-  }
+    //First check if this object and the one being passed in are the same thing!
+    if (this.equals(o)) {
+      return true; //They refer to the same object, so they are the same.
+    }
+    
+    //Next check if this is a different TeamCalendar. 
+    else if (o instanceof TeamCalendar) {
+      
+      //Now we need to check if their projID matches ours.
+      if ( (((TeamCalendar) o).getProjID()).equals(this.getProjID())) {
+        return true; //the projID matches!
+      }
+      else {
+        return false; //the projID doesn't match!
+      }
+    }//end else if 
+    
+    //Next check if it's a string.
+    else if (o instanceof String) {
+      if (((String) o).equals(this.getProjID())) { //Does it match our ID?
+        return true; //it matches!
+      }
+      else {
+        return false; //It doesn't match!
+      }
+    }//end else if
+    
+    else {//It's not a TeamCalendar, and it's not a string
+      return false; //It's probably not what we want.
+    }//end else
+    
+  }//end function
 
+  /**
+   * @return the permission associated with this TeamCalendar
+   */
   @Override
   public Permission getPermission(User u) {
     return permissionMap.get(u);
@@ -70,6 +112,9 @@ public class TeamCalendar implements Model{
     permissionMap.put(u, p);
   }
 
+  /**
+   * @return the project associated with this TeamCalendar
+   */
   @Override
   public Project getProject() {
     return project;
@@ -86,7 +131,7 @@ public class TeamCalendar implements Model{
    * Constructor
    */
   TeamCalendar() {
-    projID = "0";
+    projID = "-1";
   }
   
   /**
@@ -182,6 +227,15 @@ public class TeamCalendar implements Model{
    */
   public SortedCommitmentList getCommitments() {
     return commitments;
+  }
+  
+  /** Method toString. Outputs a JSON string.
+   * @return String
+   * @see edu.wpi.cs.wpisuitetng.modules.Model#toString()
+   */
+  @Override
+  public String toString() {
+    return this.toJSON();
   }
   
 }
