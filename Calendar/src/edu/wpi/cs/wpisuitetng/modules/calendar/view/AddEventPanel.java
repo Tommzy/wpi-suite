@@ -146,6 +146,17 @@ public class AddEventPanel extends JPanel {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
+				String content[] = ((String)startDateTextField.getValue()).split("/");
+				startDatePicker.setSelectedDate(new DateController(Integer.parseInt(content[2]), Integer.parseInt(content[0]) - 1, Integer.parseInt(content[1])));
+				
+			}
+			
+		});
+		
+		startDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
 				String startDate = (String) startDateTextField.getValue();
 				endDateTextField.setValue(startDate);
 			}
@@ -173,11 +184,79 @@ public class AddEventPanel extends JPanel {
 		});
 		startTimeTextField.setValue(getCurrentTime());
 		
+		endDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				String content[] = ((String)endDateTextField.getValue()).split("/");
+				endDatePicker.setSelectedDate(new DateController(Integer.parseInt(content[2]), Integer.parseInt(content[0]) - 1, Integer.parseInt(content[1])));
+				
+			}
+			
+		});
+		
+		endDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
+			
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				String startDate = (String) startDateTextField.getValue();
+				String endDate = (String) endDateTextField.getValue(); 
+				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+				try {
+					Date start = df.parse(startDate);
+					Date end = df.parse(endDate);
+					if (start.after(end)) {
+						startDateTimeErrMsg.setText("End date can not be ahead of start date!");
+						endDateTextField.requestFocus();
+						btnSubmit.setEnabled(checkContent());
+					}
+					else if (start.equals(end)) {
+						String startTime = (String) startTimeTextField.getValue();
+						String endTime = (String) endTimeTextField.getValue();
+						String[] startHourMin = startTime.split(":");
+						String[] endHourMin = endTime.split(":");
+						if (Integer.parseInt(startHourMin[0]) > Integer.parseInt(endHourMin[0])) {
+							startDateTimeErrMsg.setText("End time can not be ahead of start time!");
+							endTimeTextField.requestFocus();
+							btnSubmit.setEnabled(checkContent());
+						}
+						else if (Integer.parseInt(startHourMin[0]) == Integer.parseInt(endHourMin[0])) {
+							if (Integer.parseInt(startHourMin[1]) > Integer.parseInt(endHourMin[1])) {
+								startDateTimeErrMsg.setText("End time can not be ahead of start time!");
+								endTimeTextField.requestFocus();
+								btnSubmit.setEnabled(checkContent());
+							}
+							else {
+								if (startDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
+									startDateTimeErrMsg.setText("");
+								btnSubmit.setEnabled(checkContent());
+							}
+						}
+						else {
+							if (startDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
+								startDateTimeErrMsg.setText("");
+							btnSubmit.setEnabled(checkContent());
+						}
+					}
+					else {
+						if (startDateTimeErrMsg.getContentText().equals("End date can not be ahead of start date!"))
+							startDateTimeErrMsg.setText("");
+						btnSubmit.setEnabled(checkContent());
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+		});
+		
 		endTimeTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				// TODO Auto-generated method stub
+				System.out.println("wtf");
 				String startDate = (String) startDateTextField.getValue();
 				String endDate = (String) endDateTextField.getValue(); 
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -505,5 +584,10 @@ public class AddEventPanel extends JPanel {
 				return false;
 			}
 		}
+	}
+
+	public void initiateFocus() {
+		// TODO Auto-generated method stub
+		nameTextField.requestFocusInWindow();
 	}
 }

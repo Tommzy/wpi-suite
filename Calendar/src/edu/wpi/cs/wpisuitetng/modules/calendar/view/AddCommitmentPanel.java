@@ -10,6 +10,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentControlle
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
@@ -51,6 +54,9 @@ public class AddCommitmentPanel extends JPanel {
   /** The start time text field. */
   JFormattedTextField startDateTextField, startTimeTextField;
   
+  /** The help content for date and time */
+  JLabel dateHelpText, timeHelpText;
+  
   /** The start date picker */ 
   DatePickerPanel startDatePicker;
   
@@ -65,13 +71,19 @@ public class AddCommitmentPanel extends JPanel {
 
   /** The description label. */
   JLabel     descriptionLabel;
-
+  
+  /** ScroolPane Container for description */
+  JScrollPane descriptionScroll;
+  
   /** The description text area. */
   JTextArea  descriptionTextArea;
-
+  
   /** The invitee label. */
   JLabel     inviteeLabel;
-
+  
+  /** ScroolPane Container for invitee */
+  JScrollPane inviteeScroll;
+  
   /** The invitee text area. */
   JTextArea  inviteeTextArea;
 
@@ -89,7 +101,7 @@ public class AddCommitmentPanel extends JPanel {
 
     nameTextField = new JTextField(10);
     
-    nameErrMsg = new JErrorMessageLabel("Name can not be empty! ");
+    nameErrMsg = new JErrorMessageLabel("");
 
     startDateLabel = new JLabel("Time:");
 
@@ -101,23 +113,31 @@ public class AddCommitmentPanel extends JPanel {
 	}
     
     startDateTimeErrMsg = new JErrorMessageLabel();
+    
+    dateHelpText = new JLabel ("<HTML><font color='gray'>MM/DD/YYYY</font></HTML>");
+    
+    timeHelpText = new JLabel ("<HTML><font color='gray'>24-HR</font></HTML>");
 
     locationLabel = new JLabel("Where:");
     locationTextField = new JTextField(10);
 
     descriptionLabel = new JLabel("Description:");
-
+    
     descriptionTextArea = new JTextArea();
-    descriptionTextArea.setPreferredSize(new Dimension(400, 100));
-
+//    descriptionTextArea.setPreferredSize(new Dimension(400, 90));
+    descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    descriptionScroll.setPreferredSize(new Dimension(400, 100));
+    
     inviteeLabel = new JLabel("Invitee:");
 
     inviteeTextArea = new JTextArea();
-    inviteeTextArea.setPreferredSize(new Dimension(400, 100));
-    
+//    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
+    inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    inviteeScroll.setPreferredSize(new Dimension(400, 100));
     CommitmentsModel model = null;
 
     btnSubmit = new JButton("Submit");
+    btnSubmit.setEnabled(false);
     btnCancel = new JButton ("Cancel");
     
     // Set up properties and values
@@ -131,6 +151,16 @@ public class AddCommitmentPanel extends JPanel {
 	startDatePicker = new DatePickerPanel(startDateTextField);
 	startTimeTextField.setColumns(4);
 	startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
+	startDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			String content[] = ((String)startDateTextField.getValue()).split("/");
+			startDatePicker.setSelectedDate(new DateController(Integer.parseInt(content[2]), Integer.parseInt(content[0]) - 1, Integer.parseInt(content[1])));
+			
+		}
+		
+	});
 	
 	startTimeTextField.setValue(getCurrentTime());
 
@@ -141,14 +171,16 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(startDateTextField);
     contentPanel.add(startTimeTextField);
     contentPanel.add(startDateTimeErrMsg, "wrap, span");
-    contentPanel.add(startDatePicker, "cell 1 2, wrap, span");
+    contentPanel.add(dateHelpText, "cell 1 2");
+    contentPanel.add(timeHelpText, "cell 2 2");
+    contentPanel.add(startDatePicker, "cell 1 3, wrap, span");
     // This is not in commitments anymore, still here if added back
     // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
     contentPanel.add(descriptionLabel);
-    contentPanel.add(descriptionTextArea, "wrap, span 4");
+    contentPanel.add(descriptionScroll, "wrap, span 4");
     contentPanel.add(inviteeLabel);
-    contentPanel.add(inviteeTextArea, "wrap, span 4");
+    contentPanel.add(inviteeScroll, "wrap, span 4");
     contentPanel.add(btnSubmit);
     contentPanel.add(btnCancel);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
@@ -222,7 +254,9 @@ public class AddCommitmentPanel extends JPanel {
     return this.locationTextField.getText();
   }
 
-
+  public void initiateFocus() {
+	  nameTextField.requestFocusInWindow();
+  }
 
   /**
    * Gets the new description.

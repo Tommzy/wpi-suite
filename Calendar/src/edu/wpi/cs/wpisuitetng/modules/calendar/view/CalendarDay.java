@@ -198,7 +198,7 @@ public class CalendarDay extends JPanel {
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
-		newEvent.setBackground(new Color(200, 240, 200));
+		newEvent.setBackground(new Color(136, 255, 255));
 		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));

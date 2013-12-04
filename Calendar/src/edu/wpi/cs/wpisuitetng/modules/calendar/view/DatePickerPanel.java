@@ -83,4 +83,9 @@ public class DatePickerPanel extends JPanel {
 		return dateController;
 	}
 	
+	public void setSelectedDate(DateController dt) {
+		dateController = dt;
+		updateDatePickerPanel();
+	}
+	
 }

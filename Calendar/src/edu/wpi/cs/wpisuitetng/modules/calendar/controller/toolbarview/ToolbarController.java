@@ -45,8 +45,10 @@ public class ToolbarController implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addEventButton) {
       //if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
-        AddEventPanelController.getInstance().getTabbedPane().add(new AddEventPanel(new MigLayout(),  AddEventPanelController.getInstance().getTabbedPane()));
+    	AddEventPanel newEventPanel = new AddEventPanel(new MigLayout(),  AddEventPanelController.getInstance().getTabbedPane());
+        AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
         AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Event");
+        
 //        JButton closeButton = new JButton("x");
 //        closeButton.addActionListener(new ActionListener() {
 //
@@ -66,7 +68,8 @@ public class ToolbarController implements ActionListener {
     if (e.getSource() == addCommitmentButton) {
       JTabbedPane pane = AddCommitmentPanelController.getInstance().getTabbedPane();
       //if (AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
-        AddEventPanelController.getInstance().getTabbedPane().add(new AddCommitmentPanel(new MigLayout()));
+      AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
+        AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
         AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
 //        JButton closeButton = new JButton("x");
 //        closeButton.addActionListener(new ActionListener() {
@@ -79,7 +82,7 @@ public class ToolbarController implements ActionListener {
 //        });
 
         AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-
+        newCommitmentPanel.initiateFocus();
       }
     //}
 

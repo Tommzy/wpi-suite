@@ -55,8 +55,9 @@ public class DatePicker extends JPanel {
 							dateController.set(GregorianCalendar.YEAR, label.getDate().get(GregorianCalendar.YEAR));
 							dateController.set(GregorianCalendar.MONTH, label.getDate().get(GregorianCalendar.MONTH));
 							dateController.set(GregorianCalendar.DATE, label.getDate().get(GregorianCalendar.DATE));
-							if (fieldToChange != null)
-								fieldToChange.setText(formatInt(dateController.getMonth() + 1) + "/" + formatInt(dateController.getDayOfMonth()) + "/" + dateController.getYear());
+							if (fieldToChange != null) {
+								fieldToChange.setValue(formatInt(dateController.getMonth() + 1) + "/" + formatInt(dateController.getDayOfMonth()) + "/" + dateController.getYear());
+							}
 							updateDatePicker();
 						}
 					}
