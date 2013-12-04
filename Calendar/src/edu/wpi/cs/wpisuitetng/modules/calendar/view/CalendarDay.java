@@ -77,38 +77,6 @@ public class CalendarDay extends JPanel {
 //		revalidate();
 //		repaint();
 		add(view, BorderLayout.CENTER);
-		addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println(dateController);
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
 	}
 	
 	/**
@@ -128,6 +96,7 @@ public class CalendarDay extends JPanel {
 			c.gridy = i;
 			Box box = Box.createVerticalBox();
 			box.add(Box.createVerticalStrut(1));
+//			box.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 			view.add(box, c);
 			c.gridx = 1;
 			c.weightx = 1;
@@ -145,7 +114,7 @@ public class CalendarDay extends JPanel {
 		c.weightx = 0;
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.WEST;
+		c.anchor = GridBagConstraints.NORTH;
 
 		for (int i = 0; i < 24*(60/minimalInterval); i++) {
 			//Even hours
@@ -154,12 +123,14 @@ public class CalendarDay extends JPanel {
 				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
 				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
 				timeLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
+				c.gridheight = 15;
 				view.add(timeLabel, c);
 			} 
 			else {
 				Box box = Box.createVerticalBox();
 				box.add(Box.createVerticalStrut(1));
 				box.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
+				c.gridheight = 1;
 				view.add(box, c);
 			}
 		}

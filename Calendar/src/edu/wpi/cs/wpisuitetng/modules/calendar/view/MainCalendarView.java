@@ -86,7 +86,7 @@ public class MainCalendarView extends JPanel {
     //mainCalendarController.setModel(mainCalendarModel);
     CalendarWeekView weekView = new CalendarWeekView();
     MonthView monthView = new MonthView();
-    CalendarDayView dayView = new CalendarDayView(CommitmentsModel.getInstance().getAllCommitment());
+    CalendarDayView dayView = new CalendarDayView();
  
     mainCalendarController.setView(this);
     mainCalendarController.setWeekView(weekView);

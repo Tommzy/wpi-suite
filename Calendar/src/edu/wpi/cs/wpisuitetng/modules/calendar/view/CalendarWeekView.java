@@ -254,6 +254,8 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	public void updateWeekView() {
 		weekPanel.removeAll();
 		weekPanel.setLayout(new BoxLayout(weekPanel, BoxLayout.X_AXIS));
+		weekPanel.setPreferredSize(new Dimension(1200, 800));
+
 		// Please do not change the dateController of MainCalendarController directly
 		// use clone() if necessary
 		date = MainCalendarController.getInstance().getDateController();
@@ -263,13 +265,19 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
+		week[0].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));
+		System.out.println(0 + " " + week[0].getPreferredSize().getHeight());
+		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay(date);
 			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
 			week[i].initHeader();
-			week[i].view.setPreferredSize(new Dimension(100, 450));	
+			week[i].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));	
 			weekPanel.add(week[i]);
+			System.out.println(i + " " + week[i].getPreferredSize().getHeight());
 		}
+//		week[1].initTimeLabels();
+//    week[0].setVisible(false);
 		MainCalendarController.getInstance().setDateController(originalDate);
 		parseCommitment();
 		
@@ -282,7 +290,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 */
 	private void parseCommitment() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
-		
+		dateController = setFirstDayOfWeek(dateController);
 		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
 				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
 		

@@ -167,7 +167,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
-		System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Commitment(null, null, null)));
+		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Commitment(null, null, null)));
 		return db.retrieveAll(new Commitment(null, null, null)).size();
 	}
 
@@ -183,7 +183,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
 		System.out.println("Here is the session passed into the getAll() method" + s.toString());
-//		ensureMember(s, user);
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
 
 	}
