@@ -32,6 +32,9 @@ public class CommitmentFilter {
 	 * @return The collection of commitments within the time frame
 	 */
 	public Collection<Commitment> getCommitmentList() {
+		try {
+			
+		
 		Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
 		Collection<Commitment> cmtList = new ArrayList<Commitment>();
 		Iterator<Commitment> itr = list.iterator();
@@ -44,5 +47,10 @@ public class CommitmentFilter {
 		}
 		
 		return cmtList;
+		} catch (NullPointerException e) {
+			System.out.println("commitment filter null pointer exception");
+		}
+		
+		return new ArrayList<Commitment> ();
 	}
 }

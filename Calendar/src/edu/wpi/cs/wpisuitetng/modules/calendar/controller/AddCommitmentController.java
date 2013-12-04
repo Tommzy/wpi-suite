@@ -33,7 +33,7 @@ public class AddCommitmentController implements ActionListener{
 	private final CommitmentsModel model;
 	private final AddCommitmentPanel viewCommitment;
 	 
-	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
+	//Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
 	/**
 	 * Construct an AddCommitmentController for the given model, view pair
@@ -47,12 +47,12 @@ public class AddCommitmentController implements ActionListener{
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
 	
-	public void addTestToDatabase(){
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
-		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
-		request.addObserver(observer); // add an observer to process the response
-		request.send();
-	}
+//	public void addTestToDatabase(){
+//		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+//		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
+//		request.addObserver(observer); // add an observer to process the response
+//		request.send();
+//	}
 	
 	public Commitment testReturn(){
 		return observer.testReturn();
@@ -68,10 +68,10 @@ public class AddCommitmentController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		//addTestToDatabase();
-		System.out.println("this is event!----->" + event);
+		System.out.println("this is event!----->" + event.getActionCommand().toString());
 		// Get the text that was entered
 		String name = viewCommitment.getTxtNewname();
-		GregorianCalendar startTime = null;
+		GregorianCalendar startTime = new GregorianCalendar();
 		startTime = viewCommitment.getNewDate("startTime");
 		String description = viewCommitment.getNewDescription();
 		 

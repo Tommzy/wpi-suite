@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 /**
@@ -63,7 +64,7 @@ public class FakeCommitmentModel {
 	}
 	
 	public Collection<Commitment> getCommitmentList() {
-		return cmtList;
+		return CommitmentsModel.getInstance().getCommitments();
 	}
 	
 	

@@ -53,7 +53,9 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 
 	@Override
 	public void responseError(IRequest iReq) {
-		System.err.println("The request to add a commitment failed.");	
+		System.err.println(iReq.getBody());
+		System.err.println(iReq.getResponse().getStatusMessage());
+		System.err.println("The request to add a commitment errored.");	
 	}
 
 	@Override

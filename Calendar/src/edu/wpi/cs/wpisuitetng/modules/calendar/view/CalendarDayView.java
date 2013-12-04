@@ -46,21 +46,32 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
  */
 @SuppressWarnings("serial")
 public class CalendarDayView extends JPanel implements Updatable{
+	
+	/** The day. */
 	CalendarDay[] day = new CalendarDay[2];
+	
+	/** The header. */
 	JLabel header = new JLabel("<HTML><div style = 'font-size:10'>&nbsp;<br />&nbsp;</div></HTML>");
+	
+	/** The date. */
 	DateController date = MainCalendarController.getInstance().getDateController();
+	
+	/** The today button. */
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
+	
+	/** The day panel. */
 	JPanel dayPanel = new JPanel();
 
 	// a commitment list copy 
 	// commitment table will retrieve this cmtList and display accordingly
 	// if MainCalendarController says it is on the Day view
+	/** The cmt list. */
 	private Collection<Commitment> cmtList = new ArrayList<Commitment>();
 
 	/**
 	 * Constructor
-	 * Empty calendar
+	 * Empty calendar.
 	 */
 	public CalendarDayView() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -91,7 +102,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Constructor that consumes a list of DayEvents
+	 * Constructor that consumes a list of DayEvents.
+	 *
 	 * @param events A list of events to be added to calendar
 	 */
 	public CalendarDayView(List<Commitment> events) {
@@ -126,8 +138,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * 
-	 * Constructor that consumes an array of DayEvents
+	 * Constructor that consumes an array of DayEvents.
+	 *
 	 * @param events An array of events to be added to calendar
 	 */
 	public CalendarDayView (DayEvent[] events) {
@@ -174,7 +186,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Add an event to calendar
+	 * Add an event to calendar.
+	 *
 	 * @param event Event to be added.
 	 */
 	private void addEvent (DayEvent event) {
@@ -182,7 +195,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 	
 	/**
-	 * Add an event to calendar
+	 * Add an event to calendar.
+	 *
 	 * @param event Event to be added.
 	 */
 	private void addCommitment (Commitment event) {
@@ -190,8 +204,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Setup the button listeners for the next, 
-	 * previous and current day buttons
+	 * Setup the button listeners for the next,
+	 * previous and current day buttons.
 	 */
 	private void setupButtonListeners() {
 		previousButton.addActionListener(new ActionListener() {
@@ -217,7 +231,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Refreshes the day view with the previous day's information
+	 * Refreshes the day view with the previous day's information.
 	 */
 	private void previousDay() {
 		DateController date = MainCalendarController.getInstance().getDateController();
@@ -226,7 +240,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Brings the day view back to the current date
+	 * Brings the day view back to the current date.
 	 */
 	private void currentDay() {
 		DateController date = MainCalendarController.getInstance().getDateController();
@@ -235,7 +249,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Refreshes the day view with the next day's information
+	 * Refreshes the day view with the next day's information.
 	 */
 	private void nextDay() {
 		DateController date = MainCalendarController.getInstance().getDateController();
@@ -244,7 +258,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Clears the panel and reconstructs it with a new date
+	 * Clears the panel and reconstructs it with a new date.
 	 */
 	public void updateDayView() {
 		dayPanel.removeAll();
@@ -268,10 +282,18 @@ public class CalendarDayView extends JPanel implements Updatable{
 		repaint();
 	}
 
+	/**
+	 * Gets the day view commitment list.
+	 *
+	 * @return the day view commitment list
+	 */
 	public Collection<Commitment> getDayViewCommitmentList() {
 		return cmtList;
 	}
 
+	/**
+	 * Parses the commitment.
+	 */
 	public void parseCommitment() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
 
@@ -299,8 +321,9 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 
 	/**
-	 * Used for testing the day view when launched separately
-	 * @param args
+	 * Used for testing the day view when launched separately.
+	 *
+	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -322,6 +345,9 @@ public class CalendarDayView extends JPanel implements Updatable{
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable#update()
+	 */
 	@Override
 	public void update() {
 		updateDayView();

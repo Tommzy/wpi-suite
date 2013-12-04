@@ -33,7 +33,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
-// TODO: Auto-generated Javadoc
 /**
  * This Panel sets the calendar area within main view of Calendar module. It
  * contains a sub panel CalendarView and buttons to switch among day-view,

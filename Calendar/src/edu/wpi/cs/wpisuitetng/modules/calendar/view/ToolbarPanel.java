@@ -19,7 +19,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentControlle
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ToolbarPanel.
  */

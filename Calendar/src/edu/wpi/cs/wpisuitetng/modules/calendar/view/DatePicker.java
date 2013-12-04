@@ -15,17 +15,33 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
+/**
+ * The Class DatePicker.
+ */
 public class DatePicker extends JPanel {
+	
+	/** The date controller. */
 	protected DateController dateController = new DateController();
+	
+	/** The super date controller. */
 	protected DateController superDateController = null;
+	
+	/** The date ite. */
 	protected DateController dateIte;
+	
+	/** The date list. */
 	protected Collection<DatePickerLabel> dateList = new ArrayList<DatePickerLabel>();
+	
+	/** The header label. */
 	protected JLabel headerLabel = null;
 	
 	/**
-	 * 
+	 * Instantiates a new date picker.
+	 *
+	 * @param year the year
 	 * @param month the month that will be displayed on
 	 * the date picker. An integer between 0 and 11
+	 * @param date the date
 	 */
 	public DatePicker(int year, int month, int date) {
 		setOpaque(true);
@@ -58,27 +74,19 @@ public class DatePicker extends JPanel {
 					}
 
 					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
+					public void mousePressed(MouseEvent e) {		
 					}
 
 					@Override
 					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
 					}
 
 					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
+					public void mouseEntered(MouseEvent e) {						
 					}
 
 					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
+					public void mouseExited(MouseEvent e) {						
 					}
 					
 				});
@@ -96,6 +104,9 @@ public class DatePicker extends JPanel {
 		updateDatePicker();
 	}
 	
+	/**
+	 * Update date picker.
+	 */
 	protected void updateDatePicker() {
 		Iterator<DatePickerLabel> itr = dateList.iterator();
 		while (itr.hasNext()) {
@@ -110,11 +121,14 @@ public class DatePicker extends JPanel {
 		updateHeaderLabel();
 	}
 	
-	/*
+
+	/**
+	 * Update header label.
+	 * 
 	 * if this date picker is using inside a date picker panel,
-	 * and you want to update the text of header label,
-	 * you should add the header label to this date picker class
-	 * and call this update header label method
+   * and you want to update the text of header label,
+   * you should add the header label to this date picker class
+   * and call this update header label method
 	 */
 	public void updateHeaderLabel() {
 		if (headerLabel != null) {
@@ -124,10 +138,20 @@ public class DatePicker extends JPanel {
 		}
 	}
 	
+	/**
+	 * Sets the header label.
+	 *
+	 * @param label the new header label
+	 */
 	public void setHeaderLabel(JLabel label) {
 		headerLabel = label;
 	}
 	
+	/**
+	 * Sets the super date controller.
+	 *
+	 * @param date the new super date controller
+	 */
 	public void setSuperDateController(DateController date) {
 		superDateController = date;
 	}

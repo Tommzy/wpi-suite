@@ -7,9 +7,19 @@ import javax.swing.JLabel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
+/**
+ * The Class DatePickerPanelHeaderLabel.
+ */
 public class DatePickerPanelHeaderLabel extends JLabel {
+	
+	/** The date controller. */
 	protected DateController dateController;
 	
+	/**
+	 * Instantiates a new date picker panel header label.
+	 *
+	 * @param date the date
+	 */
 	public DatePickerPanelHeaderLabel(DateController date) {
 		dateController = date;
 		setText(date.get(GregorianCalendar.YEAR) + " " 
@@ -18,6 +28,11 @@ public class DatePickerPanelHeaderLabel extends JLabel {
 		
 	}
 	
+	/**
+	 * Gets the date controller.
+	 *
+	 * @return the date controller
+	 */
 	public DateController getDateController() {
 		return dateController;
 	}

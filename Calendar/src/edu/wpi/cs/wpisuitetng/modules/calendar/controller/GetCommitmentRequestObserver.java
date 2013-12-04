@@ -63,8 +63,8 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-		Commitment[] errorCommitment = { new Commitment("Error", null, "Error") };
-		controller.receivedCommitments(errorCommitment);
+//		Commitment[] errorCommitment = { new Commitment("Error", null, "Error") };
+//		controller.receivedCommitments(errorCommitment);
 		System.err.println("The request to get commitments Errored.");
 		
 	}

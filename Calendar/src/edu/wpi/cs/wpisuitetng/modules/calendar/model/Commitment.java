@@ -156,6 +156,11 @@ public class Commitment implements Model{
 	}
 
 	public String toString() {
+		if (startTime == null){
+			return "D:LKJHGFLlkhghjh";
+		}
+			
+		
 		return startTime.get(Calendar.YEAR) + " "
 				+ startTime.get(Calendar.MONTH) + " "
 				+ startTime.get(Calendar.DATE) + " " + name + " " + description;
