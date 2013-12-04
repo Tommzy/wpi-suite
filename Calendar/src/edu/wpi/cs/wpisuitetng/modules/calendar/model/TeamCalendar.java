@@ -33,7 +33,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  */
 public class TeamCalendar extends AbstractModel{
 
-  String projID;
+  static String projID;
   SortedEventList events;
   SortedCommitmentList commitments;
   
@@ -130,7 +130,7 @@ public class TeamCalendar extends AbstractModel{
   /**
    * Constructor
    */
-  TeamCalendar() {
+  public TeamCalendar() {
     projID = "-1";
   }
   
@@ -157,8 +157,8 @@ public class TeamCalendar extends AbstractModel{
   /**
    * @return the number ID of the project this TeamCalendar belongs to.
    */
-  public String getProjID() {
-    return this.projID;
+  public static String getProjID() {
+    return projID;
   }
   
   /**
@@ -212,7 +212,7 @@ public class TeamCalendar extends AbstractModel{
    * Add an event to the event list. 
    */
   public void addEvent(Event newEvent) {
-    events.addEvent(newEvent);
+//    events.addEvent(newEvent);
   }
   
   /**

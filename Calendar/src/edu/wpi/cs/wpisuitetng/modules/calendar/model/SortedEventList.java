@@ -51,18 +51,18 @@ public class SortedEventList extends AbstractListModel<Event>{
   /**Add a new event to the list.
    * @param newEvent the event to be added.
    */
-  public void addEvent(Event newEvent) {
-    for (int i = 0; i < itemList.size(); i++) {
-      if (newEvent.getStartTime().before(this.getElementAt(i).getStartTime())) {
-        addItemHere(newEvent, i);
-        return;
-      }//end if
+//  public void addEvent(Event newEvent) {
+//    for (int i = 0; i < itemList.size(); i++) {
+//      if (newEvent.getStartTime().before(this.getElementAt(i).getStartTime())) {
+//        addItemHere(newEvent, i);
+//        return;
+//      }//end if
     
-    }//end for
+//    }//end for
     //If we get here, our new item was not before anything in the list.
     //Therefore, it should go to the end of the list.
-    addItemHere(newEvent, itemList.size());
-  }
+//    addItemHere(newEvent, itemList.size());
+//  }
   
   /**Remove the given event from the list.
    * @param whatToRemove Event to remove from the list.
@@ -78,18 +78,18 @@ public class SortedEventList extends AbstractListModel<Event>{
    * @param endRange GregorianCalendar of the ending date for the range.
    * @return SortedEventList of the dates in the range.
    */
-  public SortedEventList getEventsBetween(GregorianCalendar startRange, GregorianCalendar endRange) {
-    ArrayList<Event> itemsInRange = new ArrayList<Event>(itemList.size());
-    for (int i = 0; i < itemList.size(); i++) {
-      if ( ( (this.getElementAt(i).getStartTime().after(startRange)) && 
-          (this.getElementAt(i).getStartTime().before(endRange)) )
-          || (this.getElementAt(i).getStartTime().equals(startRange)) || 
-              (this.getElementAt(i).getStartTime().equals(endRange)) ) {
-        itemsInRange.add(this.getElementAt(i));
-      }//end if
-    }//end for
-    return new SortedEventList(itemsInRange);
-  }
+//  public SortedEventList getEventsBetween(GregorianCalendar startRange, GregorianCalendar endRange) {
+//    ArrayList<Event> itemsInRange = new ArrayList<Event>(itemList.size());
+//    for (int i = 0; i < itemList.size(); i++) {
+//      if ( ( (this.getElementAt(i).getStartTime().after(startRange)) && 
+//          (this.getElementAt(i).getStartTime().before(endRange)) )
+//          || (this.getElementAt(i).getStartTime().equals(startRange)) || 
+//              (this.getElementAt(i).getStartTime().equals(endRange)) ) {
+//        itemsInRange.add(this.getElementAt(i));
+//      }//end if
+//    }//end for
+//    return new SortedEventList(itemsInRange);
+//  }
   
   /**
    * @return the number of items in the list

@@ -114,13 +114,13 @@ public class TeamCalendarEntityManager implements EntityManager<TeamCalendar> {
   public TeamCalendar update(Session s, String content)
       throws WPISuiteException {
 
-		TeamCalendar updatedTeamCalendar = TeamCalendar.fromJson(content);
+		TeamCalendar updatedTeamCalendar = TeamCalendar.fromJSON(content);
 
 		 // Because of the disconnected objects problem in db4o, we can't just save updatedTeamCalendar.
 		 // We have to get the original TeamCalendar from db4o, copy properties from updatedTeamCalendar,
 		 // then save the original TeamCalendar again.
 
-		List<Model> oldTeamCalendars = db.retrieve(TeamCalendar.class, "projID", TeamCalendar.getProjID(), session.getProject());
+		List<Model> oldTeamCalendars = db.retrieve(TeamCalendar.class, "projID", TeamCalendar.getProjID(), s.getProject());
 		if(oldTeamCalendars.size() < 1 || oldTeamCalendars.get(0) == null) {
 			throw new BadRequestException("TeamCalendar with ID does not exist.");
 		}
@@ -130,7 +130,7 @@ public class TeamCalendarEntityManager implements EntityManager<TeamCalendar> {
 		// copy values to old TeamCalendar and fill in our changeset appropriately
 		existingTeamCalendar.copyFrom(updatedTeamCalendar);
 		
-		if(!db.save(existingTeamCalendar, session.getProject())) {
+		if(!db.save(existingTeamCalendar, s.getProject())) {
 			throw new WPISuiteException();
 		}
 		

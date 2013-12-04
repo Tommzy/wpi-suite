@@ -9,14 +9,18 @@ import edu.wpi.cs.wpisuitetng.Permission;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-public class Event extends CalendarItem{
+public class Event {
+  GregorianCalendar startTime;
 	GregorianCalendar endTime;
+	String name;
+	String description;
 
 	public Event(String name, GregorianCalendar startTime, GregorianCalendar endTime,
 			String description) {
-		super(name, startTime, description);
+		this.startTime = startTime;
 		this.endTime=endTime;
-		// TODO Auto-generated constructor stub
+		this.name = name;
+		this.description = description;
 	}
 
 

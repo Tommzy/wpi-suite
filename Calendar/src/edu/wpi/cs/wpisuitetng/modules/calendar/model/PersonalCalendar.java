@@ -189,7 +189,7 @@ public class PersonalCalendar extends AbstractModel{
    * Add an event to the event list. 
    */
   public void addEvent(Event newEvent) {
-    events.addEvent(newEvent);
+//    events.addEvent(newEvent);
   }
   
   /**
