@@ -1,5 +1,3 @@
-
-
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
  *
@@ -16,6 +14,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.List;
+import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -85,8 +84,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			throw new BadRequestException("The Commitment creation string had invalid formatting. Entity String: " + content);			
 		}
 
-
-
 		// Saves the Commitment in the database
 		this.save(s,newCommitment); // An exception may be thrown here if we can't save it
 
@@ -109,7 +106,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if (!db.save(model, s.getProject())) {
 			throw new WPISuiteException("Unable to save Commitment.");
 		}
-		//db.save(model,s.getProject());
+		System.out.println("The Commitment saved!    " + model.toJSON());
 	}
 	
 	
@@ -156,8 +153,9 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
 			commitment.setId(Count() + 1); // Makes first Commitment have id = 1
-//			commitment.setId(100);
+//			commitment.setId(300);
 		}
+//		commitment.setId(Count() + 1);
 	}
 
 	/** Returns the number of Commitments currently in the database. Disregards

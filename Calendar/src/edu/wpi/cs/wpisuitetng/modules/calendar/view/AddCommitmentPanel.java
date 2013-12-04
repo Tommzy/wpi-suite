@@ -203,6 +203,7 @@ public class AddCommitmentPanel extends JPanel {
 		}
 		// The function returns Null if the try breaks
 		//    GregorianCalendar cal = new GregorianCalendar(1992,8,19,23,4);
+		System.out.println("we fucked up"+"AddCommitmentPanel");
 		return null;
 	}
 
