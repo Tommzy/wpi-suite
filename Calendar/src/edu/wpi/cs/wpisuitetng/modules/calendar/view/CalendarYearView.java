@@ -23,16 +23,21 @@ import net.miginfocom.swing.MigLayout;
 
 public class CalendarYearView extends JPanel{
 
+	/** The next year. */
 	private JButton nextYear;
+	
+	/** The prev year. */
 	private JButton prevYear;
+	
+	/** The today. */
 	private JButton today;
+	
+	/** The calendar month. */
 	CalendarMonth calendarMonth;
 
 	/**
 	 * Constructor for IterationCalendarPanel.
-	 * @param parent IterationPanel
-	 * @param vm ViewMode
-	 * @param displayIteration Iteration
+	 *
 	 */
 	public CalendarYearView()
 	{
@@ -104,7 +109,7 @@ public class CalendarYearView extends JPanel{
 	}
 
 	/**
-	 * Switches the calendar to the current date
+	 * Switches the calendar to the current date.
 	 */
 	public void today()
 	{
@@ -124,6 +129,9 @@ public class CalendarYearView extends JPanel{
 		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
 
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	public void paint(Graphics g) {
 		if (this.getParent() == null) {
 			return;
@@ -135,6 +143,9 @@ public class CalendarYearView extends JPanel{
 		super.paint(g);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.Component#repaint()
+	 */
 	public void repaint() {
 		if (this.getParent() == null) {
 			return;

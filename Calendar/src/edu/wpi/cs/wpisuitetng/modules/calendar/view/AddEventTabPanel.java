@@ -48,6 +48,8 @@ public class AddEventTabPanel extends JTabbedPane {
 	
 	/** The filter scroll. */
 	JScrollPane filterScroll;
+	
+	/** The commitment table. */
 	CommitmentTable commitmentTable;
 	/**
 	 * Adds the event tab panel.
@@ -100,8 +102,8 @@ public class AddEventTabPanel extends JTabbedPane {
 	}
 
 	/**
-	 * Gets the commitment table
-	 * 
+	 * Gets the commitment table.
+	 *
 	 * @return THe commitment table
 	 */
 	public CommitmentTable getCommitmentTable() {

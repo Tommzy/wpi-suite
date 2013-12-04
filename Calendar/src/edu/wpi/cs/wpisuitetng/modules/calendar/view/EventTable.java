@@ -74,8 +74,9 @@ public class EventTable extends JPanel {
 
     /**
      * Gives the number of columns in the table.
-     * @see javax.swing.table.TableModel#getColumnCount()
+     *
      * @return The number of columns in the table.
+     * @see javax.swing.table.TableModel#getColumnCount()
      */
     public int getColumnCount() {
       return columnNames.length;
@@ -83,8 +84,9 @@ public class EventTable extends JPanel {
 
     /**
      * Gives the number of rows total in the table.
-     * @see javax.swing.table.TableModel#getRowCount()
+     *
      * @return The number of rows in the table.
+     * @see javax.swing.table.TableModel#getRowCount()
      */
     public int getRowCount() {
       return eventData.length;
@@ -92,9 +94,10 @@ public class EventTable extends JPanel {
 
     /**
      * Gets the name of the column as a string.
-     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
+     *
      * @param col The column name to check.
      * @return A string that names the column.
+     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
      */
     public String getColumnName(int col) {
       return columnNames[col];
@@ -102,10 +105,11 @@ public class EventTable extends JPanel {
 
     /**
      * Get the value of a cell at a row and column.
-     * @see javax.swing.table.TableModel#getValueAt(int, int)
+     *
      * @param row The row to check.
      * @param col The column to check.
      * @return The data located at row, col.
+     * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(int row, int col) {
       return eventData[row][col];
@@ -116,9 +120,9 @@ public class EventTable extends JPanel {
      * cell. If we didn't implement this method, then the last column would
      * contain text ("true"/"false"), rather than a check box.
      *
-     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      * @param col The column to check
      * @return The class of the data at 0, col.
+     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
      */
     public Class getColumnClass(int col) {
       return getValueAt(0, col).getClass();

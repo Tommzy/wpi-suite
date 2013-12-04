@@ -25,44 +25,62 @@ import javax.swing.text.MaskFormatter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import net.miginfocom.swing.MigLayout;
-
+/**
+ * The Class AddEventPanel.
+ */
 @SuppressWarnings("serial")
 public class AddEventPanel extends JPanel {
+	
+	/** The btn cancel. */
 	JButton btnSubmit, btnCancel;
 
+	/** The name label. */
 	JLabel nameLabel;
 
+	/** The name text field. */
 	JTextField nameTextField;
 
+	/** The name err msg. */
 	JErrorMessageLabel nameErrMsg;
 
+	/** The end date label. */
 	JLabel startDateLabel, endDateLabel;
 
+	/** The end date picker. */
 	JFormattedTextField startDatePicker, endDatePicker;
 
+	/** The end time text field. */
 	JFormattedTextField startTimeTextField, endTimeTextField;
 
+	/** The end date time err msg. */
 	JErrorMessageLabel startDateTimeErrMsg, endDateTimeErrMsg;
 
+	/** The location label. */
 	JLabel locationLabel;
 
+	/** The location text field. */
 	JTextField locationTextField;
 
+	/** The description label. */
 	JLabel descriptionLabel;
 
+	/** The description text area. */
 	JTextArea descriptionTextArea;
 
+	/** The invitee label. */
 	JLabel inviteeLabel;
 
+	/** The invitee text area. */
 	JTextArea inviteeTextArea;
 
+	/** The all day event check box. */
 	JCheckBox allDayEventCheckBox;
 
 	/**
 	 * Instantiates a new add event panel.
-	 * 
-	 * @param miglayout
-	 * @param tabbedPane
+	 *
+	 * @param miglayout the miglayout
+	 * @param tabbedPane the tabbed pane
 	 */
 	public AddEventPanel(MigLayout miglayout, JTabbedPane tabbedPane) {
 		// Set up panel
@@ -171,7 +189,6 @@ public class AddEventPanel extends JPanel {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO Auto-generated method stub
 				String startDate = (String) startDatePicker.getValue();
 				String endDate = (String) endDatePicker.getValue(); 
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -217,7 +234,6 @@ public class AddEventPanel extends JPanel {
 						btnSubmit.setEnabled(checkContent());
 					}
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -228,7 +244,6 @@ public class AddEventPanel extends JPanel {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO Auto-generated method stub
 				String startDate = (String) startDatePicker.getValue();
 				String endDate = (String) endDatePicker.getValue(); 
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -274,7 +289,6 @@ public class AddEventPanel extends JPanel {
 						btnSubmit.setEnabled(checkContent());
 					}
 				} catch (ParseException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
@@ -307,6 +321,11 @@ public class AddEventPanel extends JPanel {
 		this.add(rightPanel);
 	}
 
+	/**
+	 * Gets the txt newname.
+	 *
+	 * @return the txt newname
+	 */
 	public String getTxtNewname() {
 		if (this.nameTextField.getText().equals(""))
 			return null;
@@ -327,7 +346,6 @@ public class AddEventPanel extends JPanel {
 	//			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
 	//			return date;
 	//		} catch (ParseException e) {
-	//			// TODO Auto-generated catch block
 	//
 	//			// throw e.printStackTrace();
 	//			return null;
@@ -336,8 +354,8 @@ public class AddEventPanel extends JPanel {
 	//	}
 
 	/**
-	 * Gets the new location
-	 * 
+	 * Gets the new location.
+	 *
 	 * @return The new Location
 	 */
 	public String getNewLocation() {
@@ -345,8 +363,8 @@ public class AddEventPanel extends JPanel {
 	}
 
 	/**
-	 * Gets the new description
-	 * 
+	 * Gets the new description.
+	 *
 	 * @return The new location
 	 */
 	public String getNewDescription() {
@@ -354,8 +372,8 @@ public class AddEventPanel extends JPanel {
 	}
 
 	/**
-	 * Gets the current time
-	 * 
+	 * Gets the current time.
+	 *
 	 * @return the current hour and minute
 	 */
 	public String getCurrentTime() {
@@ -365,8 +383,8 @@ public class AddEventPanel extends JPanel {
 	}
 
 	/**
-	 * Formats an integer so that the is always two digits
-	 * 
+	 * Formats an integer so that the is always two digits.
+	 *
 	 * @param i The integer to format
 	 * @return THe formatted integer
 	 */
@@ -374,6 +392,11 @@ public class AddEventPanel extends JPanel {
 		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
 	}
 
+	/**
+	 * Check content.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean checkContent() {
 		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") && endDateTimeErrMsg.getContentText().equals("")) {
 			return true;
@@ -382,15 +405,31 @@ public class AddEventPanel extends JPanel {
 			return false;
 	}
 
+	/**
+	 * The Class TextVerifier.
+	 */
 	private class TextVerifier extends InputVerifier {
+		
+		/** The err msg. */
 		JErrorMessageLabel errMsg; 
+		
+		/** The btn submit. */
 		JButton btnSubmit;
 
+		/**
+		 * Instantiates a new text verifier.
+		 *
+		 * @param errMsg the err msg
+		 * @param btnSubmit the btn submit
+		 */
 		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JErrorMessageLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
+		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -406,15 +445,31 @@ public class AddEventPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * The Class TimeVerifier.
+	 */
 	private class TimeVerifier extends InputVerifier {
+		
+		/** The err msg. */
 		JErrorMessageLabel errMsg; 
+		
+		/** The btn submit. */
 		JButton btnSubmit;
 
+		/**
+		 * Instantiates a new time verifier.
+		 *
+		 * @param errMsg the err msg
+		 * @param btnSubmit the btn submit
+		 */
 		public TimeVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JErrorMessageLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
+		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -443,15 +498,31 @@ public class AddEventPanel extends JPanel {
 		}
 	}
 
+	/**
+	 * The Class DateVerifier.
+	 */
 	private class DateVerifier extends InputVerifier {
+		
+		/** The err msg. */
 		JErrorMessageLabel errMsg; 
+		
+		/** The btn submit. */
 		JButton btnSubmit;
 
+		/**
+		 * Instantiates a new date verifier.
+		 *
+		 * @param errMsg the err msg
+		 * @param btnSubmit the btn submit
+		 */
 		public DateVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JErrorMessageLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
+		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;

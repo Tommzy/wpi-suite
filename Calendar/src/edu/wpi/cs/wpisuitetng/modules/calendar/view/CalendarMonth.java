@@ -25,13 +25,18 @@ import org.jdesktop.swingx.calendar.DateSelectionModel.SelectionMode;
 
 
 /**
- *
+ * Generates a month calendar view.
  */
 @SuppressWarnings("serial")
 public class CalendarMonth extends JXMonthView implements ActionListener, KeyListener {
 
+	/** The Constant START_END_DAY. */
 	public static final Color START_END_DAY = new Color(47, 150, 9);
+	
+	/** The Constant SELECTION. */
 	public static final Color SELECTION = new Color(236,252,144);
+	
+	/** The Constant UNSELECTABLE. */
 	public static final Color UNSELECTABLE = Color.red;
 
 	/**
@@ -98,6 +103,9 @@ public class CalendarMonth extends JXMonthView implements ActionListener, KeyLis
 		//TODO
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.Component#repaint()
+	 */
 	@Override
 	public void repaint() {
 		super.repaint();
