@@ -10,6 +10,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentControlle
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
@@ -33,227 +36,255 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class AddCommitmentPanel extends JPanel {
 
-	/** The btn submit. */
-	JButton    btnSubmit, btnCancel;
+  /** The btn submit. */
+  JButton    btnSubmit, btnCancel;
 
-	/** The name label. */
-	JLabel     nameLabel;
+  /** The name label. */
+  JLabel     nameLabel;
+  
+  /** The error msg box for name. */
+  JErrorMessageLabel nameErrMsg;
 
-	/** The error msg box for name. */
-	JErrorMessageLabel nameErrMsg;
+  /** The name text field. */
+  JTextField nameTextField;
 
-	/** The name text field. */
-	JTextField nameTextField;
+  /** The date label. */
+  JLabel     startDateLabel;
 
-	/** The date label. */
-	JLabel     startDateLabel;
+  /** The start time text field. */
+  JFormattedTextField startDateTextField, startTimeTextField;
+  
+  /** The help content for date and time */
+  JLabel dateHelpText, timeHelpText;
+  
+  /** The start date picker */ 
+  DatePickerPanel startDatePicker;
+  
+  /** The error msg box for date and time. */
+  JErrorMessageLabel	startDateTimeErrMsg; 
 
-	/** The start time text field. */
-	JFormattedTextField startDatePicker, startTimeTextField;
+  /** The location label. */
+  JLabel     locationLabel;
 
-	/** The error msg box for date and time. */
-	JErrorMessageLabel	startDateTimeErrMsg; 
+  /** The location text field. */
+  JTextField locationTextField;
 
-	/** The location label. */
-	JLabel     locationLabel;
+  /** The description label. */
+  JLabel     descriptionLabel;
+  
+  /** ScroolPane Container for description */
+  JScrollPane descriptionScroll;
+  
+  /** The description text area. */
+  JTextArea  descriptionTextArea;
+  
+  /** The invitee label. */
+  JLabel     inviteeLabel;
+  
+  /** ScroolPane Container for invitee */
+  JScrollPane inviteeScroll;
+  
+  /** The invitee text area. */
+  JTextArea  inviteeTextArea;
 
-	/** The location text field. */
-	JTextField locationTextField;
-
-	/** The description label. */
-	JLabel     descriptionLabel;
-
-	/** The description text area. */
-	JTextArea  descriptionTextArea;
-
-	/** The invitee label. */
-	JLabel     inviteeLabel;
-
-	/** The invitee text area. */
-	JTextArea  inviteeTextArea;
 
 
+  /**
+   * Instantiates a new adds the commitment panel.
+   * 
+   * @param miglayout
+   *          the miglayout
+   */
+  public AddCommitmentPanel(MigLayout miglayout) {
+    JPanel contentPanel = new JPanel(miglayout);
+    nameLabel = new JLabel("Name:");
 
-	/**
-	 * Instantiates a new add commitment panel.
-	 * 
-	 * @param miglayout
-	 *          the miglayout
-	 */
-	public AddCommitmentPanel(MigLayout miglayout) {
-		JPanel contentPanel = new JPanel(miglayout);
-		nameLabel = new JLabel("Name:");
+    nameTextField = new JTextField(10);
+    
+    nameErrMsg = new JErrorMessageLabel("");
 
-		nameTextField = new JTextField(10);
+    startDateLabel = new JLabel("Time:");
 
-		nameErrMsg = new JErrorMessageLabel("Name can not be empty! ");
+    try {
+		startDateTextField = new JFormattedTextField(new MaskFormatter("##/##/####"));
+		startTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));		
+	} catch (ParseException pe) {
+		System.out.println("Date / time formatter is bad: " + pe.getMessage());
+	}
+    
+    startDateTimeErrMsg = new JErrorMessageLabel();
+    
+    dateHelpText = new JLabel ("<HTML><font color='gray'>MM/DD/YYYY</font></HTML>");
+    
+    timeHelpText = new JLabel ("<HTML><font color='gray'>24-HR</font></HTML>");
 
-		startDateLabel = new JLabel("Time:");
+    locationLabel = new JLabel("Where:");
+    locationTextField = new JTextField(10);
 
-		try {
-			startDatePicker = new JFormattedTextField(new MaskFormatter("##/##/####"));
-			startTimeTextField = new JFormattedTextField(new MaskFormatter("##:##"));		
-		} catch (ParseException pe) {
-			System.out.println("Date / time formatter is bad: " + pe.getMessage());
+    descriptionLabel = new JLabel("Description:");
+    
+    descriptionTextArea = new JTextArea();
+//    descriptionTextArea.setPreferredSize(new Dimension(400, 90));
+    descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    descriptionScroll.setPreferredSize(new Dimension(400, 100));
+    
+    inviteeLabel = new JLabel("Invitee:");
+
+    inviteeTextArea = new JTextArea();
+//    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
+    inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    inviteeScroll.setPreferredSize(new Dimension(400, 100));
+    CommitmentsModel model = null;
+
+    btnSubmit = new JButton("Submit");
+    btnSubmit.setEnabled(false);
+    btnCancel = new JButton ("Cancel");
+    
+    // Set up properties and values
+	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
+
+    startDateTextField.setColumns(8);
+	startDateTextField.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
+	startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
+	startDatePicker = new DatePickerPanel(startDateTextField);
+	startTimeTextField.setColumns(4);
+	startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
+	startDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent evt) {
+			String content[] = ((String)startDateTextField.getValue()).split("/");
+			startDatePicker.setSelectedDate(new DateController(Integer.parseInt(content[2]), Integer.parseInt(content[0]) - 1, Integer.parseInt(content[1])));
+			
 		}
+		
+	});
+	
+	startTimeTextField.setValue(getCurrentTime());
 
-		startDateTimeErrMsg = new JErrorMessageLabel();
-
-		locationLabel = new JLabel("Where:");
-		locationTextField = new JTextField(10);
-
-		descriptionLabel = new JLabel("Description:");
-
-		descriptionTextArea = new JTextArea();
-		descriptionTextArea.setPreferredSize(new Dimension(300, 300));
-
-		inviteeLabel = new JLabel("Invitee:");
-
-		inviteeTextArea = new JTextArea();
-		inviteeTextArea.setPreferredSize(new Dimension(300, 300));
-
-		CommitmentsModel model = null;
-
-		btnSubmit = new JButton("Submit");
-		btnCancel = new JButton ("Cancel");
-
-		// Set up properties and values
-		nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
-
-		startDatePicker.setColumns(8);
-		startDatePicker.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
-		startDatePicker.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
-				formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
-				formatInt(MainCalendarController.getInstance().getDateController().getYear()));
-		startTimeTextField.setColumns(4);
-		startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
-
-		startTimeTextField.setValue(getCurrentTime());
-
-		contentPanel.add(nameLabel);
-		contentPanel.add(nameTextField);
-		contentPanel.add(nameErrMsg, "wrap");
-		contentPanel.add(startDateLabel);
-		contentPanel.add(startDatePicker);
-		contentPanel.add(startTimeTextField);
-		contentPanel.add(startDateTimeErrMsg, "wrap");
-		// This is not in commitments anymore, still here if added back
-		// contentPanel.add(locationLabel);
-		// contentPanel.add(locationTextField, "wrap");
-		contentPanel.add(descriptionLabel);
-		contentPanel.add(descriptionTextArea, "span 4");
-		contentPanel.add(inviteeLabel);
-		contentPanel.add(inviteeTextArea, "wrap, span 4");
-		contentPanel.add(btnSubmit);
-		contentPanel.add(btnCancel);
-		btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
-		btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
-		btnSubmit.addActionListener(new AddCommitmentController(model,this));
-		AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
-		AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
-		this.add(contentPanel);
-	}
+    contentPanel.add(nameLabel);
+    contentPanel.add(nameTextField, "span 2");
+    contentPanel.add(nameErrMsg, "wrap");
+    contentPanel.add(startDateLabel);
+    contentPanel.add(startDateTextField);
+    contentPanel.add(startTimeTextField);
+    contentPanel.add(startDateTimeErrMsg, "wrap, span");
+    contentPanel.add(dateHelpText, "cell 1 2");
+    contentPanel.add(timeHelpText, "cell 2 2");
+    contentPanel.add(startDatePicker, "cell 1 3, wrap, span");
+    // This is not in commitments anymore, still here if added back
+    // contentPanel.add(locationLabel);
+    // contentPanel.add(locationTextField, "wrap");
+    contentPanel.add(descriptionLabel);
+    contentPanel.add(descriptionScroll, "wrap, span 4");
+    contentPanel.add(inviteeLabel);
+    contentPanel.add(inviteeScroll, "wrap, span 4");
+    contentPanel.add(btnSubmit);
+    contentPanel.add(btnCancel);
+    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
+    btnSubmit.addActionListener(new AddCommitmentController(model,this));
+    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
+    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
+    this.add(contentPanel);
+  }
 
 
 
-	/**
-	 * Gets the txt newname.
-	 * 
-	 * @return the txt newname
-	 */
-	public String getTxtNewname() {
-		if(this.nameTextField.getText().equals(""))
-			return null;
-		else
-			return this.nameTextField.getText();
-	}
+  /**
+   * Gets the txt newname.
+   * 
+   * @return the txt newname
+   */
+  public String getTxtNewname() {
+    if(this.nameTextField.getText().equals(""))
+      return null;
+    else
+      return this.nameTextField.getText();
+  }
 
 
 
-	/**
-	 * Gets the new date.
-	 * 
-	 * @param data
-	 *          the data
-	 * @return the new date
-	 */
-	public GregorianCalendar getNewDate(String data) {
-		String dateString = "";
-		if(data.equals("startTime")){
-			dateString = (this.startDatePicker.getValue() + " " + this.startTimeTextField.getValue());
-			System.out.println("Get start time success! " + dateString);
-		}
-		else if(data.equals("endTime")){
-
-			dateString = (this.startDatePicker.getValue() + " " + this.startTimeTextField.getValue());
-			System.out.println("Get end time success! ");
-		}
-
-
-		try {
-			Date date;
-			// Date example ("12/31/13 20:35")
-			date = new SimpleDateFormat("mm/dd/yy HH:mm").parse(dateString);
-			GregorianCalendar cal = new GregorianCalendar();
-			cal.setTime(date);
-			return cal;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		// The function returns Null if the try breaks
-		//    GregorianCalendar cal = new GregorianCalendar(1992,8,19,23,4);
-		System.out.println("we fucked up"+"AddCommitmentPanel");
-		return null;
-	}
-
-
-
-	/**
-	 * Gets the new location.
-	 * 
-	 * @return the new location
-	 */
-	public String getNewLocation() {
-		return this.locationTextField.getText();
-	}
+  /**
+   * Gets the new date.
+   * 
+   * @param data
+   *          the data
+   * @return the new date
+   */
+  public GregorianCalendar getNewDate(String data) {
+    String dateString = "";
+    if(data.equals("startTime")){
+    	System.out.println(this.startDateTextField.getValue());
+    	System.out.println(this.startTimeTextField.getValue());
+      dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
+      System.out.println("Get start time success! " + dateString);
+    }
+    else if(data.equals("endTime")){
+    	System.out.println("entTimeAAAAAAAA");
+    	dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
+    	System.out.println("Get end time success! ");
+    }
+      
+System.out.println("H");	
+    try {
+    	System.out.println("He");
+      Date date;
+      System.out.println("Here ");
+      // Date example ("12/31/13 20:35")
+      date = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateString);
+      System.out.println("Here is");
+      GregorianCalendar cal = new GregorianCalendar();
+      System.out.println("Here is a");
+      cal.setTime(date);
+      System.out.println("Here is AddCommitmentController.getNewDate!!!!!!! Here is the cal.toString  -->" + cal.toString());
+      return cal;
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+    	System.out.println("Here error!");
+    	e.printStackTrace();
+    }
+    // The function returns Null if the try breaks
+//    GregorianCalendar cal = new GregorianCalendar(1992,8,19,23,4);
+    return null;
+  }
 
 
 
-	/**
-	 * Gets the new description.
-	 * 
-	 * @return the new description
-	 */
-	public String getNewDescription() {
-		return this.descriptionTextArea.getText();
-	}
+  /**
+   * Gets the new location.
+   * 
+   * @return the new location
+   */
+  public String getNewLocation() {
+    return this.locationTextField.getText();
+  }
 
-	/**
-	 * Gets the current time.
-	 *
-	 * @return the current hour and minute
-	 */
-	public String getCurrentTime() {
+  public void initiateFocus() {
+	  nameTextField.requestFocusInWindow();
+  }
+
+  /**
+   * Gets the new description.
+   * 
+   * @return the new description
+   */
+  public String getNewDescription() {
+    return this.descriptionTextArea.getText();
+  }
+  
+  public String getCurrentTime() {
 		String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
 		String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
 		return hour + ":" + minute;
 	}
-
-	/**
-	 * Formats an integer so that the is always two digits.
-	 *
-	 * @param i The integer to format
-	 * @return THe formatted integer
-	 */
+	
 	private String formatInt (int i) {
 		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
 	}
-
-	/**
-	 * Check content.
-	 *
-	 * @return true, if successful
-	 */
+	
 	private boolean checkContent() {
 		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
 			return true;
@@ -261,36 +292,24 @@ public class AddCommitmentPanel extends JPanel {
 		else 
 			return false;
 	}
-
-	/**
-	 * The Class TextVerifier.
-	 */
+	
 	private class TextVerifier extends InputVerifier {
-		
-		/** The err msg. */
 		JLabel errMsg; 
-		
-		/** The btn submit. */
 		JButton btnSubmit;
-
-		/**
-		 * Instantiates a new text verifier.
-		 *
-		 * @param errMsg the err msg
-		 * @param btnSubmit the btn submit
-		 */
+		
 		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
-
-		/* (non-Javadoc)
-		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
-		 */
+		
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
-			if (tf.getText().trim().equals("")) {
+			if (tf.getText().equals("")) {
+				errMsg.setText("Name can not be empty! ");
+				btnSubmit.setEnabled(checkContent());
+			}
+			else if (tf.getText().trim().equals("")) {
 				errMsg.setText("Invalid Name! ");
 				btnSubmit.setEnabled(checkContent());
 			}
@@ -301,32 +320,16 @@ public class AddCommitmentPanel extends JPanel {
 			return (! tf.getText().trim().equals(""));
 		}
 	}
-
-	/**
-	 * The Class TimeVerifier.
-	 */
+	
 	private class TimeVerifier extends InputVerifier {
-		
-		/** The err msg. */
 		JLabel errMsg; 
-		
-		/** The btn submit. */
 		JButton btnSubmit;
-
-		/**
-		 * Instantiates a new time verifier.
-		 *
-		 * @param errMsg the err msg
-		 * @param btnSubmit the btn submit
-		 */
+		
 		public TimeVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
-
-		/* (non-Javadoc)
-		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
-		 */
+		
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -353,32 +356,16 @@ public class AddCommitmentPanel extends JPanel {
 			}
 		}
 	}
-
-	/**
-	 * The Class DateVerifier.
-	 */
+	
 	private class DateVerifier extends InputVerifier {
-		
-		/** The err msg. */
 		JLabel errMsg; 
-		
-		/** The btn submit. */
 		JButton btnSubmit;
-
-		/**
-		 * Instantiates a new date verifier.
-		 *
-		 * @param errMsg the err msg
-		 * @param btnSubmit the btn submit
-		 */
+		
 		public DateVerifier(JComponent errMsg, JButton btnSubmit) {
 			this.errMsg = (JLabel) errMsg;
 			this.btnSubmit = btnSubmit;
 		}
 
-		/* (non-Javadoc)
-		 * @see javax.swing.InputVerifier#verify(javax.swing.JComponent)
-		 */
 		@Override
 		public boolean verify(JComponent input) {
 			JTextField tf = (JTextField) input;
@@ -395,7 +382,7 @@ public class AddCommitmentPanel extends JPanel {
 			month30day.add(6);
 			month30day.add(9);
 			month30day.add(11);
-
+			
 			String[] content = tf.getText().split("/");
 			if ((! content[0].trim().equals("")) && (! content[1].trim().equals("")) && (! content[2].trim().equals(""))) {
 				if (! content[2].trim().contains(" ")) {

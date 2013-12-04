@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 /**
@@ -35,22 +36,23 @@ public class CommitmentFilter {
 		try {
 			
 		
-		Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
-		Collection<Commitment> cmtList = new ArrayList<Commitment>();
-		Iterator<Commitment> itr = list.iterator();
-		
-		while (itr.hasNext()) {
-			Commitment cmt = itr.next();
-			if (cmt.getStartTime().after(startTime) && cmt.getStartTime().before(endTime)) {
-				cmtList.add(cmt);
+			Collection<Commitment> list = CommitmentsModel.getInstance().getAllCommitment();
+			Collection<Commitment> cmtList = new ArrayList<Commitment>();
+			Iterator<Commitment> itr = list.iterator();
+
+			while (itr.hasNext()) {
+				Commitment cmt = itr.next();
+				if (cmt.getStartTime().after(startTime) && cmt.getStartTime().before(endTime)) {
+					cmtList.add(cmt);
+				}
 			}
-		}
-		
-		return cmtList;
+			System.out.println("SUCCESS PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
+			return cmtList;
 		} catch (NullPointerException e) {
 			System.out.println("commitment filter null pointer exception");
 		}
 		
+		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
 		return new ArrayList<Commitment> ();
 	}
 }

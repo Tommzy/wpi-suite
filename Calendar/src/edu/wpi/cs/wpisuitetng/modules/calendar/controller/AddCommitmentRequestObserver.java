@@ -42,7 +42,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		//Pass the messaged back to the controller
 		//Needs to put commitment back into the system
 		//TODO
-		//controller.addCommitmentToModel(item);
+		controller.addCommitmentToModel(item);
 		System.out.print("From AddCommitmentObserver." + response.getBody());
 		
 	} 

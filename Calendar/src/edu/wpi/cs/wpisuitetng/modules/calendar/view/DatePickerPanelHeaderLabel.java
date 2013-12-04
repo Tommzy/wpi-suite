@@ -1,5 +1,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -7,32 +9,20 @@ import javax.swing.JLabel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
-/**
- * The Class DatePickerPanelHeaderLabel.
- */
 public class DatePickerPanelHeaderLabel extends JLabel {
-	
-	/** The date controller. */
 	protected DateController dateController;
 	
-	/**
-	 * Instantiates a new date picker panel header label.
-	 *
-	 * @param date the date
-	 */
 	public DatePickerPanelHeaderLabel(DateController date) {
 		dateController = date;
+		setPreferredSize(new Dimension(100, 20));
+		setHorizontalAlignment(CENTER);
+		setOpaque(true);
+		setBackground(new Color(138, 173, 209));
 		setText(date.get(GregorianCalendar.YEAR) + " " 
-				+ date.getCalendar().getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, Locale.getDefault()) + " " 
-				 + date.get(GregorianCalendar.DATE));
+				+ date.getCalendar().getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, Locale.getDefault()) );
 		
 	}
 	
-	/**
-	 * Gets the date controller.
-	 *
-	 * @return the date controller
-	 */
 	public DateController getDateController() {
 		return dateController;
 	}

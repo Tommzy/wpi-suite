@@ -64,6 +64,14 @@ public class FakeCommitmentModel {
 	}
 	
 	public Collection<Commitment> getCommitmentList() {
+		//return cmtList;
+		 
+		Iterator <Commitment> itr =  CommitmentsModel.getInstance().getCommitments().iterator();
+		while (itr.hasNext()) {
+			Commitment cmt = itr.next();
+			System.out.println(cmt.getName());
+		}
+		
 		return CommitmentsModel.getInstance().getCommitments();
 	}
 	

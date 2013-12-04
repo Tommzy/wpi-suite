@@ -47,43 +47,26 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
- * Generate a day calendar view. 
+ * Generate day calendar view. 
  * 
  */
 @SuppressWarnings("serial")
 public class CalendarDay extends JPanel {
-	
-	/** The view. */
 	JPanel view = new JPanel(new GridBagLayout());
 //	JScrollPane scroll = new JScrollPane(view,
 //			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
-	/** The calendar cards. */
-ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
-	
-	/** The event constraint. */
+	ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	private HashMap<CalendarCard, GridBagConstraints> eventConstraint = new HashMap<CalendarCard, GridBagConstraints>();
-	
-	/** The minimal interval. */
 	private final int minimalInterval = 2;
-	
-	/** The current max width. */
 	private int currentMaxWidth = 1;
-	
-	/** The weekdays. */
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
-	
-	/** The date controller. */
 	DateController dateController;
-	
-	/** The commitment time span. */
 	private final int COMMITMENT_TIME_SPAN = 60;
 	
 	/**
 	 * Constructor
-	 * Create view of a calendar day.
-	 *
-	 * @param date the date
+	 * Create view of a calendar day
 	 */
 	public CalendarDay(DateController date) {
 		this.dateController = date;
@@ -197,8 +180,7 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Add an event to calendar.
-	 *
+	 * Add an event to calendar
 	 * @param event Event to be added
 	 */
 	public void addEvent(DayEvent event) {
@@ -216,7 +198,7 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
-		newEvent.setBackground(new Color(200, 240, 200));
+		newEvent.setBackground(new Color(136, 255, 255));
 		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
@@ -267,9 +249,8 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 
 	/**
-	 * Add an event to calendar.
-	 *
-	 * @param commitment the commitment
+	 * Add an event to calendar
+	 * @param event Event to be added
 	 */
 	public void addCommitment(Commitment commitment) {
 		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
@@ -338,8 +319,7 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 
 	/**
-	 * Create label text for an event based on event's length.
-	 *
+	 * Create label text for an event based on event's length
 	 * @param event Event that needs a label text
 	 * @return Label for that event
 	 */
@@ -359,9 +339,8 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Create label text for an event based on event's length.
-	 *
-	 * @param commitment the commitment
+	 * Create label text for an event based on event's length
+	 * @param event Event that needs a label text
 	 * @return Label for that event
 	 */
 	private String formatLabel(Commitment commitment) {
@@ -373,12 +352,6 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 		return label;
 	}
 
-	/**
-	 * Format tool tip.
-	 *
-	 * @param event the event
-	 * @return the string
-	 */
 	private String formatToolTip(DayEvent event) {
 		String label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
 				format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -389,9 +362,8 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Create label text for an event based on event's length.
-	 *
-	 * @param commitment the commitment
+	 * Create label text for an event based on event's length
+	 * @param event Event that needs a label text
 	 * @return Label for that event
 	 */
 	private String formatToolTip(Commitment commitment) {
@@ -404,8 +376,8 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Create label text for a commitment based on event's length.
-	 *
+	 * Create label text for a commitment based on event's length
+	 * @param commitment Commitment that needs a label text
 	 * @return Label for that commitment
 	 */
 //	private String formatLabel(Commitment commitment) {
@@ -421,33 +393,16 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	 */
 	private class CalendarCard {
 		
-		/** The event. */
 		private DayEvent event;
-		
-		/** The commitment. */
 		private Commitment commitment;
-		
-		/** The label. */
 		private JLabel label;
 
-		/**
-		 * Instantiates a new calendar card.
-		 *
-		 * @param commitment the commitment
-		 * @param commitmentLabel the commitment label
-		 */
 		public CalendarCard(Commitment commitment, JLabel commitmentLabel) {
 			this.commitment = commitment;
 			this.label = commitmentLabel;
 		}
 
 
-		/**
-		 * Instantiates a new calendar card.
-		 *
-		 * @param event the event
-		 * @param eventLabel the event label
-		 */
 		public CalendarCard(DayEvent event, JLabel eventLabel) {
 			this.event = event;
 			this.label = eventLabel;
@@ -469,9 +424,7 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Override function of paint(Graphics g).
-	 *
-	 * @param g the g
+	 * Override function of paint(Graphics g)
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -527,7 +480,7 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Resize all label.
+	 * 
 	 */
 	private void resizeAllLabel() {
 		// TODO Auto-generated method stub
@@ -540,9 +493,8 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 
 	/**
-	 * Calculate text width.
-	 *
-	 * @param str a string whose width to be calculated
+	 * Calculate text width
+	 * @param str a string whose width to be calculated 
 	 * @return width of the string
 	 */
 	private static int textWidth(String str) {
@@ -550,11 +502,10 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	/**
-	 * Chop off text if it exceeds label length.
-	 *
-	 * @param text the text
-	 * @param max the max
-	 * @return the string
+	 * Chop off text if it exceeds label length
+	 * @param text
+	 * @param max
+	 * @return
 	 */
 	public static String ellipsize(String text, int max) {
 
@@ -591,11 +542,6 @@ ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
 	}
 	
 	//Test the detailed view, adding some new events
-	/**
-	 * The main method.
-	 *
-	 * @param args the arguments
-	 */
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarDay d = new CalendarDay(MainCalendarController.getInstance().getDateController());
