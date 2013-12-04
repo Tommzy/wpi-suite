@@ -134,7 +134,7 @@ public class AddCommitmentPanel extends JPanel {
 //    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
     inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     inviteeScroll.setPreferredSize(new Dimension(400, 100));
-    CommitmentsModel model = null;
+    CommitmentsModel model = CommitmentsModel.getInstance();
 
     btnSubmit = new JButton("Submit");
     btnSubmit.setEnabled(false);

@@ -10,7 +10,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -156,14 +155,14 @@ public class Commitment implements Model{
 	}
 
 	public String toString() {
-		if (startTime == null){
+		if (startTime.equals(null)){
 			return "D:LKJHGFLlkhghjh";
 		}
 			
-		
-		return startTime.get(Calendar.YEAR) + " "
-				+ startTime.get(Calendar.MONTH) + " "
-				+ startTime.get(Calendar.DATE) + " " + name + " " + description;
+//		return "Temp Date";
+		return startTime.get(GregorianCalendar.YEAR) + " "
+				+ startTime.get(GregorianCalendar.MONTH) + " "
+				+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
 
 	}
 
@@ -175,23 +174,5 @@ public class Commitment implements Model{
 		return description;
 	}
 
-	/**
-	 * Determine if the Commitment is active during a certain time stamp For GUI
-	 * use
-	 * 
-	 * @param calendar
-	 *            the time stamp
-	 * @return true if active during the time stamp, false otherwise
-	 */
-	public boolean isActiveDuringTimeStamp(Calendar calendar) {
-		// On Calendar view, commitment will be shown as an one-hour long block.
-		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
-		endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
-		if (calendar.before(startTime) || calendar.after(endTimeOnGUI)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 }
