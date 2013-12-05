@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
@@ -31,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AddCommitmentController implements ActionListener{
 
 	private final CommitmentsModel model;
-	private final AddCommitmentPanel viewCommitment;
+	private final HashMap<String, Object> commitmentDetails;
 	 
 	//Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
@@ -40,9 +41,9 @@ public class AddCommitmentController implements ActionListener{
 	 * @param model the model containing the messages
 	 * @param viewCommitment the view where the user enters new messages
 	 */
-	public AddCommitmentController(CommitmentsModel model, AddCommitmentPanel viewCommitment) {
+	public AddCommitmentController(CommitmentsModel model, HashMap<String, Object> commitmentDetails) {
 		this.model = model;
-		this.viewCommitment = viewCommitment;
+		this.commitmentDetails = commitmentDetails;
 	}
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
@@ -70,10 +71,10 @@ public class AddCommitmentController implements ActionListener{
 		//addTestToDatabase();
 		System.out.println("this is event!----->" + event.getActionCommand().toString());
 		// Get the text that was entered
-		String name = viewCommitment.getTxtNewname();
-		GregorianCalendar startTime = new GregorianCalendar();
-		startTime = viewCommitment.getNewDate("startTime");
-		String description = viewCommitment.getNewDescription();
+		String name = (String) commitmentDetails.get("name");
+		GregorianCalendar startTime = (GregorianCalendar) commitmentDetails.get("startDateTime");
+		String description = (String) commitmentDetails.get("desc");
+		String invitee = (String) commitmentDetails.get("invitee");
 		 
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?

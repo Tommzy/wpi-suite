@@ -17,6 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
@@ -86,6 +87,9 @@ public class AddCommitmentPanel extends JPanel {
   
   /** The invitee text area. */
   JTextArea  inviteeTextArea;
+  
+  /** The Id field */
+  JLabel IDText; 
 
 
 
@@ -140,6 +144,8 @@ public class AddCommitmentPanel extends JPanel {
     btnSubmit.setEnabled(false);
     btnCancel = new JButton ("Cancel");
     
+    IDText = new JLabel(); 
+    
     // Set up properties and values
 	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
 
@@ -185,7 +191,8 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(btnCancel);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
     btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
-    btnSubmit.addActionListener(new AddCommitmentController(model,this));
+//    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
+    btnSubmit.addActionListener(new AddCommitmentController(model, this));
     AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
     AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
     this.add(contentPanel);
@@ -193,65 +200,34 @@ public class AddCommitmentPanel extends JPanel {
 
 
 
-  /**
-   * Gets the txt newname.
-   * 
-   * @return the txt newname
-   */
-  public String getTxtNewname() {
-    if(this.nameTextField.getText().equals(""))
-      return null;
-    else
-      return this.nameTextField.getText();
+  private HashMap packInfo() {
+	  HashMap<String, Object> details = new HashMap<String, Object>();
+	  // Add ID 
+	  if (IDText.getText().equals("")) {
+		  details.put("ID", -1);
+	  }
+	  else {
+		  details.put("ID", Integer.parseInt(IDText.getText())); 
+	  }
+	  // Add name
+	  details.put("name", nameTextField.getText());
+	  // Add Start date time
+	  try {
+		  Date tempDate = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(startDateTextField.getValue() + " " + startTimeTextField.getValue());
+		  GregorianCalendar startDateTime = new GregorianCalendar();
+		  startDateTime.setTime(tempDate);
+		  details.put("startDateTime", startDateTime);
+	  } catch (ParseException e) {
+		  System.out.println("Cannot parse date! ");
+		  e.printStackTrace();
+	  }
+	  // Add description
+	  details.put("desc", descriptionTextArea.getText());
+	  // Add Invitee
+	  details.put("invitee", inviteeTextArea.getText());
+	  
+	  return details;
   }
-
-
-
-  /**
-   * Gets the new date.
-   * 
-   * @param data
-   *          the data
-   * @return the new date
-   */
-  public GregorianCalendar getNewDate(String data) {
-    String dateString = "";
-    if(data.equals("startTime")){
-    	System.out.println(this.startDateTextField.getValue());
-    	System.out.println(this.startTimeTextField.getValue());
-      dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
-      System.out.println("Get start time success! " + dateString);
-    }
-    else if(data.equals("endTime")){
-    	System.out.println("entTimeAAAAAAAA");
-    	dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
-    	System.out.println("Get end time success! ");
-    }
-      
-System.out.println("H");	
-    try {
-    	System.out.println("He");
-      Date date;
-      System.out.println("Here ");
-      // Date example ("12/31/13 20:35")
-      date = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateString);
-      System.out.println("Here is");
-      GregorianCalendar cal = new GregorianCalendar();
-      System.out.println("Here is a");
-      cal.setTime(date);
-      System.out.println("Here is AddCommitmentController.getNewDate!!!!!!! Here is the cal.toString  -->" + cal.toString());
-      return cal;
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-    	System.out.println("Here error!");
-    	e.printStackTrace();
-    }
-    // The function returns Null if the try breaks
-//    GregorianCalendar cal = new GregorianCalendar(1992,8,19,23,4);
-    return null;
-  }
-
-
 
   /**
    * Gets the new location.
