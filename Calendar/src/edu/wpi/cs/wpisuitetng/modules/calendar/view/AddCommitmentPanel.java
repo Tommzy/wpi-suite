@@ -191,8 +191,8 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(btnCancel);
     btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
     btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
-//    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
-    btnSubmit.addActionListener(new AddCommitmentController(model, this));
+    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
+//    btnSubmit.addActionListener(new AddCommitmentController(model, this));
     AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
     AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
     this.add(contentPanel);
