@@ -33,6 +33,7 @@ public class AddCommitmentController implements ActionListener{
 	private final CommitmentsModel model;
 	private final AddCommitmentPanel viewCommitment;
 	private final Network testNetwork;
+	boolean added = false;
 	 
 	Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
@@ -122,6 +123,13 @@ public class AddCommitmentController implements ActionListener{
 	 */
 	public void addCommitmentToModel(Commitment item) {
 		model.addCommitment(item);
+	}
+	
+	public void setAdded(boolean bool){
+		this.added = bool;
+	}
+	public boolean getAdded(){
+		return added;
 	}
 }
 
