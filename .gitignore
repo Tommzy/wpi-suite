@@ -1,4 +1,5 @@
 *.class
+*.DS_Store
 .metadata
 .metadata\*
 .metadata/*
@@ -12,6 +13,7 @@ dist
 # Package Files #
 *.war
 *.ear
+*.eml
 
 # Module jar files #
 Janeway/modules/*.jar
@@ -32,7 +34,18 @@ Janeway/janeway.conf
 /Core/WPISuite-Interfaces/build/MANIFEST.MF
 /Core/WPISuite/src/META-INF/MANIFEST.MF
 /Core/WPISuite/WPISuite_TNG_local
+/Core/WPISuite/CAL_DEV
+/Core/WPISuite/CALDEV
 /Core/WPISuite/WebContent/WEB-INF/lib/DefectTracker.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/WPISuite-Interfaces.jar
 /Core/WPISuite/WebContent/WEB-INF/lib/PostBoard.jar
+/Core/WPISuite/WebContent/WEB-INF/lib/RequirementManager.jar
+/Core/WPISuite/WebContent/WEB-INF/lib/Calendar.jar
 
+.idea
+.idea/*
+
+RequirementManager/build
+RequirementManager/bin
+
+*.jar
