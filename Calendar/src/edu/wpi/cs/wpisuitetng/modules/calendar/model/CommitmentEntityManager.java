@@ -247,7 +247,10 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		Commitment oldReq = getEntity(s, Integer.toString(  reqUpdate.getId()  )  )[0];
 
-
+		oldReq.setStartTime(reqUpdate.getStartTime());
+		oldReq.setName(reqUpdate.getName());
+		oldReq.setDescription(reqUpdate.getDescription());
+		
 		//TODO put this back in
 		// Copy new field values into old Commitment. This is because the "same" model must
 		// be saved back into the database
