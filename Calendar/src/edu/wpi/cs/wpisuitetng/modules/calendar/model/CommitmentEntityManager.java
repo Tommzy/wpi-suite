@@ -224,9 +224,9 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		ensureRole(s, Role.ADMIN);
-		Commitment oldReq = getEntity(s,   id    )[0];
+		Commitment oldComm = getEntity(s,   id    )[0];
 
-		if (db.delete(oldReq) == oldReq){
+		if (db.delete(oldComm) == oldComm){
 			return true; // the deletion was successful
 		}	    
 		return false; // The deletion was unsuccessful
