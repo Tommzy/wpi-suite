@@ -31,6 +31,15 @@ public class MonthViewGridPanel extends JPanel {
 
 		setBackground(Color.white);
 		textArea.setEditable(false);
+		
+		/*
+		 * I added the mouse listener to 
+		 * both textArea and MouthVIewGridPanel
+		 * is because is seems that if I only add
+		 * listener to the panel, the activated area
+		 * for clicking is the gap between the header label
+		 * and the text area within the grid panel
+		 */
 		textArea.addMouseListener(new MouseListener() {
 
 			@Override
@@ -67,6 +76,10 @@ public class MonthViewGridPanel extends JPanel {
 		headerLabel.setOpaque(true);
 		headerLabel.setBackground(new Color(138, 173, 209));
 		add(headerLabel, "width :100%:, wrap, span");
+		
+		// previous setting. will be removed for upcoming refactoring.
+		// mod defaultly set to 1, representing auto resize with the window
+		// if set to any number other than 1, the month view will have the scroll bar
 		if (mod == 1) {
 			add(textArea, "span, width :200:, height :100:");
 		} else {
@@ -97,6 +110,13 @@ public class MonthViewGridPanel extends JPanel {
 	
 	public void repaint() {
 		super.repaint();
+		/*
+		 * if the current selected date from main calendar controller 
+		 * matches the date controller of this grid panel,
+		 * label this panel with orange
+		 * 
+		 * other wise use the default color blue to blend with the upper label of header label
+		 */
 		if (MainCalendarController.getInstance().getDateController().equals(date)) {
 			this.setBackground(Color.orange);
 		} else {
@@ -118,6 +138,8 @@ public class MonthViewGridPanel extends JPanel {
 		if (date == null) {
 			return;
 		}
+		
+		// filter out the commitment for this date
 		Iterator<Commitment> itr = commitment.iterator();
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
