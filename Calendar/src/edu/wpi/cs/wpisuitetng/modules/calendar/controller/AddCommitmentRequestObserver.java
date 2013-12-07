@@ -38,7 +38,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		//Parse the calendar item out of the response body
-		final Commitment item = CalendarItem.fromJSON(response.getBody());
+		final Commitment item = Commitment.fromJSON(response.getBody());
 		//Pass the messaged back to the controller
 		//Needs to put commitment back into the system
 		//TODO
