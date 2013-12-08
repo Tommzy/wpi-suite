@@ -16,6 +16,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.dataitem.CommitmentList;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -29,15 +30,24 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class DeleteCommitmentController implements ActionListener {
 	
 	private DeleteCommitmentRequestObserver observer;
+	private int id;
 
-	public DeleteCommitmentController() {
-		observer = new DeleteCommitmentRequestObserver(this);;
+
+	public DeleteCommitmentController(int id) {
+		this.id = id;
+	}
+	
+	//getter
+	public int getID(){
+		return id;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// Send a request to the core to save this message
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
+		// Send a request to the core to delete this commitment
+		
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.DELETE); // DELETE == delete
+		request.setBody(Integer.toString(id)); // put the new message in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		System.out.println("Here is DeleteCommitmentController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
