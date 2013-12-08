@@ -38,8 +38,9 @@ public DeleteCommitmentController controller;
 		//Commitment[] items = Commitment.fromJsonArray(iReq.getResponse().getBody());
 		
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
+		
 	
-		System.out.println("After delete: Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
+		System.out.println("After delete: Success! Here is DeleteCommitmentRequestController in the JSON way"+ "   " + result);
 		
 		//TODO
 		//Update the view
@@ -54,7 +55,8 @@ public DeleteCommitmentController controller;
 	@Override
 	public void responseError(IRequest iReq) {
 	//	fail(iReq, null);
-		System.err.println("After delete: The request to delete commitments Errored. " + iReq.toString());
+		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
+		System.err.println("After delete: The request to delete commitments Errored. " + result);
 	}
 
 
@@ -63,7 +65,9 @@ public DeleteCommitmentController controller;
 		// TODO Auto-generated method stub
 //		Commitment[] errorCommitment = { new Commitment("Error", null, "Error") };
 //		controller.receivedCommitments(errorCommitment);
-		System.err.println("After delete: The request to delete commitments failed.");
+		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
+
+		System.err.println("After delete: The request to delete commitments failed.  " + result);
 		
 	}
 }
