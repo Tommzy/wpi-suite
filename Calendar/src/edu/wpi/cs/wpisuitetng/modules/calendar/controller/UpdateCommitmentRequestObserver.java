@@ -15,59 +15,49 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
+// TODO: Auto-generated Javadoc
 /**
- * This observer is called when a response is received from a request
- * to the server to add a requirement.
- *
- * @version $Revision: 1.0 $
- * @author justinhess
+ * An asynchronous update interface for receiving notifications
+ * about UpdateCommitmentRequest information as the UpdateCommitmentRequest is constructed.
  */
 public class UpdateCommitmentRequestObserver implements RequestObserver {
 	
+	/** The controller. */
 	private final UpdateCommitmentController controller;
 	
 	/**
-	 * Constructs the observer given an AddRequirementController
-	 * @param controller the controller used to add requirements
+	 * This method is called when information about an UpdateCommitmentRequest
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param controller the controller
 	 */
 	public UpdateCommitmentRequestObserver(UpdateCommitmentController controller) {
 		this.controller = controller;
 	}
 	
-	/**
-	 * Parse the requirement that was received from the server then pass them to
-	 * the controller.
-	 * 
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
-	 */
+	
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
 		final ResponseModel response = iReq.getResponse();
 		
-		// Parse the requirement out of the response body
-		final Commitment commitment = Commitment.fromJSON(response.getBody());		
+		// Parse the commitment out of the response body
+		final Commitment commitment = Commitment.fromJSON(response.getBody());	
+		UpdateCommitmentController.getInstance().updateSucess(commitment);
+		System.out.println("Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 	}
 	
-	/**
-	 * Takes an action if the response results in an error.
-	 * Specifically, outputs that the request failed.
-	 * @param iReq IRequest
-	
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(IRequest) */
+
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getResponse().getStatusMessage());
 		System.err.println("The request to update a commitment failed.");
 	}
 
-	/**
-	 * Takes an action if the response fails.
-	 * Specifically, outputs that the request failed.
-	 * @param iReq IRequest
-	 * @param exception Exception
-	
-	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(IRequest, Exception) */
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to update a commitment failed.");
