@@ -94,7 +94,7 @@ public class AddCommitmentPanel extends JPanel {
 
 
   /**
-   * Instantiates a new adds the commitment panel.
+   * Instantiates a new commitment panel.
    * 
    * @param miglayout
    *          the miglayout

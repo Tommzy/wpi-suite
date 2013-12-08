@@ -101,7 +101,7 @@ public class MonthView extends JPanel implements Updatable{
 		
 		/*
 		 * group the the buttons for switching among month into a panel
-		 * since here the we're only using the reference of these three buttons
+		 * since here we're only using the reference of these three buttons
 		 * the buttons are actually already initialized in the constructor, 
 		 * with the action listener added
 		 */
@@ -114,23 +114,23 @@ public class MonthView extends JPanel implements Updatable{
 		add(monthViewPanel);
 		repaint();
 	}
-	
+	// returns previousButton
 	public JButton getPreviousButton() {
 		return previousButton;
 	}
-
+	// returns nextButton
 	public JButton getNextButton() {
 		return nextButton;
 	}
-
+	// returns todayButton
 	public JButton getTodayButton() {
 		return todayButton;
 	}
-
+	// returns monthViewPanel
 	public MonthViewPanel getMonthViewPanel() {
 		return monthViewPanel;
 	}
-	
+	// returns monthTitleLabel
 	public JLabel getMonthTitleLabel() {
 		return monthTitleLabel;
 	}

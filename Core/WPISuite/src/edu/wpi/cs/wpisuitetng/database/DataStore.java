@@ -15,6 +15,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,7 +62,7 @@ public class DataStore implements Data {
 			ServerConfiguration config = Db4oClientServer.newServerConfiguration();
 			config.common().reflectWith(new JdkReflector(Thread.currentThread().getContextClassLoader()));
 			config.common().objectClass(User.class).storeTransientFields(true); // Enables data persistence for passwords
-			config.common().objectClass(Calendar.class).callConstructor(true);
+			config.common().objectClass(GregorianCalendar.class).callConstructor(true);
 			
 			//Connect to the Database
 			server = Db4oClientServer.openServer(config, WPI_TNG_DB, PORT);

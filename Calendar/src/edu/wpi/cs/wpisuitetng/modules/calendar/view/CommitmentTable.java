@@ -104,7 +104,6 @@ public class CommitmentTable extends JPanel implements Updatable {
 		}
 		int length = cmtList.size();
 		Iterator<Commitment> itr = cmtList.iterator();
-//		System.out.println(length);
 		data = new Object[length][3];
 		for (int i = 0; i < length; i++) {
 			Commitment cmt = itr.next();
