@@ -361,7 +361,10 @@ public class MonthViewGridPanel extends JPanel {
 		
 		//System.out.println(selectedDate);
 		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth())) {
-			//TODO: switch to day view here			
+			//TODO: switch to day view here	
+			JToggleButton btn = new JToggleButton();
+			btn.setText("Day");
+			MainCalendarController.getInstance().timePeriodChanged(btn);
 
 		}
 		else {
