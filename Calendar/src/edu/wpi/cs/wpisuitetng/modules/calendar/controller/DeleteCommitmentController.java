@@ -53,32 +53,13 @@ public class DeleteCommitmentController implements ActionListener {
 		request.send(); // send the request
 		}
 	
-	/**
-	 * Sends an HTTP request to retrieve all requirements
-	 */
-	public void retrieveCommitments() {
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
-		request.addObserver(observer); // add an observer to process the response
-		request.send(); // send the request
-	}
+//	/**
+//	 * Sends an HTTP request to retrieve all requirements
+//	 */
+//	public void retrieveCommitments() {
+//		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
+//		request.addObserver(observer); // add an observer to process the response
+//		request.send(); // send the request
+//	}
 	
-	/**
-	 * Add the given Commitments to the local model (they were received from the core).
-	 * This method is called by the DeleteCommitmentsRequestObserver
-	 * 
-	 * @param Commitments an array of Commitments received from the server
-	 */
-	public void receivedCommitments(Commitment[] Commitments) {
-		System.out.println(Commitments.length);
-		// Empty the local model to eliminate duplications
-		CommitmentsModel.getInstance().emptyModel();
-		
-		// Make sure the response was not null
-		if (Commitments != null) {
-			
-			// add the Commitments to the local model
-			CommitmentsModel.getInstance().addCommitments(Commitments);
-			System.out.println(CommitmentsModel.getInstance().getAllCommitment().size());
-		}
-	}
 }

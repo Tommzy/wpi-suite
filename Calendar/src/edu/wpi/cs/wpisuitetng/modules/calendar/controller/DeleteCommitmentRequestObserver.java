@@ -20,7 +20,9 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * @author Hui Zheng & Andrew Paon & Mark & Chris turner & Jared
  */
 public class DeleteCommitmentRequestObserver implements RequestObserver{
-public DeleteCommitmentController controller;
+	public DeleteCommitmentController controller;
+	public GetCommitmentController getController;
+
 	
 	
 	public DeleteCommitmentRequestObserver(DeleteCommitmentController controller) {
@@ -44,7 +46,7 @@ public DeleteCommitmentController controller;
 		
 		//TODO
 		//Update the view
-		//controller.receivedCommitments(items);
+		getController.retrieveCommitments();
 
 		
 	}

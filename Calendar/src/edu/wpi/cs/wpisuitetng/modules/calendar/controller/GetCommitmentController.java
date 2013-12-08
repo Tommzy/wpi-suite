@@ -50,6 +50,7 @@ public class GetCommitmentController implements ActionListener {
 	public void retrieveCommitments() {
 		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
+		System.out.println("Here is GetCommitmentController.retrieveCommitments() to update the CommitmentsList" + "   "+ request.getBody());
 		request.send(); // send the request
 	}
 	
