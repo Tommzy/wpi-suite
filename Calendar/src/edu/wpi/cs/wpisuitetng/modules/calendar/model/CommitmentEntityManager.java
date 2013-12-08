@@ -236,27 +236,31 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		} 
 
 		// Try to parse the message
-		final Commitment reqUpdate;
+		final Commitment updatedCommitment;
 		try {
-			reqUpdate = Commitment.fromJSON(content);
+			updatedCommitment = Commitment.fromJSON(content);
 		} catch(JsonSyntaxException e){ // the JSON conversion failed
 			throw new BadRequestException("The Commitment update string had invalid formatting. Entity String: " + content);			
 		}
+		/*
 		// Pull out the name of the current user
 		String currentUser = s.getUser().getName();
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		Commitment oldReq = getEntity(s, Integer.toString(  reqUpdate.getId()  )  )[0];
 
-
+		oldReq.setStartTime(reqUpdate.getStartTime());
+		oldReq.setName(reqUpdate.getName());
+		oldReq.setDescription(reqUpdate.getDescription());
+		*/
 		//TODO put this back in
 		// Copy new field values into old Commitment. This is because the "same" model must
 		// be saved back into the database
 //		oldReq.updateReq(reqUpdate);
 
 		// Attempt to save. WPISuiteException may be thrown
-		this.save(s,oldReq);
+		this.save(s,updatedCommitment);
 
-		return oldReq;
+		return updatedCommitment;
 	}
 
 	/** Deletes a Commitment from the database permanently. It is not advised that this
