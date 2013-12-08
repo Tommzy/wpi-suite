@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
-
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -12,9 +11,9 @@ import java.util.Iterator;
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -59,6 +58,14 @@ public class MonthViewGridPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setToThisDate();
+//				DateController date = MainCalendarController.getInstance().getDateController();
+//				System.out.println(selectedDate);
+//				if (selectedDate == date.getDayOfMonth()) {
+//					//MainCalendarController.getInstance().setSelectedCalendarView(CalendarTimePeriod.Day);
+//					System.out.println("Here");
+//
+//				}
+//				selectedDate = date.getDayOfMonth();
 			}
 
 			@Override
@@ -351,6 +358,15 @@ public class MonthViewGridPanel extends JPanel {
 		date.set(Calendar.YEAR, this.date.getYear());
 		date.set(Calendar.MONTH, this.date.getMonth());
 		date.set(Calendar.DATE, this.date.getDayOfMonth());
+		
+		//System.out.println(selectedDate);
+		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth())) {
+			//TODO: switch to day view here			
+
+		}
+		else {
+			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
+		}
 		
 		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
 	}

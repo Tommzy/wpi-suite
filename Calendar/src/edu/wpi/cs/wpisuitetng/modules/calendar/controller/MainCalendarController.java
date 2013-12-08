@@ -56,7 +56,9 @@ public class MainCalendarController implements ActionListener{
 	
 	public static MainCalendarController instance;
 	private DateController dateController = new DateController();
-	private CalendarTimePeriod selectedCalendarView;
+	public CalendarTimePeriod selectedCalendarView;
+	private int selectedDay = 0;
+	private int selectedMonth = 0;
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -244,6 +246,18 @@ public class MainCalendarController implements ActionListener{
 	
 	public void setDateController(DateController originalDate){
 		dateController = originalDate.clone();
+	}
+	
+	public void setSelectedDate(int day, int month) {
+		selectedDay = day;
+		selectedMonth = month;
+	}
+	
+	public boolean isSelectedDate(int day, int month) {
+		if (day == selectedDay && month == selectedMonth) {
+			return true;
+		}
+		return false;
 	}
 	
 }
