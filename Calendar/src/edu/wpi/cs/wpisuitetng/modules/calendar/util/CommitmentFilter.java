@@ -36,8 +36,8 @@ public class CommitmentFilter {
 		try {
 			
 		
-			//Collection<Commitment> list = CommitmentsModel.getInstance().getAllCommitment();
-			Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
+			Collection<Commitment> list = CommitmentsModel.getInstance().getAllCommitment();
+			//Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
 			Collection<Commitment> cmtList = new ArrayList<Commitment>();
 			Iterator<Commitment> itr = list.iterator();
 

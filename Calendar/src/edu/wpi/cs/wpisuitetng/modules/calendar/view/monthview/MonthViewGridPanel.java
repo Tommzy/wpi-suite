@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
-
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
@@ -14,7 +14,6 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -385,33 +384,57 @@ public class MonthViewGridPanel extends JPanel {
 	
 	public void addCommitmentToTable(Commitment cmt) {
 		
-		//Check to see what label is being added then add correct label. -Gravy
+		GregorianCalendar commitmentStartTime = cmt.getStartTime();
+		int hour = commitmentStartTime.get(Calendar.HOUR_OF_DAY);
+		int minute = commitmentStartTime.get(Calendar.MINUTE);
+		
+		String AmOrPm = ""; //Set to either Am or Pm
+		if(commitmentStartTime.getTime().getHours() < 12){
+			AmOrPm = "Am";
+		}
+		
+		else{
+			AmOrPm = "Pm";
+		}
+		//Used for tooltip ONLY 
+		String startToolTipClockTime = "" + hour + ":" + (minute < 10 ? "0" + minute : minute) + AmOrPm;
+		
+		
+		//Used for label text ONLY
+		String startLabelClockTime = "" + hour + AmOrPm;
+		
+		
+		
+		//Check to see what label is being added then add correct label.
+		//If a day has more than 4 items then a label indicating as much will appear
+		//NOTE: LABELS WILL HAVE TO BE CHANGED WHEN ITEMS CAN BE DELETED
+		//CURRENTLY WILL NOT CHANGE THE LABEL TEXT-Gravy
 		if(firstItemLabel.getText() == ""){
-			firstItemLabel.setText(cmt.getName());
+			firstItemLabel.setText(startLabelClockTime + " " + cmt.getName());
 			firstItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
 										"Description: " + cmt.getDescription() + "<br />" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "<br /></html>");
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(secondItemLabel.getText() == ""){
-			secondItemLabel.setText(cmt.getName());
+			secondItemLabel.setText(startLabelClockTime + " " + cmt.getName());
 			secondItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
 										"Description: " + cmt.getDescription() + "<br /></html>" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "<br /></html>");
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(thirdItemLabel.getText() == ""){
-			thirdItemLabel.setText(cmt.getName());
+			thirdItemLabel.setText(startLabelClockTime + " " + cmt.getName());
 			thirdItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
 										"Description: " + cmt.getDescription() + "<br />" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "<br /></html>");
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(fourthItemLabel.getText() == ""){
-			fourthItemLabel.setText(cmt.getName());
+			fourthItemLabel.setText(startLabelClockTime + " " + cmt.getName());
 			fourthItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
 										"Description: " + cmt.getDescription() + "<br />" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "<br /></html>");
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else{
-			additionalItemsLabel.setText("See All");
+			additionalItemsLabel.setText("See More Items");
 		}
 	
 	
