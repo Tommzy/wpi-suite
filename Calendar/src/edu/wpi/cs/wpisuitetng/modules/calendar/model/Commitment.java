@@ -64,7 +64,13 @@ public class Commitment implements Model{
 		this.id = id;
 	}
 
+	public void setName(String name){
+		this.name = name;
+	}
 
+	public void setDescription(String description){
+		this.description = description;
+	}
 
 	/**
 	 * Setter function of startTime
