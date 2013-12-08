@@ -321,27 +321,36 @@ public class MonthViewGridPanel extends JPanel {
 	
 	public void repaint() {
 		super.repaint();
-		/*
-		 * if the current selected date from main calendar controller 
-		 * matches the date controller of this grid panel,
-		 * label this panel with cyan
-		 * 
-		 * other wise use the default color blue to blend with the upper label of header label
-		 */
-		if (MainCalendarController.getInstance().getDateController().equals(date)) {
-			this.setBackground(Color.cyan); //Changed to cyan to keep consistent with day and week view
-											//-Gravy
-			firstItemLabel.setBackground(Color.cyan);
-			secondItemLabel.setBackground(Color.cyan);
-			thirdItemLabel.setBackground(Color.cyan);
-			fourthItemLabel.setBackground(Color.cyan);
-			additionalItemsLabel.setBackground(Color.cyan);
-
-
-
-
-		} else {
-			this.setBackground(new Color(138, 173, 209));
+		try {
+			/*
+			 * if the current selected date from main calendar controller 
+			 * matches the date controller of this grid panel,
+			 * label this panel with cyan
+			 * 
+			 * other wise use the default color blue to blend with the upper label of header label
+			 */
+			if (MainCalendarController.getInstance().getDateController().equals(date)) {
+				this.setBackground(Color.cyan); //Changed to cyan to keep consistent with day and week view
+												//-Gravy
+				firstItemLabel.setBackground(Color.cyan);
+				secondItemLabel.setBackground(Color.cyan);
+				thirdItemLabel.setBackground(Color.cyan);
+				fourthItemLabel.setBackground(Color.cyan);
+				additionalItemsLabel.setBackground(Color.cyan);
+	
+	
+	
+	
+			} else {
+				this.setBackground(new Color(138, 173, 209));
+				firstItemLabel.setBackground(new Color(138, 173, 209));
+				secondItemLabel.setBackground(new Color(138, 173, 209));
+				thirdItemLabel.setBackground(new Color(138, 173, 209));
+				fourthItemLabel.setBackground(new Color(138, 173, 209));
+				additionalItemsLabel.setBackground(new Color(138, 173, 209));
+			}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 	
