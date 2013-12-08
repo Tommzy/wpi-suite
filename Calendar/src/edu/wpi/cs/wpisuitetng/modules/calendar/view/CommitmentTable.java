@@ -32,6 +32,8 @@ import java.util.Iterator;
  */
 @SuppressWarnings("serial")
 public class CommitmentTable extends JPanel implements Updatable {
+	
+	/** The data. */
 	Object[][] data;
 
 	/**
@@ -43,6 +45,9 @@ public class CommitmentTable extends JPanel implements Updatable {
 		MainCalendarController.getInstance().addToUpdateList(this);
 	}
 
+	/**
+	 * Setup table.
+	 */
 	public void setupTable() {
 		removeAll();
 		
@@ -70,6 +75,9 @@ public class CommitmentTable extends JPanel implements Updatable {
 		
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable#update()
+	 */
 	public void update() {
 
 		CalendarTimePeriod timePeriod = MainCalendarController.getInstance()
@@ -96,7 +104,6 @@ public class CommitmentTable extends JPanel implements Updatable {
 		}
 		int length = cmtList.size();
 		Iterator<Commitment> itr = cmtList.iterator();
-//		System.out.println(length);
 		data = new Object[length][3];
 		for (int i = 0; i < length; i++) {
 			Commitment cmt = itr.next();
@@ -150,6 +157,11 @@ public class CommitmentTable extends JPanel implements Updatable {
 		 },
 		};
 
+		/**
+		 * Instantiates a new task table model.
+		 *
+		 * @param data2 the data2
+		 */
 		public TaskTableModel(Object[][] data2) {
 			data = data2;
 		}

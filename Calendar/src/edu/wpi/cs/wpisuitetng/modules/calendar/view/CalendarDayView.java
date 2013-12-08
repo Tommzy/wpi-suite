@@ -70,7 +70,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
-		dayPanel.setPreferredSize(new Dimension(1200, 1035));
+		dayPanel.setPreferredSize(new Dimension(1200, 1050));
 		day[0] = new CalendarDay(null);
 		day[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
@@ -224,7 +224,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 	public void updateDayView() {
 		dayPanel.removeAll();
 		DateController date = MainCalendarController.getInstance().getDateController();
-		
+		dayPanel.setPreferredSize(new Dimension(1200, 800));
+
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
 		dayPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
 		day[0] = new CalendarDay(date);
@@ -236,6 +237,8 @@ public class CalendarDayView extends JPanel implements Updatable{
 		
 		day[1] = new CalendarDay(date);
 		day[1].initHeader();
+//		day[1].initTimeLabels();
+//		day[0].setVisible(false);
 		day[1].view.setPreferredSize(new Dimension(1200,450));
 		dayPanel.add(day[1], "width :100%:");
 		parseCommitment();

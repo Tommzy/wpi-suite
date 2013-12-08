@@ -29,7 +29,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
  * 
  *
  * @version $Revision: 1.0 $
- * @author Team3
+ * @author Tommzy
  */
 @SuppressWarnings("serial")
 public class CommitmentsModel extends AbstractListModel{
@@ -72,18 +72,46 @@ public class CommitmentsModel extends AbstractListModel{
 	 * @param newComm The Commitment to be added to the list of Commitments in the project
 	 */
 	public void addCommitment(Commitment newComm){
+//		// add the Commitment
+//		Commitments.add(newComm);
+//		try 
+//		{
+//			AddCommitmentController Controller = new AddCommitmentController(null, null);
+//			Controller.addCommitmentToModel(newComm);
+////			ViewEventController.getInstance().refreshTable();
+////			ViewEventController.getInstance().refreshTree();
+//		}
+//		catch(Exception e)
+//		{
+//			
+//		}
+
+		
+		
 		// add the Commitment
-		Commitments.add(newComm);
-		try 
-		{
-			AddCommitmentController Controller = new AddCommitmentController(null, null);
-			Controller.addCommitmentToModel(newComm);
-//			ViewEventController.getInstance().refreshTable();
-//			ViewEventController.getInstance().refreshTree();
-		}
-		catch(Exception e)
-		{
-			
+		
+//		try 
+//		{
+////			AddCommitmentController Controller = new AddCommitmentController(null, null);
+////			Controller.addCommitmentToModel(newComm);
+////			ViewEventController.getInstance().refreshTable();
+////			ViewEventController.getInstance().refreshTree();
+//			Commitments.add(newComm);
+//			
+//			for (int i = 0; i < Commitments.size(); i++) {
+//				System.out.println("Commitment out put    " + Commitments.get(i).toString());
+//			}
+//		}
+//		catch(Exception e)
+//		{
+//			
+//		}
+		
+		
+		this.Commitments.add(newComm);
+		
+		for (int i = 0; i < Commitments.size(); i++) {
+			System.out.println("Commitment out put    " + Commitments.get(i).toString());
 		}
 	}
 	/**
@@ -104,6 +132,14 @@ public class CommitmentsModel extends AbstractListModel{
 		}
 		return temp;
 	}
+	
+	public List<Commitment> getAllCommitment() {
+		for (int i = 0; i < Commitments.size(); i++) {
+			System.out.println("Commitment out put    " + Commitments.get(i).toString());
+		}
+		return Commitments;
+	}
+	
 	/**
 	 * Removes the Commitment with the given ID
 	 * 
@@ -198,7 +234,7 @@ public class CommitmentsModel extends AbstractListModel{
 			this.Commitments.add(Commitments[i]);
 			if(Commitments[i].getId() >= nextID) nextID = Commitments[i].getId() + 1;
 		}
-		this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
+		//this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
 		
 		
 		//************Refresh GUI HERE!!!!!!!!!!!!!!!!!!!!!!!!!***************************************

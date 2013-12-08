@@ -64,14 +64,6 @@ public class DateController {
 	public void set(int index, int value) {
 		cal.set(index, value);
 	}
-	
-	public void set(int year, int month, int date) {
-		cal.set(year, month, date);
-	}
-	
-	public void set(int year, int month, int date, int hour, int minute) {
-		cal.set(year, month, date, hour, minute);
-	}
 
 	public DateController getPrecursorDate() {
 		cal.add(GregorianCalendar.DATE, -1);
@@ -154,18 +146,10 @@ public class DateController {
 	}
 		
 	public void setToPreviousWeek() {
-		cal.add(GregorianCalendar.WEEK_OF_MONTH, -1);
+			cal.add(GregorianCalendar.WEEK_OF_MONTH, -1);
 	}
 	
 	public GregorianCalendar getCalendar() {
 		return cal;
-	}
-	
-	public int getHourOfDay() {
-		return cal.get(GregorianCalendar.HOUR_OF_DAY);
-	}
-	
-	public int getMinute() {
-		return cal.get(GregorianCalendar.MINUTE);
 	}
 }

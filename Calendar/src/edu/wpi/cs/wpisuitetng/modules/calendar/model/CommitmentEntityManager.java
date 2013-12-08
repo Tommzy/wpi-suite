@@ -1,5 +1,3 @@
-
-
 /*******************************************************************************
  * Copyright (c) 2013 -- WPI Suite
  *
@@ -15,6 +13,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.List;
+import java.util.logging.Level;
+
 import com.google.gson.JsonSyntaxException;
 
 import edu.wpi.cs.wpisuitetng.Session;
@@ -23,13 +24,23 @@ import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
 import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
+import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
+import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
+import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 /** This is the entity manager for Commitments in the CommitmentEntityManager module. The provided
  *  methods include functionality for creating, updating, getting specific Commitments, and 
  *  getting all Commitments. Current, Commitments are project specific, so
- *  Commitments pulled from the database will only be for the current current project.   
+ *  Commitments pulled from the database will only be for the current current project.
+ *     
+ * This is the entity manager for the Commitment in the
+ * Calendar module.
+ *
+ * @version $Revision: 1.0 $
+ * @author Hui Zheng & EJ
  */
 public class CommitmentEntityManager implements EntityManager<Commitment> {
 	/** The database */
@@ -73,8 +84,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			throw new BadRequestException("The Commitment creation string had invalid formatting. Entity String: " + content);			
 		}
 
-
-
 		// Saves the Commitment in the database
 		this.save(s,newCommitment); // An exception may be thrown here if we can't save it
 
@@ -87,6 +96,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 *  @param s The current user session
 	 *  @param model The Commitment to be saved to the database
 	 *  @throws WPISuiteException  "Unable to save Commitment."
+	 *  **********************************HERE WE Changed The Code!!!!!!************************************************
 	 */
 	public void save(Session s, Commitment model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
@@ -96,17 +106,56 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if (!db.save(model, s.getProject())) {
 			throw new WPISuiteException("Unable to save Commitment.");
 		}
+		System.out.println("The Commitment saved!    " + model.toJSON());
 	}
+	
+	
+	/**
+	 * Ensures that a user is of the specified role
+	 * @param session the session
+	 * @param role the role being verified
+	
+	 * @throws WPISuiteException user isn't authorized for the given role */
+	private void ensureRole(Session session, Role role) throws WPISuiteException {
+		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		if(!user.getRole().equals(role)) {
+			throw new UnauthorizedException();
+		}
+	}
+	
+//	/**
+//	 * Ensures that a user is of the specified project
+//	 * @param session the session
+//	 * @param User the user supposed in the project
+//	 * @throws WPISuiteException user isn't authorized for the given role */
+//	
+//	private void ensureMember(Session session, User user) throws WPISuiteException {
+//		User usera[] = db.retrieve(User.class, "username", session.getUsername(), session.getProject()).toArray(new User[0]);
+//		User userb = session.getUser();
+//		
+//		
+//		System.out.println(usera.toString());
+//
+//		int counter = usera.length;
+//		for (int i = 0; i < counter; i++) {
+//			if (!usera[i].getUsername().equals(user.getUsername())) {
+//				throw new UnauthorizedException();
+//			}
+//		}
+//	}
+	
 
 	/** Takes a Commitment and assigns a unique id if necessary
 	 * 
-	 * @param req The Commitment that possibly needs a unique id
+	 * @param commitment The Commitment that possibly needs a unique id
 	 * @throws WPISuiteException "Count failed"
 	 */
-	public void assignUniqueID(Commitment req) throws WPISuiteException{
-		if (req.getId() == -1){// -1 is a flag that says a unique id is needed            
-			req.setId(Count() + 1); // Makes first Commitment have id = 1
+	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
+		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
+			commitment.setId(Count() + 1); // Makes first Commitment have id = 1
+//			commitment.setId(300);
 		}
+//		commitment.setId(Count() + 1);
 	}
 
 	/** Returns the number of Commitments currently in the database. Disregards
@@ -118,6 +167,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
+		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Commitment(null, null, null)));
 		return db.retrieveAll(new Commitment(null, null, null)).size();
 	}
 
@@ -132,7 +182,9 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
+		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
+
 	}
 
 	/**  For the current user session, Takes a specific id for a Commitment and returns it 
@@ -199,7 +251,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		//TODO put this back in
 		// Copy new field values into old Commitment. This is because the "same" model must
 		// be saved back into the database
-		//oldReq.updateReq(reqUpdate);
+//		oldReq.updateReq(reqUpdate);
 
 		// Attempt to save. WPISuiteException may be thrown
 		this.save(s,oldReq);
@@ -223,6 +275,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
+		ensureRole(s, Role.ADMIN);
 		Commitment oldReq = getEntity(s,   id    )[0];
 
 		if (db.delete(oldReq) == oldReq){
@@ -239,9 +292,11 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 *  exists, but has a deleted status. 
 	 * 
 	 *  @param s The current user session
+	 * @throws WPISuiteException 
 	 *  @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
 	 */
-	public void deleteAll(Session s)  {
+	public void deleteAll(Session s) throws WPISuiteException  {
+		ensureRole(s, Role.ADMIN);
 		db.deleteAll(new Commitment(null, null, null), s.getProject());
 	}
 

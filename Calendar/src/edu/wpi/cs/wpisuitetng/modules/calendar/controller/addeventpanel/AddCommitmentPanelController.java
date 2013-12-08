@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+
 public class AddCommitmentPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
@@ -59,6 +61,7 @@ public class AddCommitmentPanelController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MainCalendarController.getInstance().updateAll();
 		if (e.getSource().getClass().equals(JButton.class)) {
 			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
 		}

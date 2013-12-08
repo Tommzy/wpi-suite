@@ -15,10 +15,10 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ToolbarPanel.
  */
@@ -67,7 +67,7 @@ public class ToolbarPanel extends JPanel {
 
     ToolbarController.getInstance().setAddEventButton(btnAddEvent);
     btnAddEvent.addActionListener(ToolbarController.getInstance());
-    
+    btnScheduleEvent.addActionListener(new GetCommitmentController());
     ToolbarController.getInstance().setAddCommitmentButton(btnAddTask);
     btnAddTask.addActionListener(ToolbarController.getInstance());
   }

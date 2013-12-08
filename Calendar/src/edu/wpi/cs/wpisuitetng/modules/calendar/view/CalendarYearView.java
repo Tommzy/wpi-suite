@@ -23,47 +23,52 @@ import net.miginfocom.swing.MigLayout;
 
 public class CalendarYearView extends JPanel{
 
+	/** The next year. */
 	private JButton nextYear;
-	private JButton prevYear;
-	private JButton today;
-	CalendarMonth calendarMonth;
 	
+	/** The prev year. */
+	private JButton prevYear;
+	
+	/** The today. */
+	private JButton today;
+	
+	/** The calendar month. */
+	CalendarMonth calendarMonth;
+
 	/**
 	 * Constructor for IterationCalendarPanel.
-	 * @param parent IterationPanel
-	 * @param vm ViewMode
-	 * @param displayIteration Iteration
+	 *
 	 */
 	public CalendarYearView()
 	{
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		JPanel buttonPanel = new JPanel();
-		
+
 		nextYear = new JButton(">");
 		nextYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
+
 		today = new JButton ("Today");
 		today.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		
+
 		prevYear = new JButton("<");
 		prevYear.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
 		setupButtonListeners();
-		
+
 		buttonPanel.add(prevYear);
 		buttonPanel.add(today);
 		buttonPanel.add(nextYear);
-		
+
 		add(buttonPanel);
-		 		
+
 		calendarMonth = new CalendarMonth();
 		calendarMonth.setFont(calendarMonth.getFont().deriveFont(6f));
 		add(calendarMonth);
-		
-					
+
+
 	}
-	
+
 	/**
 	 * Adds action listeners to the year control buttons for the calendar view.
 	 */
@@ -76,23 +81,23 @@ public class CalendarYearView extends JPanel{
 				next();
 			}	
 		});
-		
+
 		prevYear.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				previous();
 			}
 		});
-		
+
 		today.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				today();
 			}
 		});
-		
+
 	}
-	
+
 	/**
 	 * Switches the calendar to the previous year.
 	 */
@@ -102,9 +107,9 @@ public class CalendarYearView extends JPanel{
 		cal.add(Calendar.YEAR, -1);
 		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
-	
+
 	/**
-	 * Switches the calendar to the current date
+	 * Switches the calendar to the current date.
 	 */
 	public void today()
 	{
@@ -113,7 +118,7 @@ public class CalendarYearView extends JPanel{
 		cal.set(Calendar.DATE, 1);
 		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
-	
+
 	/**
 	 * Switches the calendar to the next year.
 	 */
@@ -123,37 +128,43 @@ public class CalendarYearView extends JPanel{
 		cal.add(Calendar.YEAR, +1);
 		calendarMonth.setFirstDisplayedDay(cal.getTime());
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see javax.swing.JComponent#paint(java.awt.Graphics)
+	 */
 	public void paint(Graphics g) {
 		if (this.getParent() == null) {
 			return;
 		}
-		
+
 		calendarMonth.setFont(calendarMonth.getFont().deriveFont(
 				Math.max(8f,(float) this.getParent().getSize().width / 85)));
-		
+
 		super.paint(g);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see java.awt.Component#repaint()
+	 */
 	public void repaint() {
 		if (this.getParent() == null) {
 			return;
 		}
-		
+
 		if (Math.abs(calendarMonth.getHeight() - getHeight()) < 30) {
 			this.setPreferredSize(new Dimension
 					((int)(this.getParent().getSize().getWidth() * 0.9),
 							(int)(this.getParent().getSize().getHeight() * 0.95)));
 			System.out.println(1);
 		} else {
-			
-		this.setPreferredSize(new Dimension
-				((int)(this.getParent().getSize().getWidth() * 0.9),
-				Math.max((int)(this.getParent().getSize().getWidth() * 0.9 * 0.75) ,
-				(int)(this.getParent().getSize().getHeight() * 0.95)))
-		);
-		
+
+			this.setPreferredSize(new Dimension
+					((int)(this.getParent().getSize().getWidth() * 0.9),
+							Math.max((int)(this.getParent().getSize().getWidth() * 0.9 * 0.75) ,
+									(int)(this.getParent().getSize().getHeight() * 0.95)))
+					);
+
 		}
 	}
-	
+
 }

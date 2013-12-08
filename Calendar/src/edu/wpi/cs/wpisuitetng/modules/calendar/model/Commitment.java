@@ -1,21 +1,60 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.gson.Gson;
 
 import edu.wpi.cs.wpisuitetng.Permission;
+import edu.wpi.cs.wpisuitetng.modules.AbstractModel;
 import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-public class Commitment implements Model {
 
-	String name;
-	GregorianCalendar startTime;
-	String description;
-	int id = -1;
+/**
+ * Basic Commitment class that contains the data to be stored for a Commitment
+ * 
+ * 
+ * @version $Revision: 1.0 $
+ * @author Hui Zheng
+ */
+public class Commitment implements Model{
+
+	private String name;
+	private GregorianCalendar startTime;
+	private String description;
+	private int id = -1;
+	
+	
+
+	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+	private Project project;
+	
+	public Commitment(String name, GregorianCalendar startTime,
+			String description) {
+		this.name = name;
+		this.startTime = startTime;
+		this.description = description;
+		// TODO Auto-generated constructor stub
+	}
+	
+	/**
+	 * Getter function for id
+	 * @return id
+	 */
 
 	public int getId() {
 		return id;
@@ -25,37 +64,56 @@ public class Commitment implements Model {
 		this.id = id;
 	}
 
-	public Commitment(String name, GregorianCalendar calendar,
-			String description) {
-		this.name = name;
-		this.startTime = calendar;
-		this.description = description;
-		// super(name, startTime, description);
-		// TODO Auto-generated constructor stub
+
+
+	/**
+	 * Setter function of startTime
+	 * @param startTime
+	 */
+	public void setStartTime(GregorianCalendar startTime) {
+		this.startTime = startTime;
+	}
+	
+    /**
+     * Determine if the Commitment is active during a certain time stamp
+     * For GUI use
+     * @param when the time stamp
+     * @return true if active during the time stamp, false otherwise
+     */
+    public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
+        // On Calendar view, commitment will be shown as an one-hour long block. 
+    	GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
+    	endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
+    	if (when.before(startTime) || when.after(endTimeOnGUI)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+	
+	@Override
+	public Permission getPermission(User u) 
+	{
+		
+		return permissionMap.get(u);
 	}
 
 	@Override
-	public Permission getPermission(User u) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setPermission(Permission p, User u) 
+	{
+		permissionMap.put(u, p);
 	}
-
-	@Override
-	public void setPermission(Permission p, User u) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public Project getProject() {
-		// TODO Auto-generated method stub
-		return null;
+		return project;
 	}
-
+	
 	@Override
 	public void setProject(Project p) {
-		// TODO Auto-generated method stub
-
+		this.project = p;
 	}
 
 	@Override
@@ -97,6 +155,11 @@ public class Commitment implements Model {
 	}
 
 	public String toString() {
+		if (startTime.equals(null)){
+			return "D:LKJHGFLlkhghjh";
+		}
+			
+//		return "Temp Date";
 		return startTime.get(GregorianCalendar.YEAR) + " "
 				+ startTime.get(GregorianCalendar.MONTH) + " "
 				+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
@@ -111,23 +174,5 @@ public class Commitment implements Model {
 		return description;
 	}
 
-	/**
-	 * Determine if the Commitment is active during a certain time stamp For GUI
-	 * use
-	 * 
-	 * @param calendar
-	 *            the time stamp
-	 * @return true if active during the time stamp, false otherwise
-	 */
-	public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
-		// On Calendar view, commitment will be shown as an one-hour long block.
-		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
-		endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
-		if (calendar.before(startTime) || calendar.after(endTimeOnGUI)) {
-			return false;
-		} else {
-			return true;
-		}
-	}
 
 }

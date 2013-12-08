@@ -51,7 +51,7 @@ public class MainCalendarController implements ActionListener{
 	CalendarWeekView weekView;
 	MainView mainView;
 	
-	// contains the year view, month view and 
+	// contains the year view, month view
 	private Collection<Updatable> updateList = new ArrayList<Updatable>();
 	
 	public static MainCalendarController instance;
@@ -69,20 +69,7 @@ public class MainCalendarController implements ActionListener{
 	/**
 	 * Create a MainCalendarController. 
 	 * 
-	 * @param model 
-	 * @param view
 	 */
-	/*
-	public MainCalendarController(CalendarItemListModel model, MainCalendarView view) {
-		this.model = model;
-		this.view = view;
-		yearView = new CalendarYearView();
-		monthView = new MonthView();
-		dayView = new CalendarDayView(sampleEvent, view.getCalendarView());
-		weekView = new CalendarWeekView(sampleEvent);
-		
-	}
-	*/
 	public MainCalendarController() {
 		
 	}
@@ -254,10 +241,9 @@ public class MainCalendarController implements ActionListener{
 			itr.next().update();
 		}
 	}
-
-	public void setDateController(DateController originalDate) {
+	
+	public void setDateController(DateController originalDate){
 		dateController = originalDate.clone();
 	}
-	
 	
 }
