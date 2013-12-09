@@ -32,47 +32,29 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
-/** This is the entity manager for Commitments in the CommitmentEntityManager module. The provided
- *  methods include functionality for creating, updating, getting specific Commitments, and 
- *  getting all Commitments. Current, Commitments are project specific, so
- *  Commitments pulled from the database will only be for the current current project.
- *     
- * This is the entity manager for the Commitment in the
- * Calendar module.
- *
- * @version $Revision: 1.0 $
- * @author Hui Zheng & EJ
+// TODO: Auto-generated Javadoc
+/**
+ * The Class CommitmentEntityManager.
  */
 public class CommitmentEntityManager implements EntityManager<Commitment> {
-	/** The database */
+	
+	/** The db. */
 	private Data db;
 
 
 
-	/** Constructs the entity manager. This constructor is called by
-	 * {@link edu.wpi.cs.wpisuitetng.ManagerLayer#ManagerLayer()}. 
-	 * To make sure this happens, be sure to place add this entity 
-	 * manager to the map in the ManagerLayer file.
-	 * 
-	 * NOTE: This expects that the data passed is valid and does no error checking!
+	/**
+	 * Instantiates a new commitment entity manager.
 	 *
-	 * @param data Database in the core
+	 * @param data the data
 	 */	
 	public CommitmentEntityManager(Data data) {
 		db = data;
 
 	}
 
-	/** Takes an encoded Commitment(as a string) and converts it back to a 
-	 *  Commitment and saves it in the database
-	 *  
-	 *	@param s The current user session
-	 *	@param content The Commitment that comes in the form of a string to be recreated
-	 *	@return the Commitment that originally came as a string
-	 * 	@throws BadRequestException "The Commitment creation string had invalid formatting. Entity String: " + content
-	 * 	@throws ConflictException "A Commitment with the given ID already exists. Entity String: " + content
-	 * 	@throws WPISuiteException "Unable to save Commitment."
-	 * 	@see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(Session, String)
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Commitment makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
@@ -92,12 +74,8 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		return newCommitment;
 	}
 
-	/** Saves the given Commitment into the database if possible.
-	 * 
-	 *  @param s The current user session
-	 *  @param model The Commitment to be saved to the database
-	 *  @throws WPISuiteException  "Unable to save Commitment."
-	 *  **********************************HERE WE Changed The Code!!!!!!************************************************
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
 	public void save(Session s, Commitment model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
@@ -112,11 +90,12 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 
 	/**
-	 * Ensures that a user is of the specified role
+	 * Ensure role.
+	 *
 	 * @param session the session
-	 * @param role the role being verified
-
-	 * @throws WPISuiteException user isn't authorized for the given role */
+	 * @param role the role
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
 		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if(!user.getRole().equals(role)) {
@@ -146,10 +125,11 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	//	}
 
 
-	/** Takes a Commitment and assigns a unique id if necessary
-	 * 
-	 * @param commitment The Commitment that possibly needs a unique id
-	 * @throws WPISuiteException "Count failed"
+	/**
+	 * Assign unique id.
+	 *
+	 * @param commitment the commitment
+	 * @throws WPISuiteException the wPI suite exception
 	 */
 	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
@@ -159,11 +139,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		//		commitment.setId(Count() + 1);
 	}
 
-	/** Returns the number of Commitments currently in the database. Disregards
-	 *  the current user session
-	 * 
-	 * @return The number of Commitments currently in the database
-	 * @throws WPISuiteException "Retrieve all failed"
+	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
 	public int Count() throws WPISuiteException {
@@ -172,11 +148,8 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		return db.retrieveAll(new Commitment(null, null, null)).size();
 	}
 
-	/** Takes a session and returns an array of all the Commitments contained
-	 * 
-	 * @param s The current user session
-	 * @return An array of all Commitments in the Database
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(Session)
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	public Commitment[] getAll(Session s)  {
 		// Ask the database to retrieve all objects of the type Commitment.
@@ -188,15 +161,8 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 	}
 
-	/**  For the current user session, Takes a specific id for a Commitment and returns it 
-	 *   in an array.	
-	 *  
-	 *  @param s  The current user session
-	 *  @param id Points to a specific Commitment
-	 *  @return An array of Commitments
-	 *	@throws NotFoundException  "The Commitment with the specified id was not found:" + intId
-	 *	@throws WPISuiteException  "There was a problem retrieving from the database."
-	 *	@see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(Session, String)
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Commitment[] getEntity(Session s, String id) throws NotFoundException, WPISuiteException {
 
@@ -221,26 +187,17 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		return Commitments;
 	}
 
-	/**  Updates a Commitment already in the database
-	 *   
-	 *  @param s The current user session
-	 *  @param content The Commitment to be update + the updates
-	 * 	@return the changed Commitment
-	 *  @throws WPISuiteException  "There was a problem retrieving from the database."   or "Null session."
-	 *  @throws NotFoundException  "The Commitment with the specified id was not found:" + intId
-	 *	@see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(Session, String)
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Commitment update(Session s, String content) throws WPISuiteException {
 		// If there is no session
 		if(s == null){
 			throw new WPISuiteException("Null session.");
 		}
+		// The following code was modified from the requirement entity manager
 		Commitment updatedCommitment = Commitment.fromJSON(content);
-		/*
-		 * Because of the disconnected objects problem in db4o, we can't just save Requirements.
-		 * We have to get the original defect from db4o, copy properties from updatedRequirement,
-		 * then save the original Requirement again.
-		 */
+
 		List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId(), s.getProject());
 		if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
 			throw new BadRequestException("Commitment with ID does not exist.");
@@ -248,7 +205,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 		Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
 
-		// copy values to old requirement and fill in our changeset appropriately
+
 		existingCommitment.copy(updatedCommitment);
 
 		if(!db.save(existingCommitment, s.getProject())) {
@@ -258,119 +215,56 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		return existingCommitment;
 
 	} 
-	/*
-		// Try to parse the message
-		final Commitment updatedCommitment;
-		try {
-			updatedCommitment = Commitment.fromJSON(content);
-		} catch(JsonSyntaxException e){ // the JSON conversion failed
-			throw new BadRequestException("The Commitment update string had invalid formatting. Entity String: " + content);			
-		}
-		/*
-		// Pull out the name of the current user
-		String currentUser = s.getUser().getName();
-		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
-		Commitment oldReq = getEntity(s, Integer.toString(  reqUpdate.getId()  )  )[0];
 
-		oldReq.setStartTime(reqUpdate.getStartTime());
-		oldReq.setName(reqUpdate.getName());
-		oldReq.setDescription(reqUpdate.getDescription());
+
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
-	//TODO put this back in
-	// Copy new field values into old Commitment. This is because the "same" model must
-	// be saved back into the database
-	//		oldReq.updateReq(reqUpdate);
+	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
+		ensureRole(s, Role.ADMIN);
+		Commitment oldReq = getEntity(s,   id    )[0];
 
-	// Attempt to save. WPISuiteException may be thrown
-	//this.save(s,updatedCommitment);
+		if (db.delete(oldReq) == oldReq){
+			return true; // the deletion was successful
+		}	    
+		return false; // The deletion was unsuccessful
+	}
 
-	//return updatedCommitment;
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(edu.wpi.cs.wpisuitetng.Session)
+	 */
+	public void deleteAll(Session s) throws WPISuiteException  {
+		ensureRole(s, Role.ADMIN);
+		db.deleteAll(new Commitment(null, null, null), s.getProject());
+	}
 
+	//The following methods are not implemented but required by the "EntityManager" interface:
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
+	 */
+	public String advancedGet(Session s, String[] args)
+			throws WPISuiteException {
+		throw new NotImplementedException();
+	}
 
-/** Deletes a Commitment from the database permanently. It is not advised that this
- *  implementation be used because the current unique ID system depends on all Commitments
- *  existing in the DB forever. In the future, a stronger unique ID system could be implemented
- *  and this method would be valuable at that time. In the current GUI implementation, there is 
- *  no way to delete a Commitment other than setting its status, in which case it still 
- *  exists, but has a deleted status. 
- *  
- *  @param s The current user session
- *  @param id The unique of the Commitment to delete
- *  @return TRUE if successful or FALSE if it fails
- *	@throws WPISuiteException  "There was a problem retrieving from the database."   or "Null session."
- *  @throws NotFoundException  "The Commitment with the specified id was not found:" + intId
- *	@see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String)
- */
-public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-	// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
-	ensureRole(s, Role.ADMIN);
-	Commitment oldReq = getEntity(s,   id    )[0];
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
+	 */
+	public String advancedPut(Session s, String[] args, String content)
+			throws WPISuiteException {
+		throw new NotImplementedException();
+	}
 
-	if (db.delete(oldReq) == oldReq){
-		return true; // the deletion was successful
-	}	    
-	return false; // The deletion was unsuccessful
-}
-
-/** Deletes ALL Commitment from the database permanently. It is not advised that this
- *  implementation be used because the current unique ID system depends on all Commitments
- *  existing in the DB forever. In the future, a stronger unique ID system could be implemented
- *  and this method would be valuable at that time. In the current GUI implementation, there is 
- *  no way to delete a Commitment other than setting its status, in which case it still 
- *  exists, but has a deleted status. 
- * 
- *  @param s The current user session
- * @throws WPISuiteException 
- *  @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
- */
-public void deleteAll(Session s) throws WPISuiteException  {
-	ensureRole(s, Role.ADMIN);
-	db.deleteAll(new Commitment(null, null, null), s.getProject());
-}
-
-//The following methods are not implemented but required by the "EntityManager" interface:
-
-/** Method advancedGet. (Not implemented but required by the "EntityManager" interface)
- * @param s Session
- * @param args String[]
- * @return String
- * @throws WPISuiteException
- * @throws WPISuiteException, NotImplementedException
- * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
- */
-public String advancedGet(Session s, String[] args)
-		throws WPISuiteException {
-	throw new NotImplementedException();
-}
-
-/** Method advancedPut. (Not implemented but required by the "EntityManager" interface)
- * @param s Session
- * @param args String[]
- * @param content String
- * @return String
- * @throws WPISuiteException
- * @throws WPISuiteException, NotImplementedException
- * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
- */
-public String advancedPut(Session s, String[] args, String content)
-		throws WPISuiteException {
-	throw new NotImplementedException();
-}
-
-/** Method advancedPost. (Not implemented but required by the "EntityManager" interface)
- * @param s Session
- * @param string String
- * @param content String
- * @return String
- * @throws WPISuiteException
- * @throws WPISuiteException, NotImplementedException
- * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
- */
-public String advancedPost(Session s, String string, String content)
-		throws WPISuiteException {
-	throw new NotImplementedException();
-}
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
+	 */
+	public String advancedPost(Session s, String string, String content)
+			throws WPISuiteException {
+		throw new NotImplementedException();
+	}
 
 
 }
