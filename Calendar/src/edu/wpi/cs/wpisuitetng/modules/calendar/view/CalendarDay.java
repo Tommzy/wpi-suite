@@ -34,7 +34,9 @@ import javax.swing.Box;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -526,8 +528,7 @@ public class CalendarDay extends JPanel {
 		
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			// TODO Auto-generated method stub
-			if (e.getClickCount() == 2) {
+			if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
 				System.out.println("edit commitment mouse listener");
 				AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
 				newCommitmentPanel.populateCommitment(commitment);
@@ -535,6 +536,13 @@ public class CalendarDay extends JPanel {
 				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
 				AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
 		        newCommitmentPanel.initiateFocus();
+			}
+			else if (e.getButton() == MouseEvent.BUTTON3) {
+				JPopupMenu menu = new JPopupMenu();
+				JMenuItem anItem = new JMenuItem(" Delete ");
+			    
+				menu.add(anItem);    
+		        menu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
 
