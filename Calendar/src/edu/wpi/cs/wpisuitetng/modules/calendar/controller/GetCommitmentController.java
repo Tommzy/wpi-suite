@@ -60,7 +60,7 @@ public class GetCommitmentController implements ActionListener {
 	 * @param Commitments an array of Commitments received from the server
 	 */
 	public void receivedCommitments(Commitment[] Commitments) {
-		System.out.println(Commitments.length);
+//		System.out.println(Commitments.length);
 		// Empty the local model to eliminate duplications
 		CommitmentsModel.getInstance().emptyModel();
 		
@@ -69,7 +69,7 @@ public class GetCommitmentController implements ActionListener {
 			
 			// add the Commitments to the local model
 			CommitmentsModel.getInstance().addCommitments(Commitments);
-			System.out.println(CommitmentsModel.getInstance().getAllCommitment().size());
+//			System.out.println(CommitmentsModel.getInstance().getAllCommitment().size());
 		}
 	}
 

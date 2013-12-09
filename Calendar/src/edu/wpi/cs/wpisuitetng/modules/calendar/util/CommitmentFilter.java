@@ -1,12 +1,16 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+import javax.swing.JButton;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 /**
@@ -34,8 +38,10 @@ public class CommitmentFilter {
 	 */
 	public Collection<Commitment> getCommitmentList() {
 		try {
+			JButton button = new JButton("");
+			button.addActionListener(new GetCommitmentController());
+			button.doClick();
 			
-		
 			Collection<Commitment> list = CommitmentsModel.getInstance().getAllCommitment();
 //			Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
 			Collection<Commitment> cmtList = new ArrayList<Commitment>();
@@ -47,7 +53,7 @@ public class CommitmentFilter {
 					cmtList.add(cmt);
 				}
 			}
-			System.out.println("SUCCESS PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
+//			System.out.println("SUCCESS PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
 			return cmtList;
 		} catch (NullPointerException e) {
 			System.out.println("commitment filter null pointer exception");

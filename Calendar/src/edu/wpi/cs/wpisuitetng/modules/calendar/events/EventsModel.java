@@ -75,10 +75,10 @@ public class EventsModel extends AbstractListModel{
 	public void addEvent(Event newEvent){
 		
 		this.Events.add(newEvent);
-		
-		for (int i = 0; i < Events.size(); i++) {
-			System.out.println("Commitment out put    " + Events.get(i).toString());
-		}
+//		
+//		for (int i = 0; i < Events.size(); i++) {
+//			System.out.println("Commitment out put    " + Events.get(i).toString());
+//		}
 	}
 	
 	/**
@@ -106,9 +106,9 @@ public class EventsModel extends AbstractListModel{
 	 * @return the all events
 	 */
 	public List<Event> getAllEvent() {
-		for (int i = 0; i < Events.size(); i++) {
-			System.out.println("Commitment out put    " + Events.get(i).toString());
-		}
+//		for (int i = 0; i < Events.size(); i++) {
+//			System.out.println("Commitment out put    " + Events.get(i).toString());
+//		}
 		return Events;
 	}
 	

@@ -47,7 +47,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 public class CalendarDayView extends JPanel implements Updatable{
 	CalendarDay[] day = new CalendarDay[2];
 	JLabel header = new JLabel("<HTML><div style = 'font-size:10'>&nbsp;<br />&nbsp;</div></HTML>");
-	DateController date = MainCalendarController.getInstance().getDateController();
 	private JButton previousButton = new JButton("<"), 
 			nextButton = new JButton(">"), todayButton = new JButton("Today");
 	JPanel dayPanel = new JPanel();
@@ -69,19 +68,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		btnPanel.add(nextButton, "gapleft 10");
 		setupButtonListeners();
 
-		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
-		dayPanel.setPreferredSize(new Dimension(1200, 1050));
-		day[0] = new CalendarDay(null);
-		day[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
-		day[0].add(header, BorderLayout.NORTH);
-		dayPanel.add(day[0]);
-
-		
-		day[1] = new CalendarDay(date);
-		day[1].initHeader();
-		day[1].view.setPreferredSize(new Dimension(1200, 450));
-		dayPanel.add(day[1]);
+		populateDayView();
 		
 		
 		add(btnPanel, "wrap");
@@ -101,18 +88,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		btnPanel.add(nextButton, "gapleft 10");
 		setupButtonListeners();
 
-		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
-		day[0] = new CalendarDay(null);
-		day[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
-		day[0].add(header, BorderLayout.NORTH);
-		dayPanel.add(day[0]);
-
-		
-		day[1] = new CalendarDay(date);
-		day[1].initHeader();
-		day[1].view.setPreferredSize(new Dimension(1200, 450));
-		dayPanel.add(day[1]);
+		populateDayView();
 		
 		
 		add(btnPanel, "wrap");
@@ -137,18 +113,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		btnPanel.add(nextButton, "gapleft 10");
 		setupButtonListeners();
 
-		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
-		day[0] = new CalendarDay(null);
-		day[0].initTimeLabels();
-		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.lightGray));
-		day[0].add(header, BorderLayout.NORTH);
-		dayPanel.add(day[0]);
-
-		
-		day[1] = new CalendarDay(date);
-		day[1].initHeader();
-		day[1].view.setPreferredSize(new Dimension(1200, 450));
-		dayPanel.add(day[1]);
+		populateDayView();
 		
 		
 		add(btnPanel, "wrap");
@@ -226,28 +191,30 @@ public class CalendarDayView extends JPanel implements Updatable{
 	}
 	
 	public void updateDayView() {
+		System.out.println("updating day view");
 		dayPanel.removeAll();
 		DateController date = MainCalendarController.getInstance().getDateController();
+		populateDayView();
+		revalidate();
+		repaint();
+	}
+	
+	private void populateDayView() {
 		dayPanel.setPreferredSize(new Dimension(1200, 800));
-
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
 		dayPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0, Color.lightGray));
-		day[0] = new CalendarDay(date);
+		day[0] = new CalendarDay(null);
 		day[0].initTimeLabels();
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		day[0].add(header, BorderLayout.NORTH);
 		day[0].view.setPreferredSize(new Dimension(75,450));
 		dayPanel.add(day[0]);
 		
-		day[1] = new CalendarDay(date);
+		day[1] = new CalendarDay(MainCalendarController.getInstance().getDateController());
 		day[1].initHeader();
-//		day[1].initTimeLabels();
-//		day[0].setVisible(false);
 		day[1].view.setPreferredSize(new Dimension(1200,450));
-		dayPanel.add(day[1], "width :100%:");
+		dayPanel.add(day[1]);
 		parseCommitment();
-		revalidate();
-		repaint();
 	}
 	
 	public Collection<Commitment> getDayViewCommitmentList() {
@@ -267,6 +234,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		
 		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
 		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();
+		System.out.println("cmtList size " + cmtList.size());
 		this.cmtList = cmtList;
 		Iterator<Commitment> itr = cmtList.iterator();
 		while (itr.hasNext()) {

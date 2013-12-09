@@ -249,7 +249,6 @@ public class CalendarDay extends JPanel {
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newCommitment.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newCommitment.getMinimumSize().height));
 		newCommitment.setToolTipText(formatToolTip(commitment));
-		System.out.println("before listener!");
 		newCommitment.addMouseListener(new editCommitmentListener(commitment));
 		
 		int labelSpan = COMMITMENT_TIME_SPAN;
@@ -529,7 +528,6 @@ public class CalendarDay extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
-				System.out.println("edit commitment mouse listener");
 				AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
 				newCommitmentPanel.populateCommitment(commitment);
 				AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);

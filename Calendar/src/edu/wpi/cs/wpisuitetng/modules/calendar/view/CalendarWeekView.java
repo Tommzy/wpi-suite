@@ -275,7 +275,6 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		week[0].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));
-		System.out.println(0 + " " + week[0].getPreferredSize().getHeight());
 		date = setFirstDayOfWeek(date);
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay(date);
@@ -283,7 +282,6 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].initHeader();
 			week[i].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));	
 			weekPanel.add(week[i]);
-			System.out.println(i + " " + week[i].getPreferredSize().getHeight());
 		}
 //		week[1].initTimeLabels();
 //    week[0].setVisible(false);
@@ -339,40 +337,40 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 * @param args the arguments
 	 */
 	public static void main(String[] args) {
-			JFrame frame = new JFrame();
-			CalendarWeekView d = new CalendarWeekView();
-			d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
-			d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-			d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-			d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-			d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
-			
-			JScrollPane scroll = new JScrollPane(d);
-			
-			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			frame.add(scroll);
-			
-			frame.pack();
-			frame.setVisible(true);
+		JFrame frame = new JFrame();
+		CalendarWeekView d = new CalendarWeekView();
+		d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
+		d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
+		d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+		d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+		d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
 
-		}
+		JScrollPane scroll = new JScrollPane(d);
 
-		/* (non-Javadoc)
-		 * @see edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable#update()
-		 */
-		@Override
-		public void update() {
-			updateWeekView();
-		}
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.add(scroll);
 
-		/**
-		 * Gets the day view commitment list.
-		 *
-		 * @return the day view commitment list
-		 */
-		public Collection<Commitment> getDayViewCommitmentList() {
-			return cmtList;
-		}
+		frame.pack();
+		frame.setVisible(true);
+
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable#update()
+	 */
+	@Override
+	public void update() {
+		updateWeekView();
+	}
+
+	/**
+	 * Gets the day view commitment list.
+	 *
+	 * @return the day view commitment list
+	 */
+	public Collection<Commitment> getDayViewCommitmentList() {
+		return cmtList;
+	}
 		
 	
 }

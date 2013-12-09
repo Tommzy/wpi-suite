@@ -255,8 +255,6 @@ public class AddEventPanel extends JPanel {
 			
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO Auto-generated method stub
-				System.out.println("wtf");
 				String startDate = (String) startDateTextField.getValue();
 				String endDate = (String) endDateTextField.getValue(); 
 				DateFormat df = new SimpleDateFormat("MM/dd/yyyy");

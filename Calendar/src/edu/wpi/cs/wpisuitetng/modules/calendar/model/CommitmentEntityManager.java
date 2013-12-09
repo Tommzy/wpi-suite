@@ -182,7 +182,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
-		System.out.println("Here is the session passed into the getAll() method" + s.toString());
+//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
 
 	}

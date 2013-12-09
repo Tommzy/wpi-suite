@@ -69,7 +69,7 @@ public class AddEventController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		//addTestToDatabase();
-		System.out.println("this is event!----->" + event.getActionCommand().toString());
+//		System.out.println("this is event!-s---->" + event.getActionCommand().toString());
 		// Get the text that was entered
 		String name = (String) eventDetails.get("name");
 		GregorianCalendar startTime = (GregorianCalendar) eventDetails.get("startDateTime");

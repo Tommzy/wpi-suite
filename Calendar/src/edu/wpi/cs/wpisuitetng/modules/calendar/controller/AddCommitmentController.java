@@ -67,7 +67,7 @@ public class AddCommitmentController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		
 		//addTestToDatabase();
-		System.out.println("this is event!----->" + event.getActionCommand().toString());
+//		System.out.println("this is event!----->" + event.getActionCommand().toString());
 		// Get the text that was entered
 //		String name =  commitmentToBeAdded.getName();
 //		GregorianCalendar startTime = commitmentToBeAdded.getStartTime();
