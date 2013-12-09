@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+
 /** This is the entity manager for Commitments in the CommitmentEntityManager module. The provided
  *  methods include functionality for creating, updating, getting specific Commitments, and 
  *  getting all Commitments. Current, Commitments are project specific, so
@@ -108,13 +109,13 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		}
 		System.out.println("The Commitment saved!    " + model.toJSON());
 	}
-	
-	
+
+
 	/**
 	 * Ensures that a user is of the specified role
 	 * @param session the session
 	 * @param role the role being verified
-	
+
 	 * @throws WPISuiteException user isn't authorized for the given role */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
 		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
@@ -122,28 +123,28 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			throw new UnauthorizedException();
 		}
 	}
-	
-//	/**
-//	 * Ensures that a user is of the specified project
-//	 * @param session the session
-//	 * @param User the user supposed in the project
-//	 * @throws WPISuiteException user isn't authorized for the given role */
-//	
-//	private void ensureMember(Session session, User user) throws WPISuiteException {
-//		User usera[] = db.retrieve(User.class, "username", session.getUsername(), session.getProject()).toArray(new User[0]);
-//		User userb = session.getUser();
-//		
-//		
-//		System.out.println(usera.toString());
-//
-//		int counter = usera.length;
-//		for (int i = 0; i < counter; i++) {
-//			if (!usera[i].getUsername().equals(user.getUsername())) {
-//				throw new UnauthorizedException();
-//			}
-//		}
-//	}
-	
+
+	//	/**
+	//	 * Ensures that a user is of the specified project
+	//	 * @param session the session
+	//	 * @param User the user supposed in the project
+	//	 * @throws WPISuiteException user isn't authorized for the given role */
+	//	
+	//	private void ensureMember(Session session, User user) throws WPISuiteException {
+	//		User usera[] = db.retrieve(User.class, "username", session.getUsername(), session.getProject()).toArray(new User[0]);
+	//		User userb = session.getUser();
+	//		
+	//		
+	//		System.out.println(usera.toString());
+	//
+	//		int counter = usera.length;
+	//		for (int i = 0; i < counter; i++) {
+	//			if (!usera[i].getUsername().equals(user.getUsername())) {
+	//				throw new UnauthorizedException();
+	//			}
+	//		}
+	//	}
+
 
 	/** Takes a Commitment and assigns a unique id if necessary
 	 * 
@@ -153,9 +154,9 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
 			commitment.setId(Count() + 1); // Makes first Commitment have id = 1
-//			commitment.setId(300);
+			//			commitment.setId(300);
 		}
-//		commitment.setId(Count() + 1);
+		//		commitment.setId(Count() + 1);
 	}
 
 	/** Returns the number of Commitments currently in the database. Disregards
@@ -182,7 +183,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
-//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
+		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
 
 	}
@@ -233,8 +234,31 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// If there is no session
 		if(s == null){
 			throw new WPISuiteException("Null session.");
-		} 
+		}
+		Commitment updatedCommitment = Commitment.fromJSON(content);
+		/*
+		 * Because of the disconnected objects problem in db4o, we can't just save Requirements.
+		 * We have to get the original defect from db4o, copy properties from updatedRequirement,
+		 * then save the original Requirement again.
+		 */
+		List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId(), s.getProject());
+		if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
+			throw new BadRequestException("Commitment with ID does not exist.");
+		}
 
+		Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
+
+		// copy values to old requirement and fill in our changeset appropriately
+		existingCommitment.copy(updatedCommitment);
+
+		if(!db.save(existingCommitment, s.getProject())) {
+			throw new WPISuiteException();
+		}
+
+		return existingCommitment;
+
+	} 
+	/*
 		// Try to parse the message
 		final Commitment updatedCommitment;
 		try {
@@ -251,101 +275,102 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		oldReq.setStartTime(reqUpdate.getStartTime());
 		oldReq.setName(reqUpdate.getName());
 		oldReq.setDescription(reqUpdate.getDescription());
-		*/
-		//TODO put this back in
-		// Copy new field values into old Commitment. This is because the "same" model must
-		// be saved back into the database
-//		oldReq.updateReq(reqUpdate);
-
-		// Attempt to save. WPISuiteException may be thrown
-		this.save(s,updatedCommitment);
-
-		return updatedCommitment;
-	}
-
-	/** Deletes a Commitment from the database permanently. It is not advised that this
-	 *  implementation be used because the current unique ID system depends on all Commitments
-	 *  existing in the DB forever. In the future, a stronger unique ID system could be implemented
-	 *  and this method would be valuable at that time. In the current GUI implementation, there is 
-	 *  no way to delete a Commitment other than setting its status, in which case it still 
-	 *  exists, but has a deleted status. 
-	 *  
-	 *  @param s The current user session
-	 *  @param id The unique of the Commitment to delete
-	 *  @return TRUE if successful or FALSE if it fails
-	 *	@throws WPISuiteException  "There was a problem retrieving from the database."   or "Null session."
-	 *  @throws NotFoundException  "The Commitment with the specified id was not found:" + intId
-	 *	@see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String)
 	 */
-	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
-		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
-		ensureRole(s, Role.ADMIN);
-		Commitment oldReq = getEntity(s,   id    )[0];
+	//TODO put this back in
+	// Copy new field values into old Commitment. This is because the "same" model must
+	// be saved back into the database
+	//		oldReq.updateReq(reqUpdate);
 
-		if (db.delete(oldReq) == oldReq){
-			return true; // the deletion was successful
-		}	    
-		return false; // The deletion was unsuccessful
-	}
+	// Attempt to save. WPISuiteException may be thrown
+	//this.save(s,updatedCommitment);
 
-	/** Deletes ALL Commitment from the database permanently. It is not advised that this
-	 *  implementation be used because the current unique ID system depends on all Commitments
-	 *  existing in the DB forever. In the future, a stronger unique ID system could be implemented
-	 *  and this method would be valuable at that time. In the current GUI implementation, there is 
-	 *  no way to delete a Commitment other than setting its status, in which case it still 
-	 *  exists, but has a deleted status. 
-	 * 
-	 *  @param s The current user session
-	 * @throws WPISuiteException 
-	 *  @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
-	 */
-	public void deleteAll(Session s) throws WPISuiteException  {
-		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Commitment(null, null, null), s.getProject());
-	}
+	//return updatedCommitment;
 
-	//The following methods are not implemented but required by the "EntityManager" interface:
-	
-	/** Method advancedGet. (Not implemented but required by the "EntityManager" interface)
-	 * @param s Session
-	 * @param args String[]
-	 * @return String
-	 * @throws WPISuiteException
-	 * @throws WPISuiteException, NotImplementedException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
-	 */
-	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
-		throw new NotImplementedException();
-	}
 
-	/** Method advancedPut. (Not implemented but required by the "EntityManager" interface)
-	 * @param s Session
-	 * @param args String[]
-	 * @param content String
-	 * @return String
-	 * @throws WPISuiteException
-	 * @throws WPISuiteException, NotImplementedException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
-	 */
-	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
-		throw new NotImplementedException();
-	}
 
-	/** Method advancedPost. (Not implemented but required by the "EntityManager" interface)
-	 * @param s Session
-	 * @param string String
-	 * @param content String
-	 * @return String
-	 * @throws WPISuiteException
-	 * @throws WPISuiteException, NotImplementedException
-	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
-	 */
-	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
-		throw new NotImplementedException();
-	}
+/** Deletes a Commitment from the database permanently. It is not advised that this
+ *  implementation be used because the current unique ID system depends on all Commitments
+ *  existing in the DB forever. In the future, a stronger unique ID system could be implemented
+ *  and this method would be valuable at that time. In the current GUI implementation, there is 
+ *  no way to delete a Commitment other than setting its status, in which case it still 
+ *  exists, but has a deleted status. 
+ *  
+ *  @param s The current user session
+ *  @param id The unique of the Commitment to delete
+ *  @return TRUE if successful or FALSE if it fails
+ *	@throws WPISuiteException  "There was a problem retrieving from the database."   or "Null session."
+ *  @throws NotFoundException  "The Commitment with the specified id was not found:" + intId
+ *	@see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteEntity(Session, String)
+ */
+public boolean deleteEntity(Session s, String id) throws WPISuiteException {
+	// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
+	ensureRole(s, Role.ADMIN);
+	Commitment oldReq = getEntity(s,   id    )[0];
+
+	if (db.delete(oldReq) == oldReq){
+		return true; // the deletion was successful
+	}	    
+	return false; // The deletion was unsuccessful
+}
+
+/** Deletes ALL Commitment from the database permanently. It is not advised that this
+ *  implementation be used because the current unique ID system depends on all Commitments
+ *  existing in the DB forever. In the future, a stronger unique ID system could be implemented
+ *  and this method would be valuable at that time. In the current GUI implementation, there is 
+ *  no way to delete a Commitment other than setting its status, in which case it still 
+ *  exists, but has a deleted status. 
+ * 
+ *  @param s The current user session
+ * @throws WPISuiteException 
+ *  @see edu.wpi.cs.wpisuitetng.modules.EntityManager#deleteAll(Session)
+ */
+public void deleteAll(Session s) throws WPISuiteException  {
+	ensureRole(s, Role.ADMIN);
+	db.deleteAll(new Commitment(null, null, null), s.getProject());
+}
+
+//The following methods are not implemented but required by the "EntityManager" interface:
+
+/** Method advancedGet. (Not implemented but required by the "EntityManager" interface)
+ * @param s Session
+ * @param args String[]
+ * @return String
+ * @throws WPISuiteException
+ * @throws WPISuiteException, NotImplementedException
+ * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
+ */
+public String advancedGet(Session s, String[] args)
+		throws WPISuiteException {
+	throw new NotImplementedException();
+}
+
+/** Method advancedPut. (Not implemented but required by the "EntityManager" interface)
+ * @param s Session
+ * @param args String[]
+ * @param content String
+ * @return String
+ * @throws WPISuiteException
+ * @throws WPISuiteException, NotImplementedException
+ * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(Session, String[], String)
+ */
+public String advancedPut(Session s, String[] args, String content)
+		throws WPISuiteException {
+	throw new NotImplementedException();
+}
+
+/** Method advancedPost. (Not implemented but required by the "EntityManager" interface)
+ * @param s Session
+ * @param string String
+ * @param content String
+ * @return String
+ * @throws WPISuiteException
+ * @throws WPISuiteException, NotImplementedException
+ * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(Session, String, String)
+ */
+public String advancedPost(Session s, String string, String content)
+		throws WPISuiteException {
+	throw new NotImplementedException();
+}
 
 
 }

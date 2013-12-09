@@ -51,6 +51,14 @@ public class Commitment implements Model{
 		// TODO Auto-generated constructor stub
 	}
 	
+	public void copy(Commitment comm){
+		this.setDescription(comm.getDescription());
+		this.setId(comm.getId());
+		this.setName(comm.getName());
+		this.setProject(comm.getProject());
+		this.setStartTime(comm.getStartTime());
+	}
+	
 	/**
 	 * Getter function for id
 	 * @return id

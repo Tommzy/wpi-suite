@@ -20,7 +20,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * adding the contents of the requirement text fields to the model as a new
  * requirement.
  * @version $Revision: 1.0 $
- * @author E.J. Murphy, Andre Paon, Eric Wilcox
+ * @author 
  */
 public class UpdateRequirementController{
 	
