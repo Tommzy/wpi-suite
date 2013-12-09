@@ -41,7 +41,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
@@ -239,24 +242,25 @@ public class CalendarDay extends JPanel {
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background
-		newCommitment.setBackground(new Color(200, 240, 200));
+		newCommitment.setBackground(new Color(136, 255, 255));
 		newCommitment.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newCommitment.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newCommitment.getMinimumSize().height));
 		newCommitment.setToolTipText(formatToolTip(commitment));
-		
+		System.out.println("before listener!");
+		newCommitment.addMouseListener(new editCommitmentListener(commitment));
 		
 		int labelSpan = COMMITMENT_TIME_SPAN;
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
 
 		for (CalendarCard eventCard : calendarCards) {
-			if (commitment.isActiveDuringTimeStamp(eventCard.event.getStartTime())
-					|| commitment.isActiveDuringTimeStamp(eventCard.event.getEndTime())) {
+//			if (commitment.isActiveDuringTimeStamp(eventCard.event.getStartTime())
+//					|| commitment.isActiveDuringTimeStamp(eventCard.event.getEndTime())) {
 				conflict.add(eventCard); //Which events conflict with the new one
 				newGridX = newGridX < eventConstraint.get(eventCard).gridx? eventConstraint.get(eventCard).gridx : newGridX;
 				currentMaxWidth = currentMaxWidth < newGridX + 1? newGridX + 1: currentMaxWidth;
 				hasOverlap = true;
-			}
+//			}
 		}
 		
 		// Resize event width
@@ -285,8 +289,9 @@ public class CalendarDay extends JPanel {
 		CalendarCard eventCard = new CalendarCard(commitment, newCommitment);
 		calendarCards.add(eventCard);
 		eventConstraint.put(eventCard, cLocal);
-//		revalidate();
-//		repaint();
+		
+		revalidate();
+		repaint();
 	}
 
 	/**
@@ -512,6 +517,53 @@ public class CalendarDay extends JPanel {
 	    return text.substring(0, end) + "...";
 	}
 	
+	private class editCommitmentListener implements MouseListener {
+		Commitment commitment; 
+		
+		public editCommitmentListener (Commitment commitment) {
+			this.commitment = commitment;
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			// TODO Auto-generated method stub
+			if (e.getClickCount() == 2) {
+				System.out.println("edit commitment mouse listener");
+				AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
+				newCommitmentPanel.populateCommitment(commitment);
+				AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
+				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
+				AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+		        newCommitmentPanel.initiateFocus();
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
@@ -529,6 +581,5 @@ public class CalendarDay extends JPanel {
 		
 		frame.pack();
 		frame.setVisible(true);
-
 	}
 }

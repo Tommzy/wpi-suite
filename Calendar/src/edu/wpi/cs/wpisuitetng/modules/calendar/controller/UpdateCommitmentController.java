@@ -42,7 +42,7 @@ public class UpdateCommitmentController implements ActionListener{
 	 *
 	 * @param updatedCommitment the updated commitment
 	 */
-	private UpdateCommitmentController(Commitment updatedCommitment) {
+	public UpdateCommitmentController(Commitment updatedCommitment) {
 		observer = new UpdateCommitmentRequestObserver(this);
 		this.updatedCommitment = updatedCommitment;
 	}

@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AddCommitmentController implements ActionListener{
 
 	private final CommitmentsModel model;
-	private final HashMap<String, Object> commitmentDetails;
+	private final Commitment commitmentToBeAdded;
 	 
 	//Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
@@ -39,9 +39,9 @@ public class AddCommitmentController implements ActionListener{
 	 * @param model the model containing the messages
 	 * @param viewCommitment the view where the user enters new messages
 	 */
-	public AddCommitmentController(CommitmentsModel model, HashMap<String, Object> commitmentDetails) {
+	public AddCommitmentController(CommitmentsModel model, Commitment commitmentToBeAdded) {
 		this.model = model;
-		this.commitmentDetails = commitmentDetails;
+		this.commitmentToBeAdded = commitmentToBeAdded;
 	}
   
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
@@ -69,10 +69,10 @@ public class AddCommitmentController implements ActionListener{
 		//addTestToDatabase();
 		System.out.println("this is event!----->" + event.getActionCommand().toString());
 		// Get the text that was entered
-		String name = (String) commitmentDetails.get("name");
-		GregorianCalendar startTime = (GregorianCalendar) commitmentDetails.get("startDateTime");
-		String description = (String) commitmentDetails.get("desc");
-		String invitee = (String) commitmentDetails.get("invitee");
+//		String name =  commitmentToBeAdded.getName();
+//		GregorianCalendar startTime = commitmentToBeAdded.getStartTime();
+//		String description = (String) commitmentToBeAdded.getDescription();
+//		String invitee = (String) commitmentToBeAdded.getInvitee();
 		 
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
@@ -85,15 +85,12 @@ public class AddCommitmentController implements ActionListener{
 //		}
 		
 		// Send a request to the core to save this message
-		if(name.length() > 0){
-			Commitment sentCommitment = new Commitment(name, startTime, description);
-			// Add the message to the model
-			final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
-			request.setBody(sentCommitment.toJSON()); // put the new message in the body of the request
-			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
-			request.send(); // send the request
-			System.out.println("from AddCommitmentController." + request.getBody());
-		}
+		// Add the message to the model
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+		request.setBody(commitmentToBeAdded.toJSON()); // put the new message in the body of the request
+		request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+		System.out.println("from AddCommitmentController." + request.getBody());
 
 
 	}

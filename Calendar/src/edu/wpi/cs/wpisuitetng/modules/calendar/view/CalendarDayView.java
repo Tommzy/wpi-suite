@@ -180,6 +180,10 @@ public class CalendarDayView extends JPanel implements Updatable{
 		day[1].addEvent(event);
 	}
 	
+	private void addCommitment(Commitment commitment) {
+		day[1].addCommitment(commitment);
+	}
+	
 	private void setupButtonListeners() {
 		previousButton.addActionListener(new ActionListener() {
 			@Override
@@ -267,11 +271,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		Iterator<Commitment> itr = cmtList.iterator();
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
-			GregorianCalendar eventStartTime = cmt.getStartTime();
-			GregorianCalendar eventEndTime = (GregorianCalendar) cmt.getStartTime().clone();
-			eventEndTime.add(Calendar.HOUR, 1);
-			DayEvent dayEvent = new DayEvent(cmt.getName(), eventStartTime, eventEndTime);
-			addEvent(dayEvent);
+			addCommitment(cmt);
 			//System.out.println(cmt.getName() + " " + eventStartTime.get(GregorianCalendar.HOUR_OF_DAY) + " " + eventEndTime.get(GregorianCalendar.HOUR_OF_DAY));
 		}
 	}

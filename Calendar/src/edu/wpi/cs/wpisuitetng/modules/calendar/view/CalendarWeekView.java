@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -183,6 +182,16 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	}
 	
 	/**
+	 * Add an commitment to calendar.
+	 *
+	 * @param event Commitment to be added.
+	 * @param dayOfWeek the day of week
+	 */
+	private void addCommitment (Commitment commitment, int dayOfWeek) {
+		week[dayOfWeek].addCommitment(commitment);
+	}
+	
+	/**
 	 * Set first day of week.
 	 *
 	 * @param dc the dc
@@ -305,11 +314,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		Iterator<Commitment> itr = cmtList.iterator();
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
-			GregorianCalendar eventStartTime = cmt.getStartTime();
-			GregorianCalendar eventEndTime = (GregorianCalendar) cmt.getStartTime().clone();
-			eventEndTime.add(Calendar.HOUR, 1);
-			DayEvent dayEvent = new DayEvent(cmt.getName(), eventStartTime, eventEndTime);
-			addEvent(dayEvent, eventStartTime.get(GregorianCalendar.DAY_OF_WEEK));
+			addCommitment(cmt, cmt.getStartTime().get(GregorianCalendar.DAY_OF_WEEK));
 		}
 	}
 

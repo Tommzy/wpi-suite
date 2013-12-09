@@ -10,6 +10,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -25,6 +27,8 @@ import javax.swing.text.MaskFormatter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
@@ -38,7 +42,7 @@ import net.miginfocom.swing.MigLayout;
 public class AddCommitmentPanel extends JPanel {
 
   /** The btn submit. */
-  JButton    btnSubmit, btnCancel;
+  JButton    btnSubmit, btnUpdate, btnCancel;
 
   /** The name label. */
   JLabel     nameLabel;
@@ -138,10 +142,11 @@ public class AddCommitmentPanel extends JPanel {
 //    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
     inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     inviteeScroll.setPreferredSize(new Dimension(400, 100));
-    CommitmentsModel model = CommitmentsModel.getInstance();
+    final CommitmentsModel model = CommitmentsModel.getInstance();
 
     btnSubmit = new JButton("Submit");
     btnSubmit.setEnabled(false);
+    btnUpdate = new JButton("Update");
     btnCancel = new JButton ("Cancel");
     
     IDText = new JLabel(); 
@@ -171,14 +176,14 @@ public class AddCommitmentPanel extends JPanel {
 	startTimeTextField.setValue(getCurrentTime());
 
     contentPanel.add(nameLabel);
-    contentPanel.add(nameTextField, "span 2");
+    contentPanel.add(nameTextField, "span 3");
     contentPanel.add(nameErrMsg, "wrap");
     contentPanel.add(startDateLabel);
     contentPanel.add(startDateTextField);
     contentPanel.add(startTimeTextField);
     contentPanel.add(startDateTimeErrMsg, "wrap, span");
     contentPanel.add(dateHelpText, "cell 1 2");
-    contentPanel.add(timeHelpText, "cell 2 2");
+    contentPanel.add(timeHelpText, "cell 2 2, wrap");
     contentPanel.add(startDatePicker, "cell 1 3, wrap, span");
     // This is not in commitments anymore, still here if added back
     // contentPanel.add(locationLabel);
@@ -187,46 +192,83 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(descriptionScroll, "wrap, span 4");
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeScroll, "wrap, span 4");
-    contentPanel.add(btnSubmit);
-    contentPanel.add(btnCancel);
-    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    contentPanel.add(btnSubmit, "cell 1 6");
+    contentPanel.add(btnUpdate, "cell 2 6");
+    contentPanel.add(btnCancel, "cell 3 6");
+    
+    // Set up button listenter and properties. 
+    if (IDText.getText().equals("")) {
+    	btnUpdate.setVisible(false);
+    	btnSubmit.setVisible(true);
+    }
+    else {
+    	btnUpdate.setVisible(true);
+    	btnSubmit.setVisible(false);
+    }
+//    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+//    btnUpdate.addActionListener(AddCommitmentPanelController.getInstance());
     btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
-    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
-//    btnSubmit.addActionListener(new AddCommitmentController(model, this));
-    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
-    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
+//    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
+//    btnUpdate.addActionListener(new UpdateCommitmentController(packInfo()));
+    btnSubmit.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			((JButton)e.getSource()).addActionListener(new AddCommitmentController(model , packInfo()));
+			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
+			((JButton)e.getSource()).removeActionListener(this);
+			((JButton)e.getSource()).doClick();
+		}
+    	
+    });
+    btnUpdate.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			((JButton)e.getSource()).addActionListener(new UpdateCommitmentController(packInfo()));
+			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
+			System.out.println(packInfo().getId());
+			((JButton)e.getSource()).removeActionListener(this);
+			((JButton)e.getSource()).doClick();
+		}
+    	
+    });
+//    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
+//    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
     this.add(contentPanel);
   }
 
 
 
-  private HashMap packInfo() {
-	  HashMap<String, Object> details = new HashMap<String, Object>();
-	  // Add ID 
+  private Commitment packInfo() {
+	  // ID 
+	  int id;
 	  if (IDText.getText().equals("")) {
-		  details.put("ID", -1);
+		 id = -1;
 	  }
 	  else {
-		  details.put("ID", Integer.parseInt(IDText.getText())); 
+		  id = Integer.parseInt(IDText.getText()); 
 	  }
-	  // Add name
-	  details.put("name", nameTextField.getText());
-	  // Add Start date time
+	  // Name
+	  String name = nameTextField.getText();
+	  // Start date time
+	  GregorianCalendar startDateTime = new GregorianCalendar();
 	  try {
 		  Date tempDate = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(startDateTextField.getValue() + " " + startTimeTextField.getValue());
-		  GregorianCalendar startDateTime = new GregorianCalendar();
 		  startDateTime.setTime(tempDate);
-		  details.put("startDateTime", startDateTime);
 	  } catch (ParseException e) {
 		  System.out.println("Cannot parse date! ");
 		  e.printStackTrace();
 	  }
-	  // Add description
-	  details.put("desc", descriptionTextArea.getText());
-	  // Add Invitee
-	  details.put("invitee", inviteeTextArea.getText());
-	  
-	  return details;
+	  // Description
+	  String desc = descriptionTextArea.getText();
+	  // Invitee
+	  String invitee = inviteeTextArea.getText();
+	  Commitment commitment = new Commitment(name, startDateTime, desc);
+	  commitment.setId(id);
+	  return commitment;
   }
 
   /**
@@ -252,23 +294,43 @@ public class AddCommitmentPanel extends JPanel {
   }
   
   public String getCurrentTime() {
-		String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
-		String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
-		return hour + ":" + minute;
-	}
-	
-	private String formatInt (int i) {
-		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
-	}
-	
-	private boolean checkContent() {
-		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
-			return true;
-		}
-		else 
-			return false;
-	}
-	
+	  String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
+	  String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
+	  return hour + ":" + minute;
+  }
+
+  private String formatInt (int i) {
+	  return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
+  }
+
+  private boolean checkContent() {
+	  if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
+		  return true;
+	  }
+	  else 
+		  return false;
+  }
+  
+  public void populateCommitment (Commitment commitment) {
+	  IDText.setText(String.valueOf(commitment.getId()));
+	  nameTextField.setText(commitment.getName());
+	  descriptionTextArea.setText(commitment.getDescription());
+	  // TODO add this back when invitee getter is set up. 
+//	  inviteeTextArea.setText(commitment.getInvitee());
+	  GregorianCalendar startDateTime = commitment.getStartTime();
+	  startDateTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(startDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + startDateTime.get(GregorianCalendar.YEAR));
+	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
+	  startDatePicker.setSelectedDate(new DateController(startDateTime));
+	  if (IDText.getText().equals("")) {
+		  btnUpdate.setVisible(false);
+		  btnSubmit.setVisible(true);
+	  }
+	  else {
+		  btnUpdate.setVisible(true);
+		  btnSubmit.setVisible(false);
+	  }
+  }
+
 	private class TextVerifier extends InputVerifier {
 		JLabel errMsg; 
 		JButton btnSubmit;

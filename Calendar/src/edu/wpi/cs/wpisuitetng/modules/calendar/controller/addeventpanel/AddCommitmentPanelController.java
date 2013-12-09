@@ -11,22 +11,23 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController
 public class AddCommitmentPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
-	JButton btnSubmit;
-	JButton btnCancel;
+//	JButton btnSubmit;
+//	JButton btnUpdate;
+//	JButton btnCancel;
 
-	/**
-	 * @return the btnCancel
-	 */
-	public JButton getBtnCancel() {
-		return btnCancel;
-	}
-
-	/**
-	 * @param btnCancel the btnCancel to set
-	 */
-	public void setBtnCancel(JButton btnCancel) {
-		this.btnCancel = btnCancel;
-	}
+//	/**
+//	 * @return the btnCancel
+//	 */
+//	public JButton getBtnCancel() {
+//		return btnCancel;
+//	}
+//
+//	/**
+//	 * @param btnCancel the btnCancel to set
+//	 */
+//	public void setBtnCancel(JButton btnCancel) {
+//		this.btnCancel = btnCancel;
+//	}
 
 	public static AddCommitmentPanelController instance;
 
@@ -49,13 +50,13 @@ public class AddCommitmentPanelController implements ActionListener {
 		this.tabbedPane = tabbedPane;
 	}
 
-	public JButton getBtnSubmit() {
-		return btnSubmit;
-	}
-
-	public void setBtnSubmit(JButton btnSubmit) {
-		this.btnSubmit = btnSubmit;
-	}
+//	public JButton getBtnSubmit() {
+//		return btnSubmit;
+//	}
+//
+//	public void setBtnSubmit(JButton btnSubmit) {
+//		this.btnSubmit = btnSubmit;
+//	}
 
 
 
