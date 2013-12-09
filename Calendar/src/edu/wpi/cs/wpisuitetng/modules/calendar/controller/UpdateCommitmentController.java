@@ -68,7 +68,7 @@ public class UpdateCommitmentController implements ActionListener{
 	 * @return the updated commitment
 	 */
 	public Commitment getUpdatedCommitment(){
-		return UpdateCommitmentController.getInstance().getUpdatedCommitment();
+		return UpdateCommitmentController.getInstance().updatedCommitment;
 	}
 
 	/**
