@@ -29,12 +29,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class DeleteCommitmentController implements ActionListener {
 	
-	private DeleteCommitmentRequestObserver observer;
+	private DeleteCommitmentRequestObserver observer ;
 	private int id;
 
 
 	public DeleteCommitmentController(int id) {
 		this.id = id;
+		this.observer = new DeleteCommitmentRequestObserver(this);
 	}
 	
 	//getter
@@ -46,8 +47,7 @@ public class DeleteCommitmentController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to delete this commitment
 		
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.DELETE); // DELETE == delete
-		request.setBody(Integer.toString(id)); // put the new message in the body of the request
+		final Request request = Network.getInstance().makeRequest("calendar/commitment/" + String.valueOf(id), HttpMethod.DELETE); // DELETE == delete
 		request.addObserver(observer); // add an observer to process the response
 		System.out.println("Here is DeleteCommitmentController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
