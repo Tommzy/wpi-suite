@@ -414,7 +414,7 @@ public class CalendarDay extends JPanel {
 		@Override
 		public GregorianCalendar getEndTime() {
 			GregorianCalendar endTime = (GregorianCalendar) commitment.getStartTime().clone();
-			endTime.set(GregorianCalendar.HOUR, 1);
+			endTime.add(GregorianCalendar.HOUR, 1);
 			return endTime;
 		}
 	}
