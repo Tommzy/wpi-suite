@@ -43,6 +43,7 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		//Needs to put commitment back into the system
 		//TODO
 		controller.addCommitmentToModel(item);
+		MainCalendarController.getInstance().updateAll();
 		System.out.print("From AddCommitmentObserver." + response.getBody());
 		
 	} 

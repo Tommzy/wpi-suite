@@ -50,7 +50,7 @@ public class DeleteCommitmentRequestObserver implements RequestObserver{
 		//TODO
 		//Update the view
 		getController.retrieveCommitments();
-
+		MainCalendarController.getInstance().updateAll();
 		
 	}
 	

@@ -2,6 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -62,9 +64,16 @@ public class AddCommitmentPanelController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainCalendarController.getInstance().updateAll();
+		
 		if (e.getSource().getClass().equals(JButton.class)) {
-			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				  @Override
+				  public void run() {
+					  tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+				  }
+				}, 1000);
+			
 		}
 
 //		if (e.getSource() == btnSubmit) {

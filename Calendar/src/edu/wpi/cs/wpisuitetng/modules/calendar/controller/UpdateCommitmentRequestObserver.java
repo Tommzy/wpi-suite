@@ -45,6 +45,7 @@ public class UpdateCommitmentRequestObserver implements RequestObserver {
 		// Parse the commitment out of the response body
 		final Commitment commitment = Commitment.fromJSON(response.getBody());	
 		UpdateCommitmentController.getInstance().updateSucess(commitment);
+		MainCalendarController.getInstance().updateAll();
 		System.out.println("Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 	}
 	
