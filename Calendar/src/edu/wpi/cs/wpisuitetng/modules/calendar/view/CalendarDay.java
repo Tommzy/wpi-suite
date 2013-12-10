@@ -185,11 +185,11 @@ public class CalendarDay extends JPanel {
 		int labelSpan = event.getTimeSpan() < 20? 20 : event.getTimeSpan();
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
 
-		for (CalendarCard eventCard : calendarCards) {
-			if (event.isActiveDuringTimeStamp(eventCard.event.getStartTime())
-					|| event.isActiveDuringTimeStamp(eventCard.event.getEndTime())) {
-				conflict.add(eventCard); //Which events conflict with the new one
-				newGridX = newGridX < eventConstraint.get(eventCard).gridx? eventConstraint.get(eventCard).gridx : newGridX;
+		for (CalendarCard card : calendarCards) {
+			if (event.isActiveDuringTimeStamp(card.getStartTime())
+					|| event.isActiveDuringTimeStamp(card.getEndTime())) {
+				conflict.add(card); //Which events conflict with the new one
+				newGridX = newGridX < eventConstraint.get(card).gridx? eventConstraint.get(card).gridx : newGridX;
 				currentMaxWidth = currentMaxWidth < newGridX + 1? newGridX + 1: currentMaxWidth;
 				hasOverlap = true;
 			}
@@ -218,7 +218,7 @@ public class CalendarDay extends JPanel {
 		view.add(newEvent, cLocal);
 //		resizeAllLabel();
 		//Keep track of the new event, and revalidate/repaint the view
-		CalendarCard eventCard = new CalendarCard(event, newEvent);
+		CalendarCard eventCard = new EventCard(event, newEvent);
 		calendarCards.add(eventCard);
 		eventConstraint.put(eventCard, cLocal);
 		revalidate();
@@ -252,17 +252,17 @@ public class CalendarDay extends JPanel {
 		newCommitment.setToolTipText(formatToolTip(commitment));
 		newCommitment.addMouseListener(new editCommitmentListener(commitment));
 		
-		int labelSpan = COMMITMENT_TIME_SPAN;
+		int labelSpan = COMMITMENT_TIME_SPAN; 
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
 
-		for (CalendarCard eventCard : calendarCards) {
-//			if (commitment.isActiveDuringTimeStamp(eventCard.event.getStartTime())
-//					|| commitment.isActiveDuringTimeStamp(eventCard.event.getEndTime())) {
-				conflict.add(eventCard); //Which events conflict with the new one
-				newGridX = newGridX < eventConstraint.get(eventCard).gridx? eventConstraint.get(eventCard).gridx : newGridX;
+		for (CalendarCard card : calendarCards) {
+			if (commitment.isActiveDuringTimeStamp(card.getStartTime())
+					|| commitment.isActiveDuringTimeStamp(card.getEndTime())) {
+				conflict.add(card); //Which events conflict with the new one
+				newGridX = newGridX < eventConstraint.get(card).gridx? eventConstraint.get(card).gridx : newGridX;
 				currentMaxWidth = currentMaxWidth < newGridX + 1? newGridX + 1: currentMaxWidth;
 				hasOverlap = true;
-//			}
+			}
 		}
 		
 		// Resize event width
@@ -288,7 +288,7 @@ public class CalendarDay extends JPanel {
 		view.add(newCommitment, cLocal);
 
 		//Keep track of the new event, and revalidate/repaint the view
-		CalendarCard eventCard = new CalendarCard(commitment, newCommitment);
+		CalendarCard eventCard = new CommitmentCard(commitment, newCommitment);
 		calendarCards.add(eventCard);
 		eventConstraint.put(eventCard, cLocal);
 		
@@ -369,21 +369,53 @@ public class CalendarDay extends JPanel {
 	 * Simple inner class for connecting events/commitments with it's corresponding
 	 * visual representation
 	 */
-	private class CalendarCard {
+	private interface CalendarCard {
 		
+		public GregorianCalendar getStartTime();
+		
+		public GregorianCalendar getEndTime();
+		
+	}
+	
+	private class EventCard implements CalendarCard {
 		private DayEvent event;
+		private JLabel label;
+		
+		public EventCard(DayEvent event, JLabel eventLabel) {
+			this.event = event;
+			this.label = eventLabel;
+		}
+
+		@Override
+		public GregorianCalendar getStartTime() {
+			return event.getStartTime();
+		}
+
+		@Override
+		public GregorianCalendar getEndTime() {
+			return event.getEndTime();
+		}
+	}
+	
+	private class CommitmentCard implements CalendarCard { 
 		private Commitment commitment;
 		private JLabel label;
-
-		public CalendarCard(Commitment commitment, JLabel commitmentLabel) {
+		
+		public CommitmentCard(Commitment commitment, JLabel commitmentLabel) {
 			this.commitment = commitment;
 			this.label = commitmentLabel;
 		}
 
+		@Override
+		public GregorianCalendar getStartTime() {
+			return commitment.getStartTime();
+		}
 
-		public CalendarCard(DayEvent event, JLabel eventLabel) {
-			this.event = event;
-			this.label = eventLabel;
+		@Override
+		public GregorianCalendar getEndTime() {
+			GregorianCalendar endTime = (GregorianCalendar) commitment.getStartTime().clone();
+			endTime.set(GregorianCalendar.HOUR, 1);
+			return endTime;
 		}
 	}
 	

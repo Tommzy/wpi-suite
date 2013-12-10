@@ -134,7 +134,7 @@ public class Commitment implements Model{
 	public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
 		// On Calendar view, commitment will be shown as an one-hour long block. 
 		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
-		endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
+		endTimeOnGUI.add(GregorianCalendar.HOUR, 1);
 		if (when.before(startTime) || when.after(endTimeOnGUI)) {
 			return false;
 		} else {
