@@ -59,6 +59,7 @@ public class MainCalendarController implements ActionListener{
 	public CalendarTimePeriod selectedCalendarView;
 	private int selectedDay = 0;
 	private int selectedMonth = 0;
+	private long timeClicked = 0;
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -259,10 +260,12 @@ public class MainCalendarController implements ActionListener{
 		selectedMonth = month;
 	}
 	
-	public boolean isSelectedDate(int day, int month) {
-		if (day == selectedDay && month == selectedMonth) {
+	public boolean isSelectedDate(int day, int month, long time) {
+		if (day == selectedDay && month == selectedMonth && (time - timeClicked) < 750) {
+			timeClicked = time;
 			return true;
 		}
+		timeClicked = time;
 		return false;
 	}
 	

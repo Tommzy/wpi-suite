@@ -352,7 +352,7 @@ public class MonthViewGridPanel extends JPanel {
 		date.set(Calendar.DATE, this.date.getDayOfMonth());
 		
 		//System.out.println(selectedDate);
-		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth())) {
+		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
 			//TODO: switch to day view here	
 			JToggleButton btn = new JToggleButton();
 			btn.setText("Day");
