@@ -58,14 +58,6 @@ public class MonthViewGridPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				setToThisDate();
-//				DateController date = MainCalendarController.getInstance().getDateController();
-//				System.out.println(selectedDate);
-//				if (selectedDate == date.getDayOfMonth()) {
-//					//MainCalendarController.getInstance().setSelectedCalendarView(CalendarTimePeriod.Day);
-//					System.out.println("Here");
-//
-//				}
-//				selectedDate = date.getDayOfMonth();
 			}
 
 			@Override

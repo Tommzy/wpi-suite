@@ -282,7 +282,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 */
 	private void parseCommitment() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
-		date.setToFirstDayOfWeek();
+		dateController.setToFirstDayOfWeek();
 		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
 				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
 		

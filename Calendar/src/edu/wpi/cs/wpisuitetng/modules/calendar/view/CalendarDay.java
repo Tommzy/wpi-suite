@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
@@ -83,8 +84,16 @@ public class CalendarDay extends JPanel {
 //		revalidate();
 //		repaint();
 		add(view, BorderLayout.CENTER);
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				printDate();
+			}
+		});
 	}
 	
+	private void printDate() {
+		System.out.println("Calendar Day " + dateController + "clicked");
+	}
 	/**
 	 * Initialize box of calendar panel.
 	 * An event has a resolution of 2 min in this implementation.
