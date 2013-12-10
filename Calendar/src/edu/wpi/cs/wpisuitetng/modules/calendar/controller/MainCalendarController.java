@@ -237,6 +237,12 @@ public class MainCalendarController implements ActionListener{
 	}
 	
 	public void updateAll() {
+		try {
+            GetCommitmentController controller = new GetCommitmentController();
+            controller.actionPerformed(null);
+		} catch (NullPointerException e) {
+            
+		}
 		Iterator<Updatable> itr = updateList.iterator();
 		
 		while (itr.hasNext()) {
