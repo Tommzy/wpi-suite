@@ -49,7 +49,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	CalendarDay[] week = new CalendarDay[8];
 	
 	/** The date. */
-	DateController date = MainCalendarController.getInstance().getDateController();
+	DateController date = MainCalendarController.getInstance().getDateController().clone();
 	
 	/** The weekdays. */
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
@@ -85,10 +85,10 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
-		date = setFirstDayOfWeek(date);
+		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(date);
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
+			week[i] = new CalendarDay(date.clone());
+			date.setToNextDate();
 			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
@@ -117,11 +117,10 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
-		date = setFirstDayOfWeek(date);
+		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(date);
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader();
+			week[i] = new CalendarDay(date.clone());
+			date.setToNextDate();			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
@@ -153,11 +152,10 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
-		date = setFirstDayOfWeek(date);
+		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(date);
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader();
+			week[i] = new CalendarDay(date.clone());
+			date.setToNextDate();			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
@@ -189,18 +187,6 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 */
 	private void addCommitment (Commitment commitment, int dayOfWeek) {
 		week[dayOfWeek].addCommitment(commitment);
-	}
-	
-	/**
-	 * Set first day of week.
-	 *
-	 * @param dc the dc
-	 * @return the date controller
-	 */
-	private DateController setFirstDayOfWeek (DateController dc) {
-		DateController temp = new DateController(dc.getYear(), dc.getMonth(), dc.getDayOfMonth());
-		temp.set(Calendar.DAY_OF_WEEK, dc.getFirstDayOfWeek());
-		return temp;
 	}
 	
 	/**
@@ -275,11 +261,10 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		week[0].add(header, BorderLayout.NORTH);
 		weekPanel.add(week[0]);
 		week[0].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));
-		date = setFirstDayOfWeek(date);
+		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
-			week[i] = new CalendarDay(date);
-			date.set(Calendar.DAY_OF_WEEK, date.getFirstDayOfWeek() + i - 1);
-			week[i].initHeader();
+			week[i] = new CalendarDay(date.clone());
+			date.setToNextDate();			week[i].initHeader();
 			week[i].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));	
 			weekPanel.add(week[i]);
 		}
@@ -297,7 +282,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 */
 	private void parseCommitment() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
-		dateController = setFirstDayOfWeek(dateController);
+		date.setToFirstDayOfWeek();
 		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
 				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
 		

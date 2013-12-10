@@ -109,8 +109,17 @@ public class DateController {
 		return newDate;
 	}
 
-	public int getFirstDayOfWeek() {
-		return cal.getFirstDayOfWeek();
+	 public DateController getFirstDayOfWeek() {
+         int dayOfWeek = cal.get(GregorianCalendar.DAY_OF_WEEK);
+         cal.add(GregorianCalendar.DATE, - dayOfWeek + 1);
+         DateController firstDayOfWeek = new DateController(cal);
+         cal.add(GregorianCalendar.DATE, dayOfWeek - 1);
+         return firstDayOfWeek;
+ }
+	
+	public void setToFirstDayOfWeek() {
+        int dayOfWeek = cal.get(GregorianCalendar.DAY_OF_WEEK);
+        cal.add(GregorianCalendar.DATE, - dayOfWeek + 1);
 	}
 	
 	public String toString() {
