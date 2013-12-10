@@ -19,7 +19,7 @@ import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 
 /**
  * This class is an extension of JLabel that is used to

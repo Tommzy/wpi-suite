@@ -23,8 +23,8 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;

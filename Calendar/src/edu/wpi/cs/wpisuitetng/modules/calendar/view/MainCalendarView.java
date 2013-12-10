@@ -29,8 +29,8 @@ import javax.swing.UIManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
 /**

@@ -10,7 +10,7 @@
  *    Yuchen Zhang
  ******************************************************************************/
 
-package edu.wpi.cs.wpisuitetng.modules.calendar.master;
+package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
 /**
  * Possible values for time period of a calendar

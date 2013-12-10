@@ -40,7 +40,7 @@ public class Commitment implements Model{
 	private String description;
 	
 	/** The id. */
-	private int id = -1;
+	private int id;
 
 
 
@@ -62,6 +62,7 @@ public class Commitment implements Model{
 		this.name = name;
 		this.startTime = startTime;
 		this.description = description;
+		this.id = -1;
 		// TODO Auto-generated constructor stub
 	}
 

@@ -13,6 +13,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -125,18 +126,36 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	//	}
 
 
-	/**
-	 * Assign unique id.
-	 *
-	 * @param commitment the commitment
-	 * @throws WPISuiteException the wPI suite exception
+	/** Takes a Commitment and assigns a unique id if necessary
+	 * 
+	 * @param commitment The Commitment that possibly needs a unique id
+	 * @throws WPISuiteException "Count failed"
 	 */
 	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
-			commitment.setId(Count() + 1); // Makes first Commitment have id = 1
-			//			commitment.setId(300);
+			commitment.setId(HighestId() + 1); // Assures that the Commitment's ID will be unique
 		}
-		//		commitment.setId(Count() + 1);
+	}
+	
+	
+	
+	/** Returns the highest Id of all commitments in the database.
+	 * @return The highest Id
+	 * @throws WPISuiteException "Retrieve all failed"
+	 */
+	public int HighestId() throws WPISuiteException {
+		List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null));
+		Iterator<Commitment> itr = commitList.iterator();
+		int maxId = 0;
+		while (itr.hasNext())
+		{
+			Commitment next = itr.next();
+			if (next.getId() > maxId)
+			{
+				maxId = next.getId();
+			}
+		}
+		return maxId;
 	}
 
 	/* (non-Javadoc)
