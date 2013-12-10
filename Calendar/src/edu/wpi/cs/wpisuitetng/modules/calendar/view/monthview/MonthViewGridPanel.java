@@ -318,6 +318,10 @@ public class MonthViewGridPanel extends JPanel {
 		return date;
 	}
 	
+	public void update() {
+		new MonthViewGridPanel(this.date);
+	}
+	
 	public void repaint() {
 		super.repaint();
 		try {
@@ -418,7 +422,7 @@ public class MonthViewGridPanel extends JPanel {
 		else if(secondItemLabel.getText() == ""){
 			secondItemLabel.setText(startLabelClockTime + " " + cmt.getName());
 			secondItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
-										"Description: " + cmt.getDescription() + "<br /></html>" +
+										"Description: " + cmt.getDescription() + "<br />" +
 										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(thirdItemLabel.getText() == ""){

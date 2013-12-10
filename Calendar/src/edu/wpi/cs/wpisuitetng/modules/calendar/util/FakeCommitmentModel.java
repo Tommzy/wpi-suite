@@ -31,7 +31,7 @@ public class FakeCommitmentModel {
 		cmtList.add(new Commitment("abc", (GregorianCalendar) cal.clone(), "123"));
 		cal.set(2013, 11, 11);
 		cmtList.add(new Commitment("def",  (GregorianCalendar)cal.clone(), "345"));
-		cal.set(2013, 11, 12);
+		cal.set(2013, 11, 11);
 		cmtList.add(new Commitment("efg",  (GregorianCalendar)cal.clone(), "456"));
 		
 		cal.set(2013, 10, 18);
