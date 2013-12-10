@@ -225,8 +225,10 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		ensureRole(s, Role.ADMIN);
 		Commitment oldComm = getEntity(s,   id    )[0];
-
-		if (db.delete(oldComm) == oldComm){
+		Commitment commToBeDel = new Commitment(null, null, null);
+		commToBeDel.setId(oldComm.getId());
+		
+		if (db.delete(commToBeDel).equals(commToBeDel)){
 			return true; // the deletion was successful
 		}	    
 		return false; // The deletion was unsuccessful

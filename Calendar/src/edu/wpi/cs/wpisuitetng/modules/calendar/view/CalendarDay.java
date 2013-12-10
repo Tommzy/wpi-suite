@@ -44,6 +44,7 @@ import javax.swing.plaf.basic.BasicLabelUI;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
@@ -538,7 +539,7 @@ public class CalendarDay extends JPanel {
 			else if (e.getButton() == MouseEvent.BUTTON3) {
 				JPopupMenu menu = new JPopupMenu();
 				JMenuItem anItem = new JMenuItem(" Delete ");
-			    
+			    anItem.addActionListener(new DeleteCommitmentController(commitment.getId()));
 				menu.add(anItem);    
 		        menu.show(e.getComponent(), e.getX(), e.getY());
 			}
