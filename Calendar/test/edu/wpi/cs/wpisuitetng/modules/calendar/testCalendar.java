@@ -12,7 +12,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
