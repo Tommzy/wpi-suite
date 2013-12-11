@@ -598,4 +598,56 @@ public class CalendarDay extends JPanel {
 		}
 		
 	}
+	
+	private class editeventListener implements MouseListener {
+		Event event;
+		
+		public editeventListener (Event event) {
+			this.event = event;
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
+				AddEventPanel newEventPanel = new AddEventPanel(new MigLayout());
+//				newEventPanel.populateEvent(event);
+				AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
+				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
+				AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+				newEventPanel.initiateFocus();
+			}
+			else if (e.getButton() == MouseEvent.BUTTON3) {
+				JPopupMenu menu = new JPopupMenu();
+				JMenuItem anItem = new JMenuItem(" Delete ");
+//			    anItem.addActionListener(new DeleteEventController(event.getId()));
+				menu.add(anItem);    
+		        menu.show(e.getComponent(), e.getX(), e.getY());
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 }

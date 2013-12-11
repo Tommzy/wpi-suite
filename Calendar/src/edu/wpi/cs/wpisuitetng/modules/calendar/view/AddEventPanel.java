@@ -79,12 +79,12 @@ public class AddEventPanel extends JPanel {
 	
 	JLabel IDText;
 	
-	public AddEventPanel(MigLayout miglayout, JTabbedPane tabbedPane) {
+	public AddEventPanel(MigLayout miglayout) {
 		// Set up panel
 		JPanel contentPanel = new JPanel(miglayout);
-		JPanel rightPanel = new JPanel();
+//		JPanel rightPanel = new JPanel();
 		contentPanel.setSize(this.getWidth() / 2, this.getHeight());
-		rightPanel.setSize(this.getWidth() / 2, this.getHeight());
+//		rightPanel.setSize(this.getWidth() / 2, this.getHeight());
 		// Initiate fields. 
 		nameLabel = new JLabel("Name:");
 
@@ -134,7 +134,7 @@ public class AddEventPanel extends JPanel {
 		btnSubmit.setEnabled(false);
 		btnUpdate.setEnabled(false);
 		btnCancel = new JButton("Cancel");
-		AddEventPanelController.getInstance().setTabbedPane(tabbedPane);
+//		AddEventPanelController.getInstance().setTabbedPane(tabbedPane);
 		AddEventPanelController.getInstance().setBtnSubmit(btnSubmit);
 		AddEventPanelController.getInstance().setBtnCancel(btnCancel);
 		
@@ -396,7 +396,7 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(btnCancel);
 		this.add(contentPanel);
 		
-		this.add(rightPanel);
+//		this.add(rightPanel);
 	}
 
 	public String getTxtNewname() {
