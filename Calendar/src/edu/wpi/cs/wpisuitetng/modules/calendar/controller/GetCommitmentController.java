@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.dataitem.CommitmentList;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.Network;
