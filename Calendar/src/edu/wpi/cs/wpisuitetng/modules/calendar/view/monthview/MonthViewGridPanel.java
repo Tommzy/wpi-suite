@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
@@ -318,29 +319,42 @@ public class MonthViewGridPanel extends JPanel {
 		return date;
 	}
 	
+	public void update() {
+		new MonthViewGridPanel(this.date);
+	}
+	
 	public void repaint() {
 		super.repaint();
-		/*
-		 * if the current selected date from main calendar controller 
-		 * matches the date controller of this grid panel,
-		 * label this panel with cyan
-		 * 
-		 * other wise use the default color blue to blend with the upper label of header label
-		 */
-		if (MainCalendarController.getInstance().getDateController().equals(date)) {
-			this.setBackground(Color.cyan); //Changed to cyan to keep consistent with day and week view
-											//-Gravy
-			firstItemLabel.setBackground(Color.cyan);
-			secondItemLabel.setBackground(Color.cyan);
-			thirdItemLabel.setBackground(Color.cyan);
-			fourthItemLabel.setBackground(Color.cyan);
-			additionalItemsLabel.setBackground(Color.cyan);
-
-
-
-
-		} else {
-			this.setBackground(new Color(138, 173, 209));
+		try {
+			/*
+			 * if the current selected date from main calendar controller 
+			 * matches the date controller of this grid panel,
+			 * label this panel with cyan
+			 * 
+			 * other wise use the default color blue to blend with the upper label of header label
+			 */
+			if (MainCalendarController.getInstance().getDateController().equals(date)) {
+				this.setBackground(Color.cyan); //Changed to cyan to keep consistent with day and week view
+												//-Gravy
+				firstItemLabel.setBackground(Color.cyan);
+				secondItemLabel.setBackground(Color.cyan);
+				thirdItemLabel.setBackground(Color.cyan);
+				fourthItemLabel.setBackground(Color.cyan);
+				additionalItemsLabel.setBackground(Color.cyan);
+	
+	
+	
+	
+			} else {
+				this.setBackground(new Color(138, 173, 209));
+				firstItemLabel.setBackground(new Color(138, 173, 209));
+				secondItemLabel.setBackground(new Color(138, 173, 209));
+				thirdItemLabel.setBackground(new Color(138, 173, 209));
+				fourthItemLabel.setBackground(new Color(138, 173, 209));
+				additionalItemsLabel.setBackground(new Color(138, 173, 209));
+			}
+		} catch (NullPointerException e) {
+			
 		}
 	}
 	
@@ -387,33 +401,57 @@ public class MonthViewGridPanel extends JPanel {
 	
 	public void addCommitmentToTable(Commitment cmt) {
 		
-		//Check to see what label is being added then add correct label. -Gravy
+		GregorianCalendar commitmentStartTime = cmt.getStartTime();
+		int hour = commitmentStartTime.get(Calendar.HOUR_OF_DAY);
+		int minute = commitmentStartTime.get(Calendar.MINUTE);
+		
+		String AmOrPm = ""; //Set to either Am or Pm
+		if(commitmentStartTime.getTime().getHours() < 12){
+			AmOrPm = "Am";
+		}
+		
+		else{
+			AmOrPm = "Pm";
+		}
+		//Used for tooltip ONLY 
+		String startToolTipClockTime = "" + hour + ":" + (minute < 10 ? "0" + minute : minute) + AmOrPm;
+		
+		
+		//Used for label text ONLY
+		String startLabelClockTime = "" + hour + AmOrPm;
+		
+		
+		
+		//Check to see what label is being added then add correct label.
+		//If a day has more than 4 items then a label indicating as much will appear
+		//NOTE: LABELS WILL HAVE TO BE CHANGED WHEN ITEMS CAN BE DELETED
+		//CURRENTLY WILL NOT CHANGE THE LABEL TEXT-Gravy
 		if(firstItemLabel.getText() == ""){
-			firstItemLabel.setText(cmt.getName());
-			firstItemLabel.setToolTipText("Name: " + cmt.getName() + "\n" + 
-										"Description: " + cmt.getDescription() + "\n" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "\n");
+			firstItemLabel.setText(startLabelClockTime + " " + cmt.getName());
+			firstItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
+										"Description: " + cmt.getDescription() + "<br />" +
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(secondItemLabel.getText() == ""){
-			secondItemLabel.setText(cmt.getName());
-			secondItemLabel.setToolTipText("Name: " + cmt.getName() + "\n" + 
-										"Description: " + cmt.getDescription() + "\n" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "\n");
+			secondItemLabel.setText(startLabelClockTime + " " + cmt.getName());
+			secondItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
+										"Description: " + cmt.getDescription() + "<br />" +
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(thirdItemLabel.getText() == ""){
-			thirdItemLabel.setText(cmt.getName());
-			thirdItemLabel.setToolTipText("Name: " + cmt.getName() + "\n" + 
-										"Description: " + cmt.getDescription() + "\n" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "\n");
+			thirdItemLabel.setText(startLabelClockTime + " " + cmt.getName());
+			thirdItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
+										"Description: " + cmt.getDescription() + "<br />" +
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else if(fourthItemLabel.getText() == ""){
-			fourthItemLabel.setText(cmt.getName());
-			fourthItemLabel.setToolTipText("Name: " + cmt.getName() + "\n" + 
-										"Description: " + cmt.getDescription() + "\n" +
-										"Start Time: " + new DateController(cmt.getStartTime()) + "\n");
+			fourthItemLabel.setText(startLabelClockTime + " " + cmt.getName());
+			fourthItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
+										"Description: " + cmt.getDescription() + "<br />" +
+										"Due: " + startToolTipClockTime + "<br /></html>");
 		}
 		else{
-			additionalItemsLabel.setText("See All");
+			additionalItemsLabel.setText("See More Items");
 		}
 	
 	
