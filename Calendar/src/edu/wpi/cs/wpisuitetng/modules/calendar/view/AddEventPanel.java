@@ -177,9 +177,7 @@ public class AddEventPanel extends JPanel {
 			}
 			
 		});
-		startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
-				formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
-				formatInt(MainCalendarController.getInstance().getDateController().getYear()));
+
 		
 		startTimeTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
 
@@ -197,7 +195,6 @@ public class AddEventPanel extends JPanel {
 			}
 			
 		});
-		startTimeTextField.setValue(getCurrentTime());
 		
 		endDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
 
@@ -210,6 +207,12 @@ public class AddEventPanel extends JPanel {
 			
 		});
 		
+		// Set default value of date and time
+		startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+				formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
+				formatInt(MainCalendarController.getInstance().getDateController().getYear()));
+		startTimeTextField.setValue(getCurrentTime());
+
 		endDateTextField.addPropertyChangeListener("value", new PropertyChangeListener() {
 			
 			@Override
