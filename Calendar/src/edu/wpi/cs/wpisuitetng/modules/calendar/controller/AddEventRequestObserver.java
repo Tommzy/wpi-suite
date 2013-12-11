@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * This observer is called when a response is received from a request
- * to the server to add a commitment.
+ * to the server to add a event.
  * @version $Revision: 1.0 $
  * @author Hui Zheng & EJ & Jared
  */
@@ -41,10 +41,10 @@ public class AddEventRequestObserver implements RequestObserver {
 		//Parse the calendar item out of the response body
 		final Event item = Event.fromJSON(response.getBody());
 		//Pass the messaged back to the controller
-		//Needs to put commitment back into the system
+		//Needs to put Event back into the system
 		//TODO
 		controller.addEventToModel(item);
-		System.out.print("From AddCommitmentObserver." + response.getBody());
+		System.out.print("From AddEventObserver." + response.getBody());
 		
 	} 
 	

@@ -6,7 +6,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  * 
  * Contributors: E.J. Murphy
- * Based on Source Code from CommitmentsModels
+ * Based on Source Code from EventsModels
  * V1.0
  ******************************************************************************/
 
@@ -36,9 +36,9 @@ public class EventsModel extends AbstractListModel{
 	private List<Event> Events;
 	
 	/** The next id. */
-	private int nextID; // the next available ID number for the Commitments that are added.
+	private int nextID; // the next available ID number for the Events that are added.
 	
-	//the static object to allow the Commitment model to be 
+	//the static object to allow the Event model to be 
 	/** The instance. */
 	private static EventsModel instance; 
 
@@ -77,7 +77,7 @@ public class EventsModel extends AbstractListModel{
 		this.Events.add(newEvent);
 //		
 //		for (int i = 0; i < Events.size(); i++) {
-//			System.out.println("Commitment out put    " + Events.get(i).toString());
+//			System.out.println("Event out put    " + Events.get(i).toString());
 //		}
 	}
 	
@@ -90,7 +90,7 @@ public class EventsModel extends AbstractListModel{
 	public Event getEvent(int id)
 	{
 		Event temp = null;
-		// iterate through list of Commitments until id is found
+		// iterate through list of Events until id is found
 		for (int i=0; i < this.Events.size(); i++){
 			temp = Events.get(i);
 			if (temp.getId() == id){
@@ -107,7 +107,7 @@ public class EventsModel extends AbstractListModel{
 	 */
 	public List<Event> getAllEvent() {
 //		for (int i = 0; i < Events.size(); i++) {
-//			System.out.println("Commitment out put    " + Events.get(i).toString());
+//			System.out.println("Event out put    " + Events.get(i).toString());
 //		}
 		return Events;
 	}
@@ -118,7 +118,7 @@ public class EventsModel extends AbstractListModel{
 	 * @param removeId the remove id
 	 */
 	public void removeEvent(int removeId){
-		// iterate through list of Commitments until id of project is found
+		// iterate through list of Events until id of project is found
 		for (int i=0; i < this.Events.size(); i++){
 			if (Events.get(i).getId() == removeId){
 				// remove the id
@@ -177,11 +177,11 @@ public class EventsModel extends AbstractListModel{
 	}
 	
 	/**
-	 * Adds the commitments.
+	 * Adds the Events.
 	 *
 	 * @param Events the events
 	 */
-	public void addCommitments(Event[] Events) {
+	public void addEvents(Event[] Events) {
 		for (int i = 0; i < Events.length; i++) {
 			this.Events.add(Events[i]);
 			if(Events[i].getId() >= nextID) nextID = Events[i].getId() + 1;
@@ -207,7 +207,7 @@ public class EventsModel extends AbstractListModel{
 		
 		for(Event possibleChild : Events)
 		{
-//			if(possibleChild.getParentID() == Commitment.getId()) children.add(possibleChild);
+//			if(possibleChild.getParentID() == Event.getId()) children.add(possibleChild);
 		}
 		
 		return children;
@@ -226,7 +226,7 @@ public class EventsModel extends AbstractListModel{
 		{
 //			if(possChild.isAncestor(req.getId()) || possChild.getParentID() != -1) continue;
 //			if(possChild == req) continue;
-//			if(possChild.getStatus() == CommitmentStatus.COMPLETE || possChild.getStatus() == CommitmentStatus.DELETED) continue;
+//			if(possChild.getStatus() == EventStatus.COMPLETE || possChild.getStatus() == EventStatus.DELETED) continue;
 			possibleChildren.addElement(possChild);
 		}
 		
@@ -248,7 +248,7 @@ public class EventsModel extends AbstractListModel{
 		{
 //			if(possParent.hasAncestor(req.getId())) continue;
 			if(possParent == req) continue;
-//			if(possParent.getStatus() == CommitmentStatus.COMPLETE || possParent.getStatus() == CommitmentStatus.DELETED) continue;
+//			if(possParent.getStatus() == EventStatus.COMPLETE || possParent.getStatus() == EventStatus.DELETED) continue;
 			possibleParents.addElement(possParent);
 		}
 		
@@ -256,17 +256,17 @@ public class EventsModel extends AbstractListModel{
 	}
 
 //	/**
-//	 * Returns the list of Commitments that are assigned to the given iteration
+//	 * Returns the list of Events that are assigned to the given iteration
 //	 * @param name the iteration name
 //	
-//	 * @return the list of Commitments */
-//	public List<Commitment> getCommitmentsForIteration(String name) {
-//		List<Commitment> reqForIteration = new LinkedList<Commitment>();
+//	 * @return the list of Events */
+//	public List<Event> getEventsForIteration(String name) {
+//		List<Event> reqForIteration = new LinkedList<Event>();
 //		
 //		boolean backlog = false;
 //		if(name.trim().length() == 0) backlog = true;
 //		
-//		for(Commitment req : Commitments)
+//		for(Event req : Events)
 //		{
 //			if(backlog)
 //			{

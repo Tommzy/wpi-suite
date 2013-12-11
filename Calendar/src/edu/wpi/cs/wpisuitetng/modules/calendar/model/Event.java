@@ -67,6 +67,36 @@ public class Event  implements Model{
 		this.description = description;
 	}
 	
+	public GregorianCalendar getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(GregorianCalendar endTime) {
+		this.endTime = endTime;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
+	 * Copy.
+	 *
+	 * @param comm the comm
+	 */
+	public void copy(Event comm){
+		this.setName(comm.getName());
+		this.setStartTime(comm.getStartTime());
+		this.setEndTime(comm.getEndTime());
+		this.setProject(comm.getProject());
+		this.setDescription(comm.getDescription());
+		this.setId(comm.getId());
+	}
+	
 	/**
 	 * Getter function for id.
 	 *
@@ -98,14 +128,14 @@ public class Event  implements Model{
 	}
 	
     /**
-     * Determine if the Commitment is active during a certain time stamp
+     * Determine if the Event is active during a certain time stamp
      * For GUI use.
      *
      * @param when the time stamp
      * @return true if active during the time stamp, false otherwise
      */
     public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
-        // On Calendar view, commitment will be shown as an one-hour long block. 
+        // On Calendar view, Event will be shown as an one-hour long block. 
     	GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
     	endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
     	if (when.before(startTime) || when.after(endTimeOnGUI)) {
