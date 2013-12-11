@@ -44,6 +44,7 @@ public class AddEventRequestObserver implements RequestObserver {
 		//Needs to put Event back into the system
 		//TODO
 		controller.addEventToModel(item);
+		MainCalendarController.getInstance().updateAll();
 		System.out.print("From AddEventObserver." + response.getBody());
 		
 	} 

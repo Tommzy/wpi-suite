@@ -239,8 +239,10 @@ public class MainCalendarController implements ActionListener{
 	
 	public void updateAll() {
 		try {
-            GetCommitmentController controller = new GetCommitmentController();
-            controller.actionPerformed(null);
+            GetCommitmentController commitmentController = new GetCommitmentController();
+            commitmentController.actionPerformed(null);
+            GetEventController eventController = new GetEventController();
+            eventController.actionPerformed(null);
 		} catch (NullPointerException e) {
             
 		}
