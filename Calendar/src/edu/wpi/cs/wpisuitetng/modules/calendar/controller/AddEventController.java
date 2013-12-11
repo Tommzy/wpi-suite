@@ -94,7 +94,7 @@ public class AddEventController implements ActionListener{
 //			System.out.println("from AddEventController." + request.getBody());
 //		}
 		
-		final Request request = Network.getInstance().makeRequest("calendar/Event", HttpMethod.PUT); // PUT == create
+		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.PUT); // PUT == create
 		request.setBody(eventToBeAdded.toJSON()); // put the new message in the body of the request
 		request.addObserver(new AddEventRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
