@@ -145,8 +145,9 @@ public class AddCommitmentPanel extends JPanel {
     final CommitmentsModel model = CommitmentsModel.getInstance();
 
     btnSubmit = new JButton("Submit");
-    btnSubmit.setEnabled(false);
     btnUpdate = new JButton("Update");
+    btnSubmit.setEnabled(false);
+    btnUpdate.setEnabled(false);
     btnCancel = new JButton ("Cancel");
     
     IDText = new JLabel(); 
@@ -156,9 +157,6 @@ public class AddCommitmentPanel extends JPanel {
 
     startDateTextField.setColumns(8);
 	startDateTextField.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
-	startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
-			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
-			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startDatePicker = new DatePickerPanel(startDateTextField);
 	startTimeTextField.setColumns(4);
 	startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
@@ -172,7 +170,9 @@ public class AddCommitmentPanel extends JPanel {
 		}
 		
 	});
-	
+	startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
 
     contentPanel.add(nameLabel);
@@ -346,14 +346,17 @@ public class AddCommitmentPanel extends JPanel {
 			if (tf.getText().equals("")) {
 				errMsg.setText("Name can not be empty! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			else if (tf.getText().trim().equals("")) {
 				errMsg.setText("Invalid Name! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			else {
 				errMsg.setText("");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			return (! tf.getText().trim().equals(""));
 		}
@@ -376,6 +379,7 @@ public class AddCommitmentPanel extends JPanel {
 				if (Integer.parseInt(content[0].trim()) > 23 || Integer.parseInt(content[1].trim()) > 59) {
 					errMsg.setText("Invalid Time! ");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return false;
 				}
 				else {
@@ -384,12 +388,14 @@ public class AddCommitmentPanel extends JPanel {
 					tf.setText(content[0] + ":" + content[1]);
 					errMsg.setText("");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return true;
 				}
 			}
 			else {
 				errMsg.setText("Invalid Time! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 				return false;
 			}
 		}
@@ -428,6 +434,7 @@ public class AddCommitmentPanel extends JPanel {
 						if (Integer.parseInt(content[1].trim()) > 31) {
 							errMsg.setText("Invalid Date! ");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return false;
 						}
 						else {
@@ -436,6 +443,7 @@ public class AddCommitmentPanel extends JPanel {
 							tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 							errMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return true;
 						}
 					}
@@ -443,6 +451,7 @@ public class AddCommitmentPanel extends JPanel {
 						if (Integer.parseInt(content[1].trim()) > 30) {
 							errMsg.setText("Invalid Date! ");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return false;
 						}
 						else {
@@ -451,6 +460,7 @@ public class AddCommitmentPanel extends JPanel {
 							tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 							errMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return true;
 						}
 					}
@@ -459,6 +469,7 @@ public class AddCommitmentPanel extends JPanel {
 							if (Integer.parseInt(content[1].trim()) > 28) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -467,6 +478,7 @@ public class AddCommitmentPanel extends JPanel {
 								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 								errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -474,6 +486,7 @@ public class AddCommitmentPanel extends JPanel {
 							if (Integer.parseInt(content[1].trim()) > 29) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -482,6 +495,7 @@ public class AddCommitmentPanel extends JPanel {
 								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 								errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -489,6 +503,7 @@ public class AddCommitmentPanel extends JPanel {
 							if (Integer.parseInt(content[1].trim()) > 28) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -497,6 +512,7 @@ public class AddCommitmentPanel extends JPanel {
 								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 								errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -504,18 +520,21 @@ public class AddCommitmentPanel extends JPanel {
 					else {
 						errMsg.setText("Invalid Date! ");
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 						return false;
 					}
 				}
 				else {
 					errMsg.setText("Invalid Date! ");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return false;
 				}
 			}
 			else {
 				errMsg.setText("Invalid Date! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 				return false;
 			}
 		}

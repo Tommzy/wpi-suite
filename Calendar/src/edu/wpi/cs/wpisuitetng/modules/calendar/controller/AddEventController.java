@@ -32,7 +32,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class AddEventController implements ActionListener{
 
 	private final EventsModel model;
-	private final HashMap<String, Object> eventDetails;
+	private final Event eventToBeAdded;
 	 
 	//Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
 	 
@@ -41,9 +41,9 @@ public class AddEventController implements ActionListener{
 	 * @param model the model containing the messages
 	 * @param viewCommitment the view where the user enters new messages
 	 */
-	public AddEventController(EventsModel model, HashMap<String, Object> eventDetails) {
+	public AddEventController(EventsModel model, Event eventToBeAdded) {
 		this.model = model;
-		this.eventDetails = eventDetails;
+		this.eventToBeAdded = eventToBeAdded;
 	}
   
 	AddEventRequestObserver observer = new AddEventRequestObserver(this);
@@ -71,10 +71,10 @@ public class AddEventController implements ActionListener{
 		//addTestToDatabase();
 //		System.out.println("this is event!-s---->" + event.getActionCommand().toString());
 		// Get the text that was entered
-		String name = (String) eventDetails.get("name");
-		GregorianCalendar startTime = (GregorianCalendar) eventDetails.get("startDateTime");
-		String description = (String) eventDetails.get("desc");
-		String invitee = (String) eventDetails.get("invitee");
+//		String name = (String) eventDetails.get("name");
+//		GregorianCalendar startTime = (GregorianCalendar) eventDetails.get("startDateTime");
+//		String description = (String) eventDetails.get("desc");
+//		String invitee = (String) eventDetails.get("invitee");
 		 
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
@@ -87,15 +87,15 @@ public class AddEventController implements ActionListener{
 //		}
 		
 		// Send a request to the core to save this message
-		if(name.length() > 0){
-			Event sentEvent = new Event(name, startTime, description);
+//		if(name.length() > 0){
+//			Event sentEvent = new Event(name, startTime, description);
 			// Add the message to the model
 			final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.PUT); // PUT == create
-			request.setBody(sentEvent.toJSON()); // put the new message in the body of the request
+			request.setBody(eventToBeAdded.toJSON()); // put the new message in the body of the request
 			request.addObserver(new AddEventRequestObserver(this)); // add an observer to process the response
 			request.send(); // send the request
 			System.out.println("from AddEventController." + request.getBody());
-		}
+//		}
 
 
 	}

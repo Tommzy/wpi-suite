@@ -33,12 +33,17 @@ public class Event  implements Model{
 	/** The start time. */
 	private GregorianCalendar startTime;
 	
+	/** The end time */
+	private GregorianCalendar endTime;
+	
+	/** Location */
+	private String location;
+	
 	/** The description. */
 	private String description;
 	
 	/** The id. */
 	private int id = -1;
-
 
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
@@ -53,12 +58,13 @@ public class Event  implements Model{
 	 * @param startTime the start time
 	 * @param description the description
 	 */
-	public Event(String name, GregorianCalendar startTime,
+	public Event(String name, GregorianCalendar startTime, GregorianCalendar endTime, String location, 
 			String description) {
 		this.name = name;
 		this.startTime = startTime;
+		this.endTime = endTime;
+		this.location = location; 
 		this.description = description;
-		// TODO Auto-generated constructor stub
 	}
 	
 	/**
@@ -151,7 +157,7 @@ public class Event  implements Model{
 	 */
 	@Override
 	public String toJSON() {
-		return new Gson().toJson(this, Commitment.class);
+		return new Gson().toJson(this, Event.class);
 	}
 
 	/* (non-Javadoc)

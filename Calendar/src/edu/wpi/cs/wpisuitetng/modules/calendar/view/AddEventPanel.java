@@ -10,6 +10,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
@@ -28,14 +30,22 @@ import java.util.GregorianCalendar;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class AddEventPanel extends JPanel {
-	JButton btnSubmit, btnCancel;
+	JButton btnSubmit, btnUpdate, btnCancel;
 
 	JLabel nameLabel;
 
@@ -65,7 +75,9 @@ public class AddEventPanel extends JPanel {
 
 	JTextArea inviteeTextArea;
 
-	JCheckBox allDayEventCheckBox;
+//	JCheckBox allDayEventCheckBox;
+	
+	JLabel IDText;
 	
 	public AddEventPanel(MigLayout miglayout, JTabbedPane tabbedPane) {
 		// Set up panel
@@ -114,16 +126,19 @@ public class AddEventPanel extends JPanel {
 
 		inviteeTextArea = new JTextArea();
 		inviteeTextArea.setPreferredSize(new Dimension(400, 100));
-		allDayEventCheckBox = new JCheckBox("All Day Event?");
-
+//		allDayEventCheckBox = new JCheckBox("All Day Event?");
+		final EventsModel model = EventsModel.getInstance();
+		
 		btnSubmit = new JButton("Submit");
+		btnUpdate = new JButton("Update");
 		btnSubmit.setEnabled(false);
+		btnUpdate.setEnabled(false);
 		btnCancel = new JButton("Cancel");
 		AddEventPanelController.getInstance().setTabbedPane(tabbedPane);
 		AddEventPanelController.getInstance().setBtnSubmit(btnSubmit);
 		AddEventPanelController.getInstance().setBtnCancel(btnCancel);
-		btnSubmit.addActionListener(AddEventPanelController.getInstance());
-		btnCancel.addActionListener(AddEventPanelController.getInstance());
+		
+	    IDText = new JLabel(); 
 		
 		// Set up properties
 		nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
@@ -209,6 +224,7 @@ public class AddEventPanel extends JPanel {
 						startDateTimeErrMsg.setText("End date can not be ahead of start date!");
 						endDateTextField.requestFocus();
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 					}
 					else if (start.equals(end)) {
 						String startTime = (String) startTimeTextField.getValue();
@@ -219,29 +235,34 @@ public class AddEventPanel extends JPanel {
 							startDateTimeErrMsg.setText("End time can not be ahead of start time!");
 							endTimeTextField.requestFocus();
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 						}
 						else if (Integer.parseInt(startHourMin[0]) == Integer.parseInt(endHourMin[0])) {
 							if (Integer.parseInt(startHourMin[1]) > Integer.parseInt(endHourMin[1])) {
 								startDateTimeErrMsg.setText("End time can not be ahead of start time!");
 								endTimeTextField.requestFocus();
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 							}
 							else {
 								if (startDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
 									startDateTimeErrMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 							}
 						}
 						else {
 							if (startDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
 								startDateTimeErrMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 						}
 					}
 					else {
 						if (startDateTimeErrMsg.getContentText().equals("End date can not be ahead of start date!"))
 							startDateTimeErrMsg.setText("");
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 					}
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -265,6 +286,7 @@ public class AddEventPanel extends JPanel {
 						startDateTimeErrMsg.setText("End date can not be ahead of start date!");
 						endDateTextField.requestFocus();
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 					}
 					else if (start.equals(end)) {
 						String startTime = (String) startTimeTextField.getValue();
@@ -275,29 +297,34 @@ public class AddEventPanel extends JPanel {
 							startDateTimeErrMsg.setText("End time can not be ahead of start time!");
 							endTimeTextField.requestFocus();
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 						}
 						else if (Integer.parseInt(startHourMin[0]) == Integer.parseInt(endHourMin[0])) {
 							if (Integer.parseInt(startHourMin[1]) > Integer.parseInt(endHourMin[1])) {
 								startDateTimeErrMsg.setText("End time can not be ahead of start time!");
 								endTimeTextField.requestFocus();
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 							}
 							else {
 								if (startDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
 									startDateTimeErrMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 							}
 						}
 						else {
 							if (startDateTimeErrMsg.getContentText().equals("End time can not be ahead of start time!"))
 								startDateTimeErrMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 						}
 					}
 					else {
 						if (startDateTimeErrMsg.getContentText().equals("End date can not be ahead of start date!"))
 							startDateTimeErrMsg.setText("");
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 					}
 				} catch (ParseException e) {
 					// TODO Auto-generated catch block
@@ -306,6 +333,41 @@ public class AddEventPanel extends JPanel {
 				
 			}
 		});	
+		
+	    btnCancel.addActionListener(AddEventPanelController.getInstance());
+//	    btnSubmit.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+//				((JButton)e.getSource()).addActionListener(new AddEventController(model , packInfo()));
+//				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
+//				((JButton)e.getSource()).removeActionListener(this);
+//				((JButton)e.getSource()).doClick();
+//			}
+//	    	
+//	    });
+//	    btnUpdate.addActionListener(new ActionListener() {
+//
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+////				((JButton)e.getSource()).addActionListener(new UpdateEventController(packInfo()));
+//				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
+//				((JButton)e.getSource()).removeActionListener(this);
+//				((JButton)e.getSource()).doClick();
+//			}
+//	    	
+//	    });
+	    
+	    if (IDText.getText().equals("")) {
+	    	btnUpdate.setVisible(false);
+	    	btnSubmit.setVisible(true);
+	    }
+	    else {
+	    	btnUpdate.setVisible(true);
+	    	btnSubmit.setVisible(false);
+	    }
 		
 		// Add to panel
 		contentPanel.add(nameLabel);
@@ -326,7 +388,7 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(descriptionTextArea, "wrap, span ");
 		contentPanel.add(inviteeLabel);
 		contentPanel.add(inviteeTextArea, "wrap, span ");
-		contentPanel.add(allDayEventCheckBox, "wrap, span");
+//		contentPanel.add(allDayEventCheckBox, "wrap, span");
 		contentPanel.add(btnSubmit);
 		contentPanel.add(btnCancel);
 		this.add(contentPanel);
@@ -339,6 +401,46 @@ public class AddEventPanel extends JPanel {
 			return null;
 		else
 			return this.nameTextField.getText();
+	}
+	
+	private Event packInfo() {
+		// ID 
+		int id;
+		if (IDText.getText().equals("")) {
+			id = -1;
+		}
+		else {
+			id = Integer.parseInt(IDText.getText()); 
+		}
+		// Name
+		String name = nameTextField.getText();
+		// Start date time
+		GregorianCalendar startDateTime = new GregorianCalendar();
+		try {
+			Date tempDate = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(startDateTextField.getValue() + " " + startTimeTextField.getValue());
+			startDateTime.setTime(tempDate);
+		} catch (ParseException e) {
+			System.out.println("Cannot parse date! ");
+			e.printStackTrace();
+		}
+		// End date time
+		GregorianCalendar endDateTime = new GregorianCalendar();
+		try {
+			Date tempDate = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(endDateTextField.getValue() + " " + endTimeTextField.getValue());
+			endDateTime.setTime(tempDate);
+		} catch (ParseException e) {
+			System.out.println("Cannot parse date! ");
+			e.printStackTrace();
+		}
+		// Location
+		String location = locationTextField.getText();
+		// Description
+		String desc = descriptionTextArea.getText();
+		// Invitee
+		String invitee = inviteeTextArea.getText();
+		Event event = new Event(name, startDateTime, endDateTime, location, desc);
+		event.setId(id);
+		return event;
 	}
 
 //	public GregorianCalendar getNewDate(String data) throws ParseException {
@@ -403,14 +505,17 @@ public class AddEventPanel extends JPanel {
 			if (tf.getText().equals("")) {
 				errMsg.setText("Name can not be empty! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			else if (tf.getText().trim().equals("")) {
 				errMsg.setText("Invalid Name! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			else {
 				errMsg.setText("");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			return (! tf.getText().trim().equals(""));
 		}
@@ -433,6 +538,7 @@ public class AddEventPanel extends JPanel {
 				if (Integer.parseInt(content[0].trim()) > 23 || Integer.parseInt(content[1].trim()) > 59) {
 					errMsg.setText("Invalid Time! ");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return false;
 				}
 				else {
@@ -442,12 +548,14 @@ public class AddEventPanel extends JPanel {
 					if (errMsg.getContentText().equals("Invalid Time! ")) 
 						errMsg.setText("");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return true;
 				}
 			}
 			else {
 				errMsg.setText("Invalid Time! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 				return false;
 			}
 		}
@@ -486,6 +594,7 @@ public class AddEventPanel extends JPanel {
 						if (Integer.parseInt(content[1].trim()) > 31) {
 							errMsg.setText("Invalid Date! ");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return false;
 						}
 						else {
@@ -495,6 +604,7 @@ public class AddEventPanel extends JPanel {
 							if (errMsg.getContentText().equals("Invalid Date! ")) 
 								errMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return true;
 						}
 					}
@@ -502,6 +612,7 @@ public class AddEventPanel extends JPanel {
 						if (Integer.parseInt(content[1].trim()) > 30) {
 							errMsg.setText("Invalid Date! ");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return false;
 						}
 						else {
@@ -511,6 +622,7 @@ public class AddEventPanel extends JPanel {
 							if (errMsg.getContentText().equals("Invalid Date! ")) 
 								errMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return true;
 						}
 					}
@@ -519,6 +631,7 @@ public class AddEventPanel extends JPanel {
 							if (Integer.parseInt(content[1].trim()) > 28) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -528,6 +641,7 @@ public class AddEventPanel extends JPanel {
 								if (errMsg.getContentText().equals("Invalid Date! ")) 
 									errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -535,6 +649,7 @@ public class AddEventPanel extends JPanel {
 							if (Integer.parseInt(content[1].trim()) > 29) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -544,6 +659,7 @@ public class AddEventPanel extends JPanel {
 								if (errMsg.getContentText().equals("Invalid Date! ")) 
 									errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -551,6 +667,7 @@ public class AddEventPanel extends JPanel {
 							if (Integer.parseInt(content[1].trim()) > 28) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -560,6 +677,7 @@ public class AddEventPanel extends JPanel {
 								if (errMsg.getContentText().equals("Invalid Date! ")) 
 									errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -567,18 +685,21 @@ public class AddEventPanel extends JPanel {
 					else {
 						errMsg.setText("Invalid Date! ");
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 						return false;
 					}
 				}
 				else {
 					errMsg.setText("Invalid Date! ");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return false;
 				}
 			}
 			else {
 				errMsg.setText("Invalid Date! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 				return false;
 			}
 		}

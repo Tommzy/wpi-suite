@@ -477,20 +477,6 @@ public class CalendarDay extends JPanel {
 					newText += "</div></HTML>";
 					((EventLabel)components[i]).setText(newText);
 					
-//					if (! ((EventLabel)components[i]).getOriginalContent().equals(newText)) {
-//						for (int j = 0; j < calendarCards.size(); j++) {
-//							if ((EventLabel)components[i] == calendarCards.get(j).label) {
-//								if (calendarCards.get(j).commitment != null) {
-//									((EventLabel)components[i]).setToolTipText(formatToolTip(calendarCards.get(j).commitment));
-//								}
-//								else if (calendarCards.get(j).event != null) {
-//									((EventLabel)components[i]).setToolTipText(formatToolTip(calendarCards.get(j).event));
-//								}
-//							}
-//						}
-//						
-//					}
-					
 				}
 			}
 		}
