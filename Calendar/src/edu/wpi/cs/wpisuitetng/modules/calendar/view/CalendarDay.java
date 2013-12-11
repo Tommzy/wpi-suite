@@ -50,6 +50,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 
@@ -169,11 +170,11 @@ public class CalendarDay extends JPanel {
 	 * Add an event to calendar
 	 * @param event Event to be added
 	 */
-	public void addEvent(DayEvent event) {
+	public void addEvent(Event event) {
 		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
-		String eventName = event.getEventName();
+		String eventName = event.getName();
 		
 		// Construct label of the event
 		String label = formatLabel(event);
@@ -310,13 +311,13 @@ public class CalendarDay extends JPanel {
 	 * @param event Event that needs a label text
 	 * @return Label for that event
 	 */
-	private String formatLabel(DayEvent event) {
+	private String formatLabel(Event event) {
 		String label = "";
 		if (event.getTimeSpan() < 30) {
-			label = "<HTML><div style='text-align:center'>" + event.getEventName() + "</div></HTML>";
+			label = "<HTML><div style='text-align:center'>" + event.getName() + "</div></HTML>";
 		}
 		if (event.getTimeSpan() >= 30 ) {
-			label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
+			label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
 					format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 					format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
 					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -339,8 +340,8 @@ public class CalendarDay extends JPanel {
 		return label;
 	}
 
-	private String formatToolTip(DayEvent event) {
-		String label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
+	private String formatToolTip(Event event) {
+		String label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
 				format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 				format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
 				format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -387,10 +388,10 @@ public class CalendarDay extends JPanel {
 	}
 	
 	private class EventCard implements CalendarCard {
-		private DayEvent event;
+		private Event event;
 		private JLabel label;
 		
-		public EventCard(DayEvent event, JLabel eventLabel) {
+		public EventCard(Event event, JLabel eventLabel) {
 			this.event = event;
 			this.label = eventLabel;
 		}
@@ -596,24 +597,5 @@ public class CalendarDay extends JPanel {
 			
 		}
 		
-	}
-	
-	//Test the detailed view, adding some new events
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		CalendarDay d = new CalendarDay(MainCalendarController.getInstance().getDateController());
-		d.addEvent(new DayEvent("Whoopssssssssssssssssssssssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
-		d.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-		d.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.addEvent(new DayEvent("Heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", new GregorianCalendar(2013, 5, 21, 8, 50, 0), new GregorianCalendar(2013, 5, 21, 10, 21, 0))); 
-		
-//		JScrollPane scroll = new JScrollPane(d);
-		
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(d);
-		
-		frame.pack();
-		frame.setVisible(true);
 	}
 }

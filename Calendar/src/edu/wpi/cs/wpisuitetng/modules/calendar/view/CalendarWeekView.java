@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
@@ -103,7 +104,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 *
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarWeekView(ArrayList<DayEvent> events) {
+	public CalendarWeekView(ArrayList<Event> events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -138,7 +139,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 *
 	 * @param events An array of events to be added to calendar
 	 */
-	public CalendarWeekView (DayEvent[] events) {
+	public CalendarWeekView (Event[] events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -175,7 +176,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 * @param event Event to be added.
 	 * @param dayOfWeek the day of week
 	 */
-	private void addEvent (DayEvent event, int dayOfWeek) {
+	private void addEvent (Event event, int dayOfWeek) {
 		week[dayOfWeek].addEvent(event);
 	}
 	
@@ -324,11 +325,11 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarWeekView d = new CalendarWeekView();
-		d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
-		d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-		d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
+//		d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
+//		d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
+//		d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+//		d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+//		d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
 
 		JScrollPane scroll = new JScrollPane(d);
 

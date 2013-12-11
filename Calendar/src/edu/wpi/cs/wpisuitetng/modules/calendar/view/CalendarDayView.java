@@ -35,9 +35,11 @@ import javax.swing.JScrollPane;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.EventFilter;
 
 /**
  * Generate day calendar view. 
@@ -55,6 +57,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	// commitment table will retrieve this cmtList and display accordingly
 	// if MainCalendarController says it is on the Day view
 	private Collection<Commitment> cmtList = new ArrayList<Commitment>();
+	private Collection<Event> eventList = new ArrayList<Event>();
 	
 	/**
 	 * Constructor
@@ -80,7 +83,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarDayView(ArrayList<DayEvent> events) {
+	public CalendarDayView(ArrayList<Event> events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -105,7 +108,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	 * Constructor that consumes an array of DayEvents
 	 * @param events An array of events to be added to calendar
 	 */
-	public CalendarDayView (DayEvent[] events) {
+	public CalendarDayView (Event[] events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -141,7 +144,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	 * Add an event to calendar
 	 * @param event Event to be added.
 	 */
-	private void addEvent (DayEvent event) {
+	private void addEvent (Event event) {
 		day[1].addEvent(event);
 	}
 	
@@ -215,6 +218,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 		day[1].view.setPreferredSize(new Dimension(1200,450));
 		dayPanel.add(day[1]);
 		parseCommitment();
+		parseEvent();
 	}
 	
 	public Collection<Commitment> getDayViewCommitmentList() {
@@ -244,17 +248,40 @@ public class CalendarDayView extends JPanel implements Updatable{
 		}
 	}
 	
+	public void parseEvent() {
+		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
+		
+		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		dateController.setToNextDate();
+		
+		GregorianCalendar calendarEnd = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		EventFilter eventFilter = new EventFilter(calendarStart, calendarEnd);
+		Collection<Event> eventList = eventFilter.getEventList();
+		System.out.println("eventList size " + eventList.size());
+		this.eventList = eventList;
+		Iterator<Event> itr = eventList.iterator();
+		while (itr.hasNext()) {
+			Event event = itr.next();
+			addEvent(event);
+			//System.out.println(cmt.getName() + " " + eventStartTime.get(GregorianCalendar.HOUR_OF_DAY) + " " + eventEndTime.get(GregorianCalendar.HOUR_OF_DAY));
+		}
+	}
+	
 	//Test the detailed view, adding some new events
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarDayView d = new CalendarDayView();
-		
-		d.day[1].addEvent(new DayEvent("Whoopsssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
-		d.day[1].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-		d.day[1].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.day[1].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.day[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
-		
+//		
+//		d.day[1].addEvent(new DayEvent("Whoopsssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
+//		d.day[1].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
+//		d.day[1].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+//		d.day[1].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
+//		d.day[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
+//		
 		
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

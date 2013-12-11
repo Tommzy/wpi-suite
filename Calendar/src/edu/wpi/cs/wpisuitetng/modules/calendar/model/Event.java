@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -126,26 +127,6 @@ public class Event  implements Model{
 	public void setStartTime(GregorianCalendar startTime) {
 		this.startTime = startTime;
 	}
-	
-    /**
-     * Determine if the Event is active during a certain time stamp
-     * For GUI use.
-     *
-     * @param when the time stamp
-     * @return true if active during the time stamp, false otherwise
-     */
-    public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
-        // On Calendar view, Event will be shown as an one-hour long block. 
-    	GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
-    	endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
-    	if (when.before(startTime) || when.after(endTimeOnGUI)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-
 	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#getPermission(edu.wpi.cs.wpisuitetng.modules.core.models.User)
@@ -282,6 +263,49 @@ public class Event  implements Model{
 		return description;
 	}
 
+	/**
+	 * Gets the length of an event. 
+	 * @return
+	 */
+    public int getTimeSpan() {
+        return (int) (getEndTime().getTime().getTime() - getStartTime().getTime().getTime()) / 60000;
+    }
+    
+    /**
+     * Determine if the DayEvent is active during a certain time stamp
+     * @param calendar the time stamp
+     * @return true if active during the time stamp, false otherwise
+     */
+    public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
+        if (calendar.before(startTime) || calendar.after(endTime)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * Determine if the event is active during a given day
+     * @param day the day
+     * @return true if the event is active during that day, false otherwise
+     */
+    public boolean isActiveDuringDay(Date day){
+        Date startDay, endDay;
+        GregorianCalendar cal = new GregorianCalendar();
+        //Set the startDay to the start of the day when the
+        //event is active
+        cal.setTime(startTime.getTime());
+        cal.set(GregorianCalendar.HOUR_OF_DAY,0);
+        cal.set(GregorianCalendar.MINUTE, 0);
+        startDay = cal.getTime();
+        //Set the endDay to the end of the day pointed by endTime
+        cal.setTime(endTime.getTime());
+        cal.set(GregorianCalendar.HOUR_OF_DAY,23);
+        cal.set(GregorianCalendar.MINUTE, 59);
+        endDay = cal.getTime();
+
+       return startDay.before(day) && endDay.after(day);
+    }
 
 
 }

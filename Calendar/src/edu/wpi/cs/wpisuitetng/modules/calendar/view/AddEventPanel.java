@@ -338,18 +338,18 @@ public class AddEventPanel extends JPanel {
 		});	
 		
 	    btnCancel.addActionListener(AddEventPanelController.getInstance());
-//	    btnSubmit.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
-//				((JButton)e.getSource()).addActionListener(new AddEventController(model , packInfo()));
-//				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
-//				((JButton)e.getSource()).removeActionListener(this);
-//				((JButton)e.getSource()).doClick();
-//			}
-//	    	
-//	    });
+	    btnSubmit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				((JButton)e.getSource()).addActionListener(new AddEventController(model , packInfo()));
+				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
+				((JButton)e.getSource()).removeActionListener(this);
+				((JButton)e.getSource()).doClick();
+			}
+	    	
+	    });
 //	    btnUpdate.addActionListener(new ActionListener() {
 //
 //			@Override
