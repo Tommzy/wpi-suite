@@ -307,6 +307,14 @@ public class Event  implements Model{
        return startDay.before(day) && endDay.after(day);
     }
 
+    /**
+     * Gets location of event
+     * @return this.location
+     */
+	public String getLocation() {
+		return location;
+	}
+
 
 }
 

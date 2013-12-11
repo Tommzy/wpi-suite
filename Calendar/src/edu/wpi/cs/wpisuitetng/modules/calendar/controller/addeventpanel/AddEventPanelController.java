@@ -59,7 +59,9 @@ public class AddEventPanelController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if (e.getSource().getClass().equals(JButton.class)) {
+			((JButton)e.getSource()).setEnabled(false);
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				  @Override

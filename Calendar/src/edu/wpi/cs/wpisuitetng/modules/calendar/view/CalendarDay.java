@@ -16,43 +16,35 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicLabelUI;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.UpdateCommitmentListener;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.UpdateEventListener;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 
 /**
  * Generate day calendar view. 
@@ -74,7 +66,7 @@ public class CalendarDay extends JPanel {
 	
 	/**
 	 * Constructor
-	 * Create view of a calendar day
+	 * Create view of a calendar day 
 	 */
 	public CalendarDay(DateController date) {
 		this.dateController = date;
@@ -190,7 +182,7 @@ public class CalendarDay extends JPanel {
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
 		newEvent.setToolTipText(formatToolTip(event));
-		
+		newEvent.addMouseListener(new UpdateEventListener(event));
 		
 		int labelSpan = event.getTimeSpan() < 20? 20 : event.getTimeSpan();
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
@@ -260,7 +252,7 @@ public class CalendarDay extends JPanel {
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newCommitment.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newCommitment.getMinimumSize().height));
 		newCommitment.setToolTipText(formatToolTip(commitment));
-		newCommitment.addMouseListener(new editCommitmentListener(commitment));
+		newCommitment.addMouseListener(new UpdateCommitmentListener(commitment));
 		
 		int labelSpan = COMMITMENT_TIME_SPAN; 
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
@@ -547,107 +539,5 @@ public class CalendarDay extends JPanel {
 	    return text.substring(0, end) + "...";
 	}
 	
-	private class editCommitmentListener implements MouseListener {
-		Commitment commitment; 
-		
-		public editCommitmentListener (Commitment commitment) {
-			this.commitment = commitment;
-		}
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
-				AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
-				newCommitmentPanel.populateCommitment(commitment);
-				AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
-				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
-				AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-		        newCommitmentPanel.initiateFocus();
-			}
-			else if (e.getButton() == MouseEvent.BUTTON3) {
-				JPopupMenu menu = new JPopupMenu();
-				JMenuItem anItem = new JMenuItem(" Delete ");
-			    anItem.addActionListener(new DeleteCommitmentController(commitment.getId()));
-				menu.add(anItem);    
-		        menu.show(e.getComponent(), e.getX(), e.getY());
-			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
 	
-	private class editeventListener implements MouseListener {
-		Event event;
-		
-		public editeventListener (Event event) {
-			this.event = event;
-		}
-		
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
-				AddEventPanel newEventPanel = new AddEventPanel(new MigLayout());
-//				newEventPanel.populateEvent(event);
-				AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
-				AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
-				AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-				newEventPanel.initiateFocus();
-			}
-			else if (e.getButton() == MouseEvent.BUTTON3) {
-				JPopupMenu menu = new JPopupMenu();
-				JMenuItem anItem = new JMenuItem(" Delete ");
-//			    anItem.addActionListener(new DeleteEventController(event.getId()));
-				menu.add(anItem);    
-		        menu.show(e.getComponent(), e.getX(), e.getY());
-			}
-		}
-
-		@Override
-		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-	}
 }

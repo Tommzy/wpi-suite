@@ -109,7 +109,7 @@ public class AddCommitmentPanel extends JPanel {
 
     nameTextField = new JTextField(10);
     
-    nameErrMsg = new JErrorMessageLabel("");
+    nameErrMsg = new JErrorMessageLabel();
 
     startDateLabel = new JLabel("Time:");
 
@@ -147,7 +147,6 @@ public class AddCommitmentPanel extends JPanel {
     btnSubmit = new JButton("Submit");
     btnUpdate = new JButton("Update");
     btnSubmit.setEnabled(false);
-    btnUpdate.setEnabled(false);
     btnCancel = new JButton ("Cancel");
     
     IDText = new JLabel(); 
@@ -329,6 +328,7 @@ public class AddCommitmentPanel extends JPanel {
 		  btnUpdate.setVisible(true);
 		  btnSubmit.setVisible(false);
 	  }
+	  
   }
 
 	private class TextVerifier extends InputVerifier {

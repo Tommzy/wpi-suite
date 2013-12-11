@@ -59,7 +59,7 @@ public class ToolbarController implements ActionListener {
 //        });
 
         AddEventPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-
+        newEventPanel.initiateFocus();
       //}
     }
 
