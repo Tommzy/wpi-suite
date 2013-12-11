@@ -217,12 +217,17 @@ public class CalendarDayView extends JPanel implements Updatable{
 		day[1].initHeader();
 		day[1].view.setPreferredSize(new Dimension(1200,450));
 		dayPanel.add(day[1]);
-		parseCommitment();
 		parseEvent();
+		parseCommitment();
+		
 	}
 	
 	public Collection<Commitment> getDayViewCommitmentList() {
 		return cmtList;
+	}
+	
+	public Collection<Event> getDayViewEventList() {
+		return eventList;
 	}
 	
 	public void parseCommitment() {

@@ -38,6 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.EventFilter;
 
 /**
 * Generate day calendar view.
@@ -67,6 +68,9 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	
 	/** The cmt list. */
 	private Collection<Commitment> cmtList = new ArrayList<Commitment>();
+	
+	/** The event list */
+	private Collection<Event> eventList = new ArrayList<Event>();
 	
 	/**
 	 * Constructor
@@ -272,6 +276,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 //		week[1].initTimeLabels();
 //    week[0].setVisible(false);
 		MainCalendarController.getInstance().setDateController(originalDate);
+		parseEvent();
 		parseCommitment();
 		
 		revalidate();
@@ -299,6 +304,30 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
 			addCommitment(cmt, cmt.getStartTime().get(GregorianCalendar.DAY_OF_WEEK));
+		}
+	}
+	
+	/**
+	 * Parses the event.
+	 */
+	private void parseEvent() {
+		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
+		dateController.setToFirstDayOfWeek();
+		GregorianCalendar calendarStart = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		dateController.setToNextWeek();
+		
+		GregorianCalendar calendarEnd = new GregorianCalendar(dateController.getYear(), 
+				dateController.getMonth(), dateController.getDayOfMonth(), 0, 0);
+		
+		EventFilter eventFilter = new EventFilter(calendarStart, calendarEnd);
+		Collection<Event> eventList = eventFilter.getEventList();
+		this.eventList  = eventList;
+		Iterator<Event> itr = eventList.iterator();
+		while (itr.hasNext()) {
+			Event event = itr.next();
+			addEvent(event, event.getStartTime().get(GregorianCalendar.DAY_OF_WEEK));
 		}
 	}
 
@@ -356,6 +385,15 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 */
 	public Collection<Commitment> getDayViewCommitmentList() {
 		return cmtList;
+	}
+	
+	/**
+	 * Gets the day view commitment list.
+	 *
+	 * @return the day view commitment list
+	 */
+	public Collection<Event> getDayViewEventList() {
+		return eventList;
 	}
 		
 	
