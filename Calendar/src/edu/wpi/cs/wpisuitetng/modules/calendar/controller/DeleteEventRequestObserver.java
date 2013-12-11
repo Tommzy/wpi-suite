@@ -14,21 +14,21 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 /**
  * This observer is called when a response is delete from a request
- * to the server to delete a commitment.
+ * to the server to delete a Event.
  * @version $Revision: 1.0 $
  * @author Hui Zheng & Andrew Paon & Mark & Chris turner & Jared
  */
-public class DeleteCommitmentRequestObserver implements RequestObserver{
+public class DeleteEventRequestObserver implements RequestObserver{
 	
-	public DeleteCommitmentController controller;
-	public GetCommitmentController getController;
+	public DeleteEventController controller;
+	public GetEventController getController;
 
 	
 	
-	public DeleteCommitmentRequestObserver(DeleteCommitmentController controller) {
+	public DeleteEventRequestObserver(DeleteEventController controller) {
 		
 		this.controller = controller;
-		getController = new GetCommitmentController();
+		getController = new GetEventController();
 	}
 
 	
@@ -39,16 +39,16 @@ public class DeleteCommitmentRequestObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		//Commitment[] items = Commitment.fromJsonArray(iReq.getResponse().getBody());
+		//Event[] items = Event.fromJsonArray(iReq.getResponse().getBody());
 		
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
 		
 	
-		System.out.println("After delete: Success! Here is DeleteCommitmentRequestController in the JSON way"+ "   " + result);
+		System.out.println("After delete: Success! Here is DeleteEventRequestController in the JSON way"+ "   " + result);
 		
 		//TODO
 		//Update the view
-		getController.retrieveCommitments();
+		getController.retrieveEvents();
 		MainCalendarController.getInstance().updateAll();
 		
 	}
@@ -60,18 +60,18 @@ public class DeleteCommitmentRequestObserver implements RequestObserver{
 	public void responseError(IRequest iReq) {
 	//	fail(iReq, null);
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
-		System.err.println("After delete: The request to delete commitments Errored. " + result);
+		System.err.println("After delete: The request to delete Events Errored. " + result);
 	}
 
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-//		Commitment[] errorCommitment = { new Commitment("Error", null, "Error") };
-//		controller.receivedCommitments(errorCommitment);
+//		Event[] errorEvent = { new Event("Error", null, "Error") };
+//		controller.receivedEvents(errorEvent);
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
 
-		System.err.println("After delete: The request to delete commitments failed.  " + result);
+		System.err.println("After delete: The request to delete Events failed.  " + result);
 		
 	}
 }
