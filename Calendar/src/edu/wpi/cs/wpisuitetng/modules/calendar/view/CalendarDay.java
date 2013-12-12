@@ -16,34 +16,34 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.Icon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
-import javax.swing.plaf.basic.BasicLabelUI;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MaximizeAction;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteEventController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.UpdateCommitmentListener;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.UpdateEventListener;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
@@ -66,7 +66,7 @@ public class CalendarDay extends JPanel {
 	
 	/**
 	 * Constructor
-	 * Create view of a calendar day
+	 * Create view of a calendar day 
 	 */
 	public CalendarDay(DateController date) {
 		this.dateController = date;
@@ -77,8 +77,16 @@ public class CalendarDay extends JPanel {
 //		revalidate();
 //		repaint();
 		add(view, BorderLayout.CENTER);
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				printDate();
+			}
+		});
 	}
 	
+	private void printDate() {
+		System.out.println("Calendar Day " + dateController + "clicked");
+	}
 	/**
 	 * Initialize box of calendar panel.
 	 * An event has a resolution of 2 min in this implementation.
@@ -154,11 +162,11 @@ public class CalendarDay extends JPanel {
 	 * Add an event to calendar
 	 * @param event Event to be added
 	 */
-	public void addEvent(DayEvent event) {
+	public void addEvent(Event event) {
 		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
-		String eventName = event.getEventName();
+		String eventName = event.getName();
 		
 		// Construct label of the event
 		String label = formatLabel(event);
@@ -174,16 +182,16 @@ public class CalendarDay extends JPanel {
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
 		newEvent.setToolTipText(formatToolTip(event));
-		
+		newEvent.addMouseListener(new UpdateEventListener(event));
 		
 		int labelSpan = event.getTimeSpan() < 20? 20 : event.getTimeSpan();
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
 
-		for (CalendarCard eventCard : calendarCards) {
-			if (event.isActiveDuringTimeStamp(eventCard.event.getStartTime())
-					|| event.isActiveDuringTimeStamp(eventCard.event.getEndTime())) {
-				conflict.add(eventCard); //Which events conflict with the new one
-				newGridX = newGridX < eventConstraint.get(eventCard).gridx? eventConstraint.get(eventCard).gridx : newGridX;
+		for (CalendarCard card : calendarCards) {
+			if (event.isActiveDuringTimeStamp(card.getStartTime())
+					|| event.isActiveDuringTimeStamp(card.getEndTime())) {
+				conflict.add(card); //Which events conflict with the new one
+				newGridX = newGridX < eventConstraint.get(card).gridx? eventConstraint.get(card).gridx : newGridX;
 				currentMaxWidth = currentMaxWidth < newGridX + 1? newGridX + 1: currentMaxWidth;
 				hasOverlap = true;
 			}
@@ -212,7 +220,7 @@ public class CalendarDay extends JPanel {
 		view.add(newEvent, cLocal);
 //		resizeAllLabel();
 		//Keep track of the new event, and revalidate/repaint the view
-		CalendarCard eventCard = new CalendarCard(event, newEvent);
+		CalendarCard eventCard = new EventCard(event, newEvent);
 		calendarCards.add(eventCard);
 		eventConstraint.put(eventCard, cLocal);
 		revalidate();
@@ -239,21 +247,21 @@ public class CalendarDay extends JPanel {
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background
-		newCommitment.setBackground(new Color(200, 240, 200));
+		newCommitment.setBackground(new Color(136, 255, 255));
 		newCommitment.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newCommitment.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newCommitment.getMinimumSize().height));
 		newCommitment.setToolTipText(formatToolTip(commitment));
+		newCommitment.addMouseListener(new UpdateCommitmentListener(commitment));
 		
-		
-		int labelSpan = COMMITMENT_TIME_SPAN;
+		int labelSpan = COMMITMENT_TIME_SPAN; 
 		int labelSize = labelSpan / minimalInterval; // 1 min = 1/minimalInterval px height
 
-		for (CalendarCard eventCard : calendarCards) {
-			if (commitment.isActiveDuringTimeStamp(eventCard.event.getStartTime())
-					|| commitment.isActiveDuringTimeStamp(eventCard.event.getEndTime())) {
-				conflict.add(eventCard); //Which events conflict with the new one
-				newGridX = newGridX < eventConstraint.get(eventCard).gridx? eventConstraint.get(eventCard).gridx : newGridX;
+		for (CalendarCard card : calendarCards) {
+			if (commitment.isActiveDuringTimeStamp(card.getStartTime())
+					|| commitment.isActiveDuringTimeStamp(card.getEndTime())) {
+				conflict.add(card); //Which events conflict with the new one
+				newGridX = newGridX < eventConstraint.get(card).gridx? eventConstraint.get(card).gridx : newGridX;
 				currentMaxWidth = currentMaxWidth < newGridX + 1? newGridX + 1: currentMaxWidth;
 				hasOverlap = true;
 			}
@@ -282,11 +290,12 @@ public class CalendarDay extends JPanel {
 		view.add(newCommitment, cLocal);
 
 		//Keep track of the new event, and revalidate/repaint the view
-		CalendarCard eventCard = new CalendarCard(commitment, newCommitment);
+		CalendarCard eventCard = new CommitmentCard(commitment, newCommitment);
 		calendarCards.add(eventCard);
 		eventConstraint.put(eventCard, cLocal);
-//		revalidate();
-//		repaint();
+		
+		revalidate();
+		repaint();
 	}
 
 	/**
@@ -294,13 +303,13 @@ public class CalendarDay extends JPanel {
 	 * @param event Event that needs a label text
 	 * @return Label for that event
 	 */
-	private String formatLabel(DayEvent event) {
+	private String formatLabel(Event event) {
 		String label = "";
 		if (event.getTimeSpan() < 30) {
-			label = "<HTML><div style='text-align:center'>" + event.getEventName() + "</div></HTML>";
+			label = "<HTML><div style='text-align:center'>" + event.getName() + "</div></HTML>";
 		}
 		if (event.getTimeSpan() >= 30 ) {
-			label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
+			label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
 					format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 					format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
 					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -323,8 +332,8 @@ public class CalendarDay extends JPanel {
 		return label;
 	}
 
-	private String formatToolTip(DayEvent event) {
-		String label = "<HTML><div style='text-align:center'>" + event.getEventName() + "<br />" + 
+	private String formatToolTip(Event event) {
+		String label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
 				format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 				format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
 				format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -362,21 +371,53 @@ public class CalendarDay extends JPanel {
 	 * Simple inner class for connecting events/commitments with it's corresponding
 	 * visual representation
 	 */
-	private class CalendarCard {
+	private interface CalendarCard {
 		
-		private DayEvent event;
+		public GregorianCalendar getStartTime();
+		
+		public GregorianCalendar getEndTime();
+		
+	}
+	
+	private class EventCard implements CalendarCard {
+		private Event event;
+		private JLabel label;
+		
+		public EventCard(Event event, JLabel eventLabel) {
+			this.event = event;
+			this.label = eventLabel;
+		}
+
+		@Override
+		public GregorianCalendar getStartTime() {
+			return event.getStartTime();
+		}
+
+		@Override
+		public GregorianCalendar getEndTime() {
+			return event.getEndTime();
+		}
+	}
+	
+	private class CommitmentCard implements CalendarCard { 
 		private Commitment commitment;
 		private JLabel label;
-
-		public CalendarCard(Commitment commitment, JLabel commitmentLabel) {
+		
+		public CommitmentCard(Commitment commitment, JLabel commitmentLabel) {
 			this.commitment = commitment;
 			this.label = commitmentLabel;
 		}
 
+		@Override
+		public GregorianCalendar getStartTime() {
+			return commitment.getStartTime();
+		}
 
-		public CalendarCard(DayEvent event, JLabel eventLabel) {
-			this.event = event;
-			this.label = eventLabel;
+		@Override
+		public GregorianCalendar getEndTime() {
+			GregorianCalendar endTime = (GregorianCalendar) commitment.getStartTime().clone();
+			endTime.add(GregorianCalendar.HOUR, 1);
+			return endTime;
 		}
 	}
 	
@@ -428,20 +469,6 @@ public class CalendarDay extends JPanel {
 					}
 					newText += "</div></HTML>";
 					((EventLabel)components[i]).setText(newText);
-					
-//					if (! ((EventLabel)components[i]).getOriginalContent().equals(newText)) {
-//						for (int j = 0; j < calendarCards.size(); j++) {
-//							if ((EventLabel)components[i] == calendarCards.get(j).label) {
-//								if (calendarCards.get(j).commitment != null) {
-//									((EventLabel)components[i]).setToolTipText(formatToolTip(calendarCards.get(j).commitment));
-//								}
-//								else if (calendarCards.get(j).event != null) {
-//									((EventLabel)components[i]).setToolTipText(formatToolTip(calendarCards.get(j).event));
-//								}
-//							}
-//						}
-//						
-//					}
 					
 				}
 			}
@@ -512,23 +539,5 @@ public class CalendarDay extends JPanel {
 	    return text.substring(0, end) + "...";
 	}
 	
-	//Test the detailed view, adding some new events
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		CalendarDay d = new CalendarDay(MainCalendarController.getInstance().getDateController());
-		d.addEvent(new DayEvent("Whoopssssssssssssssssssssssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
-		d.addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-		d.addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-		d.addEvent(new DayEvent("Heyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy", new GregorianCalendar(2013, 5, 21, 8, 50, 0), new GregorianCalendar(2013, 5, 21, 10, 21, 0))); 
-		
-//		JScrollPane scroll = new JScrollPane(d);
-		
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.add(d);
-		
-		frame.pack();
-		frame.setVisible(true);
-
-	}
+	
 }

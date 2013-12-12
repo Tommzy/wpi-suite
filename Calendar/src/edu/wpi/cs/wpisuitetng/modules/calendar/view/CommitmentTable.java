@@ -11,8 +11,8 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.FakeCommitmentModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
 
@@ -104,7 +104,6 @@ public class CommitmentTable extends JPanel implements Updatable {
 		}
 		int length = cmtList.size();
 		Iterator<Commitment> itr = cmtList.iterator();
-//		System.out.println(length);
 		data = new Object[length][3];
 		for (int i = 0; i < length; i++) {
 			Commitment cmt = itr.next();
@@ -116,7 +115,7 @@ public class CommitmentTable extends JPanel implements Updatable {
 			int hour = cal.get(Calendar.HOUR_OF_DAY);
 			int minute = cal.get(Calendar.MINUTE);
 			data[i][2] = "" + hour + ":" + (minute < 10 ? "0" + minute : minute);
-			data[i][1] = "" + (month + 1) + "/" + day;
+			data[i][1] = "" + (month + 1) + "/" + day + "/" + year;
 
 		}
 		

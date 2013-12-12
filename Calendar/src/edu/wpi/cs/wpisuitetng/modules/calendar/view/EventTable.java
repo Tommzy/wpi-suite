@@ -19,32 +19,51 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
+
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Iterator;
 /**
  * The Class for the table of events.
  */
 @SuppressWarnings("serial")
-public class EventTable extends JPanel {
+public class EventTable extends JPanel implements Updatable {
 
+	/** The data in this table*/
+	Object[][] data;
+	
   /**
    * Instantiates a new event table.
    */
   public EventTable() {
-    
-    // Table label
-    final JLabel eventTableLabel = new JLabel("Events");
-    eventTableLabel.setAlignmentX(CENTER_ALIGNMENT);
-    eventTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
-    final JTable table = new JTable(new EventTableModel());
-    //table.setPreferredScrollableViewportSize(new Dimension(500, 80));
-    //table.setFillsViewportHeight(true);
-    table.setAutoCreateRowSorter(true);
+	  super(new GridLayout(1, 0));
+	  update();
+	  MainCalendarController.getInstance().addToUpdateList(this); 
+  }
+  
+  private void setupTable() {
+	  removeAll();
+	  // Table label
+	  final JLabel eventTableLabel = new JLabel("Events");
+	  eventTableLabel.setAlignmentX(CENTER_ALIGNMENT);
+	  eventTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
+	  final JTable table = new JTable(new EventTableModel(data));
+	  //table.setPreferredScrollableViewportSize(new Dimension(500, 80));
+	  //table.setFillsViewportHeight(true);
+	  table.setAutoCreateRowSorter(true);
 
-    // Create the scroll pane and add the table to it.
-    final JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    add(eventTableLabel);
-    // Add the scroll pane to this panel.
-    add(scrollPane);
+	  // Create the scroll pane and add the table to it.
+	  final JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	  add(eventTableLabel);
+	  // Add the scroll pane to this panel.
+	  add(scrollPane);
   }
 
   /**
@@ -52,25 +71,36 @@ public class EventTable extends JPanel {
    */
   class EventTableModel extends AbstractTableModel {
     
+	  
+	  
     /** The column names. */
-    private String[]   columnNames = {"Event", "Date", "Time", "Location" };
+    private String[]   columnNames = {"Event", "Start", "End", "Location" };
     
     /** The event data. */
-    private Object[][] eventData   = 
-    {
-      {"GUI Meeting", "Nov 13, 2013",                                         
-        "08:00 - 10:00", "SL 402", },
-      {"Team Meeting", "Nov 13, 2013",
-        "11:00 - 11:30", "Anderson Labs A", },
-      {"Lunch", "Nov 13, 2013",
-        "12:00 - 13:00", "Campus Center", },
-      {"DB Meeting", "Nov 13, 2013",
-        "14:00 - 16:00", "Pumpkin Lounge", },
-      {"Code Review", "Nov 13, 2013",
-        "16:00 - 17:00", "SL 402", },
-      {"Quittin' Time", "Nov 13, 2013",
-        "17:00 - 17:15", "SL 402", }
-    };
+//    private Object[][] eventData   = 
+//    {
+//      {"GUI Meeting", "Nov 13, 2013",                                         
+//        "08:00 - 10:00", "SL 402", },
+//      {"Team Meeting", "Nov 13, 2013",
+//        "11:00 - 11:30", "Anderson Labs A", },
+//      {"Lunch", "Nov 13, 2013",
+//        "12:00 - 13:00", "Campus Center", },
+//      {"DB Meeting", "Nov 13, 2013",
+//        "14:00 - 16:00", "Pumpkin Lounge", },
+//      {"Code Review", "Nov 13, 2013",
+//        "16:00 - 17:00", "SL 402", },
+//      {"Quittin' Time", "Nov 13, 2013",
+//        "17:00 - 17:15", "SL 402", }
+//    };
+    
+    /**
+	 * Instantiates a new task table model.
+	 *
+	 * @param data2 the data2
+	 */
+	public EventTableModel(Object[][] data2) {
+		data = data2;
+	}
 
     /**
      * Gives the number of columns in the table.
@@ -89,7 +119,7 @@ public class EventTable extends JPanel {
      * @see javax.swing.table.TableModel#getRowCount()
      */
     public int getRowCount() {
-      return eventData.length;
+      return data.length;
     }
 
     /**
@@ -112,7 +142,7 @@ public class EventTable extends JPanel {
      * @see javax.swing.table.TableModel#getValueAt(int, int)
      */
     public Object getValueAt(int row, int col) {
-      return eventData[row][col];
+      return data[row][col];
     }
 
     /**
@@ -127,5 +157,57 @@ public class EventTable extends JPanel {
     public Class getColumnClass(int col) {
       return getValueAt(0, col).getClass();
     }
+  }
+
+  @Override
+  public void update() {
+	  // TODO Auto-generated method stub
+	  CalendarTimePeriod timePeriod = MainCalendarController.getInstance()
+				.getSelectedCalendarView();
+		Collection<Event> eventList = null;
+		switch (timePeriod) {
+		case Month:
+//			cmtList = MainCalendarController.getInstance().getMonthView()
+//					.getMonthViewPanel().getMonthCommitmentList();
+			break;
+		case Day:
+			eventList = MainCalendarController.getInstance().getDayView().getDayViewEventList();
+			break;
+		case Week:
+			eventList = MainCalendarController.getInstance().getWeekView().getDayViewEventList();
+		default:
+			break;
+		}
+
+		if (eventList == null) {
+			data = new Object[0][0];
+			setupTable();
+			return;
+		}
+		int length = eventList.size();
+		Iterator<Event> itr = eventList.iterator();
+		data = new Object[length][4];
+		for (int i = 0; i < length; i++) {
+			Event event = itr.next();
+			data[i][0] = event.getName();
+			data[i][3] = event.getLocation();
+			GregorianCalendar calStart = event.getStartTime();
+			int yearStart = calStart.get(Calendar.YEAR);
+			int monthStart = calStart.get(Calendar.MONTH);
+			int dayStart = calStart.get(Calendar.DATE);
+			int hourStart = calStart.get(Calendar.HOUR_OF_DAY);
+			int minuteStart = calStart.get(Calendar.MINUTE);
+			data[i][1] = "" + (monthStart + 1) + "/" + dayStart + "/" + yearStart + " " + hourStart + ":" + (minuteStart < 10 ? "0" + minuteStart : minuteStart);
+			GregorianCalendar calEnd = event.getStartTime();
+			int yearEnd = calStart.get(Calendar.YEAR);
+			int monthEnd = calStart.get(Calendar.MONTH);
+			int dayEnd = calStart.get(Calendar.DATE);
+			int hourEnd = calStart.get(Calendar.HOUR_OF_DAY);
+			int minuteEnd = calStart.get(Calendar.MINUTE);
+			data[i][2] = "" + (monthEnd + 1) + "/" + dayEnd + "/" + yearEnd + " " + hourEnd + ":" + (minuteEnd < 10 ? "0" + minuteEnd : minuteEnd);
+
+		}
+		
+		setupTable();
   }
 }

@@ -28,12 +28,25 @@ import net.miginfocom.swing.MigLayout;
  */
 @SuppressWarnings("serial")
 public class MonthViewPanel extends JPanel {
-	
+	// a list of day grid
 	private List<MonthViewGridPanel> monthViewList = new ArrayList<MonthViewGridPanel>();
-	private int row = 3, column = 4;
+	private int column = 4;
 	private Calendar cal = GregorianCalendar.getInstance();
 	private String[] monthNamesAbbr = new DateFormatSymbols().getShortMonths();
 	private String[] weekdayNamesAbbr = new DateFormatSymbols().getShortWeekdays();
+	
+	/*
+	 * month view maintains a list of commitment
+	 * this list is for the commitment panel on the right of our application layout
+	 * 
+	 * when a commitment execute the update() method, it will ask the MainCalendarController
+	 * for the currently displaying calendarView.
+	 * If the currently displaying calendar view is MonthView, the month view panel will pass
+	 * all the commitment to the commitment panel. Those commitment will be displayed on the 
+	 * commitment panel until the next time user switch to another month or another calendar view.
+	 * 
+	 * this commitment list only store the commitment for current month
+	 */
 	private Collection<Commitment> cmtList;
 	/**
 	 * given the beginning day of the month view, the day that will appear on the upper-left corner
@@ -42,10 +55,18 @@ public class MonthViewPanel extends JPanel {
 	 * @param dayOfMonth
 	 */
 	public MonthViewPanel(int year, int month, int dayOfMonth) {
+		// set the panel with the first day of that calendar page.
+		// this day is not necessary on the same month of the 
+		// user selected date. If the user selected day is not 
+		// Sunday, then the day of the constructor's three parameter 
+		// will be the last Sunday before the user selected date.
 		setMonth(year, month, dayOfMonth);
 		this.setBackground(Color.white);
+		
+		// set miglayout and remove the panel margin
 		this.setLayout(new MigLayout("insets 0 0 0 0"));
 		
+		// add the label of "Sunday, Monday, etc" to the first row of month view panel
 		for (int i = 1; i < weekdayNamesAbbr.length; i++) {
 			JLabel weekday = new JLabel(weekdayNamesAbbr[i]);
 			weekday.setOpaque(true);
@@ -53,10 +74,22 @@ public class MonthViewPanel extends JPanel {
 			if (i != weekdayNamesAbbr.length - 1) 
 				add(weekday, "width :14%:");
 			else
+				// when finished adding the first row of components, 
+				// use "wrap" mig command to tell the layout controller
+				// you want to put the next component to the next row
 				add(weekday, "width :14%:, wrap");
+			
+			/*
+			 * also, width 14% means the weekday label will will be 14% of the width of the container
+			 */
 		}
+		
+		/*
+		 * retrieve the commitments from commitmentFilter with a start time and an end time
+		 */
 		GregorianCalendar calendarStart = new GregorianCalendar(year, month, dayOfMonth, 0, 0);
 		GregorianCalendar calendarEnd = new GregorianCalendar(year, month, dayOfMonth, 0, 0);
+		// a calendar month page have 35 days. retrieve the commitment for those 35 days
 		calendarEnd.add(Calendar.DATE, 35);
 		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
 		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();
@@ -67,7 +100,15 @@ public class MonthViewPanel extends JPanel {
 				final MonthViewGridPanel panel = new MonthViewGridPanel(new DateController(cal));
 				monthViewList.add(panel);
 				panel.filtCommitment(cmtList);
+				/*
+				 * panel means a panel for a day grid
+				 * a MonthViewGridPanel has the ability to filter out the commitment of that day
+				 * using filtCommitment() method
+				 */
+				
 				String s;
+				
+				// setup a miglayout command for the day grids to change to next row
 				if (j == 6) {
 					s = ", wrap";
 				} else {
@@ -82,6 +123,16 @@ public class MonthViewPanel extends JPanel {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
+						/* 
+						 * when user click on this day grid panel
+						 * change the current date controller (in the main calendar controller) to the day controller
+						 * that stored inside that day grid panel
+						 * 
+						 * after changing the date controller, at the next repaint,
+						 * if the date controller from main calendar controller matches
+						 * one of the day grid panel, the day grid panel will be labeled
+						 * as orange
+						 */
 						panel.setToThisDate();
 					}
 

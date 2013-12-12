@@ -13,8 +13,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -26,50 +28,50 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @version $Revision: 1.0 $
  * @author Hui Zheng & EJ & Jared
  */
-public class GetCommitmentController implements ActionListener {
+public class GetEventController implements ActionListener {
 
-	private GetCommitmentRequestObserver observer;
+	private GetEventRequestObserver observer;
 
-	public GetCommitmentController() {
-		observer = new GetCommitmentRequestObserver(this);;
+	public GetEventController() {
+		observer = new GetEventRequestObserver(this);;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this message
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
+		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
-		System.out.println("Here is GetCommitmentController.actionPerformed" + "   "+ request.getBody());
+		System.out.println("Here is GetEventController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
 		}
 	
 	/**
 	 * Sends an HTTP request to retrieve all requirements
 	 */
-	public void retrieveCommitments() {
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
+	public void retrieveEvents() {
+		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
-		System.out.println("Here is GetCommitmentController.retrieveCommitments() to update the CommitmentsList" + "   "+ request.getBody());
+		System.out.println("Here is GetEventController.retrieveEvents() to update the EventsList" + "   "+ request.getBody());
 		request.send(); // send the request
 	}
 	
 	/**
-	 * Add the given Commitments to the local model (they were received from the core).
-	 * This method is called by the GetCommitmentsRequestObserver
+	 * Add the given Events to the local model (they were received from the core).
+	 * This method is called by the GetEventsRequestObserver
 	 * 
-	 * @param Commitments an array of Commitments received from the server
+	 * @param Events an array of Events received from the server
 	 */
-	public void receivedCommitments(Commitment[] Commitments) {
-//		System.out.println(Commitments.length);
+	public void receivedEvents(Event[] Events) {
+//		System.out.println(Events.length);
 		// Empty the local model to eliminate duplications
-		CommitmentsModel.getInstance().emptyModel();
+		EventsModel.getInstance().emptyModel();
 		
 		// Make sure the response was not null
-		if (Commitments != null) {
+		if (Events != null) {
 			
-			// add the Commitments to the local model
-			CommitmentsModel.getInstance().addCommitments(Commitments);
-//			System.out.println(CommitmentsModel.getInstance().getAllCommitment().size());
+			// add the Events to the local model
+			EventsModel.getInstance().addEvents(Events);
+//			System.out.println(EventsModel.getInstance().getAllEvent().size());
 		}
 	}
 

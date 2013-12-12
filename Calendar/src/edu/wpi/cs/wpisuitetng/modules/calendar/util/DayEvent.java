@@ -11,7 +11,7 @@
  ******************************************************************************/
 
 
-package edu.wpi.cs.wpisuitetng.modules.calendar.master;
+package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
 import java.util.Calendar;
 import java.util.Date;

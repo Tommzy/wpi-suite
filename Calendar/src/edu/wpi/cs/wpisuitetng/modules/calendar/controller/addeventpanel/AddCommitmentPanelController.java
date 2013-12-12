@@ -2,6 +2,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -11,22 +13,23 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController
 public class AddCommitmentPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
-	JButton btnSubmit;
-	JButton btnCancel;
+//	JButton btnSubmit;
+//	JButton btnUpdate;
+//	JButton btnCancel;
 
-	/**
-	 * @return the btnCancel
-	 */
-	public JButton getBtnCancel() {
-		return btnCancel;
-	}
-
-	/**
-	 * @param btnCancel the btnCancel to set
-	 */
-	public void setBtnCancel(JButton btnCancel) {
-		this.btnCancel = btnCancel;
-	}
+//	/**
+//	 * @return the btnCancel
+//	 */
+//	public JButton getBtnCancel() {
+//		return btnCancel;
+//	}
+//
+//	/**
+//	 * @param btnCancel the btnCancel to set
+//	 */
+//	public void setBtnCancel(JButton btnCancel) {
+//		this.btnCancel = btnCancel;
+//	}
 
 	public static AddCommitmentPanelController instance;
 
@@ -49,21 +52,29 @@ public class AddCommitmentPanelController implements ActionListener {
 		this.tabbedPane = tabbedPane;
 	}
 
-	public JButton getBtnSubmit() {
-		return btnSubmit;
-	}
-
-	public void setBtnSubmit(JButton btnSubmit) {
-		this.btnSubmit = btnSubmit;
-	}
+//	public JButton getBtnSubmit() {
+//		return btnSubmit;
+//	}
+//
+//	public void setBtnSubmit(JButton btnSubmit) {
+//		this.btnSubmit = btnSubmit;
+//	}
 
 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		MainCalendarController.getInstance().updateAll();
+		
 		if (e.getSource().getClass().equals(JButton.class)) {
-			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+			((JButton)e.getSource()).setEnabled(false);
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask() {
+				  @Override
+				  public void run() {
+					  tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+				  }
+				}, 1000);
+			
 		}
 
 //		if (e.getSource() == btnSubmit) {

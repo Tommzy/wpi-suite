@@ -23,8 +23,8 @@ import java.util.Iterator;
 import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.master.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
@@ -51,12 +51,15 @@ public class MainCalendarController implements ActionListener{
 	CalendarWeekView weekView;
 	MainView mainView;
 	
-	// contains the year view, month view and 
+	// contains the year view, month view
 	private Collection<Updatable> updateList = new ArrayList<Updatable>();
 	
 	public static MainCalendarController instance;
 	private DateController dateController = new DateController();
-	private CalendarTimePeriod selectedCalendarView;
+	public CalendarTimePeriod selectedCalendarView;
+	private int selectedDay = 0;
+	private int selectedMonth = 0;
+	private long timeClicked = 0;
 	
 	// for test display use
 	DayEvent[] sampleEvent = {
@@ -69,20 +72,7 @@ public class MainCalendarController implements ActionListener{
 	/**
 	 * Create a MainCalendarController. 
 	 * 
-	 * @param model 
-	 * @param view
 	 */
-	/*
-	public MainCalendarController(CalendarItemListModel model, MainCalendarView view) {
-		this.model = model;
-		this.view = view;
-		yearView = new CalendarYearView();
-		monthView = new MonthView();
-		dayView = new CalendarDayView(sampleEvent, view.getCalendarView());
-		weekView = new CalendarWeekView(sampleEvent);
-		
-	}
-	*/
 	public MainCalendarController() {
 		
 	}
@@ -248,6 +238,14 @@ public class MainCalendarController implements ActionListener{
 	}
 	
 	public void updateAll() {
+		try {
+            GetCommitmentController commitmentController = new GetCommitmentController();
+            commitmentController.actionPerformed(null);
+            GetEventController eventController = new GetEventController();
+            eventController.actionPerformed(null);
+		} catch (NullPointerException e) {
+            
+		}
 		Iterator<Updatable> itr = updateList.iterator();
 		
 		while (itr.hasNext()) {
@@ -257,6 +255,20 @@ public class MainCalendarController implements ActionListener{
 	
 	public void setDateController(DateController originalDate){
 		dateController = originalDate.clone();
+	}
+	
+	public void setSelectedDate(int day, int month) {
+		selectedDay = day;
+		selectedMonth = month;
+	}
+	
+	public boolean isSelectedDate(int day, int month, long time) {
+		if (day == selectedDay && month == selectedMonth && (time - timeClicked) < 750) {
+			timeClicked = time;
+			return true;
+		}
+		timeClicked = time;
+		return false;
 	}
 	
 }

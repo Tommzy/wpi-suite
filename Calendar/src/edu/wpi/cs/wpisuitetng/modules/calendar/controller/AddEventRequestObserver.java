@@ -12,24 +12,25 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * This observer is called when a response is received from a request
- * to the server to add a commitment.
+ * to the server to add a event.
  * @version $Revision: 1.0 $
  * @author Hui Zheng & EJ & Jared
  */
-public class AddCommitmentRequestObserver implements RequestObserver {
+public class AddEventRequestObserver implements RequestObserver {
 
-	private final AddCommitmentController controller;
+	private final AddEventController controller;
 	
-	public AddCommitmentRequestObserver(AddCommitmentController controller) {
+	public AddEventRequestObserver(AddEventController controller) {
 		this.controller = controller;
 	}
-	public Commitment testItem;
+	public Event testItem;
 
 	
 	@Override
@@ -38,17 +39,17 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		final ResponseModel response = iReq.getResponse();
 		
 		//Parse the calendar item out of the response body
-		final Commitment item = Commitment.fromJSON(response.getBody());
+		final Event item = Event.fromJSON(response.getBody());
 		//Pass the messaged back to the controller
-		//Needs to put commitment back into the system
+		//Needs to put Event back into the system
 		//TODO
-		controller.addCommitmentToModel(item);
+		controller.addEventToModel(item);
 		MainCalendarController.getInstance().updateAll();
-		System.out.print("From AddCommitmentObserver." + response.getBody());
+		System.out.print("From AddEventObserver." + response.getBody());
 		
 	} 
 	
-	public Commitment testReturn(){
+	public Event testReturn(){
 		return testItem;
 	}
 
@@ -56,11 +57,11 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getBody());
 		System.err.println(iReq.getResponse().getStatusMessage());
-		System.err.println("The request to add a commitment errored.");	
+		System.err.println("The request to add a event errored.");	
 	}
 
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		System.err.println("The request to add a commitment failed.");
+		System.err.println("The request to add a eventt failed.");
 	}
 }

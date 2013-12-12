@@ -24,115 +24,190 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 
+// TODO: Auto-generated Javadoc
 /**
- * Basic Commitment class that contains the data to be stored for a Commitment
- * 
- * 
- * @version $Revision: 1.0 $
- * @author Hui Zheng
+ * The Class Commitment.
  */
 public class Commitment implements Model{
 
+	/** The name. */
 	private String name;
+	
+	/** The start time. */
 	private GregorianCalendar startTime;
+	
+	/** The description. */
 	private String description;
-	private int id = -1;
 	
-	
+	/** The id. */
+	private int id;
 
+
+
+	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
-	private Project project;
 	
+	/** The project. */
+	private Project project;
+
+	/**
+	 * Instantiates a new commitment.
+	 *
+	 * @param name the name
+	 * @param startTime the start time
+	 * @param description the description
+	 */
 	public Commitment(String name, GregorianCalendar startTime,
 			String description) {
 		this.name = name;
 		this.startTime = startTime;
 		this.description = description;
+		this.id = -1;
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
-	 * Getter function for id
-	 * @return id
+	 * Copy.
+	 *
+	 * @param comm the comm
+	 */
+	public void copy(Commitment comm){
+		this.setDescription(comm.getDescription());
+		this.setId(comm.getId());
+		this.setName(comm.getName());
+		this.setProject(comm.getProject());
+		this.setStartTime(comm.getStartTime());
+	}
+
+	/**
+	 * Gets the id.
+	 *
+	 * @return the id
 	 */
 
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * Sets the id.
+	 *
+	 * @param id the new id
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
+	public void setName(String name){
+		this.name = name;
+	}
 
 	/**
-	 * Setter function of startTime
-	 * @param startTime
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
+	public void setDescription(String description){
+		this.description = description;
+	}
+
+	/**
+	 * Sets the start time.
+	 *
+	 * @param startTime the new start time
 	 */
 	public void setStartTime(GregorianCalendar startTime) {
 		this.startTime = startTime;
 	}
-	
-    /**
-     * Determine if the Commitment is active during a certain time stamp
-     * For GUI use
-     * @param when the time stamp
-     * @return true if active during the time stamp, false otherwise
-     */
-    public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
-        // On Calendar view, commitment will be shown as an one-hour long block. 
-    	GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
-    	endTimeOnGUI.set(GregorianCalendar.HOUR, 1);
-    	if (when.before(startTime) || when.after(endTimeOnGUI)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+
+	/**
+	 * Checks if is active during time stamp.
+	 *
+	 * @param when the when
+	 * @return true, if is active during time stamp
+	 */
+	public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
+		// On Calendar view, commitment will be shown as an one-hour long block. 
+		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
+		endTimeOnGUI.add(GregorianCalendar.HOUR, 1);
+		if (when.before(startTime) || when.after(endTimeOnGUI)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 
-	
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#getPermission(edu.wpi.cs.wpisuitetng.modules.core.models.User)
+	 */
 	@Override
 	public Permission getPermission(User u) 
 	{
-		
+
 		return permissionMap.get(u);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#setPermission(edu.wpi.cs.wpisuitetng.Permission, edu.wpi.cs.wpisuitetng.modules.core.models.User)
+	 */
 	@Override
 	public void setPermission(Permission p, User u) 
 	{
 		permissionMap.put(u, p);
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#getProject()
+	 */
 	@Override
 	public Project getProject() {
 		return project;
 	}
-	
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#setProject(edu.wpi.cs.wpisuitetng.modules.core.models.Project)
+	 */
 	@Override
 	public void setProject(Project p) {
 		this.project = p;
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
+	 */
 	@Override
 	public String toJSON() {
 		return new Gson().toJson(this, Commitment.class);
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#save()
+	 */
 	@Override
 	public void save() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#delete()
+	 */
 	@Override
 	public void delete() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.Model#identify(java.lang.Object)
+	 */
 	@Override
 	public Boolean identify(Object o) {
 		// TODO Auto-generated method stub
@@ -140,36 +215,66 @@ public class Commitment implements Model{
 	}
 
 	// TODO javadoc comment
+	/**
+	 * From json.
+	 *
+	 * @param json the json
+	 * @return the commitment
+	 */
 	public static Commitment fromJSON(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment.class);
 	}
 
+	/**
+	 * From json array.
+	 *
+	 * @param json the json
+	 * @return the commitment[]
+	 */
 	public static Commitment[] fromJsonArray(String json) {
 		final Gson parser = new Gson();
 		return parser.fromJson(json, Commitment[].class);
 	}
 
+	/**
+	 * Gets the start time.
+	 *
+	 * @return the start time
+	 */
 	public GregorianCalendar getStartTime() {
 		return startTime;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	public String toString() {
 		if (startTime.equals(null)){
 			return "D:LKJHGFLlkhghjh";
 		}
-			
-//		return "Temp Date";
+
+		//		return "Temp Date";
 		return startTime.get(GregorianCalendar.YEAR) + " "
-				+ startTime.get(GregorianCalendar.MONTH) + " "
-				+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
+		+ startTime.get(GregorianCalendar.MONTH) + " "
+		+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
 
 	}
 
+	/**
+	 * Gets the name.
+	 *
+	 * @return the name
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Gets the description.
+	 *
+	 * @return the description
+	 */
 	public String getDescription() {
 		return description;
 	}

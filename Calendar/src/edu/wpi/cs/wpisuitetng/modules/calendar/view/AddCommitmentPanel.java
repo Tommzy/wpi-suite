@@ -10,6 +10,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -17,6 +19,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
@@ -24,6 +27,8 @@ import javax.swing.text.MaskFormatter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
@@ -37,7 +42,7 @@ import net.miginfocom.swing.MigLayout;
 public class AddCommitmentPanel extends JPanel {
 
   /** The btn submit. */
-  JButton    btnSubmit, btnCancel;
+  JButton    btnSubmit, btnUpdate, btnCancel;
 
   /** The name label. */
   JLabel     nameLabel;
@@ -86,11 +91,14 @@ public class AddCommitmentPanel extends JPanel {
   
   /** The invitee text area. */
   JTextArea  inviteeTextArea;
+  
+  /** The Id field */
+  JLabel IDText; 
 
 
 
   /**
-   * Instantiates a new adds the commitment panel.
+   * Instantiates a new commitment panel.
    * 
    * @param miglayout
    *          the miglayout
@@ -101,7 +109,7 @@ public class AddCommitmentPanel extends JPanel {
 
     nameTextField = new JTextField(10);
     
-    nameErrMsg = new JErrorMessageLabel("");
+    nameErrMsg = new JErrorMessageLabel();
 
     startDateLabel = new JLabel("Time:");
 
@@ -134,20 +142,20 @@ public class AddCommitmentPanel extends JPanel {
 //    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
     inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     inviteeScroll.setPreferredSize(new Dimension(400, 100));
-    CommitmentsModel model = CommitmentsModel.getInstance();
+    final CommitmentsModel model = CommitmentsModel.getInstance();
 
     btnSubmit = new JButton("Submit");
+    btnUpdate = new JButton("Update");
     btnSubmit.setEnabled(false);
     btnCancel = new JButton ("Cancel");
+    
+    IDText = new JLabel(); 
     
     // Set up properties and values
 	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
 
     startDateTextField.setColumns(8);
 	startDateTextField.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
-	startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
-			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
-			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startDatePicker = new DatePickerPanel(startDateTextField);
 	startTimeTextField.setColumns(4);
 	startTimeTextField.setInputVerifier(new TimeVerifier(startDateTimeErrMsg, btnSubmit));
@@ -161,18 +169,20 @@ public class AddCommitmentPanel extends JPanel {
 		}
 		
 	});
-	
+	startDateTextField.setValue(formatInt(MainCalendarController.getInstance().getDateController().getMonth() + 1) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
+			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
 
     contentPanel.add(nameLabel);
-    contentPanel.add(nameTextField, "span 2");
+    contentPanel.add(nameTextField, "span 3");
     contentPanel.add(nameErrMsg, "wrap");
     contentPanel.add(startDateLabel);
     contentPanel.add(startDateTextField);
     contentPanel.add(startTimeTextField);
     contentPanel.add(startDateTimeErrMsg, "wrap, span");
     contentPanel.add(dateHelpText, "cell 1 2");
-    contentPanel.add(timeHelpText, "cell 2 2");
+    contentPanel.add(timeHelpText, "cell 2 2, wrap");
     contentPanel.add(startDatePicker, "cell 1 3, wrap, span");
     // This is not in commitments anymore, still here if added back
     // contentPanel.add(locationLabel);
@@ -181,77 +191,84 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(descriptionScroll, "wrap, span 4");
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeScroll, "wrap, span 4");
-    contentPanel.add(btnSubmit);
-    contentPanel.add(btnCancel);
-    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+    contentPanel.add(btnSubmit, "cell 1 6");
+    contentPanel.add(btnUpdate, "cell 2 6");
+    contentPanel.add(btnCancel, "cell 3 6");
+    
+    // Set up button listenter and properties. 
+    if (IDText.getText().equals("")) {
+    	btnUpdate.setVisible(false);
+    	btnSubmit.setVisible(true);
+    }
+    else {
+    	btnUpdate.setVisible(true);
+    	btnSubmit.setVisible(false);
+    }
+//    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
+//    btnUpdate.addActionListener(AddCommitmentPanelController.getInstance());
     btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
-    btnSubmit.addActionListener(new AddCommitmentController(model,this));
-    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
-    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
+//    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
+//    btnUpdate.addActionListener(new UpdateCommitmentController(packInfo()));
+    btnSubmit.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			((JButton)e.getSource()).addActionListener(new AddCommitmentController(model , packInfo()));
+			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
+			((JButton)e.getSource()).removeActionListener(this);
+			((JButton)e.getSource()).doClick();
+		}
+    	
+    });
+    btnUpdate.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			((JButton)e.getSource()).addActionListener(new UpdateCommitmentController(packInfo()));
+			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
+			System.out.println(packInfo().getId());
+			((JButton)e.getSource()).removeActionListener(this);
+			((JButton)e.getSource()).doClick();
+		}
+    	
+    });
+//    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
+//    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
     this.add(contentPanel);
   }
 
 
 
-  /**
-   * Gets the txt newname.
-   * 
-   * @return the txt newname
-   */
-  public String getTxtNewname() {
-    if(this.nameTextField.getText().equals(""))
-      return null;
-    else
-      return this.nameTextField.getText();
+  private Commitment packInfo() {
+	  // ID 
+	  int id;
+	  if (IDText.getText().equals("")) {
+		 id = -1;
+	  }
+	  else {
+		  id = Integer.parseInt(IDText.getText()); 
+	  }
+	  // Name
+	  String name = nameTextField.getText();
+	  // Start date time
+	  GregorianCalendar startDateTime = new GregorianCalendar();
+	  try {
+		  Date tempDate = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(startDateTextField.getValue() + " " + startTimeTextField.getValue());
+		  startDateTime.setTime(tempDate);
+	  } catch (ParseException e) {
+		  System.out.println("Cannot parse date! ");
+		  e.printStackTrace();
+	  }
+	  // Description
+	  String desc = descriptionTextArea.getText();
+	  // Invitee
+	  String invitee = inviteeTextArea.getText();
+	  Commitment commitment = new Commitment(name, startDateTime, desc);
+	  commitment.setId(id);
+	  return commitment;
   }
-
-
-
-  /**
-   * Gets the new date.
-   * 
-   * @param data
-   *          the data
-   * @return the new date
-   */
-  public GregorianCalendar getNewDate(String data) {
-    String dateString = "";
-    if(data.equals("startTime")){
-    	System.out.println(this.startDateTextField.getValue());
-    	System.out.println(this.startTimeTextField.getValue());
-      dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
-      System.out.println("Get start time success! " + dateString);
-    }
-    else if(data.equals("endTime")){
-    	System.out.println("entTimeAAAAAAAA");
-    	dateString = (this.startDateTextField.getValue() + " " + this.startTimeTextField.getValue());
-    	System.out.println("Get end time success! ");
-    }
-      
-System.out.println("H");	
-    try {
-    	System.out.println("He");
-      Date date;
-      System.out.println("Here ");
-      // Date example ("12/31/13 20:35")
-      date = new SimpleDateFormat("MM/dd/yyyy HH:mm").parse(dateString);
-      System.out.println("Here is");
-      GregorianCalendar cal = new GregorianCalendar();
-      System.out.println("Here is a");
-      cal.setTime(date);
-      System.out.println("Here is AddCommitmentController.getNewDate!!!!!!! Here is the cal.toString  -->" + cal.toString());
-      return cal;
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-    	System.out.println("Here error!");
-    	e.printStackTrace();
-    }
-    // The function returns Null if the try breaks
-//    GregorianCalendar cal = new GregorianCalendar(1992,8,19,23,4);
-    return null;
-  }
-
-
 
   /**
    * Gets the new location.
@@ -276,23 +293,44 @@ System.out.println("H");
   }
   
   public String getCurrentTime() {
-		String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
-		String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
-		return hour + ":" + minute;
-	}
-	
-	private String formatInt (int i) {
-		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
-	}
-	
-	private boolean checkContent() {
-		if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
-			return true;
-		}
-		else 
-			return false;
-	}
-	
+	  String hour = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.HOUR_OF_DAY));
+	  String minute = formatInt(GregorianCalendar.getInstance().get(GregorianCalendar.MINUTE));
+	  return hour + ":" + minute;
+  }
+
+  private String formatInt (int i) {
+	  return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
+  }
+
+  private boolean checkContent() {
+	  if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
+		  return true;
+	  }
+	  else 
+		  return false;
+  }
+  
+  public void populateCommitment (Commitment commitment) {
+	  IDText.setText(String.valueOf(commitment.getId()));
+	  nameTextField.setText(commitment.getName());
+	  descriptionTextArea.setText(commitment.getDescription());
+	  // TODO add this back when invitee getter is set up. 
+//	  inviteeTextArea.setText(commitment.getInvitee());
+	  GregorianCalendar startDateTime = commitment.getStartTime();
+	  startDateTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(startDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + startDateTime.get(GregorianCalendar.YEAR));
+	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
+	  startDatePicker.setSelectedDate(new DateController(startDateTime));
+	  if (IDText.getText().equals("")) {
+		  btnUpdate.setVisible(false);
+		  btnSubmit.setVisible(true);
+	  }
+	  else {
+		  btnUpdate.setVisible(true);
+		  btnSubmit.setVisible(false);
+	  }
+	  
+  }
+
 	private class TextVerifier extends InputVerifier {
 		JLabel errMsg; 
 		JButton btnSubmit;
@@ -308,14 +346,17 @@ System.out.println("H");
 			if (tf.getText().equals("")) {
 				errMsg.setText("Name can not be empty! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			else if (tf.getText().trim().equals("")) {
 				errMsg.setText("Invalid Name! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			else {
 				errMsg.setText("");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 			}
 			return (! tf.getText().trim().equals(""));
 		}
@@ -338,6 +379,7 @@ System.out.println("H");
 				if (Integer.parseInt(content[0].trim()) > 23 || Integer.parseInt(content[1].trim()) > 59) {
 					errMsg.setText("Invalid Time! ");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return false;
 				}
 				else {
@@ -346,12 +388,14 @@ System.out.println("H");
 					tf.setText(content[0] + ":" + content[1]);
 					errMsg.setText("");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return true;
 				}
 			}
 			else {
 				errMsg.setText("Invalid Time! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 				return false;
 			}
 		}
@@ -390,6 +434,7 @@ System.out.println("H");
 						if (Integer.parseInt(content[1].trim()) > 31) {
 							errMsg.setText("Invalid Date! ");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return false;
 						}
 						else {
@@ -398,6 +443,7 @@ System.out.println("H");
 							tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 							errMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return true;
 						}
 					}
@@ -405,6 +451,7 @@ System.out.println("H");
 						if (Integer.parseInt(content[1].trim()) > 30) {
 							errMsg.setText("Invalid Date! ");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return false;
 						}
 						else {
@@ -413,6 +460,7 @@ System.out.println("H");
 							tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 							errMsg.setText("");
 							btnSubmit.setEnabled(checkContent());
+							btnUpdate.setEnabled(checkContent());
 							return true;
 						}
 					}
@@ -421,6 +469,7 @@ System.out.println("H");
 							if (Integer.parseInt(content[1].trim()) > 28) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -429,6 +478,7 @@ System.out.println("H");
 								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 								errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -436,6 +486,7 @@ System.out.println("H");
 							if (Integer.parseInt(content[1].trim()) > 29) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -444,6 +495,7 @@ System.out.println("H");
 								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 								errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -451,6 +503,7 @@ System.out.println("H");
 							if (Integer.parseInt(content[1].trim()) > 28) {
 								errMsg.setText("Invalid Date! ");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return false;
 							}
 							else {
@@ -459,6 +512,7 @@ System.out.println("H");
 								tf.setText(content[0] + "/" + content[1] + "/" + content[2]);
 								errMsg.setText("");
 								btnSubmit.setEnabled(checkContent());
+								btnUpdate.setEnabled(checkContent());
 								return true;
 							}
 						}
@@ -466,18 +520,21 @@ System.out.println("H");
 					else {
 						errMsg.setText("Invalid Date! ");
 						btnSubmit.setEnabled(checkContent());
+						btnUpdate.setEnabled(checkContent());
 						return false;
 					}
 				}
 				else {
 					errMsg.setText("Invalid Date! ");
 					btnSubmit.setEnabled(checkContent());
+					btnUpdate.setEnabled(checkContent());
 					return false;
 				}
 			}
 			else {
 				errMsg.setText("Invalid Date! ");
 				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
 				return false;
 			}
 		}

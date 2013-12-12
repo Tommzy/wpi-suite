@@ -4,13 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.AddEventModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 
@@ -45,7 +43,7 @@ public class ToolbarController implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addEventButton) {
       //if (AddEventPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
-    	AddEventPanel newEventPanel = new AddEventPanel(new MigLayout(),  AddEventPanelController.getInstance().getTabbedPane());
+    	AddEventPanel newEventPanel = new AddEventPanel(new MigLayout());
         AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
         AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Event");
         
@@ -61,7 +59,7 @@ public class ToolbarController implements ActionListener {
 //        });
 
         AddEventPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-
+        newEventPanel.initiateFocus();
       //}
     }
 
@@ -69,8 +67,8 @@ public class ToolbarController implements ActionListener {
       JTabbedPane pane = AddCommitmentPanelController.getInstance().getTabbedPane();
       //if (AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() == 1) {
       AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
-        AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
-        AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
+        AddCommitmentPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
+        AddCommitmentPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
 //        JButton closeButton = new JButton("x");
 //        closeButton.addActionListener(new ActionListener() {
 //

@@ -110,9 +110,9 @@ public class CommitmentsModel extends AbstractListModel{
 		
 		this.Commitments.add(newComm);
 		
-		for (int i = 0; i < Commitments.size(); i++) {
-			System.out.println("Commitment out put    " + Commitments.get(i).toString());
-		}
+//		for (int i = 0; i < Commitments.size(); i++) {
+//			System.out.println("Commitment out put    " + Commitments.get(i).toString());
+//		}
 	}
 	/**
 	 * Returns the Commitment with the given ID
@@ -134,9 +134,9 @@ public class CommitmentsModel extends AbstractListModel{
 	}
 	
 	public List<Commitment> getAllCommitment() {
-		for (int i = 0; i < Commitments.size(); i++) {
-			System.out.println("Commitment out put    " + Commitments.get(i).toString());
-		}
+//		for (int i = 0; i < Commitments.size(); i++) {
+//			System.out.println("Commitment out put    " + Commitments.get(i).toString());
+//		}
 		return Commitments;
 	}
 	
