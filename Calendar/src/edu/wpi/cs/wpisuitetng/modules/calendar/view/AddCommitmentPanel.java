@@ -67,12 +67,12 @@ public class AddCommitmentPanel extends JPanel {
   
   /** The error msg box for date and time. */
   JErrorMessageLabel	startDateTimeErrMsg; 
-
-  /** The location label. */
-  JLabel     locationLabel;
-
-  /** The location text field. */
-  JTextField locationTextField;
+  
+  /** The status label */
+  JLabel statusLabel;
+  
+  /** The status drop down list */
+  JComboBox statusComboBox;
 
   /** The description label. */
   JLabel     descriptionLabel;
@@ -125,9 +125,12 @@ public class AddCommitmentPanel extends JPanel {
     dateHelpText = new JLabel ("<HTML><font color='gray'>MM/DD/YYYY</font></HTML>");
     
     timeHelpText = new JLabel ("<HTML><font color='gray'>24-HR</font></HTML>");
-
-    locationLabel = new JLabel("Where:");
-    locationTextField = new JTextField(10);
+    
+    statusLabel = new JLabel ("Status: ");
+    
+    statusComboBox = new JComboBox(new String[]{"New", "In Progress", "Closed"});
+    statusComboBox.setSelectedIndex(0);
+    statusComboBox.setEnabled(false);
 
     descriptionLabel = new JLabel("Description:");
     
@@ -184,16 +187,15 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(dateHelpText, "cell 1 2");
     contentPanel.add(timeHelpText, "cell 2 2, wrap");
     contentPanel.add(startDatePicker, "cell 1 3, wrap, span");
-    // This is not in commitments anymore, still here if added back
-    // contentPanel.add(locationLabel);
-    // contentPanel.add(locationTextField, "wrap");
+    contentPanel.add(statusLabel);
+    contentPanel.add(statusComboBox, "wrap");
     contentPanel.add(descriptionLabel);
     contentPanel.add(descriptionScroll, "wrap, span 4");
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeScroll, "wrap, span 4");
-    contentPanel.add(btnSubmit, "cell 1 6");
-    contentPanel.add(btnUpdate, "cell 2 6");
-    contentPanel.add(btnCancel, "cell 3 6");
+    contentPanel.add(btnSubmit, "cell 1 7");
+    contentPanel.add(btnUpdate, "cell 2 7");
+    contentPanel.add(btnCancel, "cell 3 7");
     
     // Set up button listenter and properties. 
     if (IDText.getText().equals("")) {
@@ -265,20 +267,18 @@ public class AddCommitmentPanel extends JPanel {
 	  String desc = descriptionTextArea.getText();
 	  // Invitee
 	  String invitee = inviteeTextArea.getText();
+	  // Status
+	  int status = statusComboBox.getSelectedIndex() < 1? 1 : statusComboBox.getSelectedIndex();
+	  // Pack into a commitment
 	  Commitment commitment = new Commitment(name, startDateTime, desc);
+	  commitment.setStatus(status);
 	  commitment.setId(id);
 	  return commitment;
   }
 
   /**
-   * Gets the new location.
-   * 
-   * @return the new location
+   * Initiate focus on name field. 
    */
-  public String getNewLocation() {
-    return this.locationTextField.getText();
-  }
-
   public void initiateFocus() {
 	  nameTextField.requestFocusInWindow();
   }
@@ -313,6 +313,8 @@ public class AddCommitmentPanel extends JPanel {
   public void populateCommitment (Commitment commitment) {
 	  IDText.setText(String.valueOf(commitment.getId()));
 	  nameTextField.setText(commitment.getName());
+	  statusComboBox.setEnabled(true);
+	  statusComboBox.setSelectedIndex(commitment.getStatus());
 	  descriptionTextArea.setText(commitment.getDescription());
 	  // TODO add this back when invitee getter is set up. 
 //	  inviteeTextArea.setText(commitment.getInvitee());

@@ -42,9 +42,27 @@ public class Commitment implements Model{
 	/** The id. */
 	private int id;
 	
+	/** The owner of this commitment */
 	private String username;
+	
+	/** The status of this commitment */
+	private int status;
 
 
+
+	/**
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+	}
 
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
@@ -65,6 +83,7 @@ public class Commitment implements Model{
 		this.startTime = startTime;
 		this.description = description;
 		this.id = -1;
+		this.status = 1;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -79,6 +98,7 @@ public class Commitment implements Model{
 		this.setName(comm.getName());
 		this.setProject(comm.getProject());
 		this.setStartTime(comm.getStartTime());
+		this.setStatus(comm.getStatus());
 	}
 
 	/**
