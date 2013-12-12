@@ -176,7 +176,7 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 
 		// Try to retrieve the specific Commitment
 		try {
-			Commitments = db.retrieve(Commitment.class, "username", s.getUser().getUsername(), s.getProject()).toArray(new Commitment[0]);
+			Commitments = db.retrieve(Commitment.class, "username", s.getUsername(), s.getProject()).toArray(new Commitment[0]);
 		} catch (WPISuiteException e) { // caught and re-thrown with a new message
 			e.printStackTrace();
 			throw new WPISuiteException("There was a problem retrieving from the database." );
@@ -184,7 +184,7 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 
 		// If a Commitment was pulled, but has no content
 		if(Commitments.length < 1 || Commitments[0] == null) {
-			throw new NotFoundException("The Commitment with the specified username was not found:" + intId);
+			throw new NotFoundException("The Commitment with the specified username was not found:" + s.getUsername());
 		}
 		return Commitments;
 	}
