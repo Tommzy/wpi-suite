@@ -41,6 +41,8 @@ public class Commitment implements Model{
 	
 	/** The id. */
 	private int id;
+	
+	private String username;
 
 
 
@@ -277,6 +279,14 @@ public class Commitment implements Model{
 	 */
 	public String getDescription() {
 		return description;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 

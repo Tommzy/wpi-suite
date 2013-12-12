@@ -10,14 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-
-
-
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
