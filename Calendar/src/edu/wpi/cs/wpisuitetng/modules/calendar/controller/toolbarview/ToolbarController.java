@@ -7,9 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddManageFiltersPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCategoryPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 //import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddManageFiltersPanel;
@@ -20,11 +22,18 @@ public class ToolbarController implements ActionListener {
    private JButton addEventButton;
    private JButton addCommitmentButton;
    private JButton manageFiltersButton;
+   private JButton manageCategoryButton;
 
+   public ToolbarController() {
 
-  public ToolbarController() {
+   }
 
-  }
+   /**
+    * @param manageCategoryButton the manageCategoryButton to set
+    */
+   public void setManageCategoryButton(JButton manageCategoryButton) {
+	   this.manageCategoryButton = manageCategoryButton;
+   }
 
   public JButton getAddEventButton() {
     return addEventButton;
@@ -45,6 +54,10 @@ public class ToolbarController implements ActionListener {
   public JButton getManageFiltersButton() {
 		return manageFiltersButton;
   }
+  
+  public JButton getManageCategoryButton() {
+	  return manageCategoryButton;
+  }
 
   public void setManageFiltersButton(JButton manageFiltersButton) {
 		this.manageFiltersButton = manageFiltersButton;
@@ -61,18 +74,24 @@ public class ToolbarController implements ActionListener {
     }
 
     if (e.getSource() == addCommitmentButton) {
-	      AddCommitmentPanel CommitmentPanel = new AddCommitmentPanel(new MigLayout());
-	      AddCommitmentPanelController.getInstance().getTabbedPane().add(CommitmentPanel);
-	      AddCommitmentPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
-	      AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-	      CommitmentPanel.initiateFocus();
+	      AddCommitmentPanel commitmentPanel = new AddCommitmentPanel(new MigLayout());
+	      AddCommitmentPanelController.getInstance().getTabbedPane().add(commitmentPanel);
+	      AddCommitmentPanelController.getInstance().getTabbedPane().setTitleAt(AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
+	      AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+	      commitmentPanel.initiateFocus();
       }
     if (e.getSource() == manageFiltersButton) {
-    //	AddManageFiltersPanel ManageFiltersPanel = new AddManageFiltersPanel(new MigLayout());
-    //	AddManageFiltersPanelController.getInstance().getTabbedPane().add(ManageFiltersPanel);
-    //	AddManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
-    //	AddManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-	//   ManageFiltersPanel.initiateFocus();  
+//    	AddManageFiltersPanel ManageFiltersPanel = new AddManageFiltersPanel(new MigLayout());
+//    	AddManageFiltersPanelController.getInstance().getTabbedPane().add(ManageFiltersPanel);
+//    	AddManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(AddManageFiltersPanel.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
+//    	AddManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(AddManageFiltersPanel.getInstance().getTabbedPane().getTabCount() - 1);
+//	    ManageFiltersPanel.initiateFocus();  
+    }
+    if (e.getSource() == manageCategoryButton) {
+    	AddCategoryPanel categoryPanel = new AddCategoryPanel();
+    	AddCategoryPanelController.getInstance().getTabbedPane().add(categoryPanel);
+    	AddCategoryPanelController.getInstance().getTabbedPane().setTitleAt(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Category");
+    	AddCategoryPanelController.getInstance().getTabbedPane().setSelectedIndex(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1);
     }
 
   }

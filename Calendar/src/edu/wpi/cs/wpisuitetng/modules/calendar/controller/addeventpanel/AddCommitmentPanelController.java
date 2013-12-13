@@ -42,7 +42,7 @@ public class AddCommitmentPanelController implements ActionListener {
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+					tabbedPane.removeTabAt(AddCommitmentPanelController.getInstance().getTabbedPane().getSelectedIndex());
 				}
 			}, 1000);
 			
