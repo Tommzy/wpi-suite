@@ -90,6 +90,8 @@ public class Category implements Model {
   }
   
   /**
+   * Converts this object to a JSON string.
+   * @return the JSON string representing this object
    * @see edu.wpi.cs.wpisuitetng.modules.Model#toJSON()
    */
   @Override
@@ -132,6 +134,7 @@ public class Category implements Model {
   }
   
 /**
+ * @return the project that this category belongs to
  * @see edu.wpi.cs.wpisuitetng.modules.Model#getProject()
  */
   @Override
@@ -140,6 +143,8 @@ public class Category implements Model {
   }
 
   /**
+   * Sets the project that this category belongs to
+   * @param p The project that this belongs to.
    * @see edu.wpi.cs.wpisuitetng.modules.Model#setProject(edu.wpi.cs.wpisuitetng.modules.core.models.Project)
    */
   @Override
