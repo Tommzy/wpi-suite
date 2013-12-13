@@ -19,7 +19,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
  */
 public class CommitmentFilter {
 	private GregorianCalendar startTime, endTime;
-	
+	private Collection<Commitment> cmtList = new ArrayList<Commitment>();
 	/**
 	 * Constructor for commitment filter
 	 * 
@@ -44,7 +44,6 @@ public class CommitmentFilter {
 			
 			Collection<Commitment> list = CommitmentsModel.getInstance().getAllCommitment();
 //			Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
-			Collection<Commitment> cmtList = new ArrayList<Commitment>();
 			Iterator<Commitment> itr = list.iterator();
 
 			while (itr.hasNext()) {
@@ -61,5 +60,30 @@ public class CommitmentFilter {
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
 		return new ArrayList<Commitment> ();
+	}
+	
+	/**
+	 * Filter commitments based on an existing category 
+	 * @param categeory Key word category
+	 * @return List of filtered commitments
+	 */
+	public Collection<Commitment> filterOnCategory(/*Category categeory*/) {
+		return cmtList;
+	}
+	
+	/**
+	 * Filter commitments based on a key word string
+	 * @param s Key word string
+	 * @return List of filtered commitments
+	 */
+	public Collection<Commitment> filterOnString (String s) {
+		Iterator<Commitment> itr = cmtList.iterator();
+		while (itr.hasNext()) {
+			Commitment cmt = itr.next();
+			if ((! cmt.getName().contains(s)) && (! cmt.getDescription().contains(s))) {
+				cmtList.remove(cmt);
+			}
+		}
+		return cmtList;
 	}
 }

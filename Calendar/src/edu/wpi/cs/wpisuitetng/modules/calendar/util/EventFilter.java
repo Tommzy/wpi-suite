@@ -22,7 +22,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
  */
 public class EventFilter {
 	private GregorianCalendar startTime, endTime;
-	
+	private Collection<Event> eventList = new ArrayList<Event>();
 	/**
 	 * Constructor for commitment filter
 	 * 
@@ -46,8 +46,6 @@ public class EventFilter {
 			button.doClick();
 			
 			Collection<Event> list = EventsModel.getInstance().getAllEvent();
-//			Collection<Commitment> list = FakeCommitmentModel.getInstance().getCommitmentList();
-			Collection<Event> eventList = new ArrayList<Event>();
 			Iterator<Event> itr = list.iterator();
 
 			while (itr.hasNext()) {
@@ -64,5 +62,30 @@ public class EventFilter {
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the eventFileter.getEventList");
 		return new ArrayList<Event> ();
+	}
+	
+	/**
+	 * Filter commitments based on an existing category 
+	 * @param categeory Key word category
+	 * @return List of filtered commitments
+	 */
+	public Collection<Event> filterOnCategory(/*Category categeory*/) {
+		return eventList;
+	}
+	
+	/**
+	 * Filter commitments based on a key word string
+	 * @param s Key word string
+	 * @return List of filtered commitments
+	 */
+	public Collection<Event> filterOnString (String s) {
+		Iterator<Event> itr = eventList.iterator();
+		while (itr.hasNext()) {
+			Event event = itr.next();
+			if ((! event.getName().contains(s)) && (! event.getDescription().contains(s)) && (! event.getLocation().contains(s))) {
+				eventList.remove(event);
+			}
+		}
+		return eventList;
 	}
 }
