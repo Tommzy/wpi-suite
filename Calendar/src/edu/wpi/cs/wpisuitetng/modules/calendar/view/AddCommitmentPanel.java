@@ -9,6 +9,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -97,7 +98,7 @@ public class AddCommitmentPanel extends JPanel {
   JLabel IDText; 
 
   /** radio button for personal/team calendar commitment */
-  JRadioButton personalButton, teamButton;
+  JRadioButton personalButton = new JRadioButton(), teamButton = new JRadioButton() ;
 
 
   /**
@@ -181,12 +182,9 @@ public class AddCommitmentPanel extends JPanel {
 	startTimeTextField.setValue(getCurrentTime());
 
 	ButtonGroup radioButtonGroup = new ButtonGroup() ;
-	personalButton = new JRadioButton();
-	teamButton = new JRadioButton();
-	teamButton.setSelected(true);
+	
 	radioButtonGroup.add(personalButton);
 	radioButtonGroup.add(teamButton);
-	
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField, "span 3");
     contentPanel.add(nameErrMsg, "wrap");
@@ -202,10 +200,10 @@ public class AddCommitmentPanel extends JPanel {
     // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
     contentPanel.add(new JLabel("team commitment"));
-    contentPanel.add(personalButton);
-    contentPanel.add(new JLabel("personal commitment"));
     contentPanel.add(teamButton);
-
+    contentPanel.add(new JLabel("personal commitment"));
+    contentPanel.add(personalButton);
+    teamButton.setSelected(true);
     contentPanel.add(statusLabel);
     contentPanel.add(statusComboBox, "wrap");
 
@@ -261,9 +259,7 @@ public class AddCommitmentPanel extends JPanel {
     this.add(contentPanel);
   }
 
-
-
-  private Commitment packInfo() {
+private Commitment packInfo() {
 	  // ID 
 	  int id;
 	  if (IDText.getText().equals("")) {
