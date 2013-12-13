@@ -75,6 +75,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if(newCommitment.isTeamCommitment()){
 			this.save(s,newCommitment); // An exception may be thrown here if we can't save it
 		}else{
+			newCommitment.setUsername(s.getUsername());
 			this.save(newCommitment);// assume personal commitment
 		}
 
@@ -194,13 +195,16 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// Passing the project makes it only get Commitments from that project
 		// Return the list of Commitments as an array
 		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
-		Commitment[] personal = null;
+		List<Model> personal = null;
 		Commitment[] team = null;
 		Collection<Commitment> combined = new ArrayList<Commitment>();
 		try{// return combined personal and team commitments
-			personal = db.retrieve(Commitment.class, "username", s.getUsername(),s.getProject()).toArray(new Commitment[0]);
-			team =  db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
-			combined.addAll(Arrays.asList(personal));
+			// not sure if this is line gets personal cals in project or data base. If it is project specific look at update
+			personal = db.retrieve(Commitment.class, "username", s.getUsername());
+			
+			System.out.println("Here is Team:"+team.toString());
+			System.out.println("Here is Personal:"+personal.toString());//team =  db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
+			//combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
 			return combined.toArray(new Commitment[] {});
 		}catch(WPISuiteException e){// no personal commitments found
@@ -246,22 +250,38 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		}
 		// The following code was modified from the requirement entity manager
 		Commitment updatedCommitment = Commitment.fromJSON(content);
+		if(updatedCommitment.isTeamCommitment()){
 
-		List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId(), s.getProject());
-		if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
-			throw new BadRequestException("Commitment with ID does not exist.");
+			List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId(), s.getProject());
+			if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
+				throw new BadRequestException("Commitment with ID does not exist.");
+			}
+
+			Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
+
+
+			existingCommitment.copy(updatedCommitment);
+			if(!db.save(existingCommitment, s.getProject())) {
+				throw new WPISuiteException();
+			}
+
+			return existingCommitment;
+		}else{
+			List<Model> oldCommitments = db.retrieve(Commitment.class, "username", s.getUsername());
+			if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
+				throw new BadRequestException("Commitment with username does not exist.");
+			}
+
+			Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
+
+
+			existingCommitment.copy(updatedCommitment);
+			if(!db.save(existingCommitment)) {
+				throw new WPISuiteException();
+			}
+			return existingCommitment;
+
 		}
-
-		Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
-
-
-		existingCommitment.copy(updatedCommitment);
-
-		if(!db.save(existingCommitment, s.getProject())) {
-			throw new WPISuiteException();
-		}
-
-		return existingCommitment;
 
 	} 
 
