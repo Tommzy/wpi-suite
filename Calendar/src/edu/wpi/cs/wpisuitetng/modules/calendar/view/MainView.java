@@ -42,12 +42,7 @@ public class MainView extends JPanel {
 	public MainView() {
 		addEventTabPanel = new AddEventTabPanel();
 		add(addEventTabPanel);
-		//addCommitTabPanel = new AddCommitTabPanel;
 		MainCalendarController.getInstance().setMainView(this);
-		
-//		JPanel calendarPanel = new MainCalendarView(new MainCalendarModel());
-//		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
-//		add(calendarPanel);
 	}
 	
 	/**
