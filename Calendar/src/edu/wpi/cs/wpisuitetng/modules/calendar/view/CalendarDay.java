@@ -324,14 +324,25 @@ public class CalendarDay extends JPanel {
 	 * @return Label for that event
 	 */
 	private String formatLabel(Commitment commitment) {
-		
-		String label = "<HTML><div style='text-align:center'>" + commitment.getName() + "<br />" + 
-				format(commitment.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-				format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</div></HTML>";
-		
+		String label = "";
+		if (commitment.getStatus() == 2) {
+			label = "<HTML><div style='text-align:center'><font color=gray>" + commitment.getName() + "</font><br /><font color=gray>" + 
+					format(commitment.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
+					format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</font></div></body></HTML>";
+		}
+		else {
+			label = "<HTML><div style='text-align:center'>" + commitment.getName() + "<br />" + 
+					format(commitment.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
+					format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</div></HTML>";
+		}
 		return label;
 	}
 
+	/**
+	 * Create tooltip text for an event 
+	 * @param event Event that needs a label text
+	 * @return Label for that event
+	 */
 	private String formatToolTip(Event event) {
 		String label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
 				format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
@@ -342,8 +353,8 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Create label text for an event based on event's length
-	 * @param event Event that needs a label text
+	 * Create tooltip text for a commitment
+	 * @param commitment Commitment that needs a label text
 	 * @return Label for that event
 	 */
 	private String formatToolTip(Commitment commitment) {
