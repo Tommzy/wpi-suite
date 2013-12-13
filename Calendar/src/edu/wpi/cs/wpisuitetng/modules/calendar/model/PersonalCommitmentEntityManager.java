@@ -165,7 +165,8 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
-	public Commitment[] getEntity(Session s) throws NotFoundException, WPISuiteException {
+	@Override
+	public Commitment[] getEntity(Session s, String username) throws NotFoundException, WPISuiteException {
 		/*
 		final int intId = Integer.parseInt(id);
 		if(intId < 1) {
@@ -270,12 +271,7 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 		throw new NotImplementedException();
 	}
 
-	@Override
-	public Commitment[] getEntity(Session s, String id)
-			throws NotFoundException, WPISuiteException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public void save(Session s, Commitment model) throws WPISuiteException {

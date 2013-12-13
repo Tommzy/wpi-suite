@@ -57,6 +57,7 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	public void responseError(IRequest iReq) {
 	//	fail(iReq, null);
 		System.err.println("The request to get commitments Errored. " + iReq.toString());
+	
 	}
 
 
