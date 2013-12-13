@@ -61,24 +61,16 @@ public class AddEventPanelController implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().getClass().equals(JButton.class)) {
-			((JButton)e.getSource()).setEnabled(false);
+			// Close the tab a second later for calendar view to refresh. Avoid showing a flash to users when the calendar refreshes. 
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
-				  @Override
-				  public void run() {
-					  tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
-				  }
-				}, 1000);
-			
-		}
-		
-//		if (e.getSource() == btnSubmit) {
-//			tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
-//		}
-//		else if (e.getSource() == btnCancel) {
-//	    	tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
-//		}
+				@Override
+				public void run() {
+					tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+				}
+			}, 1000);
 
+		}
 	}
 
 }

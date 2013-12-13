@@ -254,15 +254,22 @@ public class AddCommitmentPanel extends JPanel {
     }
     
     btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
+    btnCancel.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			disableAllButton();
+		}
+	});
     btnSubmit.addActionListener(new ActionListener() {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			((JButton)e.getSource()).addActionListener(new AddCommitmentController(model , packInfo()));
 			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
 			((JButton)e.getSource()).removeActionListener(this);
 			((JButton)e.getSource()).doClick();
+			disableAllButton();
 		}
     	
     });
@@ -270,20 +277,27 @@ public class AddCommitmentPanel extends JPanel {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			((JButton)e.getSource()).addActionListener(new UpdateCommitmentController(packInfo()));
 			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
 			System.out.println(packInfo().getId());
 			((JButton)e.getSource()).removeActionListener(this);
 			((JButton)e.getSource()).doClick();
+			disableAllButton();
 		}
     	
     });
 
     this.add(contentPanel);
   }
-
-
+  
+  /**
+   * Disable all buttons. Used by controller when closing the tab. 
+   */
+  public void disableAllButton() {
+	  btnSubmit.setEnabled(false);
+	  btnUpdate.setEnabled(false);
+	  btnCancel.setEnabled(false);
+  }
 
   private Commitment packInfo() {
 	  // ID 

@@ -338,15 +338,23 @@ public class AddEventPanel extends JPanel {
 		});	
 		
 	    btnCancel.addActionListener(AddEventPanelController.getInstance());
+	    btnCancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				disableAllButton();
+			}
+	    	
+	    });
 	    btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				((JButton)e.getSource()).addActionListener(new AddEventController(model , packInfo()));
 				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
+				disableAllButton();
 			}
 	    	
 	    });
@@ -354,11 +362,11 @@ public class AddEventPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				((JButton)e.getSource()).addActionListener(new UpdateEventController(packInfo()));
 				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
+				disableAllButton();
 			}
 	    	
 	    });
@@ -398,6 +406,15 @@ public class AddEventPanel extends JPanel {
 		this.add(contentPanel);
 		
 //		this.add(rightPanel);
+	}
+
+	/**
+	 * Disable all buttons. Used by controller when closing the tab. 
+	 */
+	public void disableAllButton() {
+		btnSubmit.setEnabled(false);
+		btnUpdate.setEnabled(false);
+		btnCancel.setEnabled(false);
 	}
 
 	public String getTxtNewname() {
