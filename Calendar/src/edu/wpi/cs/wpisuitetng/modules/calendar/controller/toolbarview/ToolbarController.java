@@ -12,7 +12,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEvent
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddManageFiltersPanel;
+//import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddManageFiltersPanel;
 
 public class ToolbarController implements ActionListener {
 
@@ -68,11 +68,11 @@ public class ToolbarController implements ActionListener {
 	      CommitmentPanel.initiateFocus();
       }
     if (e.getSource() == manageFiltersButton) {
-    	AddManageFiltersPanel ManageFiltersPanel = new AddManageFiltersPanel(new MigLayout());
-    	AddManageFiltersPanelController.getInstance().getTabbedPane().add(ManageFiltersPanel);
-    	AddManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
-    	AddManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-	    ManageFiltersPanel.initiateFocus();  
+    //	AddManageFiltersPanel ManageFiltersPanel = new AddManageFiltersPanel(new MigLayout());
+    //	AddManageFiltersPanelController.getInstance().getTabbedPane().add(ManageFiltersPanel);
+    //	AddManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
+    //	AddManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+	//   ManageFiltersPanel.initiateFocus();  
     }
 
   }

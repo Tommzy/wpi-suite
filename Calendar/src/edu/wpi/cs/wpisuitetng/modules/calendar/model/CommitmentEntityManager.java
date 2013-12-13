@@ -198,7 +198,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		Commitment[] team = null;
 		Collection<Commitment> combined = new ArrayList<Commitment>();
 		try{// return combined personal and team commitments
-			personal = db.retrieve(Commitment.class, "username", s.getUsername(),s.getProject()).toArray(new Commitment[0]);
+			personal = db.retrieve(Commitment.class, "Username", s.getUsername(),s.getProject()).toArray(new Commitment[0]);
 			team =  db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
