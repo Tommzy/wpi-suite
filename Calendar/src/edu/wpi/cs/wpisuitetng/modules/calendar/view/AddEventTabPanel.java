@@ -100,14 +100,5 @@ public class AddEventTabPanel extends JTabbedPane {
 		this.setPreferredSize(new Dimension(800, 700));
 		
 	}
-
-	/**
-	 * Gets the commitment table.
-	 *
-	 * @return THe commitment table
-	 */
-	public CommitmentTable getCommitmentTable() {
-		return commitmentTable;
-	}
 	
 }
