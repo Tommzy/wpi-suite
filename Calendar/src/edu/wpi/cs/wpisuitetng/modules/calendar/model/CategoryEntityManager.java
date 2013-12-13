@@ -40,7 +40,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
  * The Class CommitmentEntityManager.
  */
-public class CategoryEntityManager implements EntityManager<Commitment> {
+public class CategoryEntityManager implements EntityManager<Category> {
 
 	/** The db. */
 	private Data db;
@@ -72,11 +72,12 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 		}
 
 		// Saves the Commitment in the database
-		if(newCategory.isTeamCommitment()){
-			this.save(s,newCategory); // An exception may be thrown here if we can't save it
-		}else{
-			this.save(newCategory);// assume personal commitment
-		}
+		//if(newCategory.isTeamCommitment()){
+		//	this.save(s,newCategory); // An exception may be thrown here if we can't save it
+		//}else{
+		//	this.save(newCategory);// assume personal commitment
+		//}
+		this.save(s, newCategory);
 
 		// Return the newly created Category (this gets passed back to the client)
 		return newCategory;
@@ -141,7 +142,7 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() throws WPISuiteException {
-		List<Category> categoryList = db.retrieveAll(new Category(null, null)); //TODO : fix arguments if necessary
+		List<Category> categoryList = db.retrieveAll(new Category(null));
 		Iterator<Category> itr = categoryList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
@@ -161,7 +162,7 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Category(null, null)));
-		return db.retrieveAll(new Category(null, null)).size();
+		return db.retrieveAll(new Category(null)).size();
 	}
 
 	/* (non-Javadoc)
@@ -173,18 +174,21 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 		// Passing the project makes it only get Category from that project
 		// Return the list of Commitments as an array
 		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
+		
+		
+		//TODO: not sure if categories can be team/personal
 		Category[] personal = null;
 		Category[] team = null;
 		Collection<Category> combined = new ArrayList<Category>();
 		try{// return combined personal and team commitments
 			personal = db.retrieve(Category.class, "username", s.getUsername(),s.getProject()).toArray(new Category[0]);
-			team =  db.retrieveAll(new Category(null, null), s.getProject()).toArray(new Category[0]);
+			team =  db.retrieveAll(new Category(null), s.getProject()).toArray(new Category[0]);
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
 			System.out.println("No Category yet");
-			return db.retrieveAll(new Category(null, null, null), s.getProject()).toArray(new Category[0]);
+			return db.retrieveAll(new Category(null), s.getProject()).toArray(new Category[0]);
 		}
 	}
 
@@ -199,7 +203,7 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 		}
 		Category[] Categories = null;
 
-		// Try to retrieve the specific Commitment
+		// Try to retrieve the specific Category
 		try {
 			Categories = db.retrieve(Category.class, "id", intId, s.getProject()).toArray(new Category[0]);
 		} catch (WPISuiteException e) { // caught and re-thrown with a new message
@@ -208,7 +212,7 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 		}
 
 		// If a Category was pulled, but has no content
-		if(Category.length < 1 || Category[0] == null) {
+		if(Categories.length < 1 || Categories[0] == null) {
 			throw new NotFoundException("The Category with the specified id was not found:" + intId);
 		}
 		return Categories;
@@ -217,7 +221,6 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
-	// TODO This needs to be changed to allow for personal calendar
 	public Category update(Session s, String content) throws WPISuiteException {
 		// If there is no session
 		if(s == null){
@@ -253,7 +256,7 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		ensureRole(s, Role.ADMIN);
 		Category oldCat = getEntity(s,   id    )[0];
-		Category commToBeDel = new Category(null, null, null);
+		Category catToBeDel = new Category(null);
 		catToBeDel.setId(oldCat.getId());
 
 		if (db.delete(catToBeDel)!=null){
@@ -267,7 +270,7 @@ public class CategoryEntityManager implements EntityManager<Commitment> {
 	 */
 	public void deleteAll(Session s) throws WPISuiteException  {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Category(null, null, null), s.getProject());
+		db.deleteAll(new Category(null), s.getProject());
 	}
 
 	//The following methods are not implemented but required by the "EntityManager" interface:
