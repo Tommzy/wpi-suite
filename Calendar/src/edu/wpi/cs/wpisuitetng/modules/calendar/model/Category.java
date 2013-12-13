@@ -2,6 +2,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.awt.Color;
 
 import com.google.gson.Gson;
 
@@ -20,6 +21,15 @@ public class Category implements Model {
   /** Can you make new events or commitments belong to this category?*/
   boolean isActive;
   
+  /** What color is associated with this category? */
+  Color color;
+  
+  /** True is this is a personal category, false is this is a team category */
+  boolean isPersonal;
+  
+  /** The ID of the user this belongs to. */
+  String userID;
+  
   /** The permission map. */
   private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
   
@@ -31,11 +41,22 @@ public class Category implements Model {
   /**
    * Constructor
    * @param newName the name for this category
+   * @param newColor the color associated with this category
    */
   
-  public Category(String newName) {
+  public Category(String newName, boolean isItPersonal, Color newColor) {
+    this.name = newName;
+    this.color = newColor;
+    id = -1;
+    userID = "-1";
+    this.isPersonal = isItPersonal;
+  }
+  
+  public Category(String newName, boolean isItPersonal) {
     this.name = newName;
     id = -1;
+    userID = "-1";
+    this.isPersonal = isItPersonal;
   }
   
   public void copy(Category donor) {
@@ -43,7 +64,9 @@ public class Category implements Model {
     this.id = donor.id;
     this.isActive = donor.isActive;
     this.project = donor.project;
-    
+    this.color = donor.color;
+    this.userID = donor.userID;
+    this.isPersonal = donor.isPersonal;
   }
   
 
@@ -73,6 +96,60 @@ public class Category implements Model {
    */
   public void setName(String name){
     this.name = name;
+  }
+  
+  /**
+   * @return a string of the name.
+   */
+  public String getName() {
+    return name;
+  }
+  
+  /**
+   * @return the userID
+   */
+
+  public String getUserId() {
+    return userID;
+  }
+
+  /**
+   * Sets the userID.
+   * @param id the new userID
+   */
+  public void setUserId(String id) {
+    this.userID = id;
+  }
+  
+  /**
+   * @return the color associated with this category
+   */
+  public Color getColor() {
+    return color;
+  }
+  
+  /**
+   * Sets the color to the given color.
+   * @param newColor the new color
+   */
+  public void setColor(Color newColor) {
+    this.color = newColor;
+  }
+  
+  /**
+   * Tell us whether this is a personal category or not.
+   * @return true if personal, else return false.
+   */
+  public boolean isPersonal() {
+    return isPersonal;
+  }
+  
+  /**
+   * Set whether this category is personal or not
+   * @param isThisPersonal boolean which is true if we want the category to be personal.
+   */
+  public void setIsPersonal(boolean isThisPersonal) {
+    this.isPersonal = isThisPersonal;
   }
   
   //---------------------Interface-Functions----------------------
