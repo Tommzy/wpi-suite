@@ -24,6 +24,7 @@ import java.util.HashMap;
 import javax.swing.*;
 import javax.swing.text.MaskFormatter;
 
+import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
@@ -95,6 +96,8 @@ public class AddCommitmentPanel extends JPanel {
   /** The Id field */
   JLabel IDText; 
 
+  /** radio button for personal/team calendar commitment */
+  JRadioButton personalButton, teamButton;
 
 
   /**
@@ -174,6 +177,13 @@ public class AddCommitmentPanel extends JPanel {
 			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
 
+	ButtonGroup radioButtonGroup = new ButtonGroup() ;
+	personalButton = new JRadioButton();
+	teamButton = new JRadioButton();
+	teamButton.setSelected(true);
+	radioButtonGroup.add(personalButton);
+	radioButtonGroup.add(teamButton);
+	
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField, "span 3");
     contentPanel.add(nameErrMsg, "wrap");
@@ -187,6 +197,10 @@ public class AddCommitmentPanel extends JPanel {
     // This is not in commitments anymore, still here if added back
     // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
+    contentPanel.add(new JLabel("team commitment"));
+    contentPanel.add(personalButton);
+    contentPanel.add(new JLabel("personal commitment"));
+    contentPanel.add(teamButton);
     contentPanel.add(descriptionLabel);
     contentPanel.add(descriptionScroll, "wrap, span 4");
     contentPanel.add(inviteeLabel);
@@ -266,6 +280,9 @@ public class AddCommitmentPanel extends JPanel {
 	  // Invitee
 	  String invitee = inviteeTextArea.getText();
 	  Commitment commitment = new Commitment(name, startDateTime, desc);
+	  if (personalButton.isSelected()) {
+		  commitment.setTeamCommitment(false);
+	  }
 	  commitment.setId(id);
 	  return commitment;
   }

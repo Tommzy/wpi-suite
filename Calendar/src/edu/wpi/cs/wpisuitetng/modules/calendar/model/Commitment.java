@@ -44,7 +44,15 @@ public class Commitment implements Model{
 	
 	private String username;
 
+	private boolean isTeamCommitment = true;
 
+	public boolean isTeamCommitment() {
+		return isTeamCommitment;
+	}
+
+	public void setTeamCommitment(boolean isTeamCommitment) {
+		this.isTeamCommitment = isTeamCommitment;
+	}
 
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
