@@ -240,8 +240,8 @@ public class AddCommitmentPanel extends JPanel {
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeScroll, "wrap, span 4");
     contentPanel.add(btnSubmit, "cell 1 8");
-    contentPanel.add(btnUpdate, "cell 2 8");
-    contentPanel.add(btnCancel, "cell 3 8");
+    contentPanel.add(btnUpdate);
+    contentPanel.add(btnCancel);
     
     // Set up button listener and properties. 
     if (IDText.getText().equals("")) {

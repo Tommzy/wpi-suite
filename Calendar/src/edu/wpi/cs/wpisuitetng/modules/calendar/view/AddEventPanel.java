@@ -401,8 +401,8 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(inviteeTextArea, "wrap, span ");
 //		contentPanel.add(allDayEventCheckBox, "wrap, span");
 		contentPanel.add(btnSubmit, "cell 1 8");
-		contentPanel.add(btnUpdate, "cell 2 8");
-		contentPanel.add(btnCancel, "cell 3 8");
+		contentPanel.add(btnUpdate);
+		contentPanel.add(btnCancel);
 		this.add(contentPanel);
 		
 //		this.add(rightPanel);
