@@ -19,21 +19,29 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.InputVerifier;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-import edu.wpi.cs.wpisuitetng.Session;
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import net.miginfocom.swing.MigLayout;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -73,7 +81,22 @@ public class AddCommitmentPanel extends JPanel {
   JLabel statusLabel;
   
   /** The status drop down list */
-  JComboBox statusComboBox;
+  JComboBox<String> statusComboBox;
+  
+  /** The category label */
+  JLabel categoryLabel;
+  
+  /** The category drop down list */
+//  JComboBox<Category> categoryComboBox;
+  
+  /** The type of this commitment */
+  JLabel typeLabel;
+  
+  /** Team radio button */
+  JRadioButton teamRadioButton;
+  
+  /** Personal radio button */
+  JRadioButton personalRadioButton;
 
   /** The description label. */
   JLabel     descriptionLabel;
@@ -95,9 +118,6 @@ public class AddCommitmentPanel extends JPanel {
   
   /** The Id field */
   JLabel IDText; 
-
-  /** radio button for personal/team calendar commitment */
-  JRadioButton personalButton, teamButton;
 
 
   /**
@@ -131,9 +151,13 @@ public class AddCommitmentPanel extends JPanel {
     
     statusLabel = new JLabel ("Status: ");
     
-    statusComboBox = new JComboBox(new String[]{"New", "In Progress", "Closed"});
+    statusComboBox = new JComboBox<String>(new String[]{"New", "In Progress", "Closed"});
     statusComboBox.setSelectedIndex(0);
     statusComboBox.setEnabled(false);
+    
+    categoryLabel = new JLabel("Category: ");
+    
+//    categoryComboBox = new JComboBox<Category>();
 
     descriptionLabel = new JLabel("Description:");
     
@@ -179,17 +203,18 @@ public class AddCommitmentPanel extends JPanel {
 			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
 			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
-
+	
+	typeLabel = new JLabel("Type");
 	ButtonGroup radioButtonGroup = new ButtonGroup() ;
-	personalButton = new JRadioButton();
-	teamButton = new JRadioButton();
-	teamButton.setSelected(true);
-	radioButtonGroup.add(personalButton);
-	radioButtonGroup.add(teamButton);
+	personalRadioButton = new JRadioButton("Personal Commitment");
+	teamRadioButton = new JRadioButton("Team Commitment");
+	teamRadioButton.setSelected(true);
+	radioButtonGroup.add(personalRadioButton);
+	radioButtonGroup.add(teamRadioButton);
 	
     contentPanel.add(nameLabel);
-    contentPanel.add(nameTextField, "span 3");
-    contentPanel.add(nameErrMsg, "wrap");
+    contentPanel.add(nameTextField);
+    contentPanel.add(nameErrMsg, "cell 3 0, wrap");
     contentPanel.add(startDateLabel);
     contentPanel.add(startDateTextField);
     contentPanel.add(startTimeTextField);
@@ -201,23 +226,24 @@ public class AddCommitmentPanel extends JPanel {
     // This is not in commitments anymore, still here if added back
     // contentPanel.add(locationLabel);
     // contentPanel.add(locationTextField, "wrap");
-    contentPanel.add(new JLabel("team commitment"));
-    contentPanel.add(personalButton);
-    contentPanel.add(new JLabel("personal commitment"));
-    contentPanel.add(teamButton);
+    contentPanel.add(typeLabel);
+    contentPanel.add(personalRadioButton, "span 2");
+    contentPanel.add(teamRadioButton, "wrap");
 
     contentPanel.add(statusLabel);
-    contentPanel.add(statusComboBox, "wrap");
+    contentPanel.add(statusComboBox);
+    contentPanel.add(categoryLabel, "cell 3 5, wrap");
+//    contentPanel.add(categoryComboBox, "wrap");
 
     contentPanel.add(descriptionLabel);
     contentPanel.add(descriptionScroll, "wrap, span 4");
     contentPanel.add(inviteeLabel);
     contentPanel.add(inviteeScroll, "wrap, span 4");
-    contentPanel.add(btnSubmit, "cell 1 7");
-    contentPanel.add(btnUpdate, "cell 2 7");
-    contentPanel.add(btnCancel, "cell 3 7");
+    contentPanel.add(btnSubmit, "cell 1 8");
+    contentPanel.add(btnUpdate, "cell 2 8");
+    contentPanel.add(btnCancel, "cell 3 8");
     
-    // Set up button listenter and properties. 
+    // Set up button listener and properties. 
     if (IDText.getText().equals("")) {
     	btnUpdate.setVisible(false);
     	btnSubmit.setVisible(true);
@@ -226,11 +252,8 @@ public class AddCommitmentPanel extends JPanel {
     	btnUpdate.setVisible(true);
     	btnSubmit.setVisible(false);
     }
-//    btnSubmit.addActionListener(AddCommitmentPanelController.getInstance());
-//    btnUpdate.addActionListener(AddCommitmentPanelController.getInstance());
+    
     btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
-//    btnSubmit.addActionListener(new AddCommitmentController(model , packInfo()));
-//    btnUpdate.addActionListener(new UpdateCommitmentController(packInfo()));
     btnSubmit.addActionListener(new ActionListener() {
 
 		@Override
@@ -256,8 +279,7 @@ public class AddCommitmentPanel extends JPanel {
 		}
     	
     });
-//    AddCommitmentPanelController.getInstance().setBtnSubmit(btnSubmit);
-//    AddCommitmentPanelController.getInstance().setBtnCancel(btnCancel);
+
     this.add(contentPanel);
   }
 
@@ -292,7 +314,7 @@ public class AddCommitmentPanel extends JPanel {
 	  // Pack into a commitment
 	  Commitment commitment = new Commitment(name, startDateTime, desc);
 
-	  if (personalButton.isSelected()) {
+	  if (personalRadioButton.isSelected()) {
 		  commitment.setTeamCommitment(false);
 	  }
 
