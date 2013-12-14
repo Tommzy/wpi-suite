@@ -1,13 +1,14 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 
 /**
  * This observer is called when a response is received from a request
- * to the server to add a filter.
+ * to the server to add a commitment.
  * @version $Revision: 1.0 $
  * @author Hui Zheng
  */

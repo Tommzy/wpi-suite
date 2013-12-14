@@ -9,7 +9,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
 
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
 
 
 /**List of Filters being pulled from the server
