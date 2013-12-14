@@ -344,6 +344,11 @@ private Commitment packInfo() {
 	  startDateTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(startDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + startDateTime.get(GregorianCalendar.YEAR));
 	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
 	  startDatePicker.setSelectedDate(new DateController(startDateTime));
+	  if (commitment.isTeamCommitment()) {
+		  teamButton.doClick();
+	  } else {
+		  personalButton.doClick();
+	  }
 	  if (IDText.getText().equals("")) {
 		  btnUpdate.setVisible(false);
 		  btnSubmit.setVisible(true);
