@@ -8,25 +8,23 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
-public class AddEventPanelController implements ActionListener {
+public class AddCategoryPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
-	JButton btnSubmit;
-	JButton btnCancel;
-	
-	public static AddEventPanelController instance;
 
-	public AddEventPanelController() {
+	public static AddCategoryPanelController instance;
+
+	public AddCategoryPanelController( ) {
 	}
-	
-	public static AddEventPanelController getInstance() {
+
+	public static AddCategoryPanelController getInstance() {
 		if (instance == null) {
-			instance = new AddEventPanelController();
+			instance = new AddCategoryPanelController();
 		}
-		
+
 		return instance;
 	}
-	
+
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
@@ -34,7 +32,7 @@ public class AddEventPanelController implements ActionListener {
 	public void setTabbedPane(JTabbedPane tabbedPane) {
 		this.tabbedPane = tabbedPane;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
@@ -44,11 +42,12 @@ public class AddEventPanelController implements ActionListener {
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+					tabbedPane.removeTabAt(AddCategoryPanelController.getInstance().getTabbedPane().getSelectedIndex());
 				}
 			}, 1000);
-
+			
 		}
+
 	}
 
 }

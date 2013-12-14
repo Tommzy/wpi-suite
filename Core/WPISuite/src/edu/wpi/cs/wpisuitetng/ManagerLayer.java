@@ -81,9 +81,6 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
-		
-		//String for our calendar data
-		//string can be anything
 		map.put("calendar"+"commitment", new CommitmentEntityManager(data));
 		map.put("calendar"+"event", new EventEntityManager(data));
 		map.put("calendar"+"category", new CategoryEntityManager(data));

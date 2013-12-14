@@ -31,9 +31,9 @@ public class AddCommitmentController implements ActionListener{
 
 	private final CommitmentsModel model;
 	private final Commitment commitmentToBeAdded;
-	 
+
 	//Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
-	 
+
 	/**
 	 * Construct an AddCommitmentController for the given model, view pair
 	 * @param model the model containing the messages
@@ -43,28 +43,28 @@ public class AddCommitmentController implements ActionListener{
 		this.model = model;
 		this.commitmentToBeAdded = commitmentToBeAdded;
 	}
-  
+
 	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
-	
-//	public void addTestToDatabase(){
-//		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
-//		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
-//		request.addObserver(observer); // add an observer to process the response
-//		request.send();
-//	}
-	
+
+	//	public void addTestToDatabase(){
+	//		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+	//		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
+	//		request.addObserver(observer); // add an observer to process the response
+	//		request.send();
+	//	}
+
 	public void addCommitmentToDatabase(Commitment commit){
 		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
 		request.setBody(commit.toJSON()); // put the new message in the body of the request
 		request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
 		request.send();
 	}
-	
+
 	public Commitment testReturn(){
 		return observer.testReturn();
 	}
-	
-	 
+
+
 	/* 
 	 * This method is called when the user clicks the Submit button
 	 * 
@@ -72,34 +72,32 @@ public class AddCommitmentController implements ActionListener{
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
+
 		//addTestToDatabase();
-//		System.out.println("this is event!----->" + event.getActionCommand().toString());
+		//		System.out.println("this is event!----->" + event.getActionCommand().toString());
 		// Get the text that was entered
-//		String name =  commitmentToBeAdded.getName();
-//		GregorianCalendar startTime = commitmentToBeAdded.getStartTime();
-//		String description = (String) commitmentToBeAdded.getDescription();
-//		String invitee = (String) commitmentToBeAdded.getInvitee();
-		 
+		//		String name =  commitmentToBeAdded.getName();
+		//		GregorianCalendar startTime = commitmentToBeAdded.getStartTime();
+		//		String description = (String) commitmentToBeAdded.getDescription();
+		//		String invitee = (String) commitmentToBeAdded.getInvitee();
+
 		// Make sure there is text
 		// OR THROUGH EXCEPTION?
-		
-//		//don't want to make a new event if there is no name
-//		if(name.length() > 0){
-//			Commitment sentCommitment = new Commitment(name, startTime, description);
-//			// Add the message to the model
-//			model.addCommitment(sentCommitment);
-//		}
-		
+
+		//		//don't want to make a new event if there is no name
+		//		if(name.length() > 0){
+		//			Commitment sentCommitment = new Commitment(name, startTime, description);
+		//			// Add the message to the model
+		//			model.addCommitment(sentCommitment);
+		//		}
+
 		// Send a request to the core to save this message
 		// Add the message to the model
-		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
-		request.setBody(commitmentToBeAdded.toJSON()); // put the new message in the body of the request
-		request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
-		request.send(); // send the request
-		System.out.println("from AddCommitmentController." + request.getBody());
-
-
+			final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+			request.setBody(commitmentToBeAdded.toJSON()); // put the new message in the body of the request
+			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
+			request.send(); // send the request
+			System.out.println("from AddCommitmentController." + request.getBody());
 	}
 
 

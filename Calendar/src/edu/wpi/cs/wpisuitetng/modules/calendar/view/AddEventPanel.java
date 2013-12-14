@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.MaskFormatter;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
@@ -46,38 +48,72 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 public class AddEventPanel extends JPanel {
+	/** The btn submit, update, and cancel. */
 	JButton btnSubmit, btnUpdate, btnCancel;
-
+	
+	/** The name label. */
 	JLabel nameLabel;
 
+	/** The name text field. */
 	JTextField nameTextField;
 	
+	/** The error msg box for name. */
 	JErrorMessageLabel nameErrMsg;
 
+	/** The date label. */
 	JLabel startDateLabel, endDateLabel;
 
+	/** The date text field */
 	JFormattedTextField startDateTextField, endDateTextField;
 	
+	/** The date picker */ 
 	DatePickerPanel startDatePicker, endDatePicker;
 
+	/** The time text field. */
 	JFormattedTextField startTimeTextField, endTimeTextField;
 	
+	/** The help content for date and time */
+	JLabel startDateHelpText, startTimeHelpText, endDateHelpText, endTimeHelpText;
+
+	/** The category label */
+	JLabel categoryLabel;
+
+	/** The category drop down list */
+	//JComboBox<Category> categoryComboBox;
+
+	/** The type of this commitment */
+	JLabel typeLabel;
+
+	/** Team radio button */
+	JRadioButton teamRadioButton;
+
+	/** Personal radio button */
+	JRadioButton personalRadioButton;
+
+	/** The error msg box for date and time. */
 	JErrorMessageLabel dateTimeErrMsg;
 
+	/** The location label */
 	JLabel locationLabel;
 
+	/** The location text field */
 	JTextField locationTextField;
 
+	/** The description label */
 	JLabel descriptionLabel;
 
+	/** The description text area */
 	JTextArea descriptionTextArea;
-
+	
+	/** the invitee label */
 	JLabel inviteeLabel;
 
+	/** The invitee text area */
 	JTextArea inviteeTextArea;
 
 //	JCheckBox allDayEventCheckBox;
 	
+	/** The IDText label */
 	JLabel IDText;
 	
 	public AddEventPanel(MigLayout miglayout) {
@@ -101,6 +137,14 @@ public class AddEventPanel extends JPanel {
 
 		dateTimeErrMsg = new JErrorMessageLabel();
 		
+		startDateHelpText = new JLabel ("<HTML><font color='gray'>MM/DD/YYYY</font></HTML>");
+	    
+	    startTimeHelpText = new JLabel ("<HTML><font color='gray'>24-HR</font></HTML>");
+	    
+	    endDateHelpText = new JLabel ("<HTML><font color='gray'>MM/DD/YYYY</font></HTML>");
+	    
+	    endTimeHelpText = new JLabel ("<HTML><font color='gray'>24-HR</font></HTML>");
+		
 		// Initiate time fields. Add input verifiers and listener
 		try {
 			startDateTextField = new JFormattedTextField(new MaskFormatter("##/##/####"));
@@ -112,7 +156,17 @@ public class AddEventPanel extends JPanel {
 			System.out.println("Date / time formatter is bad: " + pe.getMessage());
 		}
 	
-
+		typeLabel = new JLabel("Type");
+		ButtonGroup radioButtonGroup = new ButtonGroup() ;
+		personalRadioButton = new JRadioButton("Personal Commitment");
+		teamRadioButton = new JRadioButton("Team Commitment");
+		teamRadioButton.setSelected(true);
+		radioButtonGroup.add(personalRadioButton);
+		radioButtonGroup.add(teamRadioButton);
+	    
+	    categoryLabel = new JLabel("Category: ");
+	    
+//	    categoryComboBox = new JComboBox<Category>();
 			
 		locationLabel = new JLabel("Where:");
 
@@ -141,9 +195,38 @@ public class AddEventPanel extends JPanel {
 	    IDText = new JLabel(); 
 		
 		// Set up properties
-		nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
-		
-		
+	    nameTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				warn();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				warn();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				warn();
+			}
+			
+			public void warn() {
+				if (nameTextField.getText().trim().equals("")) {
+					nameErrMsg.setText("Name cannot be empty or all spaces! ");
+				}
+				else {
+					nameErrMsg.setText("");
+				}
+				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
+				if (nameTextField.getParent() != null) {
+					nameTextField.getParent().revalidate();
+					nameTextField.getParent().repaint();
+				}
+			}
+		});
 		
 		startDateTextField.setColumns(8);
 		startDateTextField.setInputVerifier(new DateVerifier(dateTimeErrMsg, btnSubmit));
@@ -338,15 +421,23 @@ public class AddEventPanel extends JPanel {
 		});	
 		
 	    btnCancel.addActionListener(AddEventPanelController.getInstance());
+	    btnCancel.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				disableAllButton();
+			}
+	    	
+	    });
 	    btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				((JButton)e.getSource()).addActionListener(new AddEventController(model , packInfo()));
 				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
+				disableAllButton();
 			}
 	    	
 	    });
@@ -354,11 +445,11 @@ public class AddEventPanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				((JButton)e.getSource()).addActionListener(new UpdateEventController(packInfo()));
 				((JButton)e.getSource()).addActionListener(AddEventPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
+				disableAllButton();
 			}
 	    	
 	    });
@@ -382,22 +473,40 @@ public class AddEventPanel extends JPanel {
 		contentPanel.add(endDateLabel, "gap 5%");
 		contentPanel.add(endDateTextField);
 		contentPanel.add(endTimeTextField);
-		contentPanel.add(startDatePicker, "cell 1 3, span 3");
+		contentPanel.add(startDateHelpText, "cell 1 3");
+		contentPanel.add(startTimeHelpText);
+		contentPanel.add(endDateHelpText, "cell 4 3");
+		contentPanel.add(endTimeHelpText, "wrap");
+		contentPanel.add(startDatePicker, "cell 1 4, span 3");
 		contentPanel.add(endDatePicker, "wrap, span");
-		contentPanel.add(dateTimeErrMsg, "cell 1 4, wrap, span");
+		contentPanel.add(dateTimeErrMsg, "cell 1 5, wrap, span");
 		contentPanel.add(locationLabel);
 		contentPanel.add(locationTextField, "wrap, span 2");
+	    contentPanel.add(typeLabel);
+	    contentPanel.add(personalRadioButton, "span 2");
+	    contentPanel.add(teamRadioButton, "wrap");
+	    contentPanel.add(categoryLabel, "wrap");
+//	    contentPanel.add(categoryComboBox, "wrap");
 		contentPanel.add(descriptionLabel);
 		contentPanel.add(descriptionTextArea, "wrap, span ");
 		contentPanel.add(inviteeLabel);
 		contentPanel.add(inviteeTextArea, "wrap, span ");
 //		contentPanel.add(allDayEventCheckBox, "wrap, span");
-		contentPanel.add(btnSubmit, "cell 1 8");
-		contentPanel.add(btnUpdate, "cell 2 8");
-		contentPanel.add(btnCancel, "cell 3 8");
+		contentPanel.add(btnSubmit, "cell 1 11");
+		contentPanel.add(btnUpdate);
+		contentPanel.add(btnCancel);
 		this.add(contentPanel);
 		
 //		this.add(rightPanel);
+	}
+
+	/**
+	 * Disable all buttons. Used by controller when closing the tab. 
+	 */
+	public void disableAllButton() {
+		btnSubmit.setEnabled(false);
+		btnUpdate.setEnabled(false);
+		btnCancel.setEnabled(false);
 	}
 
 	public String getTxtNewname() {
@@ -443,6 +552,18 @@ public class AddEventPanel extends JPanel {
 		// Invitee
 		String invitee = inviteeTextArea.getText();
 		Event event = new Event(name, startDateTime, endDateTime, location, desc);
+		event.setTeamEvent(teamRadioButton.isSelected());
+		if (teamRadioButton.isSelected()) {
+			System.out.println("team radio button selected");
+		}
+		if (personalRadioButton.isSelected()) {
+			System.out.println("personal radio button selected");
+		}
+		if (event.isTeamEvent()) {
+			System.out.println("team event");
+		} else {
+			System.out.println("personal event");
+		}
 		event.setId(id);
 		return event;
 	}
@@ -470,6 +591,11 @@ public class AddEventPanel extends JPanel {
 	}
 	
 	public void populateEvent (Event event) {
+		if (event.isTeamEvent()) {
+			System.out.println("team");
+		} else {
+			System.out.println("personal");
+		}
 		IDText.setText(String.valueOf(event.getId()));
 		nameTextField.setText(event.getName());
 		descriptionTextArea.setText(event.getDescription());
@@ -484,6 +610,11 @@ public class AddEventPanel extends JPanel {
 		endDateTextField.setValue(formatInt(endDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(endDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + endDateTime.get(GregorianCalendar.YEAR));
 		endTimeTextField.setValue(formatInt(endDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(endDateTime.get(GregorianCalendar.MINUTE)));
 		endDatePicker.setSelectedDate(new DateController(endDateTime));
+		if (event.isTeamEvent()) {
+			teamRadioButton.doClick();
+		} else {
+			personalRadioButton.doClick();
+		}
 		if (IDText.getText().equals("")) {
 			btnUpdate.setVisible(false);
 			btnSubmit.setVisible(true);
@@ -493,37 +624,6 @@ public class AddEventPanel extends JPanel {
 			btnSubmit.setVisible(false);
 		}
 		
-	}
-	
-	private class TextVerifier extends InputVerifier {
-		JErrorMessageLabel errMsg; 
-		JButton btnSubmit;
-		
-		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
-			this.errMsg = (JErrorMessageLabel) errMsg;
-			this.btnSubmit = btnSubmit;
-		}
-		
-		@Override
-		public boolean verify(JComponent input) {
-			JTextField tf = (JTextField) input;
-			if (tf.getText().equals("")) {
-				errMsg.setText("Name can not be empty! ");
-				btnSubmit.setEnabled(checkContent());
-				btnUpdate.setEnabled(checkContent());
-			}
-			else if (tf.getText().trim().equals("")) {
-				errMsg.setText("Invalid Name! ");
-				btnSubmit.setEnabled(checkContent());
-				btnUpdate.setEnabled(checkContent());
-			}
-			else {
-				errMsg.setText("");
-				btnSubmit.setEnabled(checkContent());
-				btnUpdate.setEnabled(checkContent());
-			}
-			return (! tf.getText().trim().equals(""));
-		}
 	}
 	
 	private class TimeVerifier extends InputVerifier {

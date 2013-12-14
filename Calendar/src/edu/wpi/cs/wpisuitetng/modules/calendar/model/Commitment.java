@@ -32,21 +32,67 @@ public class Commitment implements Model{
 
 	/** The name. */
 	private String name;
-	
+
 	/** The start time. */
 	private GregorianCalendar startTime;
-	
+
 	/** The description. */
 	private String description;
-	
+
 	/** The id. */
 	private int id;
 
+	/** The owner of this commitment. */
+	private String username;
 
+	/** The status of this commitment. */
+	private int status;
+
+
+	/** The is team commitment. */
+	private boolean isTeamCommitment = true;
+
+
+	/**
+	 * Checks if is team commitment.
+	 *
+	 * @return true, if is team commitment
+	 */
+	public boolean isTeamCommitment() {
+		return isTeamCommitment;
+	}
+
+	/**
+	 * Sets the team commitment.
+	 *
+	 * @param isTeamCommitment the new team commitment
+	 */
+	public void setTeamCommitment(boolean isTeamCommitment) {
+		this.isTeamCommitment = isTeamCommitment;
+	}
+	
+	/**
+	 * Gets the status.
+	 *
+	 * @return the status
+	 */
+	public int getStatus() {
+		return status;
+	}
+
+	/**
+	 * Sets the status.
+	 *
+	 * @param status the status to set
+	 */
+	public void setStatus(int status) {
+		this.status = status;
+
+	}
 
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
-	
+
 	/** The project. */
 	private Project project;
 
@@ -63,6 +109,7 @@ public class Commitment implements Model{
 		this.startTime = startTime;
 		this.description = description;
 		this.id = -1;
+		this.status = 1;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -77,6 +124,9 @@ public class Commitment implements Model{
 		this.setName(comm.getName());
 		this.setProject(comm.getProject());
 		this.setStartTime(comm.getStartTime());
+		this.setStatus(comm.getStatus());
+		this.setUsername(comm.getUsername());
+		this.setTeamCommitment(comm.isTeamCommitment());
 	}
 
 	/**
@@ -277,6 +327,24 @@ public class Commitment implements Model{
 	 */
 	public String getDescription() {
 		return description;
+	}
+
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername() {
+		return username;
+	}
+
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the new username
+	 */
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 

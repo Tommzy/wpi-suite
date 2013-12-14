@@ -8,25 +8,26 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
-public class AddEventPanelController implements ActionListener {
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+
+public class AddManageFiltersPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
-	JButton btnSubmit;
-	JButton btnCancel;
-	
-	public static AddEventPanelController instance;
 
-	public AddEventPanelController() {
+
+	public static AddManageFiltersPanelController instance;
+
+	public AddManageFiltersPanelController( ) {
 	}
-	
-	public static AddEventPanelController getInstance() {
+
+	public static AddManageFiltersPanelController getInstance() {
 		if (instance == null) {
-			instance = new AddEventPanelController();
+			instance = new AddManageFiltersPanelController();
 		}
-		
+
 		return instance;
 	}
-	
+
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
@@ -34,20 +35,22 @@ public class AddEventPanelController implements ActionListener {
 	public void setTabbedPane(JTabbedPane tabbedPane) {
 		this.tabbedPane = tabbedPane;
 	}
-	
+
+
+
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getSource().getClass().equals(JButton.class)) {
-			// Close the tab a second later for calendar view to refresh. Avoid showing a flash to users when the calendar refreshes. 
+			((JButton)e.getSource()).setEnabled(false);
 			Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
-				}
-			}, 1000);
-
+				  @Override
+				  public void run() {
+					  tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+				  }
+				}, 1000);	
 		}
 	}
 
