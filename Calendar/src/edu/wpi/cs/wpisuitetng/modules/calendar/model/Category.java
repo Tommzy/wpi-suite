@@ -185,6 +185,17 @@ public class Category implements Model {
     final Gson parser = new Gson();
     return parser.fromJson(json, Category.class);
   }
+  
+  /**
+	 * From json array.
+	 *
+	 * @param json the json
+	 * @return the category[]
+	 */
+	public static Category[] fromJsonArray(String json) {
+		final Gson parser = new Gson();
+		return parser.fromJson(json, Category[].class);
+	}
 
   @Override
   public Boolean identify(Object o) {
