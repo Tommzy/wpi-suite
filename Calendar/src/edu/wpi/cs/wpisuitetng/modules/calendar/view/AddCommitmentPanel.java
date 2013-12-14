@@ -248,7 +248,7 @@ public class AddCommitmentPanel extends JPanel {
 	
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField);
-    contentPanel.add(nameErrMsg, "cell 3 0, wrap");
+    contentPanel.add(nameErrMsg, "cell 3 0, wrap, span");
     contentPanel.add(startDateLabel);
     contentPanel.add(startDateTextField);
     contentPanel.add(startTimeTextField);
