@@ -92,7 +92,6 @@ public class Commitment implements Model{
 
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
-
 	/** The project. */
 	private Project project;
 
@@ -114,7 +113,7 @@ public class Commitment implements Model{
 	}
 
 	/**
-	 * Copy.
+	 * Copies all fields in the parameter commitment to the commitment calling this function.
 	 *
 	 * @param comm the comm
 	 */
@@ -127,6 +126,8 @@ public class Commitment implements Model{
 		this.setStatus(comm.getStatus());
 		this.setUsername(comm.getUsername());
 		this.setTeamCommitment(comm.isTeamCommitment());
+		//this.setPermission(comm.getPermission(comm.g));
+		
 	}
 
 	/**
