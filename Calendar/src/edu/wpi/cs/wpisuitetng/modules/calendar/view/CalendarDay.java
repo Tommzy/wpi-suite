@@ -326,14 +326,14 @@ public class CalendarDay extends JPanel {
 	private String formatLabel(Commitment commitment) {
 		String label = "";
 		if (commitment.getStatus() == 2) {
-			label = "<HTML><div style='text-align:center'><font color=gray>" + commitment.getName() + "</font><br /><font color=gray>" + 
+			label = "<HTML><font color=gray><p style='text-align:center'>" + commitment.getName() + "<br />" + 
 					format(commitment.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-					format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</font></div></body></HTML>";
+					format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</p></font></HTML>";
 		}
 		else {
-			label = "<HTML><div style='text-align:center'>" + commitment.getName() + "<br />" + 
+			label = "<HTML><font color=black><p style='text-align:center'>" + commitment.getName() + "<br />" + 
 					format(commitment.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-					format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</div></HTML>";
+					format(commitment.getStartTime().get(GregorianCalendar.MINUTE)) + "</p></font></HTML>";
 		}
 		return label;
 	}
@@ -469,7 +469,9 @@ public class CalendarDay extends JPanel {
 					}
 					
 					// Add html tags into the new label strings
-					String newText = "<HTML><div style='text-align:center'>";
+					// TODO change font color here.
+					String color = ((EventLabel)components[i]).getText().split("<font color=")[1].split(">")[0];
+					String newText = "<HTML><font color=" + color + "><p style='text-align:center'>";
 					for (int j = 0; j < content.length; j++) {
 						if (j != content.length - 1) {
 							newText += content[j] + "<br />";
@@ -478,7 +480,7 @@ public class CalendarDay extends JPanel {
 							newText += content[j];
 						}
 					}
-					newText += "</div></HTML>";
+					newText += "</p></font></HTML>";
 					((EventLabel)components[i]).setText(newText);
 					
 				}
