@@ -18,6 +18,7 @@ import javax.swing.*;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
 
@@ -59,12 +60,12 @@ public class AddEventTabPanel extends JTabbedPane {
 		// add eventTabPanel to AddEventPanelController
 		AddEventPanelController.getInstance().setTabbedPane(this);
 		AddCommitmentPanelController.getInstance().setTabbedPane(this);
+		ManageFiltersPanelController.getInstance().setTabbedPane(this);
 		//Content Viewer
 		contentView = new JPanel();
 		contentView.setLayout(new BoxLayout(contentView, BoxLayout.X_AXIS));
 		
 		//Calendar
-		//Removed arguments. should be updated
 		calendarPanel = new MainCalendarView();
 		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
 		
@@ -75,17 +76,14 @@ public class AddEventTabPanel extends JTabbedPane {
 		// Events
 		EventTable eventTable = new EventTable();
 		eventTable.setLayout(new BoxLayout(eventTable, BoxLayout.Y_AXIS));
-//		eventScroll = new JScrollPane(eventTable);
 		tablesPanel.add(eventTable);
-		// Tasks
+		// Commitments
 		commitmentTable = new CommitmentTable();
 		commitmentTable.setLayout(new BoxLayout(commitmentTable, BoxLayout.Y_AXIS));
-//		taskScroll = new JScrollPane(taskTable);
 		tablesPanel.add(commitmentTable);
 		// Filters
 		FiltersTable filtersTable = new FiltersTable();
 		filtersTable.setLayout(new BoxLayout(filtersTable, BoxLayout.Y_AXIS));
-//		filterScroll = new JScrollPane(filtersTable);
 		tablesPanel.add(filtersTable);
 		
 		contentView.add(calendarPanel);	
