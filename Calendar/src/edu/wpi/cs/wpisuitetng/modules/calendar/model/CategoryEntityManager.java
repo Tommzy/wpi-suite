@@ -38,7 +38,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class CommitmentEntityManager.
+ * The Class CategoryEntityManager.
  */
 public class CategoryEntityManager implements EntityManager<Category> {
 
@@ -63,7 +63,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	public Category makeEntity(Session s, String content)
 			throws BadRequestException, ConflictException, WPISuiteException {
 
-		// Parse the Commitment from JSON
+		// Parse the Category from JSON
 		final Category newCategory;
 		try {
 			newCategory = Category.fromJSON(content);
@@ -71,7 +71,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			throw new BadRequestException("The Category creation string had invalid formatting. Entity String: " + content);			
 		}
 
-		// Saves the Commitment in the database
+		// Saves the Category in the database
 		//if(newCategory.isTeamCommitment()){
 		//	this.save(s,newCategory); // An exception may be thrown here if we can't save it
 		//}else{
@@ -142,7 +142,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() throws WPISuiteException {
-		List<Category> categoryList = db.retrieveAll(new Category(null));
+		List<Category> categoryList = db.retrieveAll(new Category(null, false));
 		Iterator<Category> itr = categoryList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
@@ -160,19 +160,19 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
 	public int Count() throws WPISuiteException {
-		// Passing a dummy Commitment lets the db know what type of object to retrieve
+		// Passing a dummy Category lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Category(null, null)));
-		return db.retrieveAll(new Category(null)).size();
+		return db.retrieveAll(new Category(null, false)).size();
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
 	public Category[] getAll(Session s) throws WPISuiteException  {
-		// Ask the database to retrieve all objects of the type Commitment.
+		// Ask the database to retrieve all objects of the type Category.
 		// Passing a dummy Category lets the db know what type of object to retrieve
 		// Passing the project makes it only get Category from that project
-		// Return the list of Commitments as an array
+		// Return the list of Categories as an array
 		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		
 		
@@ -180,15 +180,15 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		Category[] personal = null;
 		Category[] team = null;
 		Collection<Category> combined = new ArrayList<Category>();
-		try{// return combined personal and team commitments
+		try{// return combined personal and team categories
 			personal = db.retrieve(Category.class, "username", s.getUsername(),s.getProject()).toArray(new Category[0]);
-			team =  db.retrieveAll(new Category(null), s.getProject()).toArray(new Category[0]);
+			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
 			System.out.println("No Category yet");
-			return db.retrieveAll(new Category(null), s.getProject()).toArray(new Category[0]);
+			return db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
 		}
 	}
 
@@ -256,7 +256,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		ensureRole(s, Role.ADMIN);
 		Category oldCat = getEntity(s,   id    )[0];
-		Category catToBeDel = new Category(null);
+		Category catToBeDel = new Category(null, false);
 		catToBeDel.setId(oldCat.getId());
 
 		if (db.delete(catToBeDel)!=null){
@@ -270,7 +270,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 */
 	public void deleteAll(Session s) throws WPISuiteException  {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Category(null), s.getProject());
+		db.deleteAll(new Category(null, false), s.getProject());
 	}
 
 	//The following methods are not implemented but required by the "EntityManager" interface:
