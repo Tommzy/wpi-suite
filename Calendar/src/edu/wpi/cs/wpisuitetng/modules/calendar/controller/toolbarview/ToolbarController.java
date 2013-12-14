@@ -90,7 +90,7 @@ public class ToolbarController implements ActionListener {
     if (e.getSource() == manageCategoryButton) {
     	AddCategoryPanel categoryPanel = new AddCategoryPanel();
     	AddCategoryPanelController.getInstance().getTabbedPane().add(categoryPanel);
-    	AddCategoryPanelController.getInstance().getTabbedPane().setTitleAt(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Category");
+    	AddCategoryPanelController.getInstance().getTabbedPane().setTitleAt(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Category");
     	AddCategoryPanelController.getInstance().getTabbedPane().setSelectedIndex(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1);
     }
 

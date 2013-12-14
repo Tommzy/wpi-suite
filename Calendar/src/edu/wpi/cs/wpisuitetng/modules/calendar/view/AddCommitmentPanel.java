@@ -32,6 +32,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.MaskFormatter;
 
 import net.miginfocom.swing.MigLayout;
@@ -50,7 +52,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 @SuppressWarnings("serial")
 public class AddCommitmentPanel extends JPanel {
 
-  /** The btn submit. */
+  /** The btn submit, update, and cancel. */
   JButton    btnSubmit, btnUpdate, btnCancel;
 
   /** The name label. */
@@ -65,7 +67,7 @@ public class AddCommitmentPanel extends JPanel {
   /** The date label. */
   JLabel     startDateLabel;
 
-  /** The start time text field. */
+  /** The time text field. */
   JFormattedTextField startDateTextField, startTimeTextField;
   
   /** The help content for date and time */
@@ -149,6 +151,14 @@ public class AddCommitmentPanel extends JPanel {
     
     timeHelpText = new JLabel ("<HTML><font color='gray'>24-HR</font></HTML>");
     
+    typeLabel = new JLabel("Type");
+	ButtonGroup radioButtonGroup = new ButtonGroup() ;
+	personalRadioButton = new JRadioButton("Personal Commitment");
+	teamRadioButton = new JRadioButton("Team Commitment");
+	teamRadioButton.setSelected(true);
+	radioButtonGroup.add(personalRadioButton);
+	radioButtonGroup.add(teamRadioButton);
+    
     statusLabel = new JLabel ("Status: ");
     
     statusComboBox = new JComboBox<String>(new String[]{"New", "In Progress", "Closed"});
@@ -182,8 +192,40 @@ public class AddCommitmentPanel extends JPanel {
     IDText = new JLabel(); 
     
     // Set up properties and values
-	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
+//	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
+    nameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
+		@Override
+		public void insertUpdate(DocumentEvent e) {
+			warn();
+		}
+
+		@Override
+		public void removeUpdate(DocumentEvent e) {
+			warn();
+		}
+
+		@Override
+		public void changedUpdate(DocumentEvent e) {
+			warn();
+		}
+		
+		public void warn() {
+			if (nameTextField.getText().trim().equals("")) {
+				nameErrMsg.setText("Name cannot be empty or all spaces! ");
+			}
+			else {
+				nameErrMsg.setText("");
+			}
+			btnSubmit.setEnabled(checkContent());
+			btnUpdate.setEnabled(checkContent());
+			if (nameTextField.getParent() != null) {
+				nameTextField.getParent().revalidate();
+				nameTextField.getParent().repaint();
+			}
+		}
+	});
+    
     startDateTextField.setColumns(8);
 	startDateTextField.setInputVerifier(new DateVerifier(startDateTimeErrMsg, btnSubmit));
 	startDatePicker = new DatePickerPanel(startDateTextField);
@@ -203,14 +245,6 @@ public class AddCommitmentPanel extends JPanel {
 			formatInt(MainCalendarController.getInstance().getDateController().getDayOfMonth()) + "/" +
 			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
-	
-	typeLabel = new JLabel("Type");
-	ButtonGroup radioButtonGroup = new ButtonGroup() ;
-	personalRadioButton = new JRadioButton("Personal Commitment");
-	teamRadioButton = new JRadioButton("Team Commitment");
-	teamRadioButton.setSelected(true);
-	radioButtonGroup.add(personalRadioButton);
-	radioButtonGroup.add(teamRadioButton);
 	
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField);
