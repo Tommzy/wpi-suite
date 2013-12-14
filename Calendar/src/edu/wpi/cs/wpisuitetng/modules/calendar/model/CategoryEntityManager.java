@@ -70,14 +70,13 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		} catch(JsonSyntaxException e){ // the JSON conversion failed
 			throw new BadRequestException("The Category creation string had invalid formatting. Entity String: " + content);			
 		}
-
-		// Saves the Category in the database
-		//if(newCategory.isTeamCommitment()){
-		//	this.save(s,newCategory); // An exception may be thrown here if we can't save it
-		//}else{
-		//	this.save(newCategory);// assume personal commitment
-		//}
-		this.save(s, newCategory);
+		
+		if(newCategory.isPersonal){
+			newCategory.setUserId(s.getUsername());
+			this.save(newCategory);
+		}else{
+			this.save(s,newCategory);
+		}
 
 		// Return the newly created Category (this gets passed back to the client)
 		return newCategory;
@@ -181,13 +180,13 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		Category[] team = null;
 		Collection<Category> combined = new ArrayList<Category>();
 		try{// return combined personal and team categories
-			personal = db.retrieve(Category.class, "username", s.getUsername(),s.getProject()).toArray(new Category[0]);
+			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
 			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
-			System.out.println("No Category yet");
+			System.out.println("No personal Category yet");
 			return db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
 		}
 	}
@@ -205,7 +204,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 
 		// Try to retrieve the specific Category
 		try {
-			Categories = db.retrieve(Category.class, "id", intId, s.getProject()).toArray(new Category[0]);
+			Categories = db.retrieve(Category.class, "id", intId).toArray(new Category[0]);
 		} catch (WPISuiteException e) { // caught and re-thrown with a new message
 			e.printStackTrace();
 			throw new WPISuiteException("There was a problem retrieving from the database." );
@@ -229,7 +228,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		// The following code was modified from the requirement entity manager
 		Category updatedCategory = Category.fromJSON(content);
 
-		List<Model> oldCategories = db.retrieve(Category.class, "id", updatedCategory.getId(), s.getProject());
+		List<Model> oldCategories = db.retrieve(Category.class, "id", updatedCategory.getId());
 		if(oldCategories.size() < 1 || oldCategories.get(0) == null) {
 			throw new BadRequestException("Category with ID does not exist.");
 		}
@@ -254,14 +253,25 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 */
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
-		ensureRole(s, Role.ADMIN);
-		Category oldCat = getEntity(s,   id    )[0];
-		Category catToBeDel = new Category(null, false);
-		catToBeDel.setId(oldCat.getId());
 
-		if (db.delete(catToBeDel)!=null){
-			return true; // the deletion was successful
-		}	    
+		Category oldCat = getEntity(s,   id    )[0];
+		if (oldCat.isPersonal()){
+			Category catToBeDel = new Category(null, false);
+			catToBeDel.setId(oldCat.getId());
+			catToBeDel.setUserId(oldCat.getUserId());
+			catToBeDel.setIsPersonal(true);
+			if (db.delete(catToBeDel)!=null){
+				return true; // the deletion was successful
+			}
+		}else{
+			ensureRole(s, Role.ADMIN);
+			Category catToBeDel = new Category(null, false);
+			catToBeDel.setId(oldCat.getId());
+			if (db.delete(catToBeDel)!=null){
+				return true; // the deletion was successful
+			}	
+		}
+
 		return false; // The deletion was unsuccessful
 	}
 
@@ -270,7 +280,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 */
 	public void deleteAll(Session s) throws WPISuiteException  {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Category(null, false), s.getProject());
+		db.deleteAll(new Category(null, false));
 	}
 
 	//The following methods are not implemented but required by the "EntityManager" interface:
