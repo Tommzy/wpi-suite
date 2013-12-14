@@ -40,6 +40,9 @@ public class AddEventTabPanel extends JTabbedPane {
 
 	/** The content view. */
 	JPanel contentView;
+	
+	/** The content view. */
+	JPanel schedulerView;
 
 	/** The event scroll. */
 	JScrollPane eventScroll;
@@ -92,11 +95,17 @@ public class AddEventTabPanel extends JTabbedPane {
 
 		contentView.add(calendarPanel);	
 		contentView.add(tablesPanel);
-
+		
+		schedulerView = new JPanel();
+		SchedulerPanel schedulerPanel = new SchedulerPanel();
+		schedulerPanel.setLayout(new BoxLayout(schedulerPanel, BoxLayout.Y_AXIS));
+		schedulerView.add(schedulerPanel);
 
 		this.add(contentView, 0);
+		this.add(schedulerView, 1);
 
 		this.setTitleAt(0, "Calendar");
+		this.setTitleAt(1, "Scheduler");
 
 
 		this.setPreferredSize(new Dimension(800, 700));
