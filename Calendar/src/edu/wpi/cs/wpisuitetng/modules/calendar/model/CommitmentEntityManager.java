@@ -263,6 +263,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		existingCommitment.copy(updatedCommitment);
 
 		if(existingCommitment.isTeamCommitment()){
+			existingCommitment.setUsername(null);// case: switching from personal to team commitment
 
 			if(!db.save(existingCommitment, s.getProject())) {
 				throw new WPISuiteException();
@@ -270,6 +271,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 			return existingCommitment;
 		}else{
+			existingCommitment.setUsername(s.getUsername());// case: switching from team to personal
 			if(!db.save(existingCommitment)) {
 				throw new WPISuiteException();
 			}

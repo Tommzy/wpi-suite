@@ -249,12 +249,14 @@ public class EventEntityManager implements EntityManager<Event> {
 		existingEvent.copy(updatedEvent);
 
 		if(existingEvent.isTeamEvent()){
+			existingEvent.setUsername(null);
 			if(!db.save(existingEvent, s.getProject())) {
 				throw new WPISuiteException();
 			}
 
 			return existingEvent;
 		}else{
+			existingEvent.setUsername(s.getUsername());
 			if(!db.save(existingEvent)) {
 				throw new WPISuiteException();
 			}
