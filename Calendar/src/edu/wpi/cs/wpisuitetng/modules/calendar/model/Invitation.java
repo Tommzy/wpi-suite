@@ -24,7 +24,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 /**
  * The Class Invitation.
  * 
- * @author Eric Wilcox, Andrew Paon
+ * @author Eric Willcox, Andrew Paon
  */
 public class Invitation implements Model{
 
