@@ -75,6 +75,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if(newCommitment.isTeamCommitment()){
 			this.save(s,newCommitment); // An exception may be thrown here if we can't save it
 		}else{
+			newCommitment.setUsername(s.getUsername());
 			this.save(newCommitment);// assume personal commitment
 		}
 
@@ -198,10 +199,14 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		Commitment[] team = null;
 		Collection<Commitment> combined = new ArrayList<Commitment>();
 		try{// return combined personal and team commitments
-			personal = db.retrieve(Commitment.class, "Username", s.getUsername(),s.getProject()).toArray(new Commitment[0]);
+			personal = db.retrieve(Commitment.class, "username", s.getUsername()).toArray(new Commitment[0]);
 			team =  db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
+			System.out.println("Team "+team.toString());
+			System.out.println("personal "+personal.toString());
+			//
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
+			System.out.println("combined "+combined.toString());
 			return combined.toArray(new Commitment[] {});
 		}catch(WPISuiteException e){// no personal commitments found
 			System.out.println("No Personal Commitments yet");
@@ -222,7 +227,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 		// Try to retrieve the specific Commitment
 		try {
-			Commitments = db.retrieve(Commitment.class, "id", intId, s.getProject()).toArray(new Commitment[0]);
+			Commitments = db.retrieve(Commitment.class, "id", intId).toArray(new Commitment[0]);
 		} catch (WPISuiteException e) { // caught and re-thrown with a new message
 			e.printStackTrace();
 			throw new WPISuiteException("There was a problem retrieving from the database." );
@@ -247,7 +252,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// The following code was modified from the requirement entity manager
 		Commitment updatedCommitment = Commitment.fromJSON(content);
 
-		List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId(), s.getProject());
+		List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId());
 		if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
 			throw new BadRequestException("Commitment with ID does not exist.");
 		}
@@ -272,14 +277,29 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
-		ensureRole(s, Role.ADMIN);
-		Commitment oldComm = getEntity(s,   id    )[0];
-		Commitment commToBeDel = new Commitment(null, null, null);
-		commToBeDel.setId(oldComm.getId());
 
-		if (db.delete(commToBeDel)!=null){
-			return true; // the deletion was successful
-		}	    
+		Commitment oldComm = getEntity(s,   id    )[0];
+		if(oldComm.isTeamCommitment()){
+			
+			ensureRole(s, Role.ADMIN);
+			System.out.println("From teamdelete i want to delete "+ oldComm.toJSON());
+			Commitment commToBeDel = new Commitment(null, null, null);
+			commToBeDel.setId(oldComm.getId());
+			if (db.delete(commToBeDel)!=null){
+				return true; // the deletion was successful
+			}
+		}else{
+			System.out.println("From personal i want to delete "+ oldComm.toJSON());
+			Commitment commToBeDel = new Commitment(null, null, null);
+			commToBeDel.setId(oldComm.getId());
+			commToBeDel.setUsername(s.getUsername());
+			commToBeDel.setTeamCommitment(false);
+			if (db.delete(commToBeDel)!=null){
+				return true; // the deletion was successful
+			}
+			
+		}
+
 		return false; // The deletion was unsuccessful
 	}
 

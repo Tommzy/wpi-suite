@@ -109,6 +109,8 @@ public class Commitment implements Model{
 		this.setProject(comm.getProject());
 		this.setStartTime(comm.getStartTime());
 		this.setStatus(comm.getStatus());
+		this.setUsername(comm.getUsername());
+		this.setTeamCommitment(comm.isTeamCommitment());
 	}
 
 	/**
