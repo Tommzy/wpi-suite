@@ -8,7 +8,7 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
-public class AddEventPanelController implements ActionListener {
+public class AddSchedulerPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
 	JButton btnSubmit;
@@ -28,14 +28,14 @@ public class AddEventPanelController implements ActionListener {
 		this.btnCancel = btnCancel;
 	}
 
-	public static AddEventPanelController instance;
+	public static AddSchedulerPanelController instance;
 
-	public AddEventPanelController() {
+	public AddSchedulerPanelController() {
 	}
 
-	public static AddEventPanelController getInstance() {
+	public static AddSchedulerPanelController getInstance() {
 		if (instance == null) {
-			instance = new AddEventPanelController();
+			instance = new AddSchedulerPanelController();
 		}
 
 		return instance;
@@ -66,7 +66,7 @@ public class AddEventPanelController implements ActionListener {
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {
-					tabbedPane.removeTabAt(AddEventPanelController.getInstance().getTabbedPane().getSelectedIndex());
+					tabbedPane.removeTabAt(AddSchedulerPanelController.getInstance().getTabbedPane().getSelectedIndex());
 				}
 			}, 1000);
 

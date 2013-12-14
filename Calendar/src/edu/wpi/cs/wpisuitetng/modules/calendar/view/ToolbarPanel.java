@@ -25,52 +25,53 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarCon
 @SuppressWarnings("serial")
 public class ToolbarPanel extends JPanel {
 
-  /** The add event button. */
-  private final JButton btnAddEvent;
+	/** The add event button. */
+	private final JButton btnAddEvent;
 
-  /** The add event button. */
-  private final JButton btnAddTask;
+	/** The add event button. */
+	private final JButton btnAddCommitment;
 
-  /** The add event button. */
-  private final JButton btnScheduleEvent;
+	/** The add event button. */
+	private final JButton btnScheduleEvent;
 
-  /** The add event button. */
-  private final JButton btnManageFilter;
+	/** The add event button. */
+	private final JButton btnManageFilter;
 
-  /**
-   * Construct the panel.
-   *
-   */
-  public ToolbarPanel() {
+	/**
+	 * Construct the panel.
+	 *
+	 */
+	public ToolbarPanel() {
 
-    // Make this panel transparent, we want to see the JToolbar gradient beneath
-    // it
-    this.setOpaque(false);
+		// Make this panel transparent, we want to see the JToolbar gradient beneath
+		// it
+		this.setOpaque(false);
 
-    // Construct the refresh button and add it to this panel
-    btnAddEvent = new JButton("Add Event");
+		// Construct the refresh button and add it to this panel
+		btnAddEvent = new JButton("Add Event");
 
-    btnAddTask = new JButton("Add Commitment");
+		btnAddCommitment = new JButton("Add Commitment");
 
-    btnScheduleEvent = new JButton("Schedule Event");
+		btnScheduleEvent = new JButton("Schedule Event");
 
-    btnManageFilter = new JButton("Manage Filters");
+		btnManageFilter = new JButton("Manage Filters");
 
-    // Add the get messages controller to the button
-    // btnRefresh.addActionListener(new GetMessagesController(boardModel));
+		// Add the get messages controller to the button
+		// btnRefresh.addActionListener(new GetMessagesController(boardModel));
 
-    // Add the button to this panel
-    add(btnAddEvent);
-    add(btnAddTask);
-    add(btnScheduleEvent);
-    add(btnManageFilter);
+		// Add the button to this panel
+		add(btnAddEvent);
+		add(btnAddCommitment);
+		add(btnScheduleEvent);
+		add(btnManageFilter);
 
-    ToolbarController.getInstance().setAddEventButton(btnAddEvent);
-    btnAddEvent.addActionListener(ToolbarController.getInstance());
-    btnScheduleEvent.addActionListener(new GetCommitmentController());
-    ToolbarController.getInstance().setAddCommitmentButton(btnAddTask);
-    btnAddTask.addActionListener(ToolbarController.getInstance());
-    ToolbarController.getInstance().setManageFiltersButton(btnManageFilter);
-    btnManageFilter.addActionListener(ToolbarController.getInstance());
-  }
+		ToolbarController.getInstance().setAddEventButton(btnAddEvent);
+		btnAddEvent.addActionListener(ToolbarController.getInstance());
+		ToolbarController.getInstance().setAddSchedulerButton(btnScheduleEvent);
+		btnScheduleEvent.addActionListener(ToolbarController.getInstance());
+		ToolbarController.getInstance().setAddCommitmentButton(btnAddCommitment);
+		btnAddCommitment.addActionListener(ToolbarController.getInstance());
+		ToolbarController.getInstance().setManageFiltersButton(btnManageFilter);
+		btnManageFilter.addActionListener(ToolbarController.getInstance());
+	}
 }
