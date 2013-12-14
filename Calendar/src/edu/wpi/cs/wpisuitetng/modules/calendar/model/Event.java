@@ -125,6 +125,7 @@ public class Event  implements Model{
 		this.setDescription(event.getDescription());
 		this.setId(event.getId());
 		this.setUsername(event.getUsername());
+		this.setTeamEvent(event.isTeamEvent());
 
 	}
 
@@ -373,7 +374,7 @@ public class Event  implements Model{
 	 *
 	 * @param bool the new checks if is team event
 	 */
-	public void setIsTeamEvent(boolean bool){
+	public void setTeamEvent(boolean bool){
 		this.isTeamEvent = bool;
 	}
 

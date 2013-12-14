@@ -238,7 +238,7 @@ public class EventEntityManager implements EntityManager<Event> {
 		// The following code was modified from the requirement entity manager
 		Event updatedEvent = Event.fromJSON(content);
 
-		List<Model> oldEvents = db.retrieve(Event.class, "id", updatedEvent.getId(), s.getProject());
+		List<Model> oldEvents = db.retrieve(Event.class, "id", updatedEvent.getId());
 		if(oldEvents.size() < 1 || oldEvents.get(0) == null) {
 			throw new BadRequestException("Event with ID does not exist.");
 		}
@@ -247,6 +247,7 @@ public class EventEntityManager implements EntityManager<Event> {
 
 
 		existingEvent.copy(updatedEvent);
+		//System.out.println(existingEvent);
 
 		if(existingEvent.isTeamEvent()){
 			existingEvent.setUsername(null);
@@ -289,7 +290,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			Event eventToBeDel = new Event(null, null, null, id, id);
 			eventToBeDel.setId(oldEvent.getId());
 			eventToBeDel.setUsername(s.getUsername());
-			eventToBeDel.setIsTeamEvent(false);
+			eventToBeDel.setTeamEvent(false);
 			if (db.delete(eventToBeDel)!=null){
 				return true; // the deletion was successful
 			}

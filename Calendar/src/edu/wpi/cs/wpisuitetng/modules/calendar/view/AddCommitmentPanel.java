@@ -418,6 +418,11 @@ public class AddCommitmentPanel extends JPanel {
 	  startDateTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(startDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + startDateTime.get(GregorianCalendar.YEAR));
 	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
 	  startDatePicker.setSelectedDate(new DateController(startDateTime));
+	  if (commitment.isTeamCommitment()) {
+		  teamRadioButton.doClick();
+	  } else {
+		  personalRadioButton.doClick();
+	  }
 	  if (IDText.getText().equals("")) {
 		  btnUpdate.setVisible(false);
 		  btnSubmit.setVisible(true);

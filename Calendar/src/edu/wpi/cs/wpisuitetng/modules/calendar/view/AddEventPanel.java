@@ -552,6 +552,18 @@ public class AddEventPanel extends JPanel {
 		// Invitee
 		String invitee = inviteeTextArea.getText();
 		Event event = new Event(name, startDateTime, endDateTime, location, desc);
+		event.setTeamEvent(teamRadioButton.isSelected());
+		if (teamRadioButton.isSelected()) {
+			System.out.println("team radio button selected");
+		}
+		if (personalRadioButton.isSelected()) {
+			System.out.println("personal radio button selected");
+		}
+		if (event.isTeamEvent()) {
+			System.out.println("team event");
+		} else {
+			System.out.println("personal event");
+		}
 		event.setId(id);
 		return event;
 	}
@@ -579,6 +591,11 @@ public class AddEventPanel extends JPanel {
 	}
 	
 	public void populateEvent (Event event) {
+		if (event.isTeamEvent()) {
+			System.out.println("team");
+		} else {
+			System.out.println("personal");
+		}
 		IDText.setText(String.valueOf(event.getId()));
 		nameTextField.setText(event.getName());
 		descriptionTextArea.setText(event.getDescription());
@@ -593,6 +610,11 @@ public class AddEventPanel extends JPanel {
 		endDateTextField.setValue(formatInt(endDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(endDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + endDateTime.get(GregorianCalendar.YEAR));
 		endTimeTextField.setValue(formatInt(endDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(endDateTime.get(GregorianCalendar.MINUTE)));
 		endDatePicker.setSelectedDate(new DateController(endDateTime));
+		if (event.isTeamEvent()) {
+			teamRadioButton.doClick();
+		} else {
+			personalRadioButton.doClick();
+		}
 		if (IDText.getText().equals("")) {
 			btnUpdate.setVisible(false);
 			btnSubmit.setVisible(true);
