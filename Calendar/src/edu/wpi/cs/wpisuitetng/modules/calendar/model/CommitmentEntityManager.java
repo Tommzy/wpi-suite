@@ -262,11 +262,21 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 		existingCommitment.copy(updatedCommitment);
 
-		if(!db.save(existingCommitment, s.getProject())) {
-			throw new WPISuiteException();
-		}
+		if(existingCommitment.isTeamCommitment()){
 
-		return existingCommitment;
+			if(!db.save(existingCommitment, s.getProject())) {
+				throw new WPISuiteException();
+			}
+
+			return existingCommitment;
+		}else{
+			if(!db.save(existingCommitment)) {
+				throw new WPISuiteException();
+			}
+
+			return existingCommitment;
+
+		}
 
 	} 
 
@@ -280,7 +290,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 		Commitment oldComm = getEntity(s,   id    )[0];
 		if(oldComm.isTeamCommitment()){
-			
 			ensureRole(s, Role.ADMIN);
 			System.out.println("From teamdelete i want to delete "+ oldComm.toJSON());
 			Commitment commToBeDel = new Commitment(null, null, null);
@@ -297,7 +306,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			if (db.delete(commToBeDel)!=null){
 				return true; // the deletion was successful
 			}
-			
+
 		}
 
 		return false; // The deletion was unsuccessful

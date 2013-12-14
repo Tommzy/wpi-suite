@@ -13,6 +13,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -38,7 +41,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class EventEntityManager.
  */
 public class EventEntityManager implements EntityManager<Event> {
-	
+
 	/** The db. */
 	private Data db;
 
@@ -69,7 +72,12 @@ public class EventEntityManager implements EntityManager<Event> {
 		}
 
 		// Saves the Event in the database
-		this.save(s,newEvent); // An exception may be thrown here if we can't save it
+		if(newEvent.isTeamEvent()){
+			this.save(s,newEvent); // An exception may be thrown here if we can't save it
+		}else{
+			newEvent.setUsername(s.getUsername());
+			this.save(newEvent);
+		}
 
 		// Return the newly created Event (this gets passed back to the client)
 		return newEvent;
@@ -84,6 +92,23 @@ public class EventEntityManager implements EntityManager<Event> {
 		// Save the Event in the database if possible, otherwise throw an exception
 		// We want the Event to be associated with the project the user logged in to
 		if (!db.save(model, s.getProject())) {
+			throw new WPISuiteException("Unable to save Event.");
+		}
+		System.out.println("The Event saved!    " + model.toJSON());
+	}
+
+	/**
+	 * Save.
+	 *
+	 * @param model the model
+	 * @throws WPISuiteException the wPI suite exception
+	 */
+	public void save(Event model) throws WPISuiteException {
+		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
+
+		// Save the Event in the database if possible, otherwise throw an exception
+		// We want the Event to be associated with the project the user logged in to
+		if (!db.save(model)) {
 			throw new WPISuiteException("Unable to save Event.");
 		}
 		System.out.println("The Event saved!    " + model.toJSON());
@@ -105,8 +130,9 @@ public class EventEntityManager implements EntityManager<Event> {
 	}
 
 
-	/** Takes a Event and assigns a unique id if necessary
-	 * 
+	/**
+	 * Takes a Event and assigns a unique id if necessary.
+	 *
 	 * @param Event The Event that possibly needs a unique id
 	 * @throws WPISuiteException "Count failed"
 	 */
@@ -115,9 +141,9 @@ public class EventEntityManager implements EntityManager<Event> {
 			Event.setId(HighestId() + 1); // Assures that the Event's ID will be unique
 		}
 	}
-	
-	
-	
+
+
+
 	/** Returns the highest Id of all Events in the database.
 	 * @return The highest Id
 	 * @throws WPISuiteException "Retrieve all failed"
@@ -155,7 +181,23 @@ public class EventEntityManager implements EntityManager<Event> {
 		// Passing the project makes it only get Events from that project
 		// Return the list of Events as an array
 		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
-		return db.retrieveAll(new Event(null, null, null,null,null), s.getProject()).toArray(new Event[0]);
+		Event[] personal = null;
+		Event[] team = null;
+		Collection<Event> combined = new ArrayList<Event>();
+		try{// return combined personal and team commitments
+			personal = db.retrieve(Event.class, "username", s.getUsername()).toArray(new Event[0]);
+			team =  db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
+			System.out.println("Team "+team.toString());
+			System.out.println("personal "+personal.toString());
+			//
+			combined.addAll(Arrays.asList(personal));
+			combined.addAll(Arrays.asList(team));
+			System.out.println("combined "+combined.toString());
+			return combined.toArray(new Event[] {});
+		}catch(WPISuiteException e){// no personal commitments found
+			System.out.println("No Personal Events yet");
+			return db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
+		}
 
 	}
 
@@ -172,7 +214,7 @@ public class EventEntityManager implements EntityManager<Event> {
 
 		// Try to retrieve the specific Event
 		try {
-			Events = db.retrieve(Event.class, "id", intId, s.getProject()).toArray(new Event[0]);
+			Events = db.retrieve(Event.class, "id", intId).toArray(new Event[0]);
 		} catch (WPISuiteException e) { // caught and re-thrown with a new message
 			e.printStackTrace();
 			throw new WPISuiteException("There was a problem retrieving from the database." );
@@ -206,11 +248,19 @@ public class EventEntityManager implements EntityManager<Event> {
 
 		existingEvent.copy(updatedEvent);
 
-		if(!db.save(existingEvent, s.getProject())) {
-			throw new WPISuiteException();
-		}
+		if(existingEvent.isTeamEvent()){
+			if(!db.save(existingEvent, s.getProject())) {
+				throw new WPISuiteException();
+			}
 
-		return existingEvent;
+			return existingEvent;
+		}else{
+			if(!db.save(existingEvent)) {
+				throw new WPISuiteException();
+			}
+
+			return existingEvent;
+		}
 
 	} 
 
@@ -222,14 +272,28 @@ public class EventEntityManager implements EntityManager<Event> {
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		ensureRole(s, Role.ADMIN);
-		Event oldComm = getEntity(s,   id    )[0];
-		Event commToBeDel = new Event(null, null, null,null,null);
-		commToBeDel.setId(oldComm.getId());
-		
-		if (db.delete(commToBeDel).equals(commToBeDel)){
-			return true; // the deletion was successful
-		}	    
-		return false; // The deletion was unsuccessful
+
+		Event oldEvent = getEntity(s,   id    )[0];
+		if(oldEvent.isTeamEvent()){
+			ensureRole(s, Role.ADMIN);
+			Event eventToBeDel = new Event(null, null, null,null,null);
+			eventToBeDel.setId(oldEvent.getId());
+
+			if (db.delete(eventToBeDel).equals(eventToBeDel)){
+				return true; // the deletion was successful
+			}	    
+		}else{
+			System.out.println("From personal i want to delete "+ oldEvent.toJSON());
+			Event eventToBeDel = new Event(null, null, null, id, id);
+			eventToBeDel.setId(oldEvent.getId());
+			eventToBeDel.setUsername(s.getUsername());
+			eventToBeDel.setIsTeamEvent(false);
+			if (db.delete(eventToBeDel)!=null){
+				return true; // the deletion was successful
+			}
+
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)

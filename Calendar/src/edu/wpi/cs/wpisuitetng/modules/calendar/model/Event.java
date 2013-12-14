@@ -27,36 +27,44 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class Event.
  */
 public class Event  implements Model{
-	
+
 	/** The name. */
 	private String name;
-	
+
 	/** The start time. */
 	private GregorianCalendar startTime;
-	
-	/** The end time */
+
+	/** The end time. */
 	private GregorianCalendar endTime;
-	
-	/** Location */
+
+	/** Location. */
 	private String location;
-	
+
 	/** The description. */
 	private String description;
-	
+
 	/** The id. */
 	private int id = -1;
 
+	/** The username. */
+	private String username;
+
+	/** The is team event. */
+	private boolean isTeamEvent = true;
+
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
-	
+
 	/** The project. */
 	private Project project;
-	
+
 	/**
 	 * Instantiates a new event.
 	 *
 	 * @param name the name
 	 * @param startTime the start time
+	 * @param endTime the end time
+	 * @param location the location
 	 * @param description the description
 	 */
 	public Event(String name, GregorianCalendar startTime, GregorianCalendar endTime, String location, 
@@ -67,19 +75,39 @@ public class Event  implements Model{
 		this.location = location; 
 		this.description = description;
 	}
-	
+
+	/**
+	 * Gets the end time.
+	 *
+	 * @return the end time
+	 */
 	public GregorianCalendar getEndTime() {
 		return endTime;
 	}
 
+	/**
+	 * Sets the end time.
+	 *
+	 * @param endTime the new end time
+	 */
 	public void setEndTime(GregorianCalendar endTime) {
 		this.endTime = endTime;
 	}
 
+	/**
+	 * Sets the name.
+	 *
+	 * @param name the new name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Sets the description.
+	 *
+	 * @param description the new description
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -87,17 +115,19 @@ public class Event  implements Model{
 	/**
 	 * Copy.
 	 *
-	 * @param comm the comm
+	 * @param event the event
 	 */
-	public void copy(Event comm){
-		this.setName(comm.getName());
-		this.setStartTime(comm.getStartTime());
-		this.setEndTime(comm.getEndTime());
-		this.setProject(comm.getProject());
-		this.setDescription(comm.getDescription());
-		this.setId(comm.getId());
+	public void copy(Event event){
+		this.setName(event.getName());
+		this.setStartTime(event.getStartTime());
+		this.setEndTime(event.getEndTime());
+		this.setProject(event.getProject());
+		this.setDescription(event.getDescription());
+		this.setId(event.getId());
+		this.setUsername(event.getUsername());
+
 	}
-	
+
 	/**
 	 * Getter function for id.
 	 *
@@ -127,14 +157,14 @@ public class Event  implements Model{
 	public void setStartTime(GregorianCalendar startTime) {
 		this.startTime = startTime;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#getPermission(edu.wpi.cs.wpisuitetng.modules.core.models.User)
 	 */
 	@Override
 	public Permission getPermission(User u) 
 	{
-		
+
 		return permissionMap.get(u);
 	}
 
@@ -146,7 +176,7 @@ public class Event  implements Model{
 	{
 		permissionMap.put(u, p);
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#getProject()
 	 */
@@ -154,7 +184,7 @@ public class Event  implements Model{
 	public Project getProject() {
 		return project;
 	}
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#setProject(edu.wpi.cs.wpisuitetng.modules.core.models.Project)
 	 */
@@ -237,11 +267,11 @@ public class Event  implements Model{
 		if (startTime.equals(null)){
 			return "D:LKJHGFLlkhghjh";
 		}
-			
-//		return "Temp Date";
+
+		//		return "Temp Date";
 		return startTime.get(GregorianCalendar.YEAR) + " "
-				+ startTime.get(GregorianCalendar.MONTH) + " "
-				+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
+		+ startTime.get(GregorianCalendar.MONTH) + " "
+		+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
 
 	}
 
@@ -264,57 +294,97 @@ public class Event  implements Model{
 	}
 
 	/**
-	 * Gets the length of an event. 
-	 * @return
+	 * Gets the length of an event.
+	 *
+	 * @return the time span
 	 */
-    public int getTimeSpan() {
-        return (int) (getEndTime().getTime().getTime() - getStartTime().getTime().getTime()) / 60000;
-    }
-    
-    /**
-     * Determine if the DayEvent is active during a certain time stamp
-     * @param calendar the time stamp
-     * @return true if active during the time stamp, false otherwise
-     */
-    public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
-        if (calendar.before(startTime) || calendar.after(endTime)) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+	public int getTimeSpan() {
+		return (int) (getEndTime().getTime().getTime() - getStartTime().getTime().getTime()) / 60000;
+	}
 
-    /**
-     * Determine if the event is active during a given day
-     * @param day the day
-     * @return true if the event is active during that day, false otherwise
-     */
-    public boolean isActiveDuringDay(Date day){
-        Date startDay, endDay;
-        GregorianCalendar cal = new GregorianCalendar();
-        //Set the startDay to the start of the day when the
-        //event is active
-        cal.setTime(startTime.getTime());
-        cal.set(GregorianCalendar.HOUR_OF_DAY,0);
-        cal.set(GregorianCalendar.MINUTE, 0);
-        startDay = cal.getTime();
-        //Set the endDay to the end of the day pointed by endTime
-        cal.setTime(endTime.getTime());
-        cal.set(GregorianCalendar.HOUR_OF_DAY,23);
-        cal.set(GregorianCalendar.MINUTE, 59);
-        endDay = cal.getTime();
+	/**
+	 * Determine if the DayEvent is active during a certain time stamp.
+	 *
+	 * @param calendar the time stamp
+	 * @return true if active during the time stamp, false otherwise
+	 */
+	public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
+		if (calendar.before(startTime) || calendar.after(endTime)) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
-       return startDay.before(day) && endDay.after(day);
-    }
+	/**
+	 * Determine if the event is active during a given day.
+	 *
+	 * @param day the day
+	 * @return true if the event is active during that day, false otherwise
+	 */
+	public boolean isActiveDuringDay(Date day){
+		Date startDay, endDay;
+		GregorianCalendar cal = new GregorianCalendar();
+		//Set the startDay to the start of the day when the
+		//event is active
+		cal.setTime(startTime.getTime());
+		cal.set(GregorianCalendar.HOUR_OF_DAY,0);
+		cal.set(GregorianCalendar.MINUTE, 0);
+		startDay = cal.getTime();
+		//Set the endDay to the end of the day pointed by endTime
+		cal.setTime(endTime.getTime());
+		cal.set(GregorianCalendar.HOUR_OF_DAY,23);
+		cal.set(GregorianCalendar.MINUTE, 59);
+		endDay = cal.getTime();
 
-    /**
-     * Gets location of event
-     * @return this.location
-     */
+		return startDay.before(day) && endDay.after(day);
+	}
+
+	/**
+	 * Gets location of event.
+	 *
+	 * @return this.location
+	 */
 	public String getLocation() {
 		return location;
 	}
 
+	/**
+	 * Gets the username.
+	 *
+	 * @return the username
+	 */
+	public String getUsername(){
+		return this.username;
+	}
+
+	/**
+	 * Sets the username.
+	 *
+	 * @param username the new username
+	 */
+	public void setUsername(String username){
+		this.username = username;
+	}
+
+
+	/**
+	 * Sets the checks if is team event.
+	 *
+	 * @param bool the new checks if is team event
+	 */
+	public void setIsTeamEvent(boolean bool){
+		this.isTeamEvent = bool;
+	}
+
+	/**
+	 * Gets the checks if is team event.
+	 *
+	 * @return the checks if is team event
+	 */
+	public boolean isTeamEvent(){
+		return this.isTeamEvent;
+	}
 
 }
 
