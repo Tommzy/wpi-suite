@@ -12,9 +12,9 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.awt.Color;
 
 import com.google.gson.Gson;
 
@@ -23,62 +23,53 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-public class Category implements Model {
-  /** The name shown in the GUI */
+public class Filter implements Model {
+  
+  /** The string that the user assigns as the name of this filter */
   String name;
-
-  /** The id. */
+  
+  /** The unique ID belonging to this filter */
   private int id;
   
-  /** Can you make new events or commitments belong to this category?*/
-  boolean isActive;
-  
-  /** What color is associated with this category? */
-  Color color;
-  
-  /** True is this is a personal category, false is this is a team category */
-  boolean isPersonal;
-  
-  /** The ID of the user this belongs to. */
+  /** The user that this filter belongs to */
   String userID;
   
+  /** The list of categories within this filter */
+  ArrayList<Category> categories;
+  
+  /** Is the user currently using this filter on the GUI? */
+  boolean isActive;
+
   /** The permission map. */
   private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
   
   /** The project. */
   private Project project;
   
-  //------------------Non-Interface Functions------------------------
+  // ------ Non-Interface Functions -----
   
   /**
    * Constructor
-   * @param newName the name for this category
-   * @param newColor the color associated with this category
    */
-  
-  public Category(String newName, boolean isItPersonal, Color newColor) {
+  Filter(String newName, ArrayList<Category> newCategories) {
     this.name = newName;
-    this.color = newColor;
+    this.categories = newCategories;
     id = -1;
     userID = "-1";
-    this.isPersonal = isItPersonal;
+    isActive = false;
   }
   
-  public Category(String newName, boolean isItPersonal) {
-    this.name = newName;
-    id = -1;
-    userID = "-1";
-    this.isPersonal = isItPersonal;
-  }
-  
-  public void copy(Category donor) {
+  /**
+   * 
+   * @param donor filter we want to copy from.
+   */
+  public void copy(Filter donor) {
     this.name = donor.name;
     this.id = donor.id;
     this.isActive = donor.isActive;
     this.project = donor.project;
-    this.color = donor.color;
     this.userID = donor.userID;
-    this.isPersonal = donor.isPersonal;
+    this.categories = donor.categories;
   }
   
 
@@ -103,7 +94,6 @@ public class Category implements Model {
 
   /**
    * Sets the name.
-   *
    * @param name the new name
    */
   public void setName(String name){
@@ -134,37 +124,37 @@ public class Category implements Model {
   }
   
   /**
-   * @return the color associated with this category
-   */
-  public Color getColor() {
-    return color;
-  }
-  
-  /**
-   * Sets the color to the given color.
-   * @param newColor the new color
-   */
-  public void setColor(Color newColor) {
-    this.color = newColor;
-  }
-  
-  /**
    * Tell us whether this is a personal category or not.
    * @return true if personal, else return false.
    */
-  public boolean isPersonal() {
-    return isPersonal;
+  public boolean isActive() {
+    return isActive;
   }
   
   /**
    * Set whether this category is personal or not
    * @param isThisPersonal boolean which is true if we want the category to be personal.
    */
-  public void setIsPersonal(boolean isThisPersonal) {
-    this.isPersonal = isThisPersonal;
+  public void setActiveness(boolean isThisActive) {
+    this.isActive = isThisActive;
   }
   
-  //---------------------Interface-Functions----------------------
+  /**
+   * @return categories (the list of categories for this filter)
+   */
+  public ArrayList<Category> getCategories() {
+    return categories;
+  }
+  
+  /**
+   * Set this filter's list of categories to the given list of categories
+   * @param newCategories the categories we want to be in this filter
+   */
+  public void setCategories(ArrayList<Category> newCategories) {
+    this.categories = newCategories;
+  }
+  
+  // ----- Interface Functions -----
   
   @Override
   public void save() {
@@ -177,7 +167,7 @@ public class Category implements Model {
     // TODO Auto-generated method stub
     
   }
-  
+
   /**
    * Converts this object to a JSON string.
    * @return the JSON string representing this object
@@ -185,7 +175,7 @@ public class Category implements Model {
    */
   @Override
   public String toJSON() {
-    return new Gson().toJson(this, Category.class);
+    return new Gson().toJson(this, Filter.class);
   }
   
   /**
@@ -193,28 +183,28 @@ public class Category implements Model {
    * @param json the json string
    * @return the category encoded in that string
    */
-  public static Category fromJSON(String json) {
+  public static Filter fromJSON(String json) {
     final Gson parser = new Gson();
-    return parser.fromJson(json, Category.class);
+    return parser.fromJson(json, Filter.class);
   }
   
   /**
-	 * From json array.
-	 *
-	 * @param json the json
-	 * @return the category[]
-	 */
-	public static Category[] fromJsonArray(String json) {
-		final Gson parser = new Gson();
-		return parser.fromJson(json, Category[].class);
-	}
+   * From json array.
+   *
+   * @param json the json
+   * @return the Filter[]
+   */
+  public static Filter[] fromJsonArray(String json) {
+    final Gson parser = new Gson();
+    return parser.fromJson(json, Filter[].class);
+  }
 
   @Override
   public Boolean identify(Object o) {
     // TODO Auto-generated method stub
     return null;
   }
-  
+
   /**
    * @see edu.wpi.cs.wpisuitetng.modules.Model#getPermission(edu.wpi.cs.wpisuitetng.modules.core.models.User)
    */
@@ -223,36 +213,32 @@ public class Category implements Model {
     return permissionMap.get(u);
   }
 
-
   /**
    * @see edu.wpi.cs.wpisuitetng.modules.Model#setPermission(edu.wpi.cs.wpisuitetng.Permission, edu.wpi.cs.wpisuitetng.modules.core.models.User)
    */
   @Override
   public void setPermission(Permission p, User u) {
     permissionMap.put(u, p);
-    
-  }
-  
-/**
- * @return the project that this category belongs to
- * @see edu.wpi.cs.wpisuitetng.modules.Model#getProject()
- */
-  @Override
-  public Project getProject() {
-    return project;
   }
 
   /**
-   * Sets the project that this category belongs to
-   * @param p The project that this belongs to.
-   * @see edu.wpi.cs.wpisuitetng.modules.Model#setProject(edu.wpi.cs.wpisuitetng.modules.core.models.Project)
+   * @return the project that this category belongs to
+   * @see edu.wpi.cs.wpisuitetng.modules.Model#getProject()
    */
-  @Override
-  public void setProject(Project p) {
-    this.project = p;
-    
-  }
+    @Override
+    public Project getProject() {
+      return project;
+    }
 
-
+    /**
+     * Sets the project that this category belongs to
+     * @param p The project that this belongs to.
+     * @see edu.wpi.cs.wpisuitetng.modules.Model#setProject(edu.wpi.cs.wpisuitetng.modules.core.models.Project)
+     */
+    @Override
+    public void setProject(Project p) {
+      this.project = p;
+      
+    }
 
 }
