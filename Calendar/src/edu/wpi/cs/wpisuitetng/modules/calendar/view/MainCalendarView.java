@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToggleButton;
 import javax.swing.UIManager;
 
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
