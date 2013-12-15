@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -34,6 +35,8 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.MaskFormatter;
@@ -44,7 +47,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentControlle
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 // TODO: Auto-generated Javadoc
@@ -91,7 +96,7 @@ public class AddCommitmentPanel extends JPanel {
   JLabel categoryLabel;
   
   /** The category drop down list */
-//  JComboBox<Category> categoryComboBox;
+  JComboBox<Category> categoryComboBox;
   
   /** The type of this commitment */
   JLabel typeLabel;
@@ -157,7 +162,6 @@ public class AddCommitmentPanel extends JPanel {
 	ButtonGroup radioButtonGroup = new ButtonGroup() ;
 	personalRadioButton = new JRadioButton("Personal Commitment");
 	teamRadioButton = new JRadioButton("Team Commitment");
-	teamRadioButton.setSelected(true);
 	radioButtonGroup.add(personalRadioButton);
 	radioButtonGroup.add(teamRadioButton);
     
@@ -169,11 +173,13 @@ public class AddCommitmentPanel extends JPanel {
     
     categoryLabel = new JLabel("Category: ");
     
-//    categoryComboBox = new JComboBox<Category>();
+    categoryComboBox = new JComboBox<Category>();
 
     descriptionLabel = new JLabel("Description:");
     
     descriptionTextArea = new JTextArea();
+    descriptionTextArea.setLineWrap(true);
+    descriptionTextArea.setWrapStyleWord(true);
 //    descriptionTextArea.setPreferredSize(new Dimension(400, 90));
     descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     descriptionScroll.setPreferredSize(new Dimension(400, 100));
@@ -182,6 +188,8 @@ public class AddCommitmentPanel extends JPanel {
 
     inviteeTextArea = new JTextArea();
 //    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
+    inviteeTextArea.setLineWrap(true);
+    inviteeTextArea.setWrapStyleWord(true);
     inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     inviteeScroll.setPreferredSize(new Dimension(400, 100));
     final CommitmentsModel model = CommitmentsModel.getInstance();
@@ -194,7 +202,6 @@ public class AddCommitmentPanel extends JPanel {
     IDText = new JLabel(); 
     
     // Set up properties and values
-//	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
     nameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
 		@Override
@@ -278,6 +285,32 @@ public class AddCommitmentPanel extends JPanel {
 			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
 	
+	teamRadioButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Collection<Category> categoryCollection = new CategoryFilter(0).getCategoryList();
+			Category[] categoryArray = categoryCollection.toArray(new Category[categoryCollection.size()]);
+			categoryComboBox = new JComboBox<Category>(categoryArray);
+			categoryComboBox.revalidate();
+			categoryComboBox.repaint();
+		}
+	});
+	personalRadioButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Collection<Category> categoryCollection = new CategoryFilter(1).getCategoryList();
+			Category[] categoryArray = categoryCollection.toArray(new Category[categoryCollection.size()]);
+			categoryComboBox = new JComboBox<Category>(categoryArray);
+			categoryComboBox.revalidate();
+			categoryComboBox.repaint();
+		}
+	});
+	teamRadioButton.doClick();
+	
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField);
     contentPanel.add(nameErrMsg, "cell 3 0, wrap, span");
@@ -298,8 +331,8 @@ public class AddCommitmentPanel extends JPanel {
 
     contentPanel.add(statusLabel);
     contentPanel.add(statusComboBox);
-    contentPanel.add(categoryLabel, "cell 3 5, wrap");
-//    contentPanel.add(categoryComboBox, "wrap");
+    contentPanel.add(categoryLabel, "cell 3 5");
+    contentPanel.add(categoryComboBox, "wrap");
 
     contentPanel.add(descriptionLabel);
     contentPanel.add(descriptionScroll, "wrap, span 4");

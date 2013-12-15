@@ -105,11 +105,17 @@ public class AddEventPanel extends JPanel {
 	/** The description text area */
 	JTextArea descriptionTextArea;
 	
+	/** ScroolPane Container for description */
+	JScrollPane descriptionScroll;
+	
 	/** the invitee label */
 	JLabel inviteeLabel;
 
 	/** The invitee text area */
 	JTextArea inviteeTextArea;
+	
+	/** ScroolPane Container for invitee */
+	JScrollPane inviteeScroll;
 
 //	JCheckBox allDayEventCheckBox;
 	
@@ -175,12 +181,19 @@ public class AddEventPanel extends JPanel {
 		descriptionLabel = new JLabel("Description:");
 
 		descriptionTextArea = new JTextArea();
-		descriptionTextArea.setPreferredSize(new Dimension(400, 100));
-		
+		descriptionTextArea.setLineWrap(true);
+	    descriptionTextArea.setWrapStyleWord(true);
+	    descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	    descriptionScroll.setPreferredSize(new Dimension(400, 100));
+	    
+	    
 		inviteeLabel = new JLabel("Invitee:");
-
+		
 		inviteeTextArea = new JTextArea();
-		inviteeTextArea.setPreferredSize(new Dimension(400, 100));
+		inviteeTextArea.setLineWrap(true);
+	    inviteeTextArea.setWrapStyleWord(true);
+	    inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	    inviteeScroll.setPreferredSize(new Dimension(400, 100));
 //		allDayEventCheckBox = new JCheckBox("All Day Event?");
 		final EventsModel model = EventsModel.getInstance();
 		
@@ -518,9 +531,9 @@ public class AddEventPanel extends JPanel {
 	    contentPanel.add(categoryLabel, "wrap");
 //	    contentPanel.add(categoryComboBox, "wrap");
 		contentPanel.add(descriptionLabel);
-		contentPanel.add(descriptionTextArea, "wrap, span ");
+		contentPanel.add(descriptionScroll, "wrap, span ");
 		contentPanel.add(inviteeLabel);
-		contentPanel.add(inviteeTextArea, "wrap, span ");
+		contentPanel.add(inviteeScroll, "wrap, span ");
 //		contentPanel.add(allDayEventCheckBox, "wrap, span");
 		contentPanel.add(btnSubmit, "cell 1 11");
 		contentPanel.add(btnUpdate);
