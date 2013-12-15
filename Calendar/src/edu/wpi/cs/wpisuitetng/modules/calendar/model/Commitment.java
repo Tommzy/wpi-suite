@@ -48,10 +48,26 @@ public class Commitment implements Model{
 	/** The status of this commitment. */
 	private int status;
 
-
 	/** The is team commitment. */
 	private boolean isTeamCommitment = true;
+	
+	/** The category */
+	private Category category;
 
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	/**
 	 * Checks if is team commitment.
