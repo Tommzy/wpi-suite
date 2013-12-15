@@ -12,6 +12,8 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -134,7 +136,7 @@ public class AddCommitmentPanel extends JPanel {
 
     nameTextField = new JTextField(10);
     
-    nameErrMsg = new JErrorMessageLabel();
+    nameErrMsg = new JErrorMessageLabel(" ");
 
     startDateLabel = new JLabel("Time:");
 
@@ -211,8 +213,11 @@ public class AddCommitmentPanel extends JPanel {
 		}
 		
 		public void warn() {
-			if (nameTextField.getText().trim().equals("")) {
-				nameErrMsg.setText("Name cannot be empty or all spaces! ");
+			if (nameTextField.getText().equals("")) {
+				nameErrMsg.setText("Name cannot be empty! ");
+			}
+			else if (nameTextField.getText().trim().equals("")) {
+				nameErrMsg.setText("Name cannot be all spaces! ");
 			}
 			else {
 				nameErrMsg.setText("");
@@ -223,6 +228,33 @@ public class AddCommitmentPanel extends JPanel {
 				nameTextField.getParent().revalidate();
 				nameTextField.getParent().repaint();
 			}
+		}
+	});
+    nameTextField.addFocusListener(new FocusListener() {
+		
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (nameTextField.getText().equals("")) {
+				nameErrMsg.setText("Name cannot be empty! ");
+			}
+			else if (nameTextField.getText().trim().equals("")) {
+				nameErrMsg.setText("Name cannot be all spaces! ");
+			}
+			else {
+				nameErrMsg.setText("");
+			}
+			btnSubmit.setEnabled(checkContent());
+			btnUpdate.setEnabled(checkContent());
+			if (nameTextField.getParent() != null) {
+				nameTextField.getParent().revalidate();
+				nameTextField.getParent().repaint();
+			}
+		}
+		
+		@Override
+		public void focusGained(FocusEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	});
     
@@ -313,7 +345,6 @@ public class AddCommitmentPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			((JButton)e.getSource()).addActionListener(new UpdateCommitmentController(packInfo()));
 			((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
-			System.out.println(packInfo().getId());
 			((JButton)e.getSource()).removeActionListener(this);
 			((JButton)e.getSource()).doClick();
 			disableAllButton();
