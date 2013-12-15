@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.text.DateFormatSymbols;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.monthview.MonthViewController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
 
@@ -161,8 +163,10 @@ public class MonthView extends JPanel implements Updatable{
 		if (getParent() != null && new Dimension((int)(getParent().getSize().getWidth() * percentage), (int)(getParent().getSize().getHeight() * percentage)) != this.getPreferredSize()) {
 			setPreferredSize(new Dimension((int)(getParent().getSize().getWidth() * percentage), (int)(getParent().getSize().getHeight() * percentage)));
 		}
-		
-		 
-		
 	}
+	
+	public List<Event> getMonthViewEventList() {
+		return monthViewPanel.getEventList();
+	}
+	
 }

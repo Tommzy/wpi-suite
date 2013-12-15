@@ -167,8 +167,8 @@ public class EventTable extends JPanel implements Updatable {
 		Collection<Event> eventList = null;
 		switch (timePeriod) {
 		case Month:
-//			cmtList = MainCalendarController.getInstance().getMonthView()
-//					.getMonthViewPanel().getMonthCommitmentList();
+			eventList = MainCalendarController.getInstance().getMonthView()
+					.getMonthViewEventList();
 			break;
 		case Day:
 			eventList = MainCalendarController.getInstance().getDayView().getDayViewEventList();

@@ -9,11 +9,13 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.*;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
@@ -139,6 +141,28 @@ public class MonthViewGridPanel extends JPanel {
 		
 	}
 	
+	public void filtEvent(List<Event> event) {
+		if (date == null) {
+			return;
+		}
+		
+		// filter out the commitment for this date
+		Iterator<Event> itr = event.iterator();
+		while (itr.hasNext()) {
+			Event eve = itr.next();
+			GregorianCalendar calStartTime = eve.getStartTime();
+			if (calStartTime.get(GregorianCalendar.YEAR) == date.getYear()
+				&& calStartTime.get(GregorianCalendar.MONTH) == date.getMonth()
+				&& calStartTime.get(GregorianCalendar.DATE) == date.getDayOfMonth()) {
+				addEventToTalble(eve);
+			}
+		}
+		
+	}
+	public void addEventToTalble(Event event) {
+		String element = event.getName();
+		model.addElement(element);
+	}
 	public void addCommitmentToTable(Commitment cmt) {
 		String element = cmt.getName();
 		model.addElement(element);
