@@ -60,15 +60,15 @@ public class AddSchedulerPanel extends JPanel {
 
 	/** The name text field. */
 	JTextField nameTextField;
-	
+
 	/** The description label. */
 	JLabel descriptionLabel;
-	
+
 	/** The description text area. */
 	JTextArea descriptionTextArea;
-	
+
 	/** ScrollPane Container for description */
-  JScrollPane descriptionScroll;
+	JScrollPane descriptionScroll;
 
 	/** The date label. */
 	JLabel     dateLabel;
@@ -87,9 +87,9 @@ public class AddSchedulerPanel extends JPanel {
 
 	/** The ID text. */
 	JLabel IDText;
-	
-  /** The model. */
-  final InvitationModel model = InvitationModel.getInstance();
+
+	/** The model. */
+	final InvitationModel model = InvitationModel.getInstance();
 
 
 
@@ -101,25 +101,25 @@ public class AddSchedulerPanel extends JPanel {
 	 */
 	public AddSchedulerPanel(MigLayout miglayout) {
 		JPanel contentPanel = new JPanel(miglayout);
-		
+
 		// Name
 		nameLabel = new JLabel("Name:");
 		nameTextField = new JTextField(10);
-		
+
 		nameErrMsg = new JErrorMessageLabel();
-				
+
 		// Desc
 		descriptionLabel = new JLabel("Description:");
 		descriptionTextArea = new JTextArea();
-		
-		// Wrap on word (not char)
-    descriptionTextArea.setLineWrap(true);
-    descriptionTextArea.setWrapStyleWord(true);
-    
-		descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    descriptionScroll.setPreferredSize(new Dimension(200, 100));
 
-    // Date
+		// Wrap on word (not char)
+		descriptionTextArea.setLineWrap(true);
+		descriptionTextArea.setWrapStyleWord(true);
+
+		descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		descriptionScroll.setPreferredSize(new Dimension(200, 100));
+
+		// Date
 		dateLabel = new JLabel("Date:");
 
 		try {
@@ -139,8 +139,8 @@ public class AddSchedulerPanel extends JPanel {
 
 
 		IDText = new JLabel();
-		
-		
+
+
 		// Set up properties and values
 		//nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
 
@@ -196,13 +196,12 @@ public class AddSchedulerPanel extends JPanel {
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField);
 		contentPanel.add(nameErrMsg, "cell 3 0, wrap");
-		contentPanel.add(descriptionLabel);
-		contentPanel.add(descriptionScroll, "wrap");
 		contentPanel.add(dateLabel);
 		contentPanel.add(dateTextField);
 		contentPanel.add(dateHelpText, "cell 1 2");
 		contentPanel.add(datePicker, "cell 1 3, wrap, span");
-
+		contentPanel.add(descriptionLabel);
+		contentPanel.add(descriptionScroll, "wrap");
 		contentPanel.add(btnSubmit, "cell 1 8");
 		contentPanel.add(btnCancel);
 
@@ -215,7 +214,7 @@ public class AddSchedulerPanel extends JPanel {
 				disableAllButton();
 			}
 		});
-		
+
 		// Submit
 		btnSubmit.addActionListener(new ActionListener() {
 
@@ -271,42 +270,42 @@ public class AddSchedulerPanel extends JPanel {
 		else 
 			return false;
 	}
-	
-	
+
+
 	/**
 	 * Pack info.
 	 *
 	 * @return the invitation
 	 */
 	private Invitation packInfo() {
-    // ID 
-    int id;
-    if (IDText.getText().equals("")) {
-      id = -1;
-    }
-    else {
-      id = Integer.parseInt(IDText.getText()); 
-    }
-    // Name
-    String name = nameTextField.getText();
-    // Start date time
-    GregorianCalendar startDateTime = new GregorianCalendar();
-    try {
-      Date tempDate = new SimpleDateFormat("MM/dd/yyyy").parse(dateTextField.getValue().toString());
-      startDateTime.setTime(tempDate);
-    } catch (ParseException e) {
-      System.out.println("Cannot parse date! ");
-      e.printStackTrace();
-    }
-    
-    // Description
-    String desc = descriptionTextArea.getText();
-    // Pack into a commitment
-    Invitation invite = new Invitation(name, startDateTime.getTime().toString(), desc);
-    
+		// ID 
+		int id;
+		if (IDText.getText().equals("")) {
+			id = -1;
+		}
+		else {
+			id = Integer.parseInt(IDText.getText()); 
+		}
+		// Name
+		String name = nameTextField.getText();
+		// Start date time
+		GregorianCalendar startDateTime = new GregorianCalendar();
+		try {
+			Date tempDate = new SimpleDateFormat("MM/dd/yyyy").parse(dateTextField.getValue().toString());
+			startDateTime.setTime(tempDate);
+		} catch (ParseException e) {
+			System.out.println("Cannot parse date! ");
+			e.printStackTrace();
+		}
 
-    invite.setId(id);
-    
-    return invite;
-  }
+		// Description
+		String desc = descriptionTextArea.getText();
+		// Pack into a commitment
+		Invitation invite = new Invitation(name, startDateTime.getTime().toString(), desc);
+
+
+		invite.setId(id);
+
+		return invite;
+	}
 }
