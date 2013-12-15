@@ -11,10 +11,11 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCateg
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddManageFiltersPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCategoryPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
-//import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddManageFiltersPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddFilterPanel;
 
 public class ToolbarController implements ActionListener {
 
@@ -81,11 +82,11 @@ public class ToolbarController implements ActionListener {
 	      commitmentPanel.initiateFocus();
       }
     if (e.getSource() == manageFiltersButton) {
-//    	AddManageFiltersPanel ManageFiltersPanel = new AddManageFiltersPanel(new MigLayout());
-//    	AddManageFiltersPanelController.getInstance().getTabbedPane().add(ManageFiltersPanel);
-//    	AddManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(AddManageFiltersPanel.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
-//    	AddManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(AddManageFiltersPanel.getInstance().getTabbedPane().getTabCount() - 1);
-//	    ManageFiltersPanel.initiateFocus();  
+    	AddFilterPanel AddFilterPanel = new AddFilterPanel(new MigLayout());
+    	ManageFiltersPanelController.getInstance().getTabbedPane().add(AddFilterPanel);
+    	ManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(ManageFiltersPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
+    	ManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(ManageFiltersPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+    	AddFilterPanel.initiateFocus();  
     }
     if (e.getSource() == manageCategoryButton) {
     	AddCategoryPanel categoryPanel = new AddCategoryPanel();

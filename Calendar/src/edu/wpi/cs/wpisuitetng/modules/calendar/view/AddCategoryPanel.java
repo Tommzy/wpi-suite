@@ -23,9 +23,6 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -59,7 +56,7 @@ public class AddCategoryPanel extends JPanel{
 	/** ID Label */
 	JLabel IDText;
 
-	/** The type of this commitment */
+	/** The type of this category */
 	JLabel typeLabel;
 
 	/** Team radio button */
