@@ -16,7 +16,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -36,7 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class CommitmentEntityManager.
+ * The Class PersonalCommitmentEntityManager.
  */
 public class PersonalCommitmentEntityManager implements EntityManager<Commitment> {
 	
@@ -46,7 +45,7 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 
 
 	/**
-	 * Instantiates a new commitment entity manager.
+	 * Instantiates a new personal commitment entity manager.
 	 *
 	 * @param data the data
 	 */	
@@ -80,6 +79,12 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
 	 */
+	/**
+	 * Save.
+	 *
+	 * @param model the model
+	 * @throws WPISuiteException the wPI suite exception
+	 */
 	public void save(Commitment model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
 
@@ -108,10 +113,11 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 
 
 
-	/** Takes a Commitment and assigns a unique id if necessary
-	 * 
-	 * @param commitment The Commitment that possibly needs a unique id
-	 * @throws WPISuiteException "Count failed"
+	/**
+	 * Assign unique id.
+	 *
+	 * @param commitment the commitment
+	 * @throws WPISuiteException the wPI suite exception
 	 */
 	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
@@ -121,9 +127,11 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 	
 	
 	
-	/** Returns the highest Id of all commitments in the database.
-	 * @return The highest Id
-	 * @throws WPISuiteException "Retrieve all failed"
+	/**
+	 * Highest id.
+	 *
+	 * @return the int
+	 * @throws WPISuiteException the wPI suite exception
 	 */
 	public int HighestId() throws WPISuiteException {
 		List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null));
@@ -273,6 +281,9 @@ public class PersonalCommitmentEntityManager implements EntityManager<Commitment
 
 	
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#save(edu.wpi.cs.wpisuitetng.Session, edu.wpi.cs.wpisuitetng.modules.Model)
+	 */
 	@Override
 	public void save(Session s, Commitment model) throws WPISuiteException {
 		// TODO Auto-generated method stub

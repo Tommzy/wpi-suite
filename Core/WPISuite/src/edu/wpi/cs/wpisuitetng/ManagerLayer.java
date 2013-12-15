@@ -30,6 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.EventEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.InvitationEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.PersonalCommitmentEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
@@ -84,6 +85,7 @@ public class ManagerLayer {
 		map.put("calendar"+"commitment", new CommitmentEntityManager(data));
 		map.put("calendar"+"personalCommitment", new PersonalCommitmentEntityManager(data));
 		map.put("calendar"+"event", new EventEntityManager(data));
+    map.put("calendar"+"invitation", new InvitationEntityManager(data));
 
 
 		//add just your module to this list

@@ -16,19 +16,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import javax.swing.ButtonGroup;
-import javax.swing.InputVerifier;
+
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -39,11 +34,12 @@ import javax.swing.event.DocumentListener;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.invitation.InvitationModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 // TODO: Auto-generated Javadoc
@@ -64,6 +60,15 @@ public class AddSchedulerPanel extends JPanel {
 
 	/** The name text field. */
 	JTextField nameTextField;
+	
+	/** The description label. */
+	JLabel descriptionLabel;
+	
+	/** The description text area. */
+	JTextArea descriptionTextArea;
+	
+	/** ScrollPane Container for description */
+  JScrollPane descriptionScroll;
 
 	/** The date label. */
 	JLabel     dateLabel;
@@ -71,16 +76,21 @@ public class AddSchedulerPanel extends JPanel {
 	/** The start time text field. */
 	JFormattedTextField dateTextField;
 
-	/** The help content for date and time */
+	/** The help content for date and time. */
 	JLabel dateHelpText;
 
-	/** The start date picker */ 
+	/** The start date picker. */ 
 	DatePickerPanel datePicker;
 
 	/** The error msg box for date and time. */
 	JErrorMessageLabel	dateErrMsg; 
 
+	/** The ID text. */
 	JLabel IDText;
+	
+  /** The model. */
+  final InvitationModel model = InvitationModel.getInstance();
+
 
 
 	/**
@@ -91,12 +101,25 @@ public class AddSchedulerPanel extends JPanel {
 	 */
 	public AddSchedulerPanel(MigLayout miglayout) {
 		JPanel contentPanel = new JPanel(miglayout);
+		
+		// Name
 		nameLabel = new JLabel("Name:");
-
 		nameTextField = new JTextField(10);
-
+		
 		nameErrMsg = new JErrorMessageLabel();
+				
+		// Desc
+		descriptionLabel = new JLabel("Description:");
+		descriptionTextArea = new JTextArea();
+		
+		// Wrap on word (not char)
+    descriptionTextArea.setLineWrap(true);
+    descriptionTextArea.setWrapStyleWord(true);
+    
+		descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    descriptionScroll.setPreferredSize(new Dimension(200, 100));
 
+    // Date
 		dateLabel = new JLabel("Date:");
 
 		try {
@@ -109,13 +132,15 @@ public class AddSchedulerPanel extends JPanel {
 
 		dateHelpText = new JLabel ("<HTML><font color='gray'>MM/DD/YYYY</font></HTML>");
 
-		//final CommitmentsModel model = CommitmentsModel.getInstance();
-
+		// Buttons
 		btnSubmit = new JButton("Submit");
 		btnSubmit.setEnabled(false);
 		btnCancel = new JButton ("Cancel");
 
 
+		IDText = new JLabel();
+		
+		
 		// Set up properties and values
 		//nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
 
@@ -171,6 +196,8 @@ public class AddSchedulerPanel extends JPanel {
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField);
 		contentPanel.add(nameErrMsg, "cell 3 0, wrap");
+		contentPanel.add(descriptionLabel);
+		contentPanel.add(descriptionScroll, "wrap");
 		contentPanel.add(dateLabel);
 		contentPanel.add(dateTextField);
 		contentPanel.add(dateHelpText, "cell 1 2");
@@ -179,8 +206,8 @@ public class AddSchedulerPanel extends JPanel {
 		contentPanel.add(btnSubmit, "cell 1 8");
 		contentPanel.add(btnCancel);
 
-
-		btnCancel.addActionListener(AddCommitmentPanelController.getInstance());
+		// Cancel
+		btnCancel.addActionListener(AddSchedulerPanelController.getInstance());
 		btnCancel.addActionListener(new ActionListener() {
 
 			@Override
@@ -188,12 +215,14 @@ public class AddSchedulerPanel extends JPanel {
 				disableAllButton();
 			}
 		});
+		
+		// Submit
 		btnSubmit.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//((JButton)e.getSource()).addActionListener(new AddCommitmentController(model , packInfo()));
-				((JButton)e.getSource()).addActionListener(AddCommitmentPanelController.getInstance());
+				((JButton)e.getSource()).addActionListener(new AddInvitationController(model , packInfo()));
+				((JButton)e.getSource()).addActionListener(AddSchedulerPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
 				disableAllButton();
@@ -212,25 +241,12 @@ public class AddSchedulerPanel extends JPanel {
 		btnCancel.setEnabled(false);
 	}
 
-	//	private Scheduler packInfo() {
-	//		// ID 
-	//		int id;
-	//		// Name
-	//		String name = nameTextField.getText();
-	//		// Start date time
-	//		GregorianCalendar startDateTime = new GregorianCalendar();
-	//		try {
-	//			Date tempDate = new SimpleDateFormat("MM/dd/yyyy").parse((String)dateTextField.getValue());
-	//			startDateTime.setTime(tempDate);
-	//		} catch (ParseException e) {
-	//			System.out.println("Cannot parse date! ");
-	//			e.printStackTrace();
-	//		}
-	//		Schedule scheduler = new Schedule(name, dateTime);
-	//
-	//		return schedule;
-	//	}
-
+	/**
+	 * Format int.
+	 *
+	 * @param i the i
+	 * @return the string
+	 */
 	private String formatInt (int i) {
 		return i < 10? "0" + String.valueOf(i) : String.valueOf(i); 
 	}
@@ -243,6 +259,11 @@ public class AddSchedulerPanel extends JPanel {
 	}
 
 
+	/**
+	 * Check content.
+	 *
+	 * @return true, if successful
+	 */
 	private boolean checkContent() {
 		if (nameErrMsg.getContentText().equals("") && dateErrMsg.getContentText().equals("") ) {
 			return true;
@@ -250,4 +271,42 @@ public class AddSchedulerPanel extends JPanel {
 		else 
 			return false;
 	}
+	
+	
+	/**
+	 * Pack info.
+	 *
+	 * @return the invitation
+	 */
+	private Invitation packInfo() {
+    // ID 
+    int id;
+    if (IDText.getText().equals("")) {
+      id = -1;
+    }
+    else {
+      id = Integer.parseInt(IDText.getText()); 
+    }
+    // Name
+    String name = nameTextField.getText();
+    // Start date time
+    GregorianCalendar startDateTime = new GregorianCalendar();
+    try {
+      Date tempDate = new SimpleDateFormat("MM/dd/yyyy").parse(dateTextField.getValue().toString());
+      startDateTime.setTime(tempDate);
+    } catch (ParseException e) {
+      System.out.println("Cannot parse date! ");
+      e.printStackTrace();
+    }
+    
+    // Description
+    String desc = descriptionTextArea.getText();
+    // Pack into a commitment
+    Invitation invite = new Invitation(name, startDateTime.getTime().toString(), desc);
+    
+
+    invite.setId(id);
+    
+    return invite;
+  }
 }

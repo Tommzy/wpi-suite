@@ -53,7 +53,7 @@ public class AddInvitationController implements ActionListener{
    * @param invite the invite
    */
   public void addInvitationToDatabase(Invitation invite){
-    final Request request = Network.getInstance().makeRequest("calendar/invitations", HttpMethod.PUT); // PUT == create
+    final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.PUT); // PUT == create
     request.setBody(invite.toJSON()); // put the new message in the body of the request
     request.addObserver(new AddInvitationRequestObserver(this)); // add an observer to process the response
     request.send();
@@ -77,7 +77,7 @@ public class AddInvitationController implements ActionListener{
   @Override
   public void actionPerformed(ActionEvent event) {
     // Add the message to the model
-    final Request request = Network.getInstance().makeRequest("calendar/invitations", HttpMethod.PUT); // PUT == create
+    final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.PUT); // PUT == create
     request.setBody(invitationsToBeAdded.toJSON()); // put the new message in the body of the request
     request.addObserver(new AddInvitationRequestObserver(this)); // add an observer to process the response
     request.send(); // send the request
