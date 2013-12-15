@@ -31,6 +31,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.model.CategoryEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.EventEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.FilterEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -84,6 +85,7 @@ public class ManagerLayer {
 		map.put("calendar"+"commitment", new CommitmentEntityManager(data));
 		map.put("calendar"+"event", new EventEntityManager(data));
 		map.put("calendar"+"category", new CategoryEntityManager(data));
+		map.put("calendar"+"filter", new FilterEntityManager(data));
 
 
 		//add just your module to this list
