@@ -114,7 +114,7 @@ public class MonthViewPanel extends JPanel {
 				} else {
 					s = "";
 				}
-				add(panel, "gapleft 0, gaptop 0" + s);
+				add(panel, "gapleft 0, gaptop 0, width :20%:" + s);
 
 				panel.setHeader(getHeaderLabelText(cal.get(GregorianCalendar.YEAR),
 						cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DATE)));

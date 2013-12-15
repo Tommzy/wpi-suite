@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.text.DateFormatSymbols;
 import java.util.GregorianCalendar;
@@ -111,7 +112,7 @@ public class MonthView extends JPanel implements Updatable{
 		panel.add(nextButton, "gapleft 10");
 		
 		add(panel, "wrap");
-		add(monthViewPanel);
+		add(monthViewPanel, "width :100%:");
 		repaint();
 	}
 	// returns previousButton
@@ -142,9 +143,7 @@ public class MonthView extends JPanel implements Updatable{
 	
 	public void repaint() {
 		super.repaint();
-		if (MonthViewGridPanel.mod != 1) {
-			return;
-		}
+
 		double percentage = 0.9;
 		
 		/* 
