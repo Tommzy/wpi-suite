@@ -58,13 +58,54 @@ public class CommitmentTests {
 		//Set Up
 		
 		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
-		Project testProj = new Project(null, null);
-		User testUser = new User(null, null, null, 0);
-		GregorianCalendar testCal1 = new GregorianCalendar();
+		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff");
+		Commitment copyDontWork = new Commitment("Test Commitment", null, "Test Commitment");
 		
 		//Tests
 		
+		System.out.print(testCom.toJSON() + "\n");
+		System.out.print(copyCom.toJSON() + "\n");
+		testCom.copy(copyCom);
+		System.out.print(testCom.toJSON() + "\n");
+		assertTrue(testCom.equals(copyCom));
+		//assertEquals(testCom, copyDontWork);
 		
 	}
+	
+	@Test
+	public void isTimeStampActiveDuringTest() {
+		//Set Up
+		
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
+
+		GregorianCalendar cal1 = new GregorianCalendar(2013, 12, 13, 16, 30);
+		GregorianCalendar cal2 = new GregorianCalendar(2013, 12, 13, 18, 45);
+		GregorianCalendar cal3 = new GregorianCalendar(2013, 12, 13, 16, 45);
+		
+		//Tests
+		
+		testCom.setStartTime(cal1);
+		assertTrue(testCom.isActiveDuringTimeStamp(cal3));
+		assertFalse(testCom.isActiveDuringTimeStamp(cal2));
+		
+	}
+	
+	@Test
+	public void JSONTests() {
+		//Set Up
+		
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
+		//Tests
+		
+		String comString = testCom1.toJSON();
+		System.out.print(comString  + "\n");
+		Commitment testCom2 = Commitment.fromJSON(comString);
+		System.out.print(testCom2.toJSON() + "\n");
+		
+		//assertTrue(testCom2.equals(testCom1));
+		assertEquals(testCom2, testCom1);
+		
+	}
+	
 
 }

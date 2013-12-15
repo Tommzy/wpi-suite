@@ -48,10 +48,26 @@ public class Commitment implements Model{
 	/** The status of this commitment. */
 	private int status;
 
-
 	/** The is team commitment. */
 	private boolean isTeamCommitment = true;
+	
+	/** The category */
+	private Category category;
 
+
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	/**
 	 * Checks if is team commitment.
@@ -92,7 +108,6 @@ public class Commitment implements Model{
 
 	/** The permission map. */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
-
 	/** The project. */
 	private Project project;
 
@@ -114,7 +129,7 @@ public class Commitment implements Model{
 	}
 
 	/**
-	 * Copy.
+	 * Copies all fields in the parameter commitment to the commitment calling this function.
 	 *
 	 * @param comm the comm
 	 */
@@ -127,6 +142,8 @@ public class Commitment implements Model{
 		this.setStatus(comm.getStatus());
 		this.setUsername(comm.getUsername());
 		this.setTeamCommitment(comm.isTeamCommitment());
+		//this.setPermission(comm.getPermission(comm.g));
+		
 	}
 
 	/**

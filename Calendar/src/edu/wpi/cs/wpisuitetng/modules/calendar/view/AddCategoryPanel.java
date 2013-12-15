@@ -10,6 +10,10 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,6 +27,13 @@ import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -40,7 +51,7 @@ public class AddCategoryPanel extends JPanel{
 
 	/** Name text field */
 	JTextField nameTextField;
-	
+
 	/** Name Err Msg */
 	JErrorMessageLabel nameErrMsg;
 
@@ -56,7 +67,7 @@ public class AddCategoryPanel extends JPanel{
 	/** ID Label */
 	JLabel IDText;
 
-	/** The type of this category */
+	/** The type of this commitment */
 	JLabel typeLabel;
 
 	/** Team radio button */
@@ -64,7 +75,7 @@ public class AddCategoryPanel extends JPanel{
 
 	/** Personal radio button */
 	JRadioButton personalRadioButton;
-	
+
 	/** Selected Color */
 	private Color colorSelected;
 
@@ -73,6 +84,7 @@ public class AddCategoryPanel extends JPanel{
 	 */
 	public AddCategoryPanel() {
 		JPanel contentPanel = new JPanel(new MigLayout());
+		final CategoriesModel model = CategoriesModel.getInstance();
 
 		nameLabel = new JLabel("Name: ");
 		nameTextField = new JTextField(10);
@@ -93,7 +105,7 @@ public class AddCategoryPanel extends JPanel{
 		btnSubmit.setEnabled(false);
 		btnUpdate = new JButton("Update");
 		btnUpdate.setEnabled(false);
-		
+
 		for (int i = 0; i < color.length; i++ ) {
 			colorDisplays[i].addMouseListener(new MouseListener() {
 
@@ -127,7 +139,7 @@ public class AddCategoryPanel extends JPanel{
 				}
 			});
 		}
-		
+
 		typeLabel = new JLabel("Type");
 		ButtonGroup radioButtonGroup = new ButtonGroup() ;
 		personalRadioButton = new JRadioButton("Personal Category");
@@ -135,8 +147,8 @@ public class AddCategoryPanel extends JPanel{
 		teamRadioButton.setSelected(true);
 		radioButtonGroup.add(personalRadioButton);
 		radioButtonGroup.add(teamRadioButton);
-		
-		nameTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+	    nameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
 			@Override
 			public void insertUpdate(DocumentEvent e) {
@@ -154,8 +166,11 @@ public class AddCategoryPanel extends JPanel{
 			}
 			
 			public void warn() {
-				if (nameTextField.getText().trim().equals("")) {
-					nameErrMsg.setText("Name cannot be empty or all spaces! ");
+				if (nameTextField.getText().equals("")) {
+					nameErrMsg.setText("Name cannot be empty! ");
+				}
+				else if (nameTextField.getText().trim().equals("")) {
+					nameErrMsg.setText("Name cannot be all spaces! ");
 				}
 				else {
 					nameErrMsg.setText("");
@@ -166,6 +181,33 @@ public class AddCategoryPanel extends JPanel{
 					nameTextField.getParent().revalidate();
 					nameTextField.getParent().repaint();
 				}
+			}
+		});
+	    nameTextField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (nameTextField.getText().equals("")) {
+					nameErrMsg.setText("Name cannot be empty! ");
+				}
+				else if (nameTextField.getText().trim().equals("")) {
+					nameErrMsg.setText("Name cannot be all spaces! ");
+				}
+				else {
+					nameErrMsg.setText("");
+				}
+				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
+				if (nameTextField.getParent() != null) {
+					nameTextField.getParent().revalidate();
+					nameTextField.getParent().repaint();
+				}
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 
@@ -188,14 +230,78 @@ public class AddCategoryPanel extends JPanel{
 		contentPanel.add(btnUpdate);
 		contentPanel.add(btnCancel);
 
+		if (IDText.getText().equals("")) {
+			btnUpdate.setVisible(false);
+			btnSubmit.setVisible(true);
+		}
+		else {
+			btnUpdate.setVisible(true);
+			btnSubmit.setVisible(false);
+		}
+
+		btnSubmit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((JButton)e.getSource()).addActionListener(new AddCategoryController(model, packInfo()));
+				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
+				((JButton)e.getSource()).removeActionListener(this);
+				((JButton)e.getSource()).doClick();
+				disableAllButton();
+			}
+		});
+		
+		btnUpdate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((JButton)e.getSource()).addActionListener(new UpdateCategoryController(packInfo()));
+				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
+				((JButton)e.getSource()).removeActionListener(this);
+				((JButton)e.getSource()).doClick();
+				disableAllButton();
+				
+			}
+		});
+
 		add(contentPanel);
 	}
-	
+
+	/**
+	 * @return
+	 */
+	private Category packInfo() {
+		// TODO Auto-generated method stub
+		int id;
+		if (IDText.getText().equals("")) {
+			id = -1;
+		}
+		else {
+			id = Integer.parseInt(IDText.getText()); 
+		}
+		String name = nameTextField.getText();
+		Color color = colorSelected;
+		boolean personal = personalRadioButton.isSelected()? true : false;
+		Category category = new Category (name, personal, color);
+		category.setId(id);
+		return category;
+	}
+
+	/**
+	 * Disable all buttons. Used by controller when closing the tab. 
+	 */
+	public void disableAllButton() {
+		btnSubmit.setEnabled(false);
+		btnUpdate.setEnabled(false);
+		btnCancel.setEnabled(false);
+	}
+
+
 	private boolean checkContent() {
-		  if (nameErrMsg.getContentText().equals("") ) {
-			  return true;
-		  }
-		  else 
-			  return false;
-	  }
+		if (nameErrMsg.getContentText().equals("") ) {
+			return true;
+		}
+		else 
+			return false;
+	}
 }

@@ -213,8 +213,11 @@ public class AddEventPanel extends JPanel {
 			}
 			
 			public void warn() {
-				if (nameTextField.getText().trim().equals("")) {
-					nameErrMsg.setText("Name cannot be empty or all spaces! ");
+				if (nameTextField.getText().equals("")) {
+					nameErrMsg.setText("Name cannot be empty! ");
+				}
+				else if (nameTextField.getText().trim().equals("")) {
+					nameErrMsg.setText("Name cannot be all spaces! ");
 				}
 				else {
 					nameErrMsg.setText("");
@@ -225,6 +228,33 @@ public class AddEventPanel extends JPanel {
 					nameTextField.getParent().revalidate();
 					nameTextField.getParent().repaint();
 				}
+			}
+		});
+	    nameTextField.addFocusListener(new FocusListener() {
+			
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (nameTextField.getText().equals("")) {
+					nameErrMsg.setText("Name cannot be empty! ");
+				}
+				else if (nameTextField.getText().trim().equals("")) {
+					nameErrMsg.setText("Name cannot be all spaces! ");
+				}
+				else {
+					nameErrMsg.setText("");
+				}
+				btnSubmit.setEnabled(checkContent());
+				btnUpdate.setEnabled(checkContent());
+				if (nameTextField.getParent() != null) {
+					nameTextField.getParent().revalidate();
+					nameTextField.getParent().repaint();
+				}
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		

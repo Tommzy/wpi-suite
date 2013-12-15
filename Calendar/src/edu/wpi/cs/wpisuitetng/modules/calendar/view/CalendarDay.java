@@ -99,12 +99,14 @@ public class CalendarDay extends JPanel {
 		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTH;
 
-		for (int i = 0; i < 24*(60/minimalInterval); i++) {
+		for (int i = 0; i < 25*(60/minimalInterval); i++) {
 			//Draw box
 			c.gridy = i;
 			Box box = Box.createVerticalBox();
 			box.add(Box.createVerticalStrut(1));
-//			box.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+			if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
+				box.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
+			}
 			view.add(box, c);
 			c.gridx = 1;
 			c.weightx = 1;
@@ -123,14 +125,17 @@ public class CalendarDay extends JPanel {
 		c.weighty = 1;
 		c.fill = GridBagConstraints.BOTH;
 		c.anchor = GridBagConstraints.NORTH;
-
-		for (int i = 0; i < 24*(60/minimalInterval); i++) {
+		System.out.print(Color.lightGray.getRed() + " " + Color.lightGray.getGreen() + " " + Color.lightGray.getBlue());
+		
+		for (int i = 0; i < 25*(60/minimalInterval); i++) {
 			//Even hours
 			c.gridy = i;
-			if (i % (60/minimalInterval) == 0) {
+			if ((i % (60/minimalInterval) == 0) && (i / (60/minimalInterval) != 24)) {
 				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
 				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
-				timeLabel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
+				if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
+					timeLabel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
+				}
 				c.gridheight = 15;
 				view.add(timeLabel, c);
 			} 
@@ -210,7 +215,7 @@ public class CalendarDay extends JPanel {
 		final GridBagConstraints cLocal = new GridBagConstraints();
 		//Determine where to put the new event
 		cLocal.gridy = (60/minimalInterval) * event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + event.getStartTime().get(GregorianCalendar.MINUTE) / minimalInterval;
-		cLocal.gridheight = labelSize;  
+		cLocal.gridheight = labelSize >= (25*60/minimalInterval - cLocal.gridy)? (25*60/minimalInterval - cLocal.gridy) : labelSize;  
 		cLocal.fill = GridBagConstraints.BOTH;
 		cLocal.gridx = newGridX + 1;
 		//cLocal.gridwidth = currentMaxWidth - newGridX;

@@ -42,6 +42,9 @@ public class Event  implements Model{
 
 	/** The description. */
 	private String description;
+	
+	/** The category */
+	private Category category;
 
 	/** The id. */
 	private int id = -1;
@@ -83,6 +86,20 @@ public class Event  implements Model{
 	 */
 	public GregorianCalendar getEndTime() {
 		return endTime;
+	}
+	
+	/**
+	 * @return the category
+	 */
+	public Category getCategory() {
+		return category;
+	}
+
+	/**
+	 * @param category the category to set
+	 */
+	public void setCategory(Category category) {
+		this.category = category;
 	}
 
 	/**
