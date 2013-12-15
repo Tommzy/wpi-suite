@@ -282,7 +282,7 @@ public class AddCategoryPanel extends JPanel{
 		String name = nameTextField.getText();
 		Color color = colorSelected;
 		boolean personal = personalRadioButton.isSelected()? true : false;
-		Category category = new Category (name, personal, colorSelected);
+		Category category = new Category (name, personal, color);
 		category.setId(id);
 		return category;
 	}
