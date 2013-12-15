@@ -314,11 +314,11 @@ public class CalendarDay extends JPanel {
 			label = "<HTML><div style='text-align:center'>" + event.getName() + "</div></HTML>";
 		}
 		if (event.getTimeSpan() >= 30 ) {
-			label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
+			label = "<HTML><font color=black><p style='text-align:center'>" + event.getName() + "<br />" + 
 					format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 					format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
 					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</div></HTML>";
+					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</p></font></HTML>";
 		}
 		return label;
 	}
