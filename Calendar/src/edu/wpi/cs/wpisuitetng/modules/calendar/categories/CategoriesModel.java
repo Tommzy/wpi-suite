@@ -1,4 +1,3 @@
-package edu.wpi.cs.wpisuitetng.modules.calendar.categories;
 /*******************************************************************************
  * Copyright (c) 2013 WPI-Suite
  * All rights reserved. This program and the accompanying materials
@@ -6,49 +5,43 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.categories;
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  * 
- * Contributors: Hui Zheng
+ * Contributors: Hui Zheng - Team 3
  * Based on Source Code from CategoriesModels
  * V1.0
  ******************************************************************************/
 
+package edu.wpi.cs.wpisuitetng.modules.calendar.categories;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
-
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 
-
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class CategoriesModel.
  */
-@SuppressWarnings("serial")
+@SuppressWarnings({ "serial", "rawtypes" })
 public class CategoriesModel extends AbstractListModel{
 	
 	/** The Categories. */
 	private List<Category> categories;
 	
-	/** The next id. */
-	private int nextID; // the next available ID number for the Categories that are added.
+	/** The next available ID number for the Categories that are added.. */
+	private int nextID;
 	
-	//the static object to allow the Category model to be 
-	/** The instance. */
+	/** The instance of CategoriesModel. */
 	private static CategoriesModel instance; 
 
 	/**
 	 * Instantiates a new categories model.
 	 */
 	private CategoriesModel (){
-		this.categories = new ArrayList<Category>();
+		categories = new ArrayList<Category>();
 		nextID = 0;
 	}
 	
@@ -70,24 +63,21 @@ public class CategoriesModel extends AbstractListModel{
 	}
 	
 	/**
-	 * Adds the category.
+	 * Adds a new category to the list.
 	 *
 	 * @param newCategory the new category
 	 */
 	public void addCategory(Category newCategory){
 		
 		this.categories.add(newCategory);
-//		
-//		for (int i = 0; i < Categories.size(); i++) {
-//			System.out.println("Event out put    " + Categories.get(i).toString());
-//		}
+		
 	}
 	
 	/**
-	 * Gets the category.
+	 * Gets the category based on id number.
 	 *
-	 * @param id the id
-	 * @return the event
+	 * @param id the id of the category to get
+	 * @return the category with the given id
 	 */
 	public Category getCategory(int id)
 	{
@@ -103,24 +93,21 @@ public class CategoriesModel extends AbstractListModel{
 	}
 	
 	/**
-	 * Gets the all categories.
+	 * Gets all the categories in the list.
 	 *
-	 * @return the all categories
+	 * @return all categories
 	 */
 	public List<Category> getAllCategory() {
-//		for (int i = 0; i < Categories.size(); i++) {
-//			System.out.println("Category out put    " + Categories.get(i).toString());
-//		}
 		return categories;
 	}
 	
 	/**
-	 * Removes the category.
+	 * Removes the category with the given id.
 	 *
-	 * @param removeId the remove id
+	 * @param removeId the id of the category to remove
 	 */
 	public void removeCategory(int removeId){
-		// iterate through list of Categories until id of project is found
+		// iterate through list of Categories until matching id is found
 		for (int i=0; i < this.categories.size(); i++){
 			if (categories.get(i).getId() == removeId){
 				// remove the id
@@ -128,14 +115,11 @@ public class CategoriesModel extends AbstractListModel{
 				break;
 			}
 		}
-//		try {
-//			ViewEventController.getInstance().refreshTable();
-//			ViewEventController.getInstance().refreshTree();
-//		}
-//		catch(Exception e) {}
 	}
 
-	/* (non-Javadoc)
+	/* 
+	 * Gets the size of the list of categories.
+	 * @return the size of the category list
 	 * @see javax.swing.ListModel#getSize()
 	 */
 	public int getSize() {
@@ -143,7 +127,7 @@ public class CategoriesModel extends AbstractListModel{
 	}
 	
 	/**
-	 * Gets the next id.
+	 * Gets the next id. Increments nextID.
 	 *
 	 * @return the next id
 	 */
@@ -153,7 +137,9 @@ public class CategoriesModel extends AbstractListModel{
 		return this.nextID++;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * Gets the category at an index
+	 * @return the category at the given index
 	 * @see javax.swing.ListModel#getElementAt(int)
 	 */
 	public Category getElementAt(int index) {
@@ -161,7 +147,7 @@ public class CategoriesModel extends AbstractListModel{
 	}
 
 	/**
-	 * Empty model.
+	 * Empty the model. Removes all categories from the list.
 	 */
 	public void emptyModel() {
 		int oldSize = getSize();
@@ -171,73 +157,61 @@ public class CategoriesModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
-//		try{
-//			ViewEventController.getInstance().refreshTable();
-//			ViewEventController.getInstance().refreshTree();
-//		}
-//		catch (Exception e) {}
 	}
 	
 	/**
-	 * Adds the Categories.
+	 * Adds an array of Categories.
 	 *
-	 * @param Categories the Categories
+	 * @param Categories the Categories to add to the list
 	 */
 	public void addCategories(Category[] categories) {
 		for (int i = 0; i < categories.length; i++) {
 			this.categories.add(categories[i]);
 			if(categories[i].getId() >= nextID) nextID = categories[i].getId() + 1;
 		}
-		//this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-		
-		
-		//************Refresh GUI HERE!!!!!!!!!!!!!!!!!!!!!!!!!***************************************
-//		ViewEventController.getInstance().refreshTable();
-//		ViewEventController.getInstance().refreshTree();
 	}
 
 
 
 	/**
 	 * Gets the children.
+	 * Currently not implemented
 	 *
 	 * @param category the category
 	 * @return the category list
 	 */
 	public List<Category> getChildren(Category category) {
 		List<Category> children = new ArrayList<Category>();
-		
-		for(Category possibleChild : categories)
-		{
+//		for(Category possibleChild : categories)
+//		{
 //			if(possibleChild.getParentID() == category.getId()) children.add(possibleChild);
-		}
-		
+//		}
 		return children;
 	}
 	
 	/**
 	 * Gets the possible children.
+	 * Currently not implemented
 	 *
-	 * @param req the req
+	 * @param req the category to get possible children of.
 	 */
 	public ListModel<Category> getPossibleChildren(Category req)
 	{
-		DefaultListModel<Category> possibleChildren = new DefaultListModel<Category>();
-		
-		for(Category possChild : categories)
-		{
+		DefaultListModel<Category> possibleChildren = new DefaultListModel<Category>();	
+//		for(Category possChild : categories)
+//		{
 //			if(possChild.isAncestor(req.getId()) || possChild.getParentID() != -1) continue;
 //			if(possChild == req) continue;
 //			if(possChild.getStatus() == EventStatus.COMPLETE || possChild.getStatus() == EventStatus.DELETED) continue;
-			possibleChildren.addElement(possChild);
-		}
-		
+//			possibleChildren.addElement(possChild);
+//		}	
 		return possibleChildren;
 	}
 	
 	
 	/**
 	 * Gets the possible parents.
+	 * Currently not implemented.
 	 *
 	 * @param req the req
 	 * @return the possible parents
@@ -245,56 +219,20 @@ public class CategoriesModel extends AbstractListModel{
 	public ListModel<Category> getPossibleParents(Category cate)
 	{
 		DefaultListModel<Category> possibleParents = new DefaultListModel<Category>();
-		
-		for(Category possParent : categories)
-		{
+//		for(Category possParent : categories)
+//		{
 //			if(possParent.hasAncestor(req.getId())) continue;
-			if(possParent == cate) continue;
+//			if(possParent == cate) continue;
 //			if(possParent.getStatus() == EventStatus.COMPLETE || possParent.getStatus() == EventStatus.DELETED) continue;
-			possibleParents.addElement(possParent);
-		}
-		
+//			possibleParents.addElement(possParent);
+//		}
 		return possibleParents;
 	}
-
-//	/**
-//	 * Returns the list of Events that are assigned to the given iteration
-//	 * @param name the iteration name
-//	
-//	 * @return the list of Events */
-//	public List<Event> getEventsForIteration(String name) {
-//		List<Event> reqForIteration = new LinkedList<Event>();
-//		
-//		boolean backlog = false;
-//		if(name.trim().length() == 0) backlog = true;
-//		
-//		for(Event req : Events)
-//		{
-//			if(backlog)
-//			{
-//				if(req.getIteration().equals("Backlog") || req.getIteration().trim().equals(""))
-//				{
-//					reqForIteration.add(req);
-//				}
-//			}
-//			else
-//			{
-//				if(req.getIteration().equals(name))
-//				{
-//					reqForIteration.add(req);
-//				}
-//			}
-//		}
-//		
-//		return reqForIteration;
-//	}
-
-	
-	
 	
 	/**
-	
-	 * @return the categoris held within the CategoriesModel. */
+	 * Getter function for the categories list.
+	 * @return the categories held within the CategoriesModel.
+	 * */
 	public List<Category> getCategories() {
 		return categories;
 	}
