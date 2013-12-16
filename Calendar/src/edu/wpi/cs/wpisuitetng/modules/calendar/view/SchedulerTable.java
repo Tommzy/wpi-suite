@@ -1,22 +1,31 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team3
+ ******************************************************************************/
+
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 /*
- * TableSortDemo.java requires no other files.
  */
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
+
+import net.miginfocom.swing.MigLayout;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
 
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,11 +33,12 @@ import java.awt.event.ActionListener;
 @SuppressWarnings("serial")
 public class SchedulerTable extends JPanel {
 
+  // TODO: Add in the Date & Description (as well as DB stuff of course)
   /**
    * Instantiates a new scheduler table.
    */
-  public SchedulerTable() {
-    
+  public SchedulerTable(MigLayout miglayout) {
+    JPanel contentPanel = new JPanel(miglayout);
 	
     // Table label
     final JLabel schedulerTableLabel = new JLabel("Meeting Scheduler");
@@ -36,21 +46,14 @@ public class SchedulerTable extends JPanel {
     schedulerTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
     
     final JTable table = new JTable(new SchedulerTableModel());
-    //table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-    //table.setFillsViewportHeight(true);
     table.setAutoCreateRowSorter(true);
-
-    // Create the scroll pane and add the table to it.
-    //final JScrollPane scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    //scrollPane.setAlignmentX(CENTER_ALIGNMENT);
     
     JButton btnSubmit = new JButton("Submit");
     btnSubmit.setAlignmentX(BOTTOM_ALIGNMENT);
     
-    this.add(schedulerTableLabel);
-    this.add(table);
-    //this.add(scrollPane);
-    this.add(btnSubmit);
+    contentPanel.add(schedulerTableLabel, "wrap");
+    contentPanel.add(table, "wrap");
+    contentPanel.add(btnSubmit);
     
     btnSubmit.addActionListener(new ActionListener() {
 
@@ -60,6 +63,8 @@ public class SchedulerTable extends JPanel {
 		}
 
 	});
+    
+    this.add(contentPanel);
   }
 
   /**
