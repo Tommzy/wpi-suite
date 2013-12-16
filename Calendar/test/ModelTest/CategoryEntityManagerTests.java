@@ -10,8 +10,8 @@ import java.util.Set;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.EventEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CategoryEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -19,15 +19,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class EventEntityManagerTests {
+public class CategoryEntityManagerTests {
 
 	@Test
 	public void assignUniqueIDTest() throws WPISuiteException {
 		
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
-		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
-		Event ev4 = new Event("Event 4", null, null, "no where", "Event 4");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
+		Category cat3 = new Category("Category 3", false, null);
+		Category cat4 = new Category("Category 4", false, null);
 		
 		User admin = new User("admin", "admin", "1234", 27);
 		admin.setRole(Role.ADMIN);
@@ -36,29 +36,29 @@ public class EventEntityManagerTests {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
-		evEntMan.assignUniqueID(ev1);
-		fakeDB.save(ev1, testProject);
-		evEntMan.assignUniqueID(ev2);
-		fakeDB.save(ev2, testProject);
-		evEntMan.assignUniqueID(ev3);
-		fakeDB.save(ev3, testProject);
-		evEntMan.assignUniqueID(ev4);
-		fakeDB.save(ev4, testProject);
+		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+		catEntMan.assignUniqueID(cat1);
+		fakeDB.save(cat1, testProject);
+		catEntMan.assignUniqueID(cat2);
+		fakeDB.save(cat2, testProject);
+		catEntMan.assignUniqueID(cat3);
+		fakeDB.save(cat3, testProject);
+		catEntMan.assignUniqueID(cat4);
+		fakeDB.save(cat4, testProject);
 
 		fakeDB.save(admin);
 		
 
 		
-		assertEquals(evEntMan.HighestId(), 4);
+		assertEquals(catEntMan.HighestId(), 4);
 
 	}
 
 	@Test
 	public void saveTest1() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -68,23 +68,23 @@ public class EventEntityManagerTests {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 		fakeDB.save(admin);
 		//Tests
-		evEntMan.save(ev1);
-		assertEquals(evEntMan.HighestId(), 1);
+		catEntMan.save(cat1);
+		assertEquals(catEntMan.HighestId(), 1);
 		
-		evEntMan.save(ev2);
-		assertEquals(evEntMan.HighestId(), 2);
+		catEntMan.save(cat2);
+		assertEquals(catEntMan.HighestId(), 2);
 
 		
 	}
 
 	@Test
-	public void saveTest2() throws WPISuiteException {
+public void saveTest2() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -97,21 +97,20 @@ public class EventEntityManagerTests {
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
 	
-	EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+	CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 	fakeDB.save(admin);
 	//Tests
-	evEntMan.save(sesh, ev1);
-	assertEquals(evEntMan.HighestId(), 1);
+	catEntMan.save(sesh, cat1);
+	assertEquals(catEntMan.HighestId(), 1);
 	
-	evEntMan.save(sesh, ev2);
-	assertEquals(evEntMan.HighestId(), 2);
+	catEntMan.save(sesh, cat2);
+	assertEquals(catEntMan.HighestId(), 2);
 }
 	
 	@Test
 	public void makeEntityTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-
+		Category cat1 = new Category("Category 1", false, null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -125,14 +124,14 @@ public class EventEntityManagerTests {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+				CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 				fakeDB.save(admin);
 				//Tests
 				
-				String evString = ev1.toJSON();
-				evEntMan.makeEntity(sesh, evString);
+				String catString = cat1.toJSON();
+				catEntMan.makeEntity(sesh, catString);
 				
-				assertEquals(evEntMan.getEntity(sesh, "1")[0].getName(), "Event 1");
+				assertEquals(catEntMan.getEntity(sesh, "1")[0].getName(), "Category 1");
 				
 	}
 	
@@ -140,8 +139,8 @@ public class EventEntityManagerTests {
 	@Test
 public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+	Category cat1 = new Category("Category 1", null, "Category 1");
+	Category cat2 = new Category("Category 2", null, "Category 2");
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -155,23 +154,23 @@ public void getAllTest() throws WPISuiteException {
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
 	
-	EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+	CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 	fakeDB.save(admin);
-	evEntMan.assignUniqueID(ev1);
-	fakeDB.save(ev1, testProject);
-	evEntMan.assignUniqueID(ev2);
-	fakeDB.save(ev2, testProject);
+	catEntMan.assignUniqueID(cat1);
+	fakeDB.save(cat1, testProject);
+	catEntMan.assignUniqueID(cat2);
+	fakeDB.save(cat2, testProject);
 	//Tests
 	
-	Event[] testev = evEntMan.getAll(sesh);
-	assertEquals(testev.length, 2);
+	Category[] testcat = catEntMan.getAll(sesh);
+	assertEquals(testcat.length, 2);
 }
 	*/
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -185,22 +184,22 @@ public void getAllTest() throws WPISuiteException {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 		fakeDB.save(admin);
-		evEntMan.assignUniqueID(ev1);
-		fakeDB.save(ev1, testProject);
-		evEntMan.assignUniqueID(ev2);
-		fakeDB.save(ev2, testProject);
+		catEntMan.assignUniqueID(cat1);
+		fakeDB.save(cat1, testProject);
+		catEntMan.assignUniqueID(cat2);
+		fakeDB.save(cat2, testProject);
 		//Tests
 		
-		assertEquals(evEntMan.getEntity(sesh, "1")[0].getId(), 1);
+		assertEquals(catEntMan.getEntity(sesh, "1")[0].getId(), 1);
 	}
 	
 	@Test
 	public void updateTest() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -214,29 +213,29 @@ public void getAllTest() throws WPISuiteException {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 		fakeDB.save(admin);
-		evEntMan.assignUniqueID(ev1);
-		fakeDB.save(ev1, testProject);
-		evEntMan.assignUniqueID(ev2);
-		fakeDB.save(ev2, testProject);
+		catEntMan.assignUniqueID(cat1);
+		fakeDB.save(cat1, testProject);
+		catEntMan.assignUniqueID(cat2);
+		fakeDB.save(cat2, testProject);
 		//Tests
-		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
-		ev3.setId(2);
-		String stringev = ev3.toJSON();
+		Category cat3 = new Category("Category 3", false, null);
+		cat3.setId(2);
+		String stringcat = cat3.toJSON();
 		
-		System.out.print(stringev);
+		System.out.print(stringcat);
 		
-		evEntMan.update(sesh, stringev);
-		assertEquals(evEntMan.getEntity(sesh, "2")[0].getDescription(),"Event 3");
+		catEntMan.update(sesh, stringcat);
+		assertEquals(catEntMan.getEntity(sesh, "2")[0].getName(),"Category 3");
 	}
 
 	@Test
 	public void deleteEntityTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
-				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
+		Category cat3 = new Category("Category 3", false, null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -250,26 +249,26 @@ public void getAllTest() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+				CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 				fakeDB.save(admin);
-				evEntMan.assignUniqueID(ev1);
-				fakeDB.save(ev1, testProject);
-				evEntMan.assignUniqueID(ev2);
-				fakeDB.save(ev2, testProject);
-				evEntMan.assignUniqueID(ev3);
-				fakeDB.save(ev3, testProject);
+				catEntMan.assignUniqueID(cat1);
+				fakeDB.save(cat1, testProject);
+				catEntMan.assignUniqueID(cat2);
+				fakeDB.save(cat2, testProject);
+				catEntMan.assignUniqueID(cat3);
+				fakeDB.save(cat3, testProject);
 				//Tests
-				evEntMan.deleteEntity(sesh, "1");
-				evEntMan.getEntity(sesh, "1");
+				catEntMan.deleteEntity(sesh, "1");
+				catEntMan.getEntity(sesh, "1");
 				
 	}
 	
 	@Test
 	public void deleteAllTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
-				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
+		Category cat1 = new Category("Category 1", false, null);
+		Category cat2 = new Category("Category 2", false, null);
+		Category cat3 = new Category("Category 3", false, null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -283,22 +282,21 @@ public void getAllTest() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+				CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 				fakeDB.save(admin);
-				evEntMan.assignUniqueID(ev1);
-				fakeDB.save(ev1, testProject);
-				evEntMan.assignUniqueID(ev2);
-				fakeDB.save(ev2, testProject);
-				evEntMan.assignUniqueID(ev3);
-				fakeDB.save(ev3, testProject);
+				catEntMan.assignUniqueID(cat1);
+				fakeDB.save(cat1, testProject);
+				catEntMan.assignUniqueID(cat2);
+				fakeDB.save(cat2, testProject);
+				catEntMan.assignUniqueID(cat3);
+				fakeDB.save(cat3, testProject);
 				//Tests
-				evEntMan.deleteAll(sesh);;
-				assertNull(evEntMan.getEntity(sesh, "2"));		
+				catEntMan.deleteAll(sesh);;
+				assertNull(catEntMan.getEntity(sesh, "2"));		
 	}
 
-	/*	
-  	@Test
-	public void ensureRoleTest() throws WPISuiteException {
+/*	@Test
+public void ensureRoleTest() throws WPISuiteException {
 	//Set Up
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -306,12 +304,11 @@ public void getAllTest() throws WPISuiteException {
 	Session sesh = new Session(admin, "01");
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
-	EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+	CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
 	fakeDB.save(admin);
 	
 	//Tests
 
 	//How do I test a void function?
-}
-*/
+}*/
 }

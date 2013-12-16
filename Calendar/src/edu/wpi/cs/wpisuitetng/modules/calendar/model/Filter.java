@@ -51,7 +51,7 @@ public class Filter implements Model {
   /**
    * Constructor
    */
-  Filter(String newName, ArrayList<Category> newCategories) {
+  public Filter(String newName, ArrayList<Category> newCategories) {
     this.name = newName;
     this.categories = newCategories;
     id = -1;

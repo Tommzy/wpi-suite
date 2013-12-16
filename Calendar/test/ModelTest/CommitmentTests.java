@@ -59,15 +59,19 @@ public class CommitmentTests {
 		
 		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
 		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff");
-		Commitment copyDontWork = new Commitment("Test Commitment", null, "Test Commitment");
 		
 		//Tests
 		
-		System.out.print(testCom.toJSON() + "\n");
-		System.out.print(copyCom.toJSON() + "\n");
 		testCom.copy(copyCom);
-		System.out.print(testCom.toJSON() + "\n");
-		assertTrue(testCom.equals(copyCom));
+		
+		assertEquals(testCom.getCategory(), copyCom.getCategory());
+		assertEquals(testCom.getDescription(), copyCom.getDescription());
+		assertEquals(testCom.getId(), copyCom.getId());
+		assertEquals(testCom.getName(), copyCom.getName());
+		assertEquals(testCom.getProject(), copyCom.getProject());
+		assertEquals(testCom.getStartTime(), copyCom.getStartTime());
+		assertEquals(testCom.getStatus(), copyCom.getStatus());
+		assertEquals(testCom.getUsername(), copyCom.getUsername());
 		//assertEquals(testCom, copyDontWork);
 		
 	}
@@ -102,8 +106,14 @@ public class CommitmentTests {
 		Commitment testCom2 = Commitment.fromJSON(comString);
 		System.out.print(testCom2.toJSON() + "\n");
 		
-		//assertTrue(testCom2.equals(testCom1));
-		assertEquals(testCom2, testCom1);
+		assertEquals(testCom1.getCategory(), testCom2.getCategory());
+		assertEquals(testCom1.getDescription(), testCom2.getDescription());
+		assertEquals(testCom1.getId(), testCom2.getId());
+		assertEquals(testCom1.getName(), testCom2.getName());
+		assertEquals(testCom1.getProject(), testCom2.getProject());
+		assertEquals(testCom1.getStartTime(), testCom2.getStartTime());
+		assertEquals(testCom1.getStatus(), testCom2.getStatus());
+		assertEquals(testCom1.getUsername(), testCom2.getUsername());
 		
 	}
 	

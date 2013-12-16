@@ -282,7 +282,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			Event eventToBeDel = new Event(null, null, null,null,null);
 			eventToBeDel.setId(oldEvent.getId());
 
-			if (db.delete(eventToBeDel).equals(eventToBeDel)){
+			if (db.delete(eventToBeDel) != null){
 				return true; // the deletion was successful
 			}	    
 		}else{

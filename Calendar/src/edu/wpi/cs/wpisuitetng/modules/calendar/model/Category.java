@@ -79,6 +79,7 @@ public class Category implements Model {
     this.color = donor.color;
     this.userID = donor.userID;
     this.isPersonal = donor.isPersonal;
+    this.isActive = donor.isActive;
   }
   
 
@@ -163,10 +164,27 @@ public class Category implements Model {
   public void setIsPersonal(boolean isThisPersonal) {
     this.isPersonal = isThisPersonal;
   }
+  /**
+   * Indicates if a category is active or not
+   * @return true if active, else return false
+   */
+  public boolean isActive() {
+		return isActive;
+	}
+
+  /**
+   * Set whether this category is active or not
+   * @param isActive boolean which is true if we want the category to be personal.
+   */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
   
   //---------------------Interface-Functions----------------------
   
-  @Override
+ 
+
+@Override
   public void save() {
     // TODO Auto-generated method stub
     

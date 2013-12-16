@@ -259,8 +259,8 @@ public void getAllTest() throws WPISuiteException {
 				comEntMan.assignUniqueID(com3);
 				fakeDB.save(com3, testProject);
 				//Tests
-				Boolean what = comEntMan.deleteEntity(sesh, "3");
-				assertTrue(what);
+				comEntMan.deleteEntity(sesh, "1");
+				comEntMan.getEntity(sesh, "1");
 				
 	}
 	
