@@ -42,14 +42,14 @@ public class Invitation implements Model{
 
 	/** HashMap containing availability at each time */
 	private HashMap<Integer, String[]> availablity;
-	
+
 	/** represents whether or not this goes to the entire team
 		currently removed until we add necessary functionality
-		
+
 	private boolean isTeamInvitation;
-	
-	*/
-	
+
+	 */
+
 	/** Map of users to their permissions */
 	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
 
@@ -71,7 +71,7 @@ public class Invitation implements Model{
 		this.date = date;
 		this.availablity = initializeAvailability();
 	}
-	
+
 	/**
 	 * creates a HashMap h that maps every hour of the workday
 	 * to an empty list of strings.  this string will eventually
@@ -80,19 +80,19 @@ public class Invitation implements Model{
 	 * 
 	 * @return h
 	 */
-	
+
 	private HashMap<Integer, String[]> initializeAvailability() {
 		HashMap<Integer, String[]> h = new HashMap<Integer, String[]>();
-		
+
 		for(int i=8; i<17; i++){
 			h.put(i, new String[0]);
 		}
-		
+
 		return h;
 	}
 
 	/** Getters and Setters */
-	
+
 	public String getDate() {
 		return date;
 	}
@@ -124,7 +124,7 @@ public class Invitation implements Model{
 	public void setDescription(String description){
 		this.description = description;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -134,8 +134,8 @@ public class Invitation implements Model{
 	}
 
 	/**End of Getters and Setters.  Real Functions follow */
-	
-	
+
+
 	/**
 	 * Sets all the fields in the current Invitation equal to another's
 	 * 
@@ -147,7 +147,7 @@ public class Invitation implements Model{
 		this.setName(inv.getName());
 		this.setProject(inv.getProject());
 	}
-	
+
 	/**
 	 * From json.
 	 *
@@ -172,7 +172,7 @@ public class Invitation implements Model{
 
 
 	/** Override functions */
-	
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.Model#getPermission(edu.wpi.cs.wpisuitetng.modules.core.models.User)
 	 */

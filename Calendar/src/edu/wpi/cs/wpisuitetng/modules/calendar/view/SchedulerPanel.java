@@ -18,16 +18,16 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class SchedulerPanel extends JPanel {
 
-  /**
-   * Instantiates a new scheduler panel.
-   */
-  public SchedulerPanel() {
-  
-	  SchedulerList schedulerList = new SchedulerList(new MigLayout());
-	  SchedulerTable schedulerTable = new SchedulerTable(new MigLayout());
+	/**
+	 * Instantiates a new scheduler panel.
+	 */
+	public SchedulerPanel() {
 
-	  schedulerList.setAlignmentX(LEFT_ALIGNMENT);
-	  add(schedulerList);
-	  add(schedulerTable);
-  }
+		SchedulerList schedulerList = new SchedulerList(new MigLayout());
+		SchedulerTable schedulerTable = new SchedulerTable(new MigLayout());
+
+		schedulerList.setAlignmentX(LEFT_ALIGNMENT);
+		add(schedulerList);
+		add(schedulerTable);
+	}
 }

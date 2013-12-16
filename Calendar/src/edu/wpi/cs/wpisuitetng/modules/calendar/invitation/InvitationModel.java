@@ -201,30 +201,20 @@ public class InvitationModel extends AbstractListModel{
   /**
    * Gets the possible parents.
    *
-   * @param req the req
+   * @param inv the invitation
    * @return the possible parents
    */
-  public ListModel<Invitation> getPossibleParents(Invitation req)
+  public ListModel<Invitation> getPossibleParents(Invitation inv)
   {
     DefaultListModel<Invitation> possibleParents = new DefaultListModel<Invitation>();
 
     for(Invitation possParent : Invitations)
     {
-      if(possParent == req) continue;
+      if(possParent == inv) continue;
       possibleParents.addElement(possParent);
     }
 
     return possibleParents;
   }
 
-
-
-  /**
-   * Gets the invitations.
-   *
-   * @return the invitations
-   */
-  public List<Invitation> getInvitations() {
-    return Invitations;
-  }
 }
