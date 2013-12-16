@@ -13,6 +13,8 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -40,6 +42,7 @@ public class MonthViewGridPanel extends JPanel {
 	private DateController date;
 	
 	JList list = new JList();
+	ArrayList calendarItemList = new ArrayList();
 	
 	DefaultListModel model = new DefaultListModel();
 	
@@ -63,6 +66,35 @@ public class MonthViewGridPanel extends JPanel {
 				setToThisDate();
 			}
 		});
+		list.addMouseMotionListener(new MouseMotionAdapter() {
+	        @Override
+	        public void mouseMoved(MouseEvent e) {
+	            JList l = (JList)e.getSource();
+	            ListModel m = l.getModel();
+	            int index = l.locationToIndex(e.getPoint());
+	            if( index>-1 ) {
+	            	String displayString = "<html>";
+	            	Object item = calendarItemList.get(index);
+	            	if (item instanceof Commitment) {
+	            		Commitment cmtItem = (Commitment) item;
+	            		displayString += cmtItem.getName() + "<br>";
+	            		if (cmtItem.getDescription().length() != 0) {
+	            			displayString += cmtItem.getDescription() + "<br>";
+	            		}
+	            		displayString += cmtItem.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + ":" + 
+	            		cmtItem.getStartTime().get(GregorianCalendar.MINUTE) + "</html>";
+	            	}
+	            	
+	            	if (item instanceof Event) {
+	            		Event eventItem = (Event) item;
+	            		displayString += eventItem.getName() + " " + eventItem.getDescription() + " "
+	            		+ eventItem.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + ":" + 
+	            		eventItem.getStartTime().get(GregorianCalendar.MINUTE);
+	            	}
+	                l.setToolTipText(displayString);
+	            }
+	        }
+	    });
 		JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
 	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		listScroller.setHorizontalScrollBar(null);
@@ -169,10 +201,12 @@ public class MonthViewGridPanel extends JPanel {
 		
 	}
 	public void addEventToTalble(Event event) {
+		calendarItemList.add(event);
 		String element = event.getName();
 		model.addElement(element);
 	}
 	public void addCommitmentToTable(Commitment cmt) {
+		calendarItemList.add(cmt);
 		String element = cmt.getName();
 		model.addElement(element);
 		
