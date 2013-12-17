@@ -17,7 +17,7 @@ public class EventTests {
 	public void getAndSetTests() {
 		//Set Up
 		
-		Event testev = new Event("Test Event", null, null,"no where", "Test Event");
+		Event testev = new Event("Test Event", null, null,"no where", "Test Event",null);
 		Project testProj = new Project(null, null);
 		User testUser = new User(null, null, null, 0);
 		GregorianCalendar testCal1 = new GregorianCalendar(2013, 12, 13, 12, 24, 0);
@@ -61,23 +61,18 @@ public class EventTests {
 	public void CopyTest() {
 		//Set Up
 		
-		Event testev1 = new Event("Test Event", null, null,"no where", "Test Event");
-		Event testev2 = new Event("Copy Stuff", null, null,"no where", "More CopyStuff");
+		Event testev = new Event("Test Event", null, null,"no where", "Test Event",null);
+		Event copyev = new Event("Copy Stuff", null, null,"no where", "More CopyStuff",null);
+		Event copyDontWork = new Event("Test Event", null, null,"no where", "Test Event",null);
 		
 		//Tests
 		
-		
-		testev1.copy(testev2);
-		
-		assertEquals(testev1.getCategory(), testev2.getCategory());
-		assertEquals(testev1.getDescription(), testev2.getDescription());
-		assertEquals(testev1.getId(), testev2.getId());
-		assertEquals(testev1.getName(), testev2.getName());
-		assertEquals(testev1.getProject(), testev2.getProject());
-		assertEquals(testev1.getStartTime(), testev2.getStartTime());
-		assertEquals(testev1.getEndTime(), testev2.getEndTime());
-		assertEquals(testev1.getUsername(), testev2.getUsername());
-		
+		System.out.print(testev.toJSON() + "\n");
+		System.out.print(copyev.toJSON() + "\n");
+		testev.copy(copyev);
+		System.out.print(testev.toJSON() + "\n");
+		assertTrue(testev.equals(copyev));
+		//assertEquals(testev, copyDontWork);
 		
 	}
 	
@@ -85,7 +80,7 @@ public class EventTests {
 	public void isTimeStampActiveDuringTest() {
 		//Set Up
 		
-		Event testev = new Event("Test Event", null, null,"no where", "Test Event");
+		Event testev = new Event("Test Event", null, null,"no where", "Test Event",null);
 
 		GregorianCalendar cal1 = new GregorianCalendar(2013, 12, 13, 16, 30);
 		GregorianCalendar cal11 = new GregorianCalendar(2013, 12, 13, 17, 30);
@@ -105,7 +100,7 @@ public class EventTests {
 	public void JSONTests() {
 		//Set Up
 		
-		Event testev1 = new Event("Test Event", null, null,"no where","Test Event");
+		Event testev1 = new Event("Test Event", null, null,"no where","Test Event",null);
 		//Tests
 		
 		String evString = testev1.toJSON();
@@ -113,14 +108,8 @@ public class EventTests {
 		Event testev2 = Event.fromJSON(evString);
 		System.out.print(testev2.toJSON() + "\n");
 		
-		assertEquals(testev1.getCategory(), testev2.getCategory());
-		assertEquals(testev1.getDescription(), testev2.getDescription());
-		assertEquals(testev1.getId(), testev2.getId());
-		assertEquals(testev1.getName(), testev2.getName());
-		assertEquals(testev1.getProject(), testev2.getProject());
-		assertEquals(testev1.getStartTime(), testev2.getStartTime());
-		assertEquals(testev1.getEndTime(), testev2.getEndTime());
-		assertEquals(testev1.getUsername(), testev2.getUsername());
+		//assertTrue(testev2.equals(testev1));
+		assertEquals(testev2, testev1);
 		
 	}
 	

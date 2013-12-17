@@ -30,14 +30,21 @@ public class FilterTests {
 		// ID
 		testfil.setId(2);
 		assertEquals(testfil.getId(), 2);
-		// TeamFilter
 		// Project
 		testfil.setProject(testProj);
 		assertSame(testfil.getProject(), testProj);
-		// StartTime
 		// Permission
 		testfil.setPermission(Permission.WRITE, testUser);
 		assertEquals(testfil.getPermission(testUser), Permission.WRITE);
+		// Categories
+		testfil.setCategories(null);
+		assertNull(testfil.getCategories());
+		// User ID
+		testfil.setUserId("Jimbo");
+		assertEquals(testfil.getUserId(), "Jimbo");
+		// Activeness
+		testfil.setActiveness(true);
+		assertTrue(testfil.isActive());
 		
 	}
 	
@@ -57,6 +64,9 @@ public class FilterTests {
 		assertEquals(testfil1.getId(), testfil2.getId());
 		assertEquals(testfil1.getName(), testfil2.getName());
 		assertEquals(testfil1.getProject(), testfil2.getProject());
+		assertEquals(testfil1.isActive(), testfil2.isActive());
+		assertEquals(testfil1.getUserId(), testfil2.getUserId());
+		assertEquals(testfil1.getCategories(), testfil2.getCategories());
 		
 		
 	}

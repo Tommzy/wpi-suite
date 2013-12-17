@@ -55,8 +55,8 @@ public class Filter implements Model {
     this.name = newName;
     this.categories = newCategories;
     id = -1;
-    userID = "-1";
-    isActive = false;
+    userID = null;
+    isActive = true;
   }
   
   /**

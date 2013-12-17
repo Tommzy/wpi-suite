@@ -191,6 +191,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		}
 	}
 
+
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
@@ -222,6 +223,9 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 */
 	public Category update(Session s, String content) throws WPISuiteException {
 		// If there is no session
+		
+		ensureRole(s, Role.ADMIN);
+
 		if(s == null){
 			throw new WPISuiteException("Null session.");
 		}

@@ -24,10 +24,10 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void assignUniqueIDTest() throws WPISuiteException {
 		
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
-		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
-		Commitment com4 = new Commitment("Commitment 4", null, "Commitment 4");
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
+		Commitment com4 = new Commitment("Commitment 4", null, "Commitment 4",null);
 		
 		User admin = new User("admin", "admin", "1234", 27);
 		admin.setRole(Role.ADMIN);
@@ -57,8 +57,8 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void saveTest1() throws WPISuiteException {
 		//Set Up
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -81,10 +81,10 @@ public class CommitmentEntityManagerTests {
 	}
 
 	@Test
-public void saveTest2() throws WPISuiteException {
+	public void saveTest2() throws WPISuiteException {
 	//Set Up
-	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -110,7 +110,7 @@ public void saveTest2() throws WPISuiteException {
 	@Test
 	public void makeEntityTest() throws WPISuiteException {
 		//Set Up
-				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
 
 
 				
@@ -136,18 +136,21 @@ public void saveTest2() throws WPISuiteException {
 				
 	}
 	
-	/*
+	
 	@Test
-public void getAllTest() throws WPISuiteException {
+	public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+	com1.setTeamCommitment(false);
+	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+	com1.setTeamCommitment(true);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
 	admin.setRole(Role.ADMIN);
 	
-	
+	com1.setUsername("admin");
+	com1.setUsername("admin");
 	
 	Project testProject = new Project("test", "1");
 	Session sesh = new Session(admin,testProject, "01");
@@ -166,12 +169,12 @@ public void getAllTest() throws WPISuiteException {
 	Commitment[] testcom = comEntMan.getAll(sesh);
 	assertEquals(testcom.length, 2);
 }
-	*/
+	
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -199,8 +202,8 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void updateTest() throws WPISuiteException {
 		//Set Up
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -221,7 +224,7 @@ public void getAllTest() throws WPISuiteException {
 		comEntMan.assignUniqueID(com2);
 		fakeDB.save(com2, testProject);
 		//Tests
-		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
+		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
 		com3.setId(2);
 		String stringCom = com3.toJSON();
 		
@@ -234,9 +237,9 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void deleteEntityTest() throws WPISuiteException {
 		//Set Up
-				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
-				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
+				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -267,9 +270,9 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void deleteAllTest() throws WPISuiteException {
 		//Set Up
-				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
-				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
+				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -293,7 +296,7 @@ public void getAllTest() throws WPISuiteException {
 				fakeDB.save(com3, testProject);
 				//Tests
 				comEntMan.deleteAll(sesh);;
-				assertNull(comEntMan.getEntity(sesh, "2"));		
+				assertEquals(comEntMan.Count(), 0);		
 	}
 
 /*	@Test

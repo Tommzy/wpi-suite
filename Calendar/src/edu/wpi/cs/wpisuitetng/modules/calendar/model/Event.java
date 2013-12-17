@@ -13,6 +13,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -71,12 +72,13 @@ public class Event  implements Model{
 	 * @param description the description
 	 */
 	public Event(String name, GregorianCalendar startTime, GregorianCalendar endTime, String location, 
-			String description) {
+			String description,Category category) {
 		this.name = name;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.location = location; 
 		this.description = description;
+		this.category = category;
 	}
 
 	/**
@@ -404,6 +406,7 @@ public class Event  implements Model{
 	public boolean isTeamEvent(){
 		return this.isTeamEvent;
 	}
+	
 
 }
 

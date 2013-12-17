@@ -10,8 +10,8 @@ import java.util.Set;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CategoryEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.FilterEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -19,15 +19,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class CategoryEntityManagerTests {
+public class FilterEntityManagerTests {
 
 	@Test
 	public void assignUniqueIDTest() throws WPISuiteException {
 		
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
-		Category cat3 = new Category("Category 3", false, null);
-		Category cat4 = new Category("Category 4", false, null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
+		Filter fil3 = new Filter("Filter 3", null);
+		Filter fil4 = new Filter("Filter 4", null);
 		
 		User admin = new User("admin", "admin", "1234", 27);
 		admin.setRole(Role.ADMIN);
@@ -36,29 +36,29 @@ public class CategoryEntityManagerTests {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
-		catEntMan.assignUniqueID(cat1);
-		fakeDB.save(cat1, testProject);
-		catEntMan.assignUniqueID(cat2);
-		fakeDB.save(cat2, testProject);
-		catEntMan.assignUniqueID(cat3);
-		fakeDB.save(cat3, testProject);
-		catEntMan.assignUniqueID(cat4);
-		fakeDB.save(cat4, testProject);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
+		FilterMan.assignUniqueID(fil1);
+		fakeDB.save(fil1, testProject);
+		FilterMan.assignUniqueID(fil2);
+		fakeDB.save(fil2, testProject);
+		FilterMan.assignUniqueID(fil3);
+		fakeDB.save(fil3, testProject);
+		FilterMan.assignUniqueID(fil4);
+		fakeDB.save(fil4, testProject);
 
 		fakeDB.save(admin);
 		
 
 		
-		assertEquals(catEntMan.HighestId(), 4);
+		assertEquals(FilterMan.HighestId(), 4);
 
 	}
 
 	@Test
 	public void saveTest1() throws WPISuiteException {
 		//Set Up
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -68,23 +68,23 @@ public class CategoryEntityManagerTests {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 		fakeDB.save(admin);
 		//Tests
-		catEntMan.save(cat1);
-		assertEquals(catEntMan.HighestId(), 1);
+		FilterMan.save(fil1);
+		assertEquals(FilterMan.HighestId(), 1);
 		
-		catEntMan.save(cat2);
-		assertEquals(catEntMan.HighestId(), 2);
+		FilterMan.save(fil2);
+		assertEquals(FilterMan.HighestId(), 2);
 
 		
 	}
 
 	@Test
-public void saveTest2() throws WPISuiteException {
+	public void saveTest2() throws WPISuiteException {
 	//Set Up
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
+	Filter fil1 = new Filter("Filter 1", null);
+	Filter fil2 = new Filter("Filter 2", null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -97,20 +97,21 @@ public void saveTest2() throws WPISuiteException {
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
 	
-	CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+	FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 	fakeDB.save(admin);
 	//Tests
-	catEntMan.save(sesh, cat1);
-	assertEquals(catEntMan.HighestId(), 1);
+	FilterMan.save(sesh, fil1);
+	assertEquals(FilterMan.HighestId(), 1);
 	
-	catEntMan.save(sesh, cat2);
-	assertEquals(catEntMan.HighestId(), 2);
+	FilterMan.save(sesh, fil2);
+	assertEquals(FilterMan.HighestId(), 2);
 }
 	
 	@Test
 	public void makeEntityTest() throws WPISuiteException {
 		//Set Up
-		Category cat1 = new Category("Category 1", false, null);
+				Filter fil1 = new Filter("Filter 1", null);
+
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -124,23 +125,22 @@ public void saveTest2() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+				FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 				fakeDB.save(admin);
 				//Tests
 				
-				String catString = cat1.toJSON();
-				catEntMan.makeEntity(sesh, catString);
+				String filString = fil1.toJSON();
+				FilterMan.makeEntity(sesh, filString);
 				
-				assertEquals(catEntMan.getEntity(sesh, "1")[0].getName(), "Category 1");
+				assertEquals(FilterMan.getEntity(sesh, "1")[0].getName(), "Filter 1");
 				
 	}
-	
 	
 	@Test
 public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Category cat1 = new Category("Category 1",false, null);
-	Category cat2 = new Category("Category 2",false, null);
+	Filter fil1 = new Filter("Filter 1", null);
+	Filter fil2 = new Filter("Filter 2", null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -154,22 +154,22 @@ public void getAllTest() throws WPISuiteException {
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
 	
-	CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+	FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 	fakeDB.save(admin);
-	catEntMan.assignUniqueID(cat1);
-	fakeDB.save(cat1, testProject);
-	catEntMan.assignUniqueID(cat2);
-	fakeDB.save(cat2, testProject);
+	FilterMan.assignUniqueID(fil1);
+	fakeDB.save(fil1, testProject);
+	FilterMan.assignUniqueID(fil2);
+	fakeDB.save(fil2, testProject);
 	//Tests
 	
-	Category[] testcat = catEntMan.getAll(sesh);
-	assertEquals(testcat.length, 2);
+	Filter[] testfil = FilterMan.getAll(sesh);
+	assertEquals(testfil.length, 2);
 }
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -183,22 +183,22 @@ public void getAllTest() throws WPISuiteException {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 		fakeDB.save(admin);
-		catEntMan.assignUniqueID(cat1);
-		fakeDB.save(cat1, testProject);
-		catEntMan.assignUniqueID(cat2);
-		fakeDB.save(cat2, testProject);
+		FilterMan.assignUniqueID(fil1);
+		fakeDB.save(fil1, testProject);
+		FilterMan.assignUniqueID(fil2);
+		fakeDB.save(fil2, testProject);
 		//Tests
 		
-		assertEquals(catEntMan.getEntity(sesh, "1")[0].getId(), 1);
+		assertEquals(FilterMan.getEntity(sesh, "1")[0].getId(), 1);
 	}
 	
 	@Test
 	public void updateTest() throws WPISuiteException {
 		//Set Up
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -212,29 +212,29 @@ public void getAllTest() throws WPISuiteException {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 		fakeDB.save(admin);
-		catEntMan.assignUniqueID(cat1);
-		fakeDB.save(cat1, testProject);
-		catEntMan.assignUniqueID(cat2);
-		fakeDB.save(cat2, testProject);
+		FilterMan.assignUniqueID(fil1);
+		fakeDB.save(fil1, testProject);
+		FilterMan.assignUniqueID(fil2);
+		fakeDB.save(fil2, testProject);
 		//Tests
-		Category cat3 = new Category("Category 3", false, null);
-		cat3.setId(2);
-		String stringcat = cat3.toJSON();
+		Filter fil3 = new Filter("Filter 3", null);
+		fil3.setId(2);
+		String stringfil = fil3.toJSON();
 		
-		System.out.print(stringcat);
+		System.out.print(stringfil);
 		
-		catEntMan.update(sesh, stringcat);
-		assertEquals(catEntMan.getEntity(sesh, "2")[0].getName(),"Category 3");
+		FilterMan.update(sesh, stringfil);
+		assertEquals(FilterMan.getEntity(sesh, "2")[0].getName(),"Filter 3");
 	}
 
 	@Test
 	public void deleteEntityTest() throws WPISuiteException {
 		//Set Up
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
-		Category cat3 = new Category("Category 3", false, null);
+				Filter fil1 = new Filter("Filter 1", null);
+				Filter fil2 = new Filter("Filter 2", null);
+				Filter fil3 = new Filter("Filter 3", null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -248,26 +248,26 @@ public void getAllTest() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+				FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 				fakeDB.save(admin);
-				catEntMan.assignUniqueID(cat1);
-				fakeDB.save(cat1, testProject);
-				catEntMan.assignUniqueID(cat2);
-				fakeDB.save(cat2, testProject);
-				catEntMan.assignUniqueID(cat3);
-				fakeDB.save(cat3, testProject);
+				FilterMan.assignUniqueID(fil1);
+				fakeDB.save(fil1, testProject);
+				FilterMan.assignUniqueID(fil2);
+				fakeDB.save(fil2, testProject);
+				FilterMan.assignUniqueID(fil3);
+				fakeDB.save(fil3, testProject);
 				//Tests
-				catEntMan.deleteEntity(sesh, "1");
-				catEntMan.getEntity(sesh, "1");
+				FilterMan.deleteEntity(sesh, "1");
+				FilterMan.getEntity(sesh, "1");
 				
 	}
 	
 	@Test
 	public void deleteAllTest() throws WPISuiteException {
 		//Set Up
-		Category cat1 = new Category("Category 1", false, null);
-		Category cat2 = new Category("Category 2", false, null);
-		Category cat3 = new Category("Category 3", false, null);
+				Filter fil1 = new Filter("Filter 1", null);
+				Filter fil2 = new Filter("Filter 2", null);
+				Filter fil3 = new Filter("Filter 3", null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -281,21 +281,22 @@ public void getAllTest() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+				FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 				fakeDB.save(admin);
-				catEntMan.assignUniqueID(cat1);
-				fakeDB.save(cat1, testProject);
-				catEntMan.assignUniqueID(cat2);
-				fakeDB.save(cat2, testProject);
-				catEntMan.assignUniqueID(cat3);
-				fakeDB.save(cat3, testProject);
+				FilterMan.assignUniqueID(fil1);
+				fakeDB.save(fil1, testProject);
+				FilterMan.assignUniqueID(fil2);
+				fakeDB.save(fil2, testProject);
+				FilterMan.assignUniqueID(fil3);
+				fakeDB.save(fil3, testProject);
 				//Tests
-				catEntMan.deleteAll(sesh);;	
-				assertEquals(catEntMan.Count(), 0);	
+				FilterMan.deleteAll(sesh);;
+				assertEquals(FilterMan.Count(), 0);	
 	}
 
-/*	@Test
-public void ensureRoleTest() throws WPISuiteException {
+	/*	
+  	@Test
+	public void ensureRoleTest() throws WPISuiteException {
 	//Set Up
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -303,11 +304,12 @@ public void ensureRoleTest() throws WPISuiteException {
 	Session sesh = new Session(admin, "01");
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
-	CategoryEntityManager catEntMan = new CategoryEntityManager(fakeDB);
+	FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 	fakeDB.save(admin);
 	
 	//Tests
 
 	//How do I test a void function?
-}*/
+}
+*/
 }

@@ -34,34 +34,34 @@ public class FakeCommitmentModel {
 		
 		cal.set(2013, 10, 11, 10, 0);
 
-		cmtList.add(new Commitment("Presentation", (GregorianCalendar) cal.clone(), "presentation for next ite"));
+		cmtList.add(new Commitment("Presentation", (GregorianCalendar) cal.clone(), "presentation for next ite",null));
 		cal.set(2013, 10, 12);
 	
-		cmtList.add(new Commitment("abc", (GregorianCalendar) cal.clone(), "123"));
+		cmtList.add(new Commitment("abc", (GregorianCalendar) cal.clone(), "123",null));
 		cal.set(2013, 11, 11);
-		cmtList.add(new Commitment("def",  (GregorianCalendar)cal.clone(), "345"));
+		cmtList.add(new Commitment("def",  (GregorianCalendar)cal.clone(), "345",null));
 		cal.set(2013, 11, 12);
-		cmtList.add(new Commitment("efg",  (GregorianCalendar)cal.clone(), "456"));
+		cmtList.add(new Commitment("efg",  (GregorianCalendar)cal.clone(), "456",null));
 		
 		cal.set(2013, 10, 18);
-		cmtList.add(new Commitment("zz",  (GregorianCalendar)cal.clone(), "rr"));
+		cmtList.add(new Commitment("zz",  (GregorianCalendar)cal.clone(), "rr",null));
 		cal.set(2013, 10, 18);
-		cmtList.add(new Commitment("ssf",  (GregorianCalendar)cal.clone(), "var"));
+		cmtList.add(new Commitment("ssf",  (GregorianCalendar)cal.clone(), "var",null));
 		
 		
 		cal.set(2014, 10, 11);
-		cmtList.add(new Commitment("Presentation",  (GregorianCalendar)cal.clone(), "presentation for next ite"));
+		cmtList.add(new Commitment("Presentation",  (GregorianCalendar)cal.clone(), "presentation for next ite",null));
 		cal.set(2014, 10, 12);
-		cmtList.add(new Commitment("abc",  (GregorianCalendar)cal.clone(), "123"));
+		cmtList.add(new Commitment("abc",  (GregorianCalendar)cal.clone(), "123",null));
 		cal.set(2014, 11, 11);
-		cmtList.add(new Commitment("def",  (GregorianCalendar)cal.clone(), "345"));
+		cmtList.add(new Commitment("def",  (GregorianCalendar)cal.clone(), "345",null));
 		cal.set(2014, 11, 12);
-		cmtList.add(new Commitment("efg",  (GregorianCalendar)cal.clone(), "456"));
+		cmtList.add(new Commitment("efg",  (GregorianCalendar)cal.clone(), "456",null));
 		
 		cal.set(2014, 10, 18);
-		cmtList.add(new Commitment("zz",  (GregorianCalendar)cal.clone(), "rr"));
+		cmtList.add(new Commitment("zz",  (GregorianCalendar)cal.clone(), "rr",null));
 		cal.set(2014, 10, 18);
-		cmtList.add(new Commitment("ssf",  (GregorianCalendar)cal.clone(), "var"));
+		cmtList.add(new Commitment("ssf",  (GregorianCalendar)cal.clone(), "var",null));
 		
 
 	}

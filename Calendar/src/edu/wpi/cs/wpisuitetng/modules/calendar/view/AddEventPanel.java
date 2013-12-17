@@ -594,7 +594,9 @@ public class AddEventPanel extends JPanel {
 		String desc = descriptionTextArea.getText();
 		// Invitee
 		String invitee = inviteeTextArea.getText();
-		Event event = new Event(name, startDateTime, endDateTime, location, desc);
+		
+		  //TODO ADD CATEGORY INTO PACKAGE
+		Event event = new Event(name, startDateTime, endDateTime, location, desc,null);
 		event.setTeamEvent(teamRadioButton.isSelected());
 		if (teamRadioButton.isSelected()) {
 			System.out.println("team radio button selected");

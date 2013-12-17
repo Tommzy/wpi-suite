@@ -50,8 +50,10 @@ public class CommitmentTable extends JPanel implements Updatable {
 	 */
 	public CommitmentTable() {
 		super(new GridLayout(1, 0));
-		update();
 		MainCalendarController.getInstance().addToUpdateList(this);
+		MainCalendarController.getInstance().setCommitmentTable(this);
+		MainCalendarController.getInstance().getYearView().today();
+		update();
 	}
 
 	/**
@@ -102,6 +104,9 @@ public class CommitmentTable extends JPanel implements Updatable {
 			break;
 		case Week:
 			cmtList = MainCalendarController.getInstance().getWeekView().getDayViewCommitmentList();
+		case Year:
+			cmtList = MainCalendarController.getInstance().getYearView().getCmtList();
+			break;
 		default:
 			break;
 		}
