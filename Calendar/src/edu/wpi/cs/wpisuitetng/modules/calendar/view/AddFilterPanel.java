@@ -199,6 +199,8 @@ public class AddFilterPanel extends JPanel {
     
     this.add(contentPanel);
     
+    
+    //Testing for JLists
     teamdlm.addElement("Hello");
     teamdlm.addElement("Hiya");
     teamdlm.addElement("Hey");
@@ -256,11 +258,8 @@ public class AddFilterPanel extends JPanel {
 
   private boolean checkContent() {
 	  
-//	  Constantly update list of selected categories
-//	  selectedCats.addAll(teamJList.getSelectedValuesList());
-//	  selectedCats.addAll(personalJList.getSelectedValuesList());
 	  
-	  if (nameErrMsg.getContentText().equals("") && (teamJList.getSelectedValuesList().isEmpty() && personalJList.getSelectedValuesList().isEmpty())) {
+	  if (nameErrMsg.getContentText().equals("") && (!teamJList.getSelectedValuesList().isEmpty() || !personalJList.getSelectedValuesList().isEmpty())) {
 		  return true;
 	  }
 	  else 
