@@ -92,7 +92,7 @@ public class AddFilterPanel extends JPanel {
   JList  personalJList;
   
   /** The currently selected categories */
-  List selectedCats;
+  List selectedCats = new ArrayList();
   
   /** ArrayList of SelectedCategories 
    *  Updates when packInfo() is called **/
@@ -147,8 +147,9 @@ public class AddFilterPanel extends JPanel {
 
     // Set up properties and values
 	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
-	teamJList.setInputVerifier(new JListVerifier(catErrMsg, btnSubmit));
-	personalJList.setInputVerifier(new JListVerifier(catErrMsg, btnSubmit));
+	JListVerifier categorySelectVerifier = new JListVerifier(catErrMsg, btnSubmit);
+	teamJList.setInputVerifier(categorySelectVerifier);
+	personalJList.setInputVerifier(categorySelectVerifier);
 
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField, "span 3");
@@ -255,11 +256,11 @@ public class AddFilterPanel extends JPanel {
 
   private boolean checkContent() {
 	  
-	  //Constantly update list of selected categories
-	  selectedCats.addAll(teamJList.getSelectedValuesList());
-	  selectedCats.addAll(personalJList.getSelectedValuesList());
+//	  Constantly update list of selected categories
+//	  selectedCats.addAll(teamJList.getSelectedValuesList());
+//	  selectedCats.addAll(personalJList.getSelectedValuesList());
 	  
-	  if (nameErrMsg.getContentText().equals("") && !selectedCats.isEmpty()) {
+	  if (nameErrMsg.getContentText().equals("") && (teamJList.getSelectedValuesList().isEmpty() && personalJList.getSelectedValuesList().isEmpty())) {
 		  return true;
 	  }
 	  else 
@@ -309,7 +310,7 @@ public class AddFilterPanel extends JPanel {
 		
 		@Override
 		public boolean verify(JComponent input) {
-			if (selectedCats.isEmpty()) {
+			if (teamJList.getSelectedValuesList().isEmpty() && personalJList.getSelectedValuesList().isEmpty()) {
 				errMsg.setText("Need at least one category selected! ");
 				btnSubmit.setEnabled(checkContent());
 				btnUpdate.setEnabled(checkContent());
@@ -319,7 +320,7 @@ public class AddFilterPanel extends JPanel {
 				btnSubmit.setEnabled(checkContent());
 				btnUpdate.setEnabled(checkContent());
 			}
-			return (! selectedCats.isEmpty());
+			return (! (teamJList.getSelectedValuesList().isEmpty() && personalJList.getSelectedValuesList().isEmpty()));
 		}
 	}
 
