@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -24,11 +25,16 @@ import java.util.List;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -41,7 +47,18 @@ public class MonthViewGridPanel extends JPanel {
 
 	private DateController date;
 	
-	JList list = new JList();
+	JList list = new JList() {
+		@Override
+        public int locationToIndex(Point location) {
+            int index = super.locationToIndex(location);
+            if (index != -1 && !getCellBounds(index, index).contains(location)) {
+                return -1;
+            }
+            else {
+                return index;
+            }
+        }
+	};
 	ArrayList calendarItemList = new ArrayList();
 	
 	DefaultListModel model = new DefaultListModel();
@@ -56,6 +73,20 @@ public class MonthViewGridPanel extends JPanel {
 		headerLabel.setOpaque(true);
 		headerLabel.setBackground(new Color(138, 173, 209));
 		add(headerLabel, "width :100%:, wrap, span");
+		headerLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					switchView();
+				}
+			}
+		});
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					switchView();
+				}
+			}
+		});
 		
 		list.setModel(model);
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -64,6 +95,37 @@ public class MonthViewGridPanel extends JPanel {
 		list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				setToThisDate();
+				JList list = (JList)e.getSource();
+				if (e.getClickCount() == 1) {
+					int index = list.locationToIndex(e.getPoint());
+					System.out.println(index);
+					list.clearSelection();
+				} else if (e.getClickCount() == 2) {
+		            int index = list.locationToIndex(e.getPoint());
+		            Object item;
+		            try {
+		            	item = calendarItemList.get(index);
+		            } catch (Exception ex) {
+		            	switchView();
+		            	return;
+		            }
+		            if (item instanceof Commitment) {
+		    			AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
+		    			newCommitmentPanel.populateCommitment((Commitment) item);
+		    			AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
+		    			AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
+		    			AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+		    	        newCommitmentPanel.initiateFocus();
+		            } else if (item instanceof Event) {
+		            	AddEventPanel newEventPanel = new AddEventPanel(new MigLayout());
+		    			newEventPanel.populateEvent((Event) item);
+		    			AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
+		    			AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Event");
+		    			AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+		    			newEventPanel.initiateFocus();
+		            }
+		    	
+		        }
 			}
 		});
 		list.addMouseMotionListener(new MouseMotionAdapter() {
@@ -72,7 +134,7 @@ public class MonthViewGridPanel extends JPanel {
 	            JList l = (JList)e.getSource();
 	            ListModel m = l.getModel();
 	            int index = l.locationToIndex(e.getPoint());
-	            if( index>-1 ) {
+	            if(index > -1) {
 	            	String displayString = "<html>";
 	            	Object item = calendarItemList.get(index);
 	            	if (item instanceof Commitment) {
@@ -149,20 +211,29 @@ public class MonthViewGridPanel extends JPanel {
 		date.set(Calendar.MONTH, this.date.getMonth());
 		date.set(Calendar.DATE, this.date.getDayOfMonth());
 		
-		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
-			//TODO: switch to day view here	
-			JToggleButton btn = new JToggleButton();
-			btn.setText("Day");
-			MainCalendarController.getInstance().timePeriodChanged(btn);
-
-		}
-		else {
-			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
-		}
-		
 		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
 	}
 
+	private void switchView() {
+		System.out.println("view switched");
+		JToggleButton btn = new JToggleButton();
+		btn.setText("Day");
+		MainCalendarController.getInstance().timePeriodChanged(btn);
+//		MainCalendarController.getInstance().timePeriodChanged(btn);
+//		System.out.println("view switched");
+//		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
+//			//TODO: switch to day view here	
+//			JToggleButton btn = new JToggleButton();
+//			btn.setText("Day");
+//			MainCalendarController.getInstance().timePeriodChanged(btn);
+//
+//		}
+//		else {
+//			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
+//		}
+//		
+		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
+	}
 	public void filtCommitment(Collection<Commitment> commitment) {
 		if (date == null) {
 			return;
