@@ -146,6 +146,8 @@ public class Invitation implements Model{
 		this.setId(inv.getId());
 		this.setName(inv.getName());
 		this.setProject(inv.getProject());
+		this.setAvailablity(inv.getAvailablity());
+		this.setDate(inv.getDate());
 	}
 
 	/**
