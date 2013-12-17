@@ -16,6 +16,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collection;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -34,6 +35,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCateg
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import net.miginfocom.swing.MigLayout;
 
 /**
@@ -85,6 +87,7 @@ public class AddCategoryPanel extends JPanel{
 	public AddCategoryPanel() {
 		JPanel contentPanel = new JPanel(new MigLayout());
 		final CategoriesModel model = CategoriesModel.getInstance();
+		Collection<Category> categories = new CategoryFilter().getCategoryList();
 
 		nameLabel = new JLabel("Name: ");
 		nameTextField = new JTextField(10);
@@ -250,7 +253,6 @@ public class AddCategoryPanel extends JPanel{
 				disableAllButton();
 			}
 		});
-		
 		btnUpdate.addActionListener(new ActionListener() {
 			
 			@Override
@@ -263,6 +265,7 @@ public class AddCategoryPanel extends JPanel{
 				
 			}
 		});
+		btnCancel.addActionListener(AddCategoryPanelController.getInstance());
 
 		add(contentPanel);
 	}
