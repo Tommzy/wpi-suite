@@ -258,7 +258,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
     Invitation oldInvite = getEntity(s,   id    )[0];
     Invitation inviteToBeDel = new Invitation(null, null, null);
     inviteToBeDel.setId(oldInvite.getId());
-
+    inviteToBeDel.setAvailablity(oldInvite.getAvailablity());
     if (db.delete(inviteToBeDel)!=null){
       return true; // the deletion was successful
     }     
