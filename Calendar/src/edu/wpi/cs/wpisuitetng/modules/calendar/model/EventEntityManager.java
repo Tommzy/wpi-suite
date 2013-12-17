@@ -192,7 +192,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			//
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
-			System.out.println("combined "+combined.toString());
+		//	System.out.println("combined "+combined.toString());
 			return combined.toArray(new Event[] {});
 		}catch(WPISuiteException e){// no personal commitments found
 			System.out.println("No Personal Events yet");

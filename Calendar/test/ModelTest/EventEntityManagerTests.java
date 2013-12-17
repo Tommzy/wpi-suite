@@ -136,7 +136,6 @@ public class EventEntityManagerTests {
 				
 	}
 	
-	/*
 	@Test
 public void getAllTest() throws WPISuiteException {
 	//Set Up
@@ -146,6 +145,9 @@ public void getAllTest() throws WPISuiteException {
 	
 	User admin = new User("admin", "admin", "1234", 27);
 	admin.setRole(Role.ADMIN);
+	
+	ev1.setUsername("admin");
+	ev2.setUsername("admin");
 	
 	
 	
@@ -166,7 +168,7 @@ public void getAllTest() throws WPISuiteException {
 	Event[] testev = evEntMan.getAll(sesh);
 	assertEquals(testev.length, 2);
 }
-	*/
+	
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
@@ -293,7 +295,7 @@ public void getAllTest() throws WPISuiteException {
 				fakeDB.save(ev3, testProject);
 				//Tests
 				evEntMan.deleteAll(sesh);;
-				assertNull(evEntMan.getEntity(sesh, "2"));		
+				assertEquals(evEntMan.Count(), 0);	
 	}
 
 	/*	
