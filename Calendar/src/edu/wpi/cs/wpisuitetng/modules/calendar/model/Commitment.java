@@ -119,12 +119,13 @@ public class Commitment implements Model{
 	 * @param description the description
 	 */
 	public Commitment(String name, GregorianCalendar startTime,
-			String description) {
+			String description,Category category) {
 		this.name = name;
 		this.startTime = startTime;
 		this.description = description;
 		this.id = -1;
 		this.status = 1;
+		this.category = category;
 		// TODO Auto-generated constructor stub
 	}
 

@@ -163,7 +163,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() throws WPISuiteException {
-		List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null));
+		List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null,null));
 		Iterator<Commitment> itr = commitList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
@@ -183,7 +183,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Commitment(null, null, null)));
-		return db.retrieveAll(new Commitment(null, null, null)).size();
+		return db.retrieveAll(new Commitment(null, null, null,null)).size();
 	}
 
 	/* (non-Javadoc)
@@ -200,18 +200,27 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		Collection<Commitment> combined = new ArrayList<Commitment>();
 		try{// return combined personal and team commitments
 			personal = db.retrieve(Commitment.class, "username", s.getUsername()).toArray(new Commitment[0]);
-			team =  db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
+			team =  db.retrieveAll(new Commitment(null, null, null,null), s.getProject()).toArray(new Commitment[0]);
 			System.out.println("Team "+team.toString());
 			System.out.println("personal "+personal.toString());
 			//
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
+			Iterator<Commitment> itr = combined.iterator();
+			if(itr.hasNext()){
+				Commitment next = itr.next();
+				if (!isCategoryExist(s,next.getCategory())){
+					next.setCategory(null);
+					update(s, next.toJSON());
+				}
+			}
 			System.out.println("combined "+combined.toString());
 			return combined.toArray(new Commitment[] {});
 		}catch(WPISuiteException e){// no personal commitments found
 			System.out.println("No Personal Commitments yet");
-			return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
+			return db.retrieveAll(new Commitment(null, null, null,null), s.getProject()).toArray(new Commitment[0]);
 		}
+		
 	}
 
 	/* (non-Javadoc)
@@ -236,6 +245,9 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// If a Commitment was pulled, but has no content
 		if(Commitments.length < 1 || Commitments[0] == null) {
 			throw new NotFoundException("The Commitment with the specified id was not found:" + intId);
+		}else if (!isCategoryExist(s,Commitments[0].getCategory())){
+			Commitments[0].setCategory(null);
+			update(s, Commitments[0].toJSON());
 		}
 		return Commitments;
 	}
@@ -294,14 +306,14 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		if(oldComm.isTeamCommitment()){
 			ensureRole(s, Role.ADMIN);
 			System.out.println("From teamdelete i want to delete "+ oldComm.toJSON());
-			Commitment commToBeDel = new Commitment(null, null, null);
+			Commitment commToBeDel = new Commitment(null, null, null,null);
 			commToBeDel.setId(oldComm.getId());
 			if (db.delete(commToBeDel)!=null){
 				return true; // the deletion was successful
 			}
 		}else{
 			System.out.println("From personal i want to delete "+ oldComm.toJSON());
-			Commitment commToBeDel = new Commitment(null, null, null);
+			Commitment commToBeDel = new Commitment(null, null, null,null);
 			commToBeDel.setId(oldComm.getId());
 			commToBeDel.setUsername(s.getUsername());
 			commToBeDel.setTeamCommitment(false);
@@ -319,7 +331,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 */
 	public void deleteAll(Session s) throws WPISuiteException  {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Commitment(null, null, null), s.getProject());
+		db.deleteAll(new Commitment(null, null, null, null), s.getProject());
 	}
 
 	//The following methods are not implemented but required by the "EntityManager" interface:
@@ -347,6 +359,45 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			throws WPISuiteException {
 		throw new NotImplementedException();
 	}
-
+	
+	
+	/**check is the category in this Event is exist or not
+	 * @param s
+	 * @param category
+	 * @return
+	 */
+	public boolean isCategoryExist(Session s, Category category){
+		Category[] personal = null;
+		Category[] team = null;
+		Collection<Category> combined = new ArrayList<Category>();
+		try{// return combined personal and team categories
+			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
+			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
+			combined.addAll(Arrays.asList(personal));
+			combined.addAll(Arrays.asList(team));
+			combined.toArray(new Category[] {});
+		}catch(WPISuiteException e){
+			System.out.println("No personal Category yet");
+			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
+			combined.addAll(Arrays.asList(team));
+			combined.toArray(new Category[] {});
+		}
+		
+		Iterator<Category> itr = combined.iterator();
+		while(itr.hasNext()){
+			Category next = itr.next();
+			if((next.getName().equals(category.getName()))&
+					(next.getColor().equals(category.getColor()))&
+					(next.getProject().equals(category.getProject()))&
+					(next.getUserId().equals(category.getUserId()))&
+					(next.getId() == (category.getId()))){
+			}else{
+				return false;
+			}
+		}
+		
+		return false;
+		
+	}
 
 }

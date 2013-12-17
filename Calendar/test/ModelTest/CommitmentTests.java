@@ -17,7 +17,7 @@ public class CommitmentTests {
 	public void getAndSetTests() {
 		//Set Up
 		
-		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
 		Project testProj = new Project(null, null);
 		User testUser = new User(null, null, null, 0);
 		GregorianCalendar testCal1 = new GregorianCalendar();
@@ -57,21 +57,17 @@ public class CommitmentTests {
 	public void CopyTest() {
 		//Set Up
 		
-		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
-		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff");
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
+		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+		Commitment copyDontWork = new Commitment("Test Commitment", null, "Test Commitment",null);
 		
 		//Tests
 		
+		System.out.print(testCom.toJSON() + "\n");
+		System.out.print(copyCom.toJSON() + "\n");
 		testCom.copy(copyCom);
-		
-		assertEquals(testCom.getCategory(), copyCom.getCategory());
-		assertEquals(testCom.getDescription(), copyCom.getDescription());
-		assertEquals(testCom.getId(), copyCom.getId());
-		assertEquals(testCom.getName(), copyCom.getName());
-		assertEquals(testCom.getProject(), copyCom.getProject());
-		assertEquals(testCom.getStartTime(), copyCom.getStartTime());
-		assertEquals(testCom.getStatus(), copyCom.getStatus());
-		assertEquals(testCom.getUsername(), copyCom.getUsername());
+		System.out.print(testCom.toJSON() + "\n");
+		assertTrue(testCom.equals(copyCom));
 		//assertEquals(testCom, copyDontWork);
 		
 	}
@@ -80,7 +76,7 @@ public class CommitmentTests {
 	public void isTimeStampActiveDuringTest() {
 		//Set Up
 		
-		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
 
 		GregorianCalendar cal1 = new GregorianCalendar(2013, 12, 13, 16, 30);
 		GregorianCalendar cal2 = new GregorianCalendar(2013, 12, 13, 18, 45);
@@ -98,7 +94,7 @@ public class CommitmentTests {
 	public void JSONTests() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
 		//Tests
 		
 		String comString = testCom1.toJSON();
@@ -106,14 +102,8 @@ public class CommitmentTests {
 		Commitment testCom2 = Commitment.fromJSON(comString);
 		System.out.print(testCom2.toJSON() + "\n");
 		
-		assertEquals(testCom1.getCategory(), testCom2.getCategory());
-		assertEquals(testCom1.getDescription(), testCom2.getDescription());
-		assertEquals(testCom1.getId(), testCom2.getId());
-		assertEquals(testCom1.getName(), testCom2.getName());
-		assertEquals(testCom1.getProject(), testCom2.getProject());
-		assertEquals(testCom1.getStartTime(), testCom2.getStartTime());
-		assertEquals(testCom1.getStatus(), testCom2.getStatus());
-		assertEquals(testCom1.getUsername(), testCom2.getUsername());
+		//assertTrue(testCom2.equals(testCom1));
+		assertEquals(testCom2, testCom1);
 		
 	}
 	
