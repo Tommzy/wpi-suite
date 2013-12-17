@@ -43,7 +43,6 @@ public class GetInvitationController implements ActionListener {
     // Send a request to the core to save this message
     final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
     request.addObserver(observer); // add an observer to process the response
-    System.out.println("Here is GetInvitationController.actionPerformed" + "   "+ request.getBody());
     request.send(); // send the request
     }
   
@@ -53,7 +52,6 @@ public class GetInvitationController implements ActionListener {
   public void retrieveInvitations() {
     final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
     request.addObserver(observer); // add an observer to process the response
-    System.out.println("Here is GetInvitationController.retrieveInvitations() to update the InvitationsList" + "   "+ request.getBody());
     request.send(); // send the request
   }
   

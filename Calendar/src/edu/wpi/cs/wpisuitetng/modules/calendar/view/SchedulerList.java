@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.invitation.InvitationModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 import net.miginfocom.swing.MigLayout;
@@ -23,7 +24,13 @@ public class SchedulerList extends JPanel {
 		schedulerList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		schedulerList.setMinimumSize(new Dimension(150, 100));
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
-		
+		GetInvitationController getController = new GetInvitationController();
+		try{
+		  getController.actionPerformed(null);
+		}
+		catch (Exception e) {
+		  
+		}
 		List<Invitation> invites = InvitationModel.getInstance().getAllInvitation();
 		
 		

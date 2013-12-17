@@ -50,10 +50,21 @@ public class SchedulerTable extends JPanel {
 
 		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setAlignmentX(BOTTOM_ALIGNMENT);
-
+    
+    final JLabel descriptionLabel = new JLabel("Description: ");
+    
+    final JLabel dateLabel = new JLabel("Date: ");
+	
 		contentPanel.add(schedulerTableLabel, "wrap");
+		contentPanel.add(dateLabel);
+		//TODO
+		//contentPanel.add(invite.DATE, "wrap");
+		contentPanel.add(descriptionLabel);
+		//TODO
+		//contentPanel.add(ivnite.description, "wrap");
 		contentPanel.add(table, "wrap");
 		contentPanel.add(btnSubmit);
+
 
 		btnSubmit.addActionListener(new ActionListener() {
 

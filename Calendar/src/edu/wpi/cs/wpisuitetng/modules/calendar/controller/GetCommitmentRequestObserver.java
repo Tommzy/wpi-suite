@@ -45,8 +45,6 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	
 		System.out.println("Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 		controller.receivedCommitments(items);
-
-		
 	}
 	
 	/*

@@ -72,7 +72,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
       throw new BadRequestException("The Invitation creation string had invalid formatting. Entity String: " + content);      
     }
 
-    this.save(invite);
+    this.save(s,invite);
     
 
     // Return the newly created Invitation (this gets passed back to the client)
@@ -177,18 +177,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
     // Passing a dummy Invitation lets the db know what type of object to retrieve
     // Passing the project makes it only get Invitations from that project
     // Return the list of Invitations as an array
-    Invitation[] arrayInvites = null;
-    Collection<Invitation> collectionInvites = new ArrayList<Invitation>();
-    try{// return combined personal and team Invitations
-      arrayInvites = db.retrieve(Invitation.class, "Username", s.getUsername(),s.getProject()).toArray(new Invitation[0]);
-      
-      collectionInvites.addAll(Arrays.asList(arrayInvites));
-
-      return collectionInvites.toArray(new Invitation[] {});
-    }catch(WPISuiteException e){
-      System.out.println("Oh no, pls stop");
       return db.retrieveAll(new Invitation(null, null, null), s.getProject()).toArray(new Invitation[0]);
-    }
   }
 
   /* (non-Javadoc)
