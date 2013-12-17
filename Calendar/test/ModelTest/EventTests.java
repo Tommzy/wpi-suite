@@ -17,7 +17,7 @@ public class EventTests {
 	public void getAndSetTests() {
 		//Set Up
 		
-		Event testev = new Event("Test Event", null, null,"no where", "Test Event");
+		Event testev = new Event("Test Event", null, null,"no where", "Test Event",null);
 		Project testProj = new Project(null, null);
 		User testUser = new User(null, null, null, 0);
 		GregorianCalendar testCal1 = new GregorianCalendar(2013, 12, 13, 12, 24, 0);
@@ -61,9 +61,9 @@ public class EventTests {
 	public void CopyTest() {
 		//Set Up
 		
-		Event testev = new Event("Test Event", null, null,"no where", "Test Event");
-		Event copyev = new Event("Copy Stuff", null, null,"no where", "More CopyStuff");
-		Event copyDontWork = new Event("Test Event", null, null,"no where", "Test Event");
+		Event testev = new Event("Test Event", null, null,"no where", "Test Event",null);
+		Event copyev = new Event("Copy Stuff", null, null,"no where", "More CopyStuff",null);
+		Event copyDontWork = new Event("Test Event", null, null,"no where", "Test Event",null);
 		
 		//Tests
 		
@@ -80,7 +80,7 @@ public class EventTests {
 	public void isTimeStampActiveDuringTest() {
 		//Set Up
 		
-		Event testev = new Event("Test Event", null, null,"no where", "Test Event");
+		Event testev = new Event("Test Event", null, null,"no where", "Test Event",null);
 
 		GregorianCalendar cal1 = new GregorianCalendar(2013, 12, 13, 16, 30);
 		GregorianCalendar cal11 = new GregorianCalendar(2013, 12, 13, 17, 30);
@@ -100,7 +100,7 @@ public class EventTests {
 	public void JSONTests() {
 		//Set Up
 		
-		Event testev1 = new Event("Test Event", null, null,"no where","Test Event");
+		Event testev1 = new Event("Test Event", null, null,"no where","Test Event",null);
 		//Tests
 		
 		String evString = testev1.toJSON();

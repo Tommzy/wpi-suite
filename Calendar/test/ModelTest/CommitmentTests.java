@@ -17,7 +17,7 @@ public class CommitmentTests {
 	public void getAndSetTests() {
 		//Set Up
 		
-		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
 		Project testProj = new Project(null, null);
 		User testUser = new User(null, null, null, 0);
 		GregorianCalendar testCal1 = new GregorianCalendar();
@@ -57,9 +57,9 @@ public class CommitmentTests {
 	public void CopyTest() {
 		//Set Up
 		
-		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
-		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff");
-		Commitment copyDontWork = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
+		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+		Commitment copyDontWork = new Commitment("Test Commitment", null, "Test Commitment",null);
 		
 		//Tests
 		
@@ -76,7 +76,7 @@ public class CommitmentTests {
 	public void isTimeStampActiveDuringTest() {
 		//Set Up
 		
-		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
 
 		GregorianCalendar cal1 = new GregorianCalendar(2013, 12, 13, 16, 30);
 		GregorianCalendar cal2 = new GregorianCalendar(2013, 12, 13, 18, 45);
@@ -94,7 +94,7 @@ public class CommitmentTests {
 	public void JSONTests() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
 		//Tests
 		
 		String comString = testCom1.toJSON();

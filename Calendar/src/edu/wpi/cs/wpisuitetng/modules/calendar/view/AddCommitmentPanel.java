@@ -391,7 +391,9 @@ public class AddCommitmentPanel extends JPanel {
 	  // Status
 	  int status = statusComboBox.getSelectedIndex() < 1? 1 : statusComboBox.getSelectedIndex();
 	  // Pack into a commitment
-	  Commitment commitment = new Commitment(name, startDateTime, desc);
+	  
+	  //TODO ADD CATEGORY INTO PACKAGE
+	  Commitment commitment = new Commitment(name, startDateTime, desc,null);
 
 	  if (personalRadioButton.isSelected()) {
 		  commitment.setTeamCommitment(false);
