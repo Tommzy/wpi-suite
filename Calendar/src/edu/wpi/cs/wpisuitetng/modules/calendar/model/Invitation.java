@@ -27,6 +27,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * @author Eric Willcox, Andrew Paon
  */
 public class Invitation implements Model{
+  private String currentUser;
 
 	/** The name. */
 	private String name;
@@ -41,7 +42,7 @@ public class Invitation implements Model{
 	private int id;
 
 	/** HashMap containing availability at each time */
-	private HashMap<Integer, String[]> availablity;
+	private HashMap<String, String[]> availablity;
 
 	/** represents whether or not this goes to the entire team
 		currently removed until we add necessary functionality
@@ -81,11 +82,11 @@ public class Invitation implements Model{
 	 * @return h
 	 */
 
-	private HashMap<Integer, String[]> initializeAvailability() {
-		HashMap<Integer, String[]> h = new HashMap<Integer, String[]>();
+	private HashMap<String, String[]> initializeAvailability() {
+		HashMap<String, String[]> h = new HashMap<String, String[]>();
 
 		for(int i=8; i<17; i++){
-			h.put(i, new String[0]);
+			h.put(Integer.toString(i), new String[0]);
 		}
 
 		return h;
@@ -101,11 +102,11 @@ public class Invitation implements Model{
 		this.date = date;
 	}
 
-	public HashMap<Integer, String[]> getAvailablity() {
+	public HashMap<String, String[]> getAvailablity() {
 		return availablity;
 	}
 
-	public void setAvailablity(HashMap<Integer, String[]> availablity) {
+	public void setAvailablity(HashMap<String, String[]> availablity) {
 		this.availablity = availablity;
 	}
 
@@ -148,6 +149,7 @@ public class Invitation implements Model{
 		this.setProject(inv.getProject());
 		this.setAvailablity(inv.getAvailablity());
 		this.setDate(inv.getDate());
+		this.setCurrentUser(inv.getCurrentUser());
 	}
 
 	/**
@@ -239,4 +241,12 @@ public class Invitation implements Model{
 	public Boolean identify(Object o) {
 		return null;
 	}
+
+  public String getCurrentUser() {
+    return currentUser;
+  }
+
+  public void setCurrentUser(String currentUser) {
+    this.currentUser = currentUser;
+  }
 }

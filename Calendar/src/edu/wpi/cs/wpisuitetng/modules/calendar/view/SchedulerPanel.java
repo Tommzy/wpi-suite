@@ -20,11 +20,6 @@ import javax.swing.JPanel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
-
-
 @SuppressWarnings("serial")
 public class SchedulerPanel extends JPanel {
   SchedulerList schedulerList;

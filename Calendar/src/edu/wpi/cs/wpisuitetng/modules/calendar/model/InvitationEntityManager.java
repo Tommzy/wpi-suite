@@ -13,15 +13,9 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-
 import com.google.gson.JsonSyntaxException;
-
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
@@ -68,6 +62,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
     final Invitation invite;
     try {
       invite = Invitation.fromJSON(content);
+      invite.setCurrentUser(s.getUsername());
     } catch(JsonSyntaxException e){ // the JSON conversion failed
       throw new BadRequestException("The Invitation creation string had invalid formatting. Entity String: " + content);      
     }
@@ -248,6 +243,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
     Invitation inviteToBeDel = new Invitation(null, null, null);
     inviteToBeDel.setId(oldInvite.getId());
     inviteToBeDel.setAvailablity(oldInvite.getAvailablity());
+    inviteToBeDel.setCurrentUser(oldInvite.getCurrentUser());
     if (db.delete(inviteToBeDel)!=null){
       return true; // the deletion was successful
     }     

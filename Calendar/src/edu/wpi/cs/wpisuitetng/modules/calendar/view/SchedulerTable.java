@@ -28,11 +28,11 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSched
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 
 
 @SuppressWarnings("serial")
 public class SchedulerTable extends JPanel {
-
 	// TODO: Add in the Date & Description (as well as DB stuff of course)
 	/**
 	 * Instantiates a new scheduler table.
@@ -55,6 +55,17 @@ public class SchedulerTable extends JPanel {
     
     final JLabel dateLabel = new JLabel("Date: ");
 	
+    
+    btnSubmit.addActionListener(new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        //TODO: Fix the access of the nested class?  -Eric
+//        HashMap<String, String[]> availibility = SchedulerTableModel.this.packHashMap();
+      }
+
+    });
+    
 		contentPanel.add(schedulerTableLabel, "wrap");
 		contentPanel.add(dateLabel);
 		//TODO
@@ -65,16 +76,6 @@ public class SchedulerTable extends JPanel {
 		contentPanel.add(table, "wrap");
 		contentPanel.add(btnSubmit);
 
-
-		btnSubmit.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-			}
-
-		});
-
 		this.add(contentPanel);
 	}
 
@@ -84,7 +85,6 @@ public class SchedulerTable extends JPanel {
 	class SchedulerTableModel extends AbstractTableModel {
 
 		/** The column names. */
-		//private String[]   columnNames = {"Time", "Available?" };
 		private String[]   columnNames = {"Time", "Number Available", "Available?" };
 
 		/** The data. */
@@ -95,6 +95,7 @@ public class SchedulerTable extends JPanel {
 				{"10:00-11:00",new Integer(0), new Boolean(false), },
 				{"11:00-12:00",new Integer(0), new Boolean(false), },
 				{"12:00-13:00",new Integer(0), new Boolean(false), },
+        {"13:00-14:00",new Integer(0), new Boolean(false), },
 				{"14:00-15:00",new Integer(0), new Boolean(false), },
 				{"15:00-16:00",new Integer(0), new Boolean(false), },
 				{"16:00-17:00",new Integer(0), new Boolean(false), },
@@ -147,7 +148,8 @@ public class SchedulerTable extends JPanel {
 		 * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
 		 * @return Gives back the class type of the column in the table.
 		 */
-		public Class getColumnClass(int col) {
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+    public Class getColumnClass(int col) {
 			return getValueAt(0, col).getClass();
 		}
 
@@ -186,6 +188,20 @@ public class SchedulerTable extends JPanel {
 			// The tableChanged() call on TableSorter that results from calling
 			// fireTableCellUpdated() causes the indices to be regenerated
 			// when they shouldn't be.
+		}
+		
+		public HashMap<String, String[]> packHashMap(){
+		  HashMap<String, String[]> availibility = new HashMap<String, String[]>();
+		  
+		  for(int i=8; i<17; i++){
+		    // See if the user checked the box
+		    boolean isChecked = (Boolean) getValueAt(i-8, 2);
+		    if(isChecked){
+		      availibility.put(Integer.toString(i), new String[0]);
+		    }
+	    }
+		  
+		  return availibility;
 		}
 	}
 }
