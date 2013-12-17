@@ -140,9 +140,9 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
 	com1.setTeamCommitment(false);
-	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
 	com1.setTeamCommitment(true);
 
 	

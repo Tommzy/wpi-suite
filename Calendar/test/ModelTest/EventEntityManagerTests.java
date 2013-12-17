@@ -139,8 +139,8 @@ public class EventEntityManagerTests {
 	@Test
 public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
+	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
