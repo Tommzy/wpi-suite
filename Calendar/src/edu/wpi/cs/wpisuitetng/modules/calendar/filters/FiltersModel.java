@@ -110,9 +110,6 @@ public class FiltersModel extends AbstractListModel{
 	 * @return the all events
 	 */
 	public List<Filter> getAllFilter() {
-//		for (int i = 0; i < Filters.size(); i++) {
-//			System.out.println("Filter out put    " + Filters.get(i).toString());
-//		}
 		return filters;
 	}
 	
@@ -130,11 +127,6 @@ public class FiltersModel extends AbstractListModel{
 				break;
 			}
 		}
-//		try {
-//			ViewFilterController.getInstance().refreshTable();
-//			ViewFilterController.getInstance().refreshTree();
-//		}
-//		catch(Exception e) {}
 	}
 
 	/* (non-Javadoc)
@@ -173,11 +165,6 @@ public class FiltersModel extends AbstractListModel{
 			iterator.remove();
 		}
 		this.fireIntervalRemoved(this, 0, Math.max(oldSize - 1, 0));
-//		try{
-//			ViewFilterController.getInstance().refreshTable();
-//			ViewFilterController.getInstance().refreshTree();
-//		}
-//		catch (Exception e) {}
 	}
 	
 	/**
@@ -190,15 +177,7 @@ public class FiltersModel extends AbstractListModel{
 			this.filters.add(newfilters[i]);
 			if(newfilters[i].getId() >= nextID) nextID = newfilters[i].getId() + 1;
 		}
-		//this.fireIntervalAdded(this, 0, Math.max(getSize() - 1, 0));
-		
-		
-		//************Refresh GUI HERE!!!!!!!!!!!!!!!!!!!!!!!!!***************************************
-//		ViewFilterController.getInstance().refreshTable();
-//		ViewFilterController.getInstance().refreshTree();
 	}
-
-
 
 	/**
 	 * Gets the children.
@@ -208,11 +187,6 @@ public class FiltersModel extends AbstractListModel{
 	 */
 	public List<Filter> getChildren(Filter newFilter) {
 		List<Filter> children = new ArrayList<Filter>();
-		
-		for(Filter possibleChild : filters)
-		{
-//			if(possibleChild.getParentID() == Filter.getId()) children.add(possibleChild);
-		}
 		
 		return children;
 	}
@@ -228,9 +202,6 @@ public class FiltersModel extends AbstractListModel{
 		
 		for(Filter possChild : filters)
 		{
-//			if(possChild.isAncestor(req.getId()) || possChild.getParentID() != -1) continue;
-//			if(possChild == req) continue;
-//			if(possChild.getStatus() == FilterStatus.COMPLETE || possChild.getStatus() == FilterStatus.DELETED) continue;
 			possibleChildren.addElement(possChild);
 		}
 		
@@ -250,9 +221,7 @@ public class FiltersModel extends AbstractListModel{
 		
 		for(Filter possParent : filters)
 		{
-//			if(possParent.hasAncestor(req.getId())) continue;
 			if(possParent == req) continue;
-//			if(possParent.getStatus() == FilterStatus.COMPLETE || possParent.getStatus() == FilterStatus.DELETED) continue;
 			possibleParents.addElement(possParent);
 		}
 		
