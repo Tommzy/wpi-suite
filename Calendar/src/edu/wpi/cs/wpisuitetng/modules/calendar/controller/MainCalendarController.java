@@ -21,6 +21,7 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
@@ -50,7 +51,9 @@ public class MainCalendarController implements ActionListener{
 	CalendarDayView dayView;
 	CalendarWeekView weekView;
 	MainView mainView;
-	
+	JPanel commitmentTable, eventTable;
+
+
 	// contains the year view, month view
 	private Collection<Updatable> updateList = new ArrayList<Updatable>();
 	
@@ -269,6 +272,21 @@ public class MainCalendarController implements ActionListener{
 		}
 		timeClicked = time;
 		return false;
+	}
+	public JPanel getCommitmentTable() {
+		return commitmentTable;
+	}
+
+	public void setCommitmentTable(JPanel commitmentTable) {
+		this.commitmentTable = commitmentTable;
+	}
+
+	public JPanel getEventTable() {
+		return eventTable;
+	}
+
+	public void setEventTable(JPanel eventTable) {
+		this.eventTable = eventTable;
 	}
 	
 }
