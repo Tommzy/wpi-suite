@@ -13,6 +13,8 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 
@@ -29,7 +31,7 @@ import java.awt.GridLayout;
  *
  */
 @SuppressWarnings("serial")
-public class MainView extends JPanel {
+public class MainView extends JPanel implements AncestorListener{
 	
 	/** The add event tab panel. */
 	AddEventTabPanel addEventTabPanel;
@@ -52,5 +54,23 @@ public class MainView extends JPanel {
 	 */
 	public AddEventTabPanel getMainTabPane() {
 		return addEventTabPanel;
+	}
+
+	@Override
+	public void ancestorAdded(AncestorEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ancestorRemoved(AncestorEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ancestorMoved(AncestorEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }

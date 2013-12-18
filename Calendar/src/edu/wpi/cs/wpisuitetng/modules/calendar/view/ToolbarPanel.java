@@ -12,6 +12,10 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -61,6 +65,22 @@ public class ToolbarPanel extends JPanel {
     
     btnManageCategory = new JButton("Manage Category");
 
+    Image img;
+    
+    try {
+    	img = ImageIO.read(getClass().getResource("Event.png"));
+    	btnAddEvent.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("commitment.png"));
+    	btnAddTask.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("when2meet.png"));
+    	btnScheduleEvent.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("settings.png"));
+    	btnManageFilter.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("settings.png"));
+    	btnManageCategory.setIcon(new ImageIcon(img));
+    } catch (Exception e) {
+    	System.out.println("failed to set icon");
+    }
     // Add the get messages controller to the button
     // btnRefresh.addActionListener(new GetMessagesController(boardModel));
 
