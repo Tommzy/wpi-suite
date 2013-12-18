@@ -548,11 +548,13 @@ public class AddCommitmentPanel extends JPanel {
 	  
 	  for (int i = 0; i < categoryArray.length; i++) {
 		  //TODO CHANGED HERE
-		  if (categoryArray[i].getId() == commitment.getCategoryID()) {
-			  System.out.println("should select " + i);
-			  categoryComboBox.setSelectedIndex(i);
-			  System.out.println("actually select " + categoryComboBox.getSelectedIndex());
-		  }
+	    if (categoryArray[i] != null) {
+	      if (categoryArray[i].getId() == commitment.getCategoryID()) {
+	        System.out.println("should select " + i);
+	        categoryComboBox.setSelectedIndex(i);
+	        System.out.println("actually select " + categoryComboBox.getSelectedIndex());
+	      }
+	    }
 	  }
 	  
 	  
