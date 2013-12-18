@@ -141,7 +141,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() throws WPISuiteException {
-		List<Category> categoryList = db.retrieveAll(new Category(null, false));
+		List<Category> categoryList = db.retrieveAll(new Category(null, false,null));
 		Iterator<Category> itr = categoryList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
@@ -161,7 +161,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Category lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Category(null, null)));
-		return db.retrieveAll(new Category(null, false)).size();
+		return db.retrieveAll(new Category(null, false,null)).size();
 	}
 
 	/* (non-Javadoc)
@@ -181,13 +181,13 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		Collection<Category> combined = new ArrayList<Category>();
 		try{// return combined personal and team categories
 			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
-			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
+			team =  db.retrieveAll(new Category(null, false,null), s.getProject()).toArray(new Category[0]);
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
 			System.out.println("No personal Category yet");
-			return db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
+			return db.retrieveAll(new Category(null, false,null), s.getProject()).toArray(new Category[0]);
 		}
 	}
 
@@ -260,7 +260,8 @@ public class CategoryEntityManager implements EntityManager<Category> {
 
 		Category oldCat = getEntity(s,   id    )[0];
 		if (oldCat.isPersonal()){
-			Category catToBeDel = new Category(null, false);
+			System.out.println("This is a personal category!");
+			Category catToBeDel = new Category(null,false,null);
 			catToBeDel.setId(oldCat.getId());
 			catToBeDel.setUserId(oldCat.getUserId());
 			catToBeDel.setIsPersonal(true);
@@ -269,7 +270,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			}
 		}else{
 			ensureRole(s, Role.ADMIN);
-			Category catToBeDel = new Category(null, false);
+			Category catToBeDel = new Category(null, false,null);
 			catToBeDel.setId(oldCat.getId());
 			if (db.delete(catToBeDel)!=null){
 				return true; // the deletion was successful
@@ -284,7 +285,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 */
 	public void deleteAll(Session s) throws WPISuiteException  {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Category(null, false));
+		db.deleteAll(new Category(null, false,null));
 	}
 
 	//The following methods are not implemented but required by the "EntityManager" interface:

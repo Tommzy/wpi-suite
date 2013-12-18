@@ -10,13 +10,16 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -30,6 +33,7 @@ import javax.swing.event.DocumentListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCategoryController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
@@ -46,7 +50,7 @@ import net.miginfocom.swing.MigLayout;
 @SuppressWarnings("serial")
 public class AddCategoryPanel extends JPanel{
 	/** Submit Update Cancel button */
-	JButton btnSubmit, btnUpdate, btnCancel;
+	JButton btnSubmit, btnUpdate, btnCancel, btnDelete;
 
 	/** Name label */
 	JLabel nameLabel;
@@ -80,6 +84,12 @@ public class AddCategoryPanel extends JPanel{
 
 	/** Selected Color */
 	private Color colorSelected;
+	
+	/** category array */
+	Category[] categories;
+	
+	/** HashMap for color and id */
+	HashMap<Integer, Integer> colorId;
 
 	/**
 	 * Constructor
@@ -87,7 +97,9 @@ public class AddCategoryPanel extends JPanel{
 	public AddCategoryPanel() {
 		JPanel contentPanel = new JPanel(new MigLayout());
 		final CategoriesModel model = CategoriesModel.getInstance();
-		Collection<Category> categories = new CategoryFilter().getCategoryList();
+		categories = new CategoryFilter().getCategoryArray();
+		System.out.println(categories.length);
+		colorId = new HashMap<Integer, Integer>();
 
 		nameLabel = new JLabel("Name: ");
 		nameTextField = new JTextField(10);
@@ -96,9 +108,11 @@ public class AddCategoryPanel extends JPanel{
 		colorLabel = new JLabel("Color: ");
 		colorDisplays = new JLabel[color.length];
 		for (int i = 0; i < color.length; i++) {
-			colorDisplays[i] = new JLabel("                         ");
+			colorDisplays[i] = new JLabel("");
 			colorDisplays[i].setOpaque(true);
 			colorDisplays[i].setBackground(color[i]);
+			colorDisplays[i].setHorizontalAlignment(JLabel.CENTER);
+			colorDisplays[i].setPreferredSize(new Dimension(120, 20));
 		}
 
 		IDText = new JLabel();
@@ -108,6 +122,8 @@ public class AddCategoryPanel extends JPanel{
 		btnSubmit.setEnabled(false);
 		btnUpdate = new JButton("Update");
 		btnUpdate.setEnabled(false);
+		btnDelete = new JButton("Delete");
+		btnDelete.setEnabled(false);
 
 		for (int i = 0; i < color.length; i++ ) {
 			colorDisplays[i].addMouseListener(new MouseListener() {
@@ -139,6 +155,26 @@ public class AddCategoryPanel extends JPanel{
 						colorDisplays[i].revalidate();
 						colorDisplays[i].repaint();
 					}
+					if (! ((JLabel)e.getSource()).getText().trim().equals("")) {
+						nameTextField.setText(((JLabel)e.getSource()).getText());
+						btnUpdate.setVisible(true);
+						btnDelete.setVisible(true);
+						btnSubmit.setVisible(false);
+						btnDelete.setEnabled(true);
+						IDText.setText(String.valueOf(colorId.get((int)((JLabel)e.getSource()).getBackground().getRGB())));
+					}
+					else {
+						nameTextField.setText(((JLabel)e.getSource()).getText());
+						nameErrMsg.setText("");
+						btnUpdate.setVisible(false);
+						btnDelete.setVisible(false);
+						btnDelete.setEnabled(false);
+						btnSubmit.setVisible(true);
+					}
+					if (btnUpdate.getParent() != null ) {
+						btnUpdate.getParent().revalidate();
+						btnUpdate.getParent().repaint();
+					}
 				}
 			});
 		}
@@ -147,9 +183,81 @@ public class AddCategoryPanel extends JPanel{
 		ButtonGroup radioButtonGroup = new ButtonGroup() ;
 		personalRadioButton = new JRadioButton("Personal Category");
 		teamRadioButton = new JRadioButton("Team Category");
-		teamRadioButton.setSelected(true);
 		radioButtonGroup.add(personalRadioButton);
 		radioButtonGroup.add(teamRadioButton);
+		
+		personalRadioButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				for (int j = 0; j < colorDisplays.length; j++) {
+					for (int i = 0; i < categories.length; i++) {
+						if (categories[i].isPersonal()) {
+							if (colorDisplays[j].getBackground().getRGB() == categories[i].getColor().getRGB()) {
+								colorDisplays[j].setText(categories[i].getName());
+								colorId.put(categories[i].getColor().getRGB(), categories[i].getId());
+								colorDisplays[j].revalidate();
+								colorDisplays[j].repaint();
+								break;
+							}
+							colorDisplays[j].setText("");
+							colorDisplays[j].revalidate();
+							colorDisplays[j].repaint();
+						}
+					}
+				}
+				for (int i = 0; i < colorDisplays.length; i++) {
+					colorDisplays[i].setBorder(null);
+				}
+				nameTextField.setText("");
+				nameErrMsg.setText("");
+				btnSubmit.setVisible(true);
+				btnUpdate.setVisible(true);
+				btnDelete.setVisible(true);
+				if (personalRadioButton.getParent() != null) {
+					personalRadioButton.getParent().revalidate();
+					personalRadioButton.getParent().repaint();
+				}
+			}
+		});
+		teamRadioButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				colorId.clear();
+				for (int j = 0; j < colorDisplays.length; j++) {
+					for (int i = 0; i < categories.length; i++) {
+						if (! categories[i].isPersonal()) {
+							if (colorDisplays[j].getBackground().getRGB() == categories[i].getColor().getRGB()) {
+								colorDisplays[j].setText(categories[i].getName());
+								colorId.put(categories[i].getColor().getRGB(), categories[i].getId());
+								colorDisplays[j].revalidate();
+								colorDisplays[j].repaint();
+								break;
+							}
+							colorDisplays[j].setText("");
+							colorDisplays[j].revalidate();
+							colorDisplays[j].repaint();
+						}
+					}
+				}
+				for (int i = 0; i < colorDisplays.length; i++) {
+					colorDisplays[i].setBorder(null);
+				}
+				nameTextField.setText("");
+				nameErrMsg.setText("");
+				btnSubmit.setVisible(true);
+				btnUpdate.setVisible(true);
+				btnDelete.setVisible(true);
+				if (teamRadioButton.getParent() != null) {
+					teamRadioButton.getParent().revalidate();
+					teamRadioButton.getParent().repaint();
+				}
+			}
+		});
+		teamRadioButton.doClick();;
 
 	    nameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -179,6 +287,7 @@ public class AddCategoryPanel extends JPanel{
 					nameErrMsg.setText("");
 				}
 				btnSubmit.setEnabled(checkContent());
+				btnDelete.setEnabled(checkContent());
 				btnUpdate.setEnabled(checkContent());
 				if (nameTextField.getParent() != null) {
 					nameTextField.getParent().revalidate();
@@ -201,6 +310,7 @@ public class AddCategoryPanel extends JPanel{
 				}
 				btnSubmit.setEnabled(checkContent());
 				btnUpdate.setEnabled(checkContent());
+				btnDelete.setEnabled(checkContent());
 				if (nameTextField.getParent() != null) {
 					nameTextField.getParent().revalidate();
 					nameTextField.getParent().repaint();
@@ -227,18 +337,21 @@ public class AddCategoryPanel extends JPanel{
 			}
 		}
 		contentPanel.add(nameLabel);
-		contentPanel.add(nameTextField, "span 2");
+		contentPanel.add(nameTextField);
 		contentPanel.add(nameErrMsg, "wrap, span");		
 		contentPanel.add(btnSubmit, "cell 1 3");
 		contentPanel.add(btnUpdate);
 		contentPanel.add(btnCancel);
+		contentPanel.add(btnDelete, "gapleft 5%");
 
 		if (IDText.getText().equals("")) {
 			btnUpdate.setVisible(false);
+			btnDelete.setVisible(false);
 			btnSubmit.setVisible(true);
 		}
 		else {
 			btnUpdate.setVisible(true);
+			btnDelete.setVisible(true);
 			btnSubmit.setVisible(false);
 		}
 
@@ -247,10 +360,8 @@ public class AddCategoryPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((JButton)e.getSource()).addActionListener(new AddCategoryController(model, packInfo()));
-				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
-				disableAllButton();
 			}
 		});
 		btnUpdate.addActionListener(new ActionListener() {
@@ -258,11 +369,30 @@ public class AddCategoryPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((JButton)e.getSource()).addActionListener(new UpdateCategoryController(packInfo()));
-				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
-				disableAllButton();
 				
+			}
+		});
+		btnDelete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Deleting... " + IDText.getText());
+//				((JButton)e.getSource()).addActionListener(new DeleteCategoryController(Integer.parseInt(IDText.getText())));
+				Category cate = packInfo();
+				cate.setActive(false);
+				((JButton)e.getSource()).addActionListener(new UpdateCategoryController(cate));
+				((JButton)e.getSource()).removeActionListener(this);
+				((JButton)e.getSource()).doClick();
+				if (personalRadioButton.isSelected()) {
+					personalRadioButton.setSelected(false);
+					personalRadioButton.doClick();
+				}
+				else if (teamRadioButton.isSelected()) {
+					teamRadioButton.setSelected(false);
+					teamRadioButton.doClick();
+				}
 			}
 		});
 		btnCancel.addActionListener(AddCategoryPanelController.getInstance());
