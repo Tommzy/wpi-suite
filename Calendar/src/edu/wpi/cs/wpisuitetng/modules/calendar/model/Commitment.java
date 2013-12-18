@@ -52,22 +52,23 @@ public class Commitment implements Model{
 	private boolean isTeamCommitment = true;
 	
 	/** The category */
-	private Category category;
+	private int categoryID;
 
 
 	/**
 	 * @return the category
 	 */
-	public Category getCategory() {
-		return category;
+	public int getCategoryID() {
+		return categoryID;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
 	}
+
 
 	/**
 	 * Checks if is team commitment.
@@ -119,13 +120,12 @@ public class Commitment implements Model{
 	 * @param description the description
 	 */
 	public Commitment(String name, GregorianCalendar startTime,
-			String description,Category category) {
+			String description) {
 		this.name = name;
 		this.startTime = startTime;
 		this.description = description;
 		this.id = -1;
 		this.status = 1;
-		this.category = category;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -143,10 +143,11 @@ public class Commitment implements Model{
 		this.setStatus(comm.getStatus());
 		this.setUsername(comm.getUsername());
 		this.setTeamCommitment(comm.isTeamCommitment());
-		this.setCategory(comm.getCategory());
+		this.setCategoryID(comm.getCategoryID());
 		//this.setPermission(comm.getPermission(comm.g));
 		
 	}
+
 
 	/**
 	 * Gets the id.

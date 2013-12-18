@@ -21,8 +21,8 @@ public class EventsModelTests {
 	public void addEventTest() {
 		//Set Up
 		
-		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event",null);
-		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event",null);
+		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event");
+		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event");
 		
 		EventsModel model = EventsModel.getInstance();
 		model.emptyModel();
@@ -41,9 +41,9 @@ public class EventsModelTests {
 	public void removeEventTest() {
 		//Set Up
 		
-		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event",null);
+		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event");
 		testCom1.setId(1);
-		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event",null);
+		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event");
 		testCom2.setId(2);
 		
 		EventsModel model = EventsModel.getInstance();
@@ -65,8 +65,8 @@ public class EventsModelTests {
 	public void emptyModelTest() {
 		//Set Up
 		
-				Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event",null);
-				Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event",null);
+				Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event");
+				Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event");
 				
 				EventsModel model = EventsModel.getInstance();
 
@@ -87,8 +87,8 @@ public class EventsModelTests {
 	public void getSizeTests() {
 		//Set Up
 		
-		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event",null);
-		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event",null);
+		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event");
+		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event");
 		
 		EventsModel model = EventsModel.getInstance();
 		model.emptyModel();
@@ -106,9 +106,9 @@ public class EventsModelTests {
 	public void getEventTest() {
 		//Set Up
 		
-		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event",null);
+		Event testCom1 = new Event("Test Event", null, null, "no where", "Test Event");
 		testCom1.setId(1);
-		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event",null);
+		Event testCom2 = new Event("Test Event", null, null, "no where", "Test Event");
 		testCom2.setId(2);
 		
 		EventsModel model = EventsModel.getInstance();

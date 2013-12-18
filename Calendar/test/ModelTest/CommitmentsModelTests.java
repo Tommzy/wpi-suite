@@ -21,8 +21,8 @@ public class CommitmentsModelTests {
 	public void addCommitmentTest() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
-		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff");
 		
 		CommitmentsModel model = CommitmentsModel.getInstance();
 		model.emptyModel();
@@ -41,9 +41,9 @@ public class CommitmentsModelTests {
 	public void removeCommitmentTest() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
 		testCom1.setId(1);
-		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff");
 		testCom2.setId(2);
 		
 		CommitmentsModel model = CommitmentsModel.getInstance();
@@ -65,8 +65,8 @@ public class CommitmentsModelTests {
 	public void emptyModelTest() {
 		//Set Up
 		
-				Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
-				Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+				Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
+				Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff");
 				
 				CommitmentsModel model = CommitmentsModel.getInstance();
 
@@ -87,8 +87,8 @@ public class CommitmentsModelTests {
 	public void getSizeTests() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
-		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
+		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff");
 		
 		CommitmentsModel model = CommitmentsModel.getInstance();
 		model.emptyModel();
@@ -106,9 +106,9 @@ public class CommitmentsModelTests {
 	public void getCommitmentTest() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
+		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment");
 		testCom1.setId(1);
-		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
+		Commitment testCom2 = new Commitment("Copy Stuff", null ,"More CopyStuff");
 		testCom2.setId(2);
 		
 		CommitmentsModel model = CommitmentsModel.getInstance();

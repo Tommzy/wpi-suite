@@ -149,7 +149,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() throws WPISuiteException {
-		List<Event> commitList = db.retrieveAll(new Event(null, null, null,null,null,null));
+		List<Event> commitList = db.retrieveAll(new Event(null, null, null,null,null));
 		Iterator<Event> itr = commitList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
@@ -169,7 +169,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	public int Count() throws WPISuiteException {
 		// Passing a dummy Event lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Event(null, null, null)));
-		return db.retrieveAll(new Event(null, null, null,null,null,null)).size();
+		return db.retrieveAll(new Event(null, null, null,null,null)).size();
 	}
 
 	/* (non-Javadoc)
@@ -186,7 +186,7 @@ public class EventEntityManager implements EntityManager<Event> {
 		Collection<Event> combined = new ArrayList<Event>();
 		try{// return combined personal and team commitments
 			personal = db.retrieve(Event.class, "username", s.getUsername()).toArray(new Event[0]);
-			team =  db.retrieveAll(new Event(null, null, null, null, null,null), s.getProject()).toArray(new Event[0]);
+			team =  db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
 			System.out.println("Team "+team.toString());
 			System.out.println("personal "+personal.toString());
 			//
@@ -203,7 +203,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			return combined.toArray(new Event[] {});
 		}catch(WPISuiteException e){// no personal commitments found
 			System.out.println("No Personal Events yet");
-			return db.retrieveAll(new Event(null, null, null, null, null,null), s.getProject()).toArray(new Event[0]);
+			return db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
 		}
 
 	}
@@ -291,7 +291,7 @@ public class EventEntityManager implements EntityManager<Event> {
 		Event oldEvent = getEntity(s,   id    )[0];
 		if(oldEvent.isTeamEvent()){
 			ensureRole(s, Role.ADMIN);
-			Event eventToBeDel = new Event(null, null, null,null,null,null);
+			Event eventToBeDel = new Event(null, null, null,null,null);
 			eventToBeDel.setId(oldEvent.getId());
 
 			if (db.delete(eventToBeDel)!=null){
@@ -299,7 +299,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			}	    
 		}else{
 			System.out.println("From personal i want to delete "+ oldEvent.toJSON());
-			Event eventToBeDel = new Event(null, null, null, null, null, null);
+			Event eventToBeDel = new Event(null, null, null, null,null);
 			eventToBeDel.setId(oldEvent.getId());
 			eventToBeDel.setUsername(s.getUsername());
 			eventToBeDel.setTeamEvent(false);
@@ -316,7 +316,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 */
 	public void deleteAll(Session s) throws WPISuiteException  {
 		ensureRole(s, Role.ADMIN);
-		db.deleteAll(new Event(null, null, null,null,null,null), s.getProject());
+		db.deleteAll(new Event(null, null, null,null,null), s.getProject());
 	}
 
 	//The following methods are not implemented but required by the "EntityManager" interface:

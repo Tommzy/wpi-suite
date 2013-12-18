@@ -129,8 +129,12 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @throws WPISuiteException "Count failed"
 	 */
 	public void assignUniqueID(Category category) throws WPISuiteException{
-		if (category.getId() == -1){// -1 is a flag that says a unique id is needed            
-			category.setId(HighestId() + 1); // Assures that the Event's ID will be unique
+		if (category.getId() == -1){// -1 is a flag that says a unique id is needed  
+			if(HighestId()==0){
+				category.setId(10);
+			}else{
+				category.setId(HighestId() + 1); // Assures that the Event's ID will be unique
+			}
 		}
 	}
 

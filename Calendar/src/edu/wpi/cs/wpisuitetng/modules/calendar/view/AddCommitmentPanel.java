@@ -449,10 +449,16 @@ public class AddCommitmentPanel extends JPanel {
 	  // Status
 	  int status = statusComboBox.getSelectedIndex() < 1? 1 : statusComboBox.getSelectedIndex();
 	  // category
+	  
+	  //TODO CHANGED HERE
 	  Category cat = (Category)categoryComboBox.getSelectedItem();
+	  
+	  int catID = cat.getId();
+	  
 	  // Pack into a commitment
-	  Commitment commitment = new Commitment(name, startDateTime, desc, cat);
-
+	  Commitment commitment = new Commitment(name, startDateTime, desc);
+	  commitment.setCategoryID(catID);
+	  
 	  if (personalRadioButton.isSelected()) {
 		  commitment.setTeamCommitment(false);
 	  }
@@ -512,7 +518,8 @@ public class AddCommitmentPanel extends JPanel {
 	  
 	  
 	  for (int i = 0; i < categoryArray.length; i++) {
-		  if (categoryArray[i].getId() == commitment.getCategory().getId()) {
+		  //TODO CHANGED HERE
+		  if (categoryArray[i].getId() == commitment.getCategoryID()) {
 			  System.out.println("should select " + i);
 			  categoryComboBox.setSelectedIndex(i);
 			  System.out.println("actually select " + categoryComboBox.getSelectedIndex());

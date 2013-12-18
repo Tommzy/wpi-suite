@@ -36,6 +36,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
@@ -185,8 +186,10 @@ public class CalendarDay extends JPanel {
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
-		if (event.getCategory() != null) {
-			newEvent.setBackground(event.getCategory().getColor());
+        //TODO Changed HERE!!!!!
+		if (event.getCategoryID() != -1) {
+		//TODO Changed HERE!!!!!
+			newEvent.setBackground(CategoriesModel.getInstance().getCategory(event.getCategoryID()).getColor());
 		}
 		else {
 			newEvent.setBackground(null);
@@ -260,8 +263,8 @@ public class CalendarDay extends JPanel {
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background
-		if (commitment.getCategory() != null) {
-			newCommitment.setBackground(commitment.getCategory().getColor());
+		if (commitment.getCategoryID() != -1) {
+			newCommitment.setBackground(CategoriesModel.getInstance().getCategory(commitment.getCategoryID()).getColor());
 		}
 		else {
 			newCommitment.setBackground(null);

@@ -24,10 +24,10 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void assignUniqueIDTest() throws WPISuiteException {
 		
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
-		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
-		Commitment com4 = new Commitment("Commitment 4", null, "Commitment 4",null);
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
+		Commitment com4 = new Commitment("Commitment 4", null, "Commitment 4");
 		
 		User admin = new User("admin", "admin", "1234", 27);
 		admin.setRole(Role.ADMIN);
@@ -57,8 +57,8 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void saveTest1() throws WPISuiteException {
 		//Set Up
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -83,8 +83,8 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void saveTest2() throws WPISuiteException {
 	//Set Up
-	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -110,7 +110,7 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void makeEntityTest() throws WPISuiteException {
 		//Set Up
-				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
 
 
 				
@@ -140,8 +140,8 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -171,8 +171,8 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -200,8 +200,8 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void updateTest() throws WPISuiteException {
 		//Set Up
-		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+		Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+		Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -222,7 +222,7 @@ public class CommitmentEntityManagerTests {
 		comEntMan.assignUniqueID(com2);
 		fakeDB.save(com2, testProject);
 		//Tests
-		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
+		Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
 		com3.setId(2);
 		String stringCom = com3.toJSON();
 		
@@ -235,9 +235,9 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void deleteEntityTest() throws WPISuiteException {
 		//Set Up
-				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
-				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
+				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -268,9 +268,9 @@ public class CommitmentEntityManagerTests {
 	@Test
 	public void deleteAllTest() throws WPISuiteException {
 		//Set Up
-				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
-				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
-				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3",null);
+				Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
+				Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+				Commitment com3 = new Commitment("Commitment 3", null, "Commitment 3");
 
 				
 				User admin = new User("admin", "admin", "1234", 27);

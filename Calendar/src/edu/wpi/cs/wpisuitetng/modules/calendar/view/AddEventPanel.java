@@ -645,7 +645,10 @@ public class AddEventPanel extends JPanel {
 		// category
 		Category cat = (Category) categoryComboBox.getSelectedItem();
 		  //TODO ADD CATEGORY INTO PACKAGE
-		Event event = new Event(name, startDateTime, endDateTime, location, desc, cat);
+
+		Event event = new Event(name, startDateTime, endDateTime, location, desc);
+		  //TODO CHANGED HERE
+		event.setCategoryID(cat.getId());
 		event.setTeamEvent(teamRadioButton.isSelected());
 		if (teamRadioButton.isSelected()) {
 			System.out.println("team radio button selected");
@@ -710,7 +713,8 @@ public class AddEventPanel extends JPanel {
 			personalRadioButton.doClick();
 		}
 		for (int i = 0; i < categoryArray.length; i++) {
-			if (categoryArray[i].getId() == event.getCategory().getId()) {
+			  //TODO CHANGED HERE
+			if (categoryArray[i].getId() == event.getCategoryID()) {
 				System.out.println("should select " + i);
 				categoryComboBox.setSelectedIndex(i);
 				System.out.println("actually select " + categoryComboBox.getSelectedIndex());

@@ -82,7 +82,7 @@ public class CommitmentFilter {
 
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
-			if (! cmt.getCategory().equals(categeory)) {
+			if (!(cmt.getCategoryID()==(categeory.getId()))) {
 				cmtList.remove(cmt);
 			}
 		}

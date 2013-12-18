@@ -45,7 +45,7 @@ public class Event  implements Model{
 	private String description;
 	
 	/** The category */
-	private Category category;
+	private int categoryID;
 
 	/** The id. */
 	private int id = -1;
@@ -72,13 +72,12 @@ public class Event  implements Model{
 	 * @param description the description
 	 */
 	public Event(String name, GregorianCalendar startTime, GregorianCalendar endTime, String location, 
-			String description,Category category) {
+			String description) {
 		this.name = name;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.location = location; 
 		this.description = description;
-		this.category = category;
 	}
 
 	/**
@@ -93,15 +92,15 @@ public class Event  implements Model{
 	/**
 	 * @return the category
 	 */
-	public Category getCategory() {
-		return category;
+	public int getCategoryID() {
+		return categoryID;
 	}
 
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Category category) {
-		this.category = category;
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
 	}
 
 	/**
@@ -145,7 +144,7 @@ public class Event  implements Model{
 		this.setId(event.getId());
 		this.setUsername(event.getUsername());
 		this.setTeamEvent(event.isTeamEvent());
-		this.setCategory(event.getCategory());
+		this.setCategoryID(event.getCategoryID());
 
 	}
 

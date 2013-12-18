@@ -24,10 +24,10 @@ public class EventEntityManagerTests {
 	@Test
 	public void assignUniqueIDTest() throws WPISuiteException {
 		
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
-		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
-		Event ev4 = new Event("Event 4", null, null, "no where", "Event 4",null);
+		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
+		Event ev4 = new Event("Event 4", null, null, "no where", "Event 4");
 		
 		User admin = new User("admin", "admin", "1234", 27);
 		admin.setRole(Role.ADMIN);
@@ -57,8 +57,8 @@ public class EventEntityManagerTests {
 	@Test
 	public void saveTest1() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -83,8 +83,8 @@ public class EventEntityManagerTests {
 	@Test
 	public void saveTest2() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -110,7 +110,7 @@ public class EventEntityManagerTests {
 	@Test
 	public void makeEntityTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
+				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
 
 
 				
@@ -139,8 +139,8 @@ public class EventEntityManagerTests {
 	@Test
 public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -172,8 +172,8 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -201,8 +201,8 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void updateTest() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -223,7 +223,7 @@ public void getAllTest() throws WPISuiteException {
 		evEntMan.assignUniqueID(ev2);
 		fakeDB.save(ev2, testProject);
 		//Tests
-		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
+		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
 		ev3.setId(2);
 		String stringev = ev3.toJSON();
 		
@@ -236,11 +236,11 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void deleteEntityTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
+				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
 				ev1.setId(1);
-				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
 				ev2.setId(2);
-				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
+				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
 				ev3.setId(3);
 
 				
@@ -272,9 +272,9 @@ public void getAllTest() throws WPISuiteException {
 	@Test
 	public void deleteAllTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
-				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
+				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1");
+				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2");
+				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3");
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
