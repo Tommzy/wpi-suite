@@ -31,7 +31,7 @@ import java.awt.GridLayout;
  *
  */
 @SuppressWarnings("serial")
-public class MainView extends JPanel implements AncestorListener{
+public class MainView extends JPanel {
 	
 	/** The add event tab panel. */
 	AddEventTabPanel addEventTabPanel;
@@ -56,21 +56,4 @@ public class MainView extends JPanel implements AncestorListener{
 		return addEventTabPanel;
 	}
 
-	@Override
-	public void ancestorAdded(AncestorEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void ancestorRemoved(AncestorEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void ancestorMoved(AncestorEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
 }

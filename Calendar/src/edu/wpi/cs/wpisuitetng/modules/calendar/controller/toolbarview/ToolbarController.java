@@ -99,6 +99,12 @@ public class ToolbarController implements ActionListener {
     }
     if (e.getSource() == manageCategoryButton) {
     	AddCategoryPanel categoryPanel = new AddCategoryPanel();
+    	try {
+    	    Thread.sleep(1000);
+    	} catch(InterruptedException ex) {
+    	    Thread.currentThread().interrupt();
+    	}
+    	categoryPanel = new AddCategoryPanel();
     	AddCategoryPanelController.getInstance().getTabbedPane().add(categoryPanel);
     	AddCategoryPanelController.getInstance().getTabbedPane().setTitleAt(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Category");
     	AddCategoryPanelController.getInstance().getTabbedPane().setSelectedIndex(AddCategoryPanelController.getInstance().getTabbedPane().getTabCount() - 1);

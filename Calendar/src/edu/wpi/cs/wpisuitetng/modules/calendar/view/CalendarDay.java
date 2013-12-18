@@ -263,11 +263,13 @@ public class CalendarDay extends JPanel {
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background
-		if (commitment.getCategoryID() != -1) {
-			newCommitment.setBackground(CategoriesModel.getInstance().getCategory(commitment.getCategoryID()).getColor());
-		}
-		else {
-			newCommitment.setBackground(null);
+		if (CategoriesModel.getInstance().getCategory(commitment.getCategoryID()) != null) {
+			if (commitment.getCategoryID() != -1) {
+				newCommitment.setBackground(CategoriesModel.getInstance().getCategory(commitment.getCategoryID()).getColor());
+			}
+			else {
+				newCommitment.setBackground(null);
+			}
 		}
 		newCommitment.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));

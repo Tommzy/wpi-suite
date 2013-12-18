@@ -361,6 +361,7 @@ public class AddCategoryPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((JButton)e.getSource()).addActionListener(new AddCategoryController(model, packInfo()));
+				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
 			}
@@ -370,6 +371,7 @@ public class AddCategoryPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((JButton)e.getSource()).addActionListener(new UpdateCategoryController(packInfo()));
+				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
 				
@@ -384,16 +386,9 @@ public class AddCategoryPanel extends JPanel{
 				Category cate = packInfo();
 				cate.setActive(false);
 				((JButton)e.getSource()).addActionListener(new UpdateCategoryController(cate));
+				((JButton)e.getSource()).addActionListener(AddCategoryPanelController.getInstance());
 				((JButton)e.getSource()).removeActionListener(this);
 				((JButton)e.getSource()).doClick();
-				if (personalRadioButton.isSelected()) {
-					personalRadioButton.setSelected(false);
-					personalRadioButton.doClick();
-				}
-				else if (teamRadioButton.isSelected()) {
-					teamRadioButton.setSelected(false);
-					teamRadioButton.doClick();
-				}
 			}
 		});
 		btnCancel.addActionListener(AddCategoryPanelController.getInstance());
