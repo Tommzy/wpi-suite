@@ -54,7 +54,7 @@ public class AddCategoryRequestObserver implements RequestObserver {
 	} 
 	
 	/**
-	 * The response failed
+	 * The response had an error
 	 * @param iReq the request of the response
 	 */
 	@Override
@@ -65,7 +65,7 @@ public class AddCategoryRequestObserver implements RequestObserver {
 	}
 
 	/**
-	 * Fail exception.
+	 * The fail exception.
 	 * @param iReq the request
 	 * @param exception the exception
 	 */

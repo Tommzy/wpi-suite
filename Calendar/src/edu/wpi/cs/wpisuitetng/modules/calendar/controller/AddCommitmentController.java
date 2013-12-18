@@ -10,8 +10,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
@@ -29,11 +27,15 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddCommitmentController implements ActionListener{
 
+	/** Reference to the Commitments model */
 	private final CommitmentsModel model;
+	
+	/** The new commitment to add */
 	private final Commitment commitmentToBeAdded;
-
-	//Commitment testCommit1 = new Commitment("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
-
+	
+	/** The observer associated with this controller */
+	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
+	
 	/**
 	 * Construct an AddCommitmentController for the given model, view pair
 	 * @param model the model containing the messages
@@ -44,15 +46,11 @@ public class AddCommitmentController implements ActionListener{
 		this.commitmentToBeAdded = commitmentToBeAdded;
 	}
 
-	AddCommitmentRequestObserver observer = new AddCommitmentRequestObserver(this);
 
-	//	public void addTestToDatabase(){
-	//		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
-	//		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
-	//		request.addObserver(observer); // add an observer to process the response
-	//		request.send();
-	//	}
-
+	/**
+	 * Make and send the request for adding the commitment to the server.
+	 * @param commit the commitment to add to the database
+	 */
 	public void addCommitmentToDatabase(Commitment commit){
 		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
 		request.setBody(commit.toJSON()); // put the new message in the body of the request
@@ -60,37 +58,13 @@ public class AddCommitmentController implements ActionListener{
 		request.send();
 	}
 
-	public Commitment testReturn(){
-		return observer.testReturn();
-	}
-
-
-	/* 
+	/**
 	 * This method is called when the user clicks the Submit button
-	 * 
+	 * @param event The event for the action
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-
-		//addTestToDatabase();
-		//		System.out.println("this is event!----->" + event.getActionCommand().toString());
-		// Get the text that was entered
-		//		String name =  commitmentToBeAdded.getName();
-		//		GregorianCalendar startTime = commitmentToBeAdded.getStartTime();
-		//		String description = (String) commitmentToBeAdded.getDescription();
-		//		String invitee = (String) commitmentToBeAdded.getInvitee();
-
-		// Make sure there is text
-		// OR THROUGH EXCEPTION?
-
-		//		//don't want to make a new event if there is no name
-		//		if(name.length() > 0){
-		//			Commitment sentCommitment = new Commitment(name, startTime, description);
-		//			// Add the message to the model
-		//			model.addCommitment(sentCommitment);
-		//		}
-
 		// Send a request to the core to save this message
 		// Add the message to the model
 			final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
@@ -101,13 +75,11 @@ public class AddCommitmentController implements ActionListener{
 	}
 
 
-	/** ATTENTION AT THIS PART
+	/**
 	 * When the new Calendar item is received back from the server, add it to the local model.
-	 * @param message
+	 * @param item the category to add to the local model
 	 */
 	public void addCommitmentToModel(Commitment item) {
 		model.addCommitment(item);
 	}
 }
-
-

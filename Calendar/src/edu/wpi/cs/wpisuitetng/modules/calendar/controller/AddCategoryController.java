@@ -47,7 +47,7 @@ public class AddCategoryController implements ActionListener{
 	}
 	
 	/**
-	 * Make and send the request for adding the category to the server database.
+	 * Make and send the request for adding the category to the server.
 	 * @param category the category to add to the database
 	 */
 	public void addCategoryToDatabase(Category category){
