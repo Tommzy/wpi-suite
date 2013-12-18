@@ -50,7 +50,9 @@ public class CategoryFilter {
 	public Category[] getCategoryArray() {
 		try {
 			Category[] categoryArray;
-			new GetCategoryController().actionPerformed(null);
+			//new GetCategoryController().actionPerformed(null);
+			GetCategoryController getController = new GetCategoryController();
+			getController.retrieveCategories();
 			Collection<Category> categoryList = CategoriesModel.getInstance().getAllCategory();
 			Collection<Category> list = new ArrayList<Category>();
 			if (type == 0) {

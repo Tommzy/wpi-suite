@@ -69,6 +69,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 			newFilter.setUserId(s.getUsername());
 			this.save(newFilter);
 		}else{
+			System.out.println("FUCKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK!!!!!!!!!!!");
 			this.save(s,newFilter);
 		}
 
@@ -169,20 +170,8 @@ public class FilterEntityManager implements EntityManager<Filter> {
 		//    System.out.println("Here is the session passed into the getAll() method" + s.toString());
 
 
-		//TODO: not sure if Filters can be team/personal
-		Filter[] personal = null;
-		Filter[] team = null;
-		Collection<Filter> combined = new ArrayList<Filter>();
-		try{// return combined personal and team Filters
-			personal = db.retrieve(Filter.class, "userID", s.getUsername()).toArray(new Filter[0]);
-			team =  db.retrieveAll(new Filter(" ", null), s.getProject()).toArray(new Filter[0]);
-			combined.addAll(Arrays.asList(personal));
-			combined.addAll(Arrays.asList(team));
-			return combined.toArray(new Filter[] {});
-		}catch(WPISuiteException e){
-			System.out.println("No personal Filter yet");
-			return db.retrieveAll(new Filter(" ", null), s.getProject()).toArray(new Filter[0]);
-		}
+		//TODO: not sure if Filters can be team/personal		
+		return db.retrieve(Filter.class, "userID", s.getUsername()).toArray(new Filter[0]);
 	}
 
 	/**

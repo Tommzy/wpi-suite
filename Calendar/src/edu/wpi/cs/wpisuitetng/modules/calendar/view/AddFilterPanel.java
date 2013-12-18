@@ -18,55 +18,31 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.*;
-import javax.swing.text.MaskFormatter;
+import javax.swing.DefaultListModel;
+import javax.swing.InputVerifier;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import org.junit.experimental.categories.Categories;
-
+import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddFilterController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.filters.FiltersModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -126,6 +102,9 @@ public class AddFilterPanel extends JPanel {
 
   int textAreaSelection = 0; // 0 for team cate
   // 1 for personal cate
+  
+  List<Category> teamCategory = new ArrayList<Category>();
+  List<Category> personalCategory = new ArrayList<Category>();
   
   /**
    * Instantiates a new filter panel.
@@ -242,10 +221,16 @@ public class AddFilterPanel extends JPanel {
 //
 //		@Override
 //		public void actionPerformed(ActionEvent e) {
-//			Category cat = new Category(nameTextField.getText(), textAreaSelection == 1);
+//			AddFilterController c = new AddFilterController(FiltersModel.getInstance(), packInfo());
+//			c.actionPerformed(event);
+//			System.out.println("Filtermodel size: " + FiltersModel.getInstance().getFilters().size());
 //		}
+//		
+//		
 //    	
 //    });
+    
+    //btnSubmit.addActionListener(new AddFilterController(FiltersModel.getInstance(),packInfo()));
     JLabel IDText = new JLabel(); 
     
     final FiltersModel model = FiltersModel.getInstance();
@@ -278,6 +263,17 @@ public class AddFilterPanel extends JPanel {
     	btnSubmit.setVisible(false);
     }
     btnSubmit.addActionListener(ManageFiltersPanelController.getInstance());
+    btnSubmit.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			AddFilterController f = new AddFilterController(FiltersModel.getInstance() , packInfo());
+			f.addFilterToDatabase(packInfo());
+			f.addFilterToModel(packInfo());
+			System.out.println("filtermodelsize: " + FiltersModel.getInstance().getFilters().size());
+		}
+    	
+    });
     btnCancel.addActionListener(ManageFiltersPanelController.getInstance());
     btnUpdate.addActionListener(new ActionListener() {
 
@@ -324,57 +320,95 @@ public class AddFilterPanel extends JPanel {
 
 
   public void updateList() {
-	  List<Category> catList = CategoriesModel.getInstance().getCategories();
-	    for (Category cat : catList) {
-	    	if (cat.isPersonal()) {
-	    		persdlm.addElement(cat.getName());
-	    	} else {
-	    		teamdlm.addElement(cat.getName());
-	    	}
-	    }
+	  CategoryFilter personalfilter = new CategoryFilter(1);
+	  Category[] c = personalfilter.getCategoryArray();
+	  personalCategory.clear();
+	  persdlm.removeAllElements();
+	  System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	  for (int i = 0; i < c.length; i ++) {
+		  personalCategory.add(c[i]);
+		  persdlm.addElement(c[i].getName());
+		  System.out.println(c[i].getId());
+	  }
+	  CategoryFilter teamfilter = new CategoryFilter(0);
+	  Category[] p = teamfilter.getCategoryArray();
+	  teamCategory.clear();
+	  teamdlm.removeAllElements();
+	  System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	  for (int i = 0; i < p.length; i ++) {
+		  teamCategory.add(p[i]);
+		  teamdlm.addElement(p[i].getName());
+		  System.out.println(p[i].getId());
+	  }
+	  
   }
   
   private Filter packInfo() {
-	  // ID 
-	  int id;
-	  if (IDText.getText().equals("")) {
-		 id = -1;
-	  }
-	  else {
-		  id = Integer.parseInt(IDText.getText()); 
-	  }
-	  // Name
 	  String name = nameTextField.getText();
-	  
-	  //Pack selected categories into selCategories for the filter
-	  
-	  List teamCats = teamJList.getSelectedValuesList();
-	  List personCats = personalJList.getSelectedValuesList();	  
-	  
-	  Iterator<List> iTeam = teamCats.iterator();
-	  if(iTeam.hasNext()){
-		  do{
-			  selCategories.add((Category) iTeam.next());
-		  }
-		  while(iTeam.hasNext());
+	  printCategoryList();
+	  ArrayList<Category> c = new ArrayList<Category>();
+	  int[] is = teamJList.getSelectedIndices();
+	  for (int i = 0; i < is.length; i ++) {
+		  c.add((Category)teamCategory.get(is[i]));
 	  }
-	  
-	  Iterator<List> iPers = personCats.iterator();
-	  if(iPers.hasNext()){
-		  do{
-			  selCategories.add((Category) iPers.next());
-			}
-		  while(iPers.hasNext());
+	  is = personalJList.getSelectedIndices();
+	  for (int i = 0; i < is.length; i ++) {
+		  c.add((Category)personalCategory.get(is[i]));
 	  }
-	  
-	  // Pack into a filter
-	  Filter filter = new Filter(name, selCategories);
-
-
-	  filter.setId(id);
-	  return filter;
+	  Filter f = new Filter(name, c);
+	  return f;
   }
+//  private Filter packInfo() {
+//	  // ID 
+//	  int id;
+//	  if (IDText.getText().equals("")) {
+//		 id = -1;
+//	  }
+//	  else {
+//		  id = Integer.parseInt(IDText.getText()); 
+//	  }
+//	  // Name
+//	  String name = nameTextField.getText();
+//	  
+//	  //Pack selected categories into selCategories for the filter
+//	  
+//	  List teamCats = teamJList.getSelectedValuesList();
+//	  List personCats = personalJList.getSelectedValuesList();	  
+//	  
+//	  Iterator<List> iTeam = teamCats.iterator();
+//	  if(iTeam.hasNext()){
+//		  do{
+//			  selCategories.add((Category) iTeam.next());
+//		  }
+//		  while(iTeam.hasNext());
+//	  }
+//	  
+//	  Iterator<List> iPers = personCats.iterator();
+//	  if(iPers.hasNext()){
+//		  do{
+//			  selCategories.add((Category) iPers.next());
+//			}
+//		  while(iPers.hasNext());
+//	  }
+//	  
+//	  // Pack into a filter
+//	  Filter filter = new Filter(name, selCategories);
+//
+//
+//	  filter.setId(id);
+//	  return filter;
+//  }
 
+  public void printCategoryList() {
+	  System.out.println("TEam categoreis");
+	  for (Category c : teamCategory) {
+		  System.out.println(c.getName());
+	  }
+	  System.out.println("Personal categoreis");
+	  for (Category c : personalCategory) {
+		  System.out.println(c.getName());
+	  }
+  }
   private boolean checkContent() {
 	  boolean flag = false;
 	  String s = nameTextField.getText();
