@@ -19,18 +19,24 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddInvitationPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddManageFiltersPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCategoryPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddFilterPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddSchedulerPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.SchedulerPanel;
 
 public class ToolbarController implements ActionListener {
 
    private static ToolbarController instance;
    private JButton addEventButton;
    private JButton addCommitmentButton;
+   private JButton addSchedulerButton;
+   private JButton invitationButton;
    private JButton manageFiltersButton;
    private JButton manageCategoryButton;
 
@@ -73,6 +79,22 @@ public class ToolbarController implements ActionListener {
 		this.manageFiltersButton = manageFiltersButton;
   }
   
+  public JButton getAddSchedulerButton() {
+	  return addSchedulerButton;
+  }
+  
+  public void setAddSchedulerButton(JButton addSchedulerButton) {
+	  this.addSchedulerButton = addSchedulerButton;
+  }
+  
+  public JButton getInvitationButton() {
+	  return invitationButton;
+  }
+  
+  public void setInvitationButton(JButton invitationButton) {
+	  this.invitationButton = invitationButton;
+  }
+  
   @Override
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addEventButton) {
@@ -96,6 +118,25 @@ public class ToolbarController implements ActionListener {
     	ManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(ManageFiltersPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
     	ManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(ManageFiltersPanelController.getInstance().getTabbedPane().getTabCount() - 1);
     	AddFilterPanel.initiateFocus();  
+    }
+    if (e.getSource() == addSchedulerButton) {
+    	AddSchedulerPanel newSchedulerPanel = new AddSchedulerPanel(new MigLayout());
+    	AddSchedulerPanelController.getInstance().getTabbedPane().add(newSchedulerPanel);
+    	AddSchedulerPanelController.getInstance().getTabbedPane().setTitleAt(AddSchedulerPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Scheduler");
+    	AddSchedulerPanelController.getInstance().getTabbedPane().setSelectedIndex(AddSchedulerPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+    	newSchedulerPanel.initiateFocus();
+    }
+    if (e.getSource() == invitationButton) {
+    	SchedulerPanel invitationPanel = new SchedulerPanel(); 
+    	try {
+    		Thread.sleep(500);
+    	} catch (InterruptedException ex) {
+    		Thread.currentThread().interrupt();
+    	}
+    	invitationPanel = new SchedulerPanel();
+    	AddInvitationPanelController.getInstance().getTabbedPane().add(invitationPanel);
+    	AddInvitationPanelController.getInstance().getTabbedPane().setTitleAt(AddInvitationPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Invitation");
+    	AddInvitationPanelController.getInstance().getTabbedPane().setSelectedIndex(AddInvitationPanelController.getInstance().getTabbedPane().getTabCount() - 1);
     }
     if (e.getSource() == manageCategoryButton) {
     	AddCategoryPanel categoryPanel = new AddCategoryPanel();

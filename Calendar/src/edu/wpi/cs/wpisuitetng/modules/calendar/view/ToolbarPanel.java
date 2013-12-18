@@ -44,6 +44,9 @@ public class ToolbarPanel extends JPanel {
   /** The manage category button */
   private final JButton btnManageCategory;
   
+  /** The invitations button */
+  private final JButton btnInvitations;
+  
   /**
    * Construct the panel.
    *
@@ -64,6 +67,8 @@ public class ToolbarPanel extends JPanel {
     btnManageFilter = new JButton("Manage Filters");
     
     btnManageCategory = new JButton("Manage Category");
+    
+    btnInvitations = new JButton("Invitations");
 
     Image img;
     
@@ -88,12 +93,16 @@ public class ToolbarPanel extends JPanel {
     add(btnAddEvent);
     add(btnAddTask);
     add(btnScheduleEvent);
+    add(btnInvitations);
     add(btnManageFilter);
     add(btnManageCategory);
 
     ToolbarController.getInstance().setAddEventButton(btnAddEvent);
     btnAddEvent.addActionListener(ToolbarController.getInstance());
-    btnScheduleEvent.addActionListener(new GetCommitmentController());
+    ToolbarController.getInstance().setAddSchedulerButton(btnScheduleEvent);
+    btnScheduleEvent.addActionListener(ToolbarController.getInstance());
+    ToolbarController.getInstance().setInvitationButton(btnInvitations);
+    btnInvitations.addActionListener(ToolbarController.getInstance());
     ToolbarController.getInstance().setAddCommitmentButton(btnAddTask);
     btnAddTask.addActionListener(ToolbarController.getInstance());
     ToolbarController.getInstance().setManageFiltersButton(btnManageFilter);

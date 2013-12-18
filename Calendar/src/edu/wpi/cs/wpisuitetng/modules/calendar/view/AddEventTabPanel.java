@@ -19,6 +19,8 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddInvitationPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
@@ -63,6 +65,8 @@ public class AddEventTabPanel extends JTabbedPane {
 		AddCommitmentPanelController.getInstance().setTabbedPane(this);
 		AddCategoryPanelController.getInstance().setTabbedPane(this);
 		ManageFiltersPanelController.getInstance().setTabbedPane(this);
+		AddSchedulerPanelController.getInstance().setTabbedPane(this);
+		AddInvitationPanelController.getInstance().setTabbedPane(this);
 		
 		//Content Viewer
 		contentView = new JPanel();

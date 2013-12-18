@@ -17,18 +17,18 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
-public class AddCommitmentPanelController implements ActionListener {
+public class AddInvitationPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
 
-	public static AddCommitmentPanelController instance;
+	public static AddInvitationPanelController instance;
 
-	public AddCommitmentPanelController( ) {
+	public AddInvitationPanelController( ) {
 	}
 
-	public static AddCommitmentPanelController getInstance() {
+	public static AddInvitationPanelController getInstance() {
 		if (instance == null) {
-			instance = new AddCommitmentPanelController();
+			instance = new AddInvitationPanelController();
 		}
 
 		return instance;
