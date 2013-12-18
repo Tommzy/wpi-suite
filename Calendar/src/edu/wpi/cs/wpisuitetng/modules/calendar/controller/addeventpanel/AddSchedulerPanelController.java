@@ -62,14 +62,7 @@ public class AddSchedulerPanelController implements ActionListener {
 
 		if (e.getSource().getClass().equals(JButton.class)) {
 			// Close the tab a second later for calendar view to refresh. Avoid showing a flash to users when the calendar refreshes. 
-			Timer timer = new Timer();
-			timer.schedule(new TimerTask() {
-				@Override
-				public void run() {
-					tabbedPane.removeTabAt(AddSchedulerPanelController.getInstance().getTabbedPane().getSelectedIndex());
-				}
-			}, 1000);
-
+			tabbedPane.removeTabAt(AddSchedulerPanelController.getInstance().getTabbedPane().getSelectedIndex());
 		}
 	}
 

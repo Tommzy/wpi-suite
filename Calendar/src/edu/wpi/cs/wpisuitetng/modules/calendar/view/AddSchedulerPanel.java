@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 
+
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -28,7 +29,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
-
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -289,19 +289,11 @@ public class AddSchedulerPanel extends JPanel {
 		// Name
 		String name = nameTextField.getText();
 		// Start date time
-		GregorianCalendar startDateTime = new GregorianCalendar();
-		try {
-			Date tempDate = new SimpleDateFormat("MM/dd/yyyy").parse(dateTextField.getValue().toString());
-			startDateTime.setTime(tempDate);
-		} catch (ParseException e) {
-			System.out.println("Cannot parse date! ");
-			e.printStackTrace();
-		}
-
+		String date = (String) dateTextField.getValue();
 		// Description
 		String desc = descriptionTextArea.getText();
 		// Pack into a commitment
-		Invitation invite = new Invitation(name, startDateTime.getTime().toString(), desc);
+		Invitation invite = new Invitation(name, date, desc);
 
 
 		invite.setId(id);

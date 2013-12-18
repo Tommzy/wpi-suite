@@ -22,12 +22,15 @@ import javax.swing.table.AbstractTableModel;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddInvitationController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
+import edu.wpi.cs.wpisuitetng.network.Network;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -39,63 +42,72 @@ public class SchedulerTable extends JPanel {
 	/**
 	 * Instantiates a new scheduler table.
 	 */
-	
-	Invitation currentInvitation = new Invitation(" "," "," ");
-	String keys[] = {"8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
-	List<String> availability[] = null;
+	String username;
+	Invitation currentInvitation;
+	String keys[] = {"8", "9", "10", "11", "12", "13", "14", "15", "16"};
 	private SchedulerTableModel stm = new SchedulerTableModel();
-	String invitationName = "";
-	String invitationDate = "";
-	String invitationDescription = "";
 	
 	private MigLayout layout = new MigLayout();
-	final JLabel schedulerTableLabel = new JLabel("Meeting Scheduler: " + invitationName);
-	final JTable table = new JTable(stm);
-	JButton btnSubmit = new JButton("Submit");
-	final JLabel descriptionLabel = new JLabel("Description: ");
-	final JLabel dateLabel = new JLabel("Date: ");
 	
-	public SchedulerTable(MigLayout miglayout) {
+	JLabel schedulerTableLabel;
+	JTable table = new JTable(stm);
+	JButton btnSubmit = new JButton("Submit");
+	JButton btnCancel = new JButton("Cancel");
+	JLabel descriptionLabel = new JLabel("Description: ");
+	JLabel dateLabel = new JLabel("Date: ");
+	
+	public SchedulerTable(MigLayout miglayout, Invitation inv) {
+		this.currentInvitation = inv;
 		layout = miglayout;
+		// get my username
+		try {
+			String cookie = Network.getInstance().getDefaultNetworkConfiguration().getRequestHeaders().get("cookie").get(0);
+			cookie = cookie.substring(9);
+			username = cookie.split("=")[0];
+			System.out.println(username);
+		} catch (Exception e) {}
+		
 		refreshView();
+		
 	}
 	
 	public void setInvitation(Invitation invitation) {
 		currentInvitation = invitation;
 	}
 	
-	public void refreshData() {
-		List<String> namesList = null;
-		for (int i = 0; i < keys.length; ++i) {
-			namesList.clear();
-			String personsAvailable[] = currentInvitation.getAvailablity().get(keys[i]);
-			namesList = Arrays.asList(personsAvailable[i].split(","));
-			availability[i] = namesList;
-		}
-		
-		invitationName = currentInvitation.getName();
-		invitationDate = currentInvitation.getDate();
-		invitationDescription = currentInvitation.getDescription();
-		
-		for (int j = 0; j < availability.length; ++j) {
-			for (int k = 0; k < availability[j].size(); ++j) {
-				stm.setValueAt(false, k, 2);
-				if (availability[j].get(k) == currentInvitation.getCurrentUser()) {
-					stm.setValueAt(true, k, 2);
-					break;
-				}
-			}
-		}
-		
-		refreshView();
-	}
+//	public void refreshData() {
+//		List<String> namesList = new ArrayList<String>();
+//		
+//		for (int i = 0; i < currentInvitation.getAvailablity().keySet().size(); i++) {
+//			namesList.clear();
+//			String personsAvailable[] = currentInvitation.getAvailablity().get(keys[i]);
+//			if (personsAvailable[i].contains(",")) {
+//				namesList = Arrays.asList(personsAvailable[i].split(","));
+//			}
+//			availability.add(namesList);
+//		}
+//		
+//		for (int j = 0; j < availability.size(); j++) {
+//			stm.setValueAt(availability.get(j).size(), j, 1);
+//			stm.setValueAt(false, j, 2);
+//			for (int k = 0; k < availability.get(j).size(); k++) {
+//				if (availability.get(j).get(k).equals(username)) {
+//					stm.setValueAt(true, j, 2);
+//					break;
+//				}
+//			}
+//			
+//		}
+//		
+//	}
 	
 	public void refreshView() {
 		this.removeAll();
 		JPanel contentPanel = new JPanel(layout);
 		
-		schedulerTableLabel.setAlignmentX(TOP_ALIGNMENT);
-		schedulerTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
+		schedulerTableLabel = new JLabel ("Meeting Scheduler: " + currentInvitation.getName());
+		descriptionLabel = new JLabel ("Description: " + currentInvitation.getDescription());
+		dateLabel = new JLabel ("Date: " + currentInvitation.getDate());
 
 		table.setAutoCreateRowSorter(true);
 
@@ -105,23 +117,94 @@ public class SchedulerTable extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO: Fix the access of the nested class?  -Eric
-				//        HashMap<String, String[]> availibility = SchedulerTableModel.this.packHashMap();
+				btnSubmit.addActionListener(new UpdateInvitationController(packInfo()));
+				btnSubmit.addActionListener(AddSchedulerPanelController.getInstance());
+				btnSubmit.removeActionListener(this);
+				btnSubmit.doClick();
 			}
 
 		});
 		
-		contentPanel.add(schedulerTableLabel, "wrap");
-		contentPanel.add(dateLabel);
-		//TODO
-		contentPanel.add(new JLabel(invitationDate), "wrap");
-		contentPanel.add(descriptionLabel);
-		//TODO
-		contentPanel.add(new JLabel(invitationDescription), "wrap");
-		contentPanel.add(table, "wrap");
+		btnCancel.addActionListener(AddSchedulerPanelController.getInstance());
+		populateInvitation();
+
+		contentPanel.add(schedulerTableLabel, "wrap, span");
+		contentPanel.add(dateLabel, "wrap, span");
+		contentPanel.add(descriptionLabel, "wrap, span");
+		contentPanel.add(table, "wrap, span");
 		contentPanel.add(btnSubmit);
+		contentPanel.add(btnCancel, "gapleft 5%");
 		
 		this.add(contentPanel);
+	}
+	
+	/**
+	 * Pack everything in an invitation
+	 * @return packed invitation
+	 */
+	public Invitation packInfo(){
+		HashMap<String, String> map = currentInvitation.getAvailablity();
+		for(int i = 0; i < keys.length; i++){
+			// See if the user checked the box
+			
+			boolean isChecked = (Boolean) table.getValueAt(i, 2);
+			if(! isChecked){
+				String attendee = map.get(keys[i]);
+				if (attendee.contains(username)) {
+					String[] attendeeSplit = attendee.split("," + username + ",");
+					if (attendeeSplit.length == 0) {
+						attendee = ",";
+					}
+					else if (attendeeSplit.length == 1 ) {
+						if (attendeeSplit[0].charAt(0) == ",".charAt(0)) {
+							attendee = attendeeSplit[0] + ",";
+						}
+						else if (attendeeSplit[0].charAt(attendeeSplit[0].length() - 1) == ",".charAt(0)) {
+							attendee = "," + attendeeSplit[0];
+						}
+					}
+					else {
+						attendee = attendeeSplit[0] + "," + attendeeSplit[1];
+					}
+					
+					map.remove(keys[i]);
+					map.put(keys[i], attendee);
+				}
+			}
+			else {
+				String attendee = map.get(keys[i]);
+				if(! attendee.contains("," + username + ",")) {
+					attendee = attendee + username + ",";
+					map.remove(keys[i]);
+					map.put(keys[i], attendee);
+				}
+			}
+		}
+		currentInvitation.setAvailablity(map);
+		return currentInvitation;
+	}
+	
+	/**
+	 * populate the currentInvitation to table
+	 */
+	public void populateInvitation () {
+		HashMap<String, String> map = currentInvitation.getAvailablity();
+		for(int i = 0; i < keys.length; i++){
+			// See if the user checked the box
+			String attendee = map.get(keys[i]);
+			int count = 0;
+		    for (int j=0; j < attendee.length(); j++)
+		    {
+		        if (attendee.charAt(j) == ",".charAt(0))
+		        {
+		             count++;
+		        }
+		    }
+			table.setValueAt(new Integer(count - 1), i, 1);
+			if (attendee.contains("," + username + ",")) {
+				table.setValueAt(new Boolean(true), i, 2);
+			}
+		}
 	}
 
 	/**
@@ -135,15 +218,15 @@ public class SchedulerTable extends JPanel {
 		/** The data. */
 		private Object[][] data        = 
 			{ 
-				{"8:00-9:00",new Integer(0), new Boolean(false), },
-				{"9:00-10:00",new Integer(0), new Boolean(false), },
-				{"10:00-11:00",new Integer(0), new Boolean(false), },
-				{"11:00-12:00",new Integer(0), new Boolean(false), },
-				{"12:00-13:00",new Integer(0), new Boolean(false), },
-				{"13:00-14:00",new Integer(0), new Boolean(false), },
-				{"14:00-15:00",new Integer(0), new Boolean(false), },
-				{"15:00-16:00",new Integer(0), new Boolean(false), },
-				{"16:00-17:00",new Integer(0), new Boolean(false), },
+				{"8:00-9:00",new Integer(0), new Boolean(false) },
+				{"9:00-10:00",new Integer(0), new Boolean(false) },
+				{"10:00-11:00",new Integer(0), new Boolean(false) },
+				{"11:00-12:00",new Integer(0), new Boolean(false) },
+				{"12:00-13:00",new Integer(0), new Boolean(false) },
+				{"13:00-14:00",new Integer(0), new Boolean(false) },
+				{"14:00-15:00",new Integer(0), new Boolean(false) },
+				{"15:00-16:00",new Integer(0), new Boolean(false) },
+				{"16:00-17:00",new Integer(0), new Boolean(false) },
 			};
 
 		/**
@@ -233,20 +316,6 @@ public class SchedulerTable extends JPanel {
 			// The tableChanged() call on TableSorter that results from calling
 			// fireTableCellUpdated() causes the indices to be regenerated
 			// when they shouldn't be.
-		}
-
-		public HashMap<String, String[]> packHashMap(){
-			HashMap<String, String[]> availibility = new HashMap<String, String[]>();
-
-			for(int i=8; i<17; i++){
-				// See if the user checked the box
-				boolean isChecked = (Boolean) getValueAt(i-8, 2);
-				if(isChecked){
-					availibility.put(Integer.toString(i), new String[0]);
-				}
-			}
-
-			return availibility;
 		}
 	}
 }

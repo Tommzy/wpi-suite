@@ -42,7 +42,7 @@ public class Invitation implements Model{
 	private int id;
 
 	/** HashMap containing availability at each time */
-	private HashMap<String, String[]> availablity;
+	private HashMap<String, String> availablity;
 
 	/** represents whether or not this goes to the entire team
 		currently removed until we add necessary functionality
@@ -82,11 +82,11 @@ public class Invitation implements Model{
 	 * @return h
 	 */
 
-	private HashMap<String, String[]> initializeAvailability() {
-		HashMap<String, String[]> h = new HashMap<String, String[]>();
+	private HashMap<String, String> initializeAvailability() {
+		HashMap<String, String> h = new HashMap<String, String>();
 
 		for(int i=8; i<17; i++){
-			h.put(Integer.toString(i), new String[0]);
+			h.put(Integer.toString(i), ",");
 		}
 
 		return h;
@@ -102,11 +102,11 @@ public class Invitation implements Model{
 		this.date = date;
 	}
 
-	public HashMap<String, String[]> getAvailablity() {
+	public HashMap<String, String> getAvailablity() {
 		return availablity;
 	}
 
-	public void setAvailablity(HashMap<String, String[]> availablity) {
+	public void setAvailablity(HashMap<String, String> availablity) {
 		this.availablity = availablity;
 	}
 

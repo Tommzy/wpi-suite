@@ -53,7 +53,6 @@ public class AddInvitationRequestObserver implements RequestObserver {
     //Pass the messaged back to the controller
     //Needs to put invitation back into the system
     controller.addInvitationToModel(item);
-    MainCalendarController.getInstance().updateAll();
     System.out.print("From AddInvitationObserver." + response.getBody());
   } 
   

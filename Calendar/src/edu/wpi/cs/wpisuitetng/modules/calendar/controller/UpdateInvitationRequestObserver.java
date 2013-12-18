@@ -48,7 +48,6 @@ public class UpdateInvitationRequestObserver implements RequestObserver {
     // Parse the invitation out of the response body
     final Invitation invite = Invitation.fromJSON(response.getBody());  
     UpdateInvitationController.getInstance().updateSucess(invite);
-    MainCalendarController.getInstance().updateAll();
     System.out.println("Success! Here is GetInvitationRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
   }
   

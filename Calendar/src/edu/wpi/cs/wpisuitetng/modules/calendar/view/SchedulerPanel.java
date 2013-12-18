@@ -18,58 +18,31 @@ import java.util.TimerTask;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.JButton;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetInvitationController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 
 
 @SuppressWarnings("serial")
 public class SchedulerPanel extends JPanel implements AncestorListener{
   SchedulerList schedulerList;
   boolean doubleClicked = false;
-  JButton btnRefresh;
   GetInvitationController getController = new GetInvitationController();
 	/**
 	 * Instantiates a new scheduler panel.
 	 */
 	public SchedulerPanel() {
-	  btnRefresh = new JButton("Refresh");
 
-
+	  // TODO change the invitation
 		schedulerList = new SchedulerList(new MigLayout());
-		SchedulerTable schedulerTable = new SchedulerTable(new MigLayout());
 
 		schedulerList.setAlignmentX(LEFT_ALIGNMENT);
-		btnRefresh.addActionListener(new ActionListener() {
-      
-    
-		 @Override
-     public void actionPerformed(ActionEvent e) {
-		   schedulerList = new SchedulerList(new MigLayout());
-		   Timer timer = new Timer();
-	      timer.schedule(new TimerTask() {
-	        @Override
-	        public void run() {
-	          if (!doubleClicked){
-	            doubleClicked = true;
-	            btnRefresh.doClick();
-	          }
-	        }
-	      }, 1000);
-       if (schedulerList.getParent() != null) {
-         schedulerList.getParent().revalidate();
-         schedulerList.getParent().repaint();
-       }
-		   
-     }
-
-   });
 		
-		add(btnRefresh);
 		add(schedulerList);
-		add(schedulerTable);
 	}
   @Override
   public void ancestorAdded(AncestorEvent arg0) {

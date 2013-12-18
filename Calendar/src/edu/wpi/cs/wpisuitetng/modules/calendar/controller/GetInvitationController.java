@@ -11,6 +11,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.invitation.InvitationModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
@@ -41,6 +42,8 @@ public class GetInvitationController implements ActionListener {
   @Override
   public void actionPerformed(ActionEvent e) {
     // Send a request to the core to save this message
+	
+	  
     final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
     request.addObserver(observer); // add an observer to process the response
     request.send(); // send the request
