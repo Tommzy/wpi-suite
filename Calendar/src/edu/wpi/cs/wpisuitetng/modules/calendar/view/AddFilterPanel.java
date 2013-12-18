@@ -9,11 +9,16 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
@@ -36,7 +41,19 @@ import javax.swing.text.MaskFormatter;
 
 
 
+
+
+
+
+
+
+
+
+import org.junit.experimental.categories.Categories;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddFilterController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
@@ -107,7 +124,8 @@ public class AddFilterPanel extends JPanel {
   /** Model for Personal JList **/
   DefaultListModel persdlm = new DefaultListModel();
 
-  
+  int textAreaSelection = 0; // 0 for team cate
+  // 1 for personal cate
   
   /**
    * Instantiates a new filter panel.
@@ -128,9 +146,88 @@ public class AddFilterPanel extends JPanel {
     teamCategoriesLabel = new JLabel("Team Categories");
     personCategoriesLabel = new JLabel("Personal Categories");
     
-    teamJList = new JList();
-    personalJList = new JList();
+    teamJList = new JList() {
+        protected void paintBorder(Graphics g) {
+        	if (textAreaSelection == 0) {
+        		 g.setColor(Color.cyan);
+                 g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+        	}
+       }
+    };
+    personalJList = new JList() {
+        protected void paintBorder(Graphics g) {
+        	if (textAreaSelection == 1) {
+       		 g.setColor(Color.cyan);
+                g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+       	}
+       }
+    };
 
+    teamJList.addMouseListener(new MouseAdapter() {
+    	public void mouseMoved(MouseEvent e) {
+    		verify();
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		verify();
+    	}
+       	public void mouseClicked(MouseEvent e) {
+    		textAreaSelection = 0;
+    		e.getComponent().revalidate();
+    		e.getComponent().repaint();
+    		personalJList.revalidate();
+    		personalJList.repaint();
+    	}
+    });
+    personalJList.addMouseListener(new MouseAdapter() {
+    	public void mouseMoved(MouseEvent e) {
+    		verify();
+    		
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		verify();
+    		
+    	}
+    	
+    	public void mouseClicked(MouseEvent e) {
+    		textAreaSelection = 1;
+    		e.getComponent().revalidate();
+    		e.getComponent().repaint();
+    		teamJList.revalidate();
+    		teamJList.repaint();
+    	}
+    });
+    nameTextField.addMouseListener(new MouseAdapter() {
+    	public void mouseMoved(MouseEvent e) {
+    		verify();
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		verify();
+    	}
+ 
+    });
+    
+    nameTextField.addKeyListener(new KeyListener() {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			verify();
+			
+		}
+    	
+    });
+   
     teamScroll = new JScrollPane(teamJList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     teamScroll.setPreferredSize(new Dimension(400, 100));
     
@@ -141,6 +238,14 @@ public class AddFilterPanel extends JPanel {
     btnUpdate = new JButton("Update");
     btnCancel = new JButton ("Cancel");
     
+//    btnSubmit.addActionListener(new ActionListener() {
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			Category cat = new Category(nameTextField.getText(), textAreaSelection == 1);
+//		}
+//    	
+//    });
     JLabel IDText = new JLabel(); 
     
     final FiltersModel model = FiltersModel.getInstance();
@@ -152,13 +257,13 @@ public class AddFilterPanel extends JPanel {
 	personalJList.setInputVerifier(categorySelectVerifier);
 
     contentPanel.add(nameLabel);
-    contentPanel.add(nameTextField, "span 3");
-    contentPanel.add(nameErrMsg, "wrap");
+    contentPanel.add(nameTextField, "span 3, wrap");
+    contentPanel.add(nameErrMsg, "wrap, span");
     contentPanel.add(teamCategoriesLabel, "span 3");
     contentPanel.add(personCategoriesLabel, "wrap, span 4");    
     contentPanel.add(teamScroll, "span 3, width 150");
     contentPanel.add(personalScroll, "wrap, span 4, width 150");
-    contentPanel.add(catErrMsg, "wrap");
+    contentPanel.add(catErrMsg, "wrap, span");
     contentPanel.add(btnSubmit, "cell 1 7");
     contentPanel.add(btnUpdate, "cell 2 7");
     contentPanel.add(btnCancel, "cell 3 7");
@@ -201,10 +306,15 @@ public class AddFilterPanel extends JPanel {
     
     
     //Testing for JLists
-    teamdlm.addElement("Hello");
-    teamdlm.addElement("Hiya");
-    teamdlm.addElement("Hey");
-    persdlm.addElement("Goodbye");
+//    teamdlm.addElement("Hello");
+//    teamdlm.addElement("Hiya");
+//    teamdlm.addElement("Hey");
+//    persdlm.addElement("Goodbye");
+   
+    
+    updateList();
+    
+    verify();
   }
 
 
@@ -213,7 +323,16 @@ public class AddFilterPanel extends JPanel {
   }
 
 
-
+  public void updateList() {
+	  List<Category> catList = CategoriesModel.getInstance().getCategories();
+	    for (Category cat : catList) {
+	    	if (cat.isPersonal()) {
+	    		persdlm.addElement(cat.getName());
+	    	} else {
+	    		teamdlm.addElement(cat.getName());
+	    	}
+	    }
+  }
   
   private Filter packInfo() {
 	  // ID 
@@ -257,9 +376,21 @@ public class AddFilterPanel extends JPanel {
   }
 
   private boolean checkContent() {
-	  
+	  boolean flag = false;
+	  String s = nameTextField.getText();
+	  for (int i = 0; i < s.length(); i ++) {
+		  if (s.charAt(i) != ' ') {
+			  flag = true;
+		  }
+	  }
+	  if (!flag) {
+		  nameTextField.setText("");
+		  return false;
+	  } 
 	  
 	  if (nameErrMsg.getContentText().equals("") && (!teamJList.getSelectedValuesList().isEmpty() || !personalJList.getSelectedValuesList().isEmpty())) {
+		  nameErrMsg.setText("");
+		  catErrMsg.setText("");
 		  return true;
 	  }
 	  else 
@@ -298,6 +429,12 @@ public class AddFilterPanel extends JPanel {
 		}
 	}
 
+	public void verify() {
+		btnSubmit.setEnabled(checkContent());
+		btnUpdate.setEnabled(checkContent());
+		revalidate();
+		repaint();
+	}
 	private class JListVerifier extends InputVerifier {
 		JLabel errMsg; 
 		JButton btnSubmit;
