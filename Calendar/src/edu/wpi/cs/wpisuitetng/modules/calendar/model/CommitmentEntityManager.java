@@ -201,8 +201,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		try{// return combined personal and team commitments
 			personal = db.retrieve(Commitment.class, "username", s.getUsername()).toArray(new Commitment[0]);
 			team =  db.retrieveAll(new Commitment(null, null, null,null), s.getProject()).toArray(new Commitment[0]);
-			System.out.println("Team "+team.toString());
-			System.out.println("personal "+personal.toString());
 			//
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
@@ -214,7 +212,6 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 //					update(s, next.toJSON());
 //				}
 //			}
-			System.out.println("combined "+combined.toString());
 			return combined.toArray(new Commitment[] {});
 		}catch(WPISuiteException e){// no personal commitments found
 			System.out.println("No Personal Commitments yet");

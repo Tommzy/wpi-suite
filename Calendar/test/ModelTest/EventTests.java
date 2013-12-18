@@ -67,12 +67,14 @@ public class EventTests {
 		
 		//Tests
 		
-		System.out.print(testev.toJSON() + "\n");
-		System.out.print(copyev.toJSON() + "\n");
 		testev.copy(copyev);
-		System.out.print(testev.toJSON() + "\n");
-		assertTrue(testev.equals(copyev));
-		//assertEquals(testev, copyDontWork);
+		
+		assertEquals(testev.getId(), copyev.getId());
+		assertEquals(testev.getName(), copyev.getName());
+		assertEquals(testev.getProject(), copyev.getProject());
+		assertEquals(testev.getStartTime(), copyev.getStartTime());
+		assertEquals(testev.getUsername(), copyev.getUsername());
+		assertEquals(testev.getDescription(), copyev.getDescription());
 		
 	}
 	
@@ -100,16 +102,18 @@ public class EventTests {
 	public void JSONTests() {
 		//Set Up
 		
-		Event testev1 = new Event("Test Event", null, null,"no where","Test Event",null);
+		Event testev = new Event("Test Event", null, null,"no where","Test Event",null);
 		//Tests
 		
-		String evString = testev1.toJSON();
-		System.out.print(evString  + "\n");
-		Event testev2 = Event.fromJSON(evString);
-		System.out.print(testev2.toJSON() + "\n");
+		String evString = testev.toJSON();
+		Event copyev = Event.fromJSON(evString);
 		
-		//assertTrue(testev2.equals(testev1));
-		assertEquals(testev2, testev1);
+		assertEquals(testev.getId(), copyev.getId());
+		assertEquals(testev.getName(), copyev.getName());
+		assertEquals(testev.getProject(), copyev.getProject());
+		assertEquals(testev.getStartTime(), copyev.getStartTime());
+		assertEquals(testev.getUsername(), copyev.getUsername());
+		assertEquals(testev.getDescription(), copyev.getDescription());
 		
 	}
 	

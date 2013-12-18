@@ -59,16 +59,18 @@ public class CommitmentTests {
 		
 		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
 		Commitment copyCom = new Commitment("Copy Stuff", null ,"More CopyStuff",null);
-		Commitment copyDontWork = new Commitment("Test Commitment", null, "Test Commitment",null);
 		
 		//Tests
 		
-		System.out.print(testCom.toJSON() + "\n");
-		System.out.print(copyCom.toJSON() + "\n");
 		testCom.copy(copyCom);
-		System.out.print(testCom.toJSON() + "\n");
-		assertTrue(testCom.equals(copyCom));
-		//assertEquals(testCom, copyDontWork);
+
+		
+		assertEquals(testCom.getId(), copyCom.getId());
+		assertEquals(testCom.getName(), copyCom.getName());
+		assertEquals(testCom.getProject(), copyCom.getProject());
+		assertEquals(testCom.getStartTime(), copyCom.getStartTime());
+		assertEquals(testCom.getUsername(), copyCom.getUsername());
+		assertEquals(testCom.getDescription(), copyCom.getDescription());
 		
 	}
 	
@@ -94,16 +96,20 @@ public class CommitmentTests {
 	public void JSONTests() {
 		//Set Up
 		
-		Commitment testCom1 = new Commitment("Test Commitment", null, "Test Commitment",null);
+		Commitment testCom = new Commitment("Test Commitment", null, "Test Commitment",null);
 		//Tests
 		
-		String comString = testCom1.toJSON();
+		String comString = testCom.toJSON();
 		System.out.print(comString  + "\n");
-		Commitment testCom2 = Commitment.fromJSON(comString);
-		System.out.print(testCom2.toJSON() + "\n");
+		Commitment copyCom = Commitment.fromJSON(comString);
+
 		
-		//assertTrue(testCom2.equals(testCom1));
-		assertEquals(testCom2, testCom1);
+		assertEquals(testCom.getId(), copyCom.getId());
+		assertEquals(testCom.getName(), copyCom.getName());
+		assertEquals(testCom.getProject(), copyCom.getProject());
+		assertEquals(testCom.getStartTime(), copyCom.getStartTime());
+		assertEquals(testCom.getUsername(), copyCom.getUsername());
+		assertEquals(testCom.getDescription(), copyCom.getDescription());
 		
 	}
 	
