@@ -102,10 +102,10 @@ public class AddEventTabPanel extends JTabbedPane {
 		schedulerView.add(schedulerPanel);
 
 		this.add(contentView, 0);
-		this.add(schedulerView, 1);
+//		this.add(schedulerView, 1);
 
 		this.setTitleAt(0, "Calendar");
-		this.setTitleAt(1, "Invitations");
+//		this.setTitleAt(1, "Invitations");
 
 		this.setPreferredSize(new Dimension(800, 700));
 	}

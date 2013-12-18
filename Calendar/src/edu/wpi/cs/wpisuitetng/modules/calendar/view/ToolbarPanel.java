@@ -37,6 +37,8 @@ public class ToolbarPanel extends JPanel {
 	/** The add event button. */
 	private final JButton btnManageFilter;
 
+	private JButton invitationButton;
+
 	/**
 	 * Construct the panel.
 	 *
@@ -55,7 +57,7 @@ public class ToolbarPanel extends JPanel {
 		btnScheduleEvent = new JButton("Schedule Event");
 
 		btnManageFilter = new JButton("Manage Filters");
-
+		invitationButton = new JButton("Invitations");
 		// Add the get messages controller to the button
 		// btnRefresh.addActionListener(new GetMessagesController(boardModel));
 
@@ -63,7 +65,9 @@ public class ToolbarPanel extends JPanel {
 		add(btnAddEvent);
 		add(btnAddCommitment);
 		add(btnScheduleEvent);
+		add(invitationButton);
 		add(btnManageFilter);
+		
 
 		ToolbarController.getInstance().setAddEventButton(btnAddEvent);
 		btnAddEvent.addActionListener(ToolbarController.getInstance());
@@ -71,6 +75,8 @@ public class ToolbarPanel extends JPanel {
 		btnScheduleEvent.addActionListener(ToolbarController.getInstance());
 		ToolbarController.getInstance().setAddCommitmentButton(btnAddCommitment);
 		btnAddCommitment.addActionListener(ToolbarController.getInstance());
+    ToolbarController.getInstance().setInvitationButton(invitationButton);
+    invitationButton.addActionListener(ToolbarController.getInstance());
 		ToolbarController.getInstance().setManageFiltersButton(btnManageFilter);
 		btnManageFilter.addActionListener(ToolbarController.getInstance());
 	}

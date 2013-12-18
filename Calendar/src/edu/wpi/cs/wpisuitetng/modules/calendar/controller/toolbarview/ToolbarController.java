@@ -3,7 +3,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import net.miginfocom.swing.MigLayout;
@@ -15,6 +17,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddSchedulerPanel;
 //import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddManageFiltersPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.SchedulerPanel;
 
 public class ToolbarController implements ActionListener {
 
@@ -22,6 +25,7 @@ public class ToolbarController implements ActionListener {
 	private JButton addEventButton;
 	private JButton addCommitmentButton;
 	private JButton addSchedulerButton;
+  private JButton invitationButton;
 	private JButton manageFiltersButton;
 
 
@@ -48,7 +52,11 @@ public class ToolbarController implements ActionListener {
 	public void setAddCommitmentButton(JButton addCommitmentButton) {
 		this.addCommitmentButton = addCommitmentButton;
 	}
-
+  
+	public void setInvitationButton(JButton invitationButton) {
+    this.invitationButton = invitationButton;
+  }
+  
 	public void setAddSchedulerButton(JButton addSchedulerButton) {
 		this.addSchedulerButton = addSchedulerButton;
 	}
@@ -86,15 +94,30 @@ public class ToolbarController implements ActionListener {
 			AddSchedulerPanelController.getInstance().getTabbedPane().setSelectedIndex(AddSchedulerPanelController.getInstance().getTabbedPane().getTabCount() - 1);
 			newSchedulerPanel.initiateFocus();
 		}
+		
+		if (e.getSource() == invitationButton) {
+		  JPanel schedulerView = new JPanel();
+		  SchedulerPanel schedulerPanel = new SchedulerPanel();
+		  try {
+		    Thread.sleep(1550);
+		  } catch(InterruptedException ex) {
+		    Thread.currentThread().interrupt();
+		  }
+		  schedulerPanel = new SchedulerPanel();
+      schedulerPanel.setLayout(new BoxLayout(schedulerPanel, BoxLayout.LINE_AXIS));
+      schedulerView.add(schedulerPanel);
+      AddCommitmentPanelController.getInstance().getTabbedPane().add(schedulerView);
+      AddCommitmentPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Invitation");
+      AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+		}
 
 		if (e.getSource() == manageFiltersButton) {
 			//	AddManageFiltersPanel ManageFiltersPanel = new AddManageFiltersPanel(new MigLayout());
 			//	AddManageFiltersPanelController.getInstance().getTabbedPane().add(ManageFiltersPanel);
 			//	AddManageFiltersPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Manage Filters");
 			//	AddManageFiltersPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
-			//   ManageFiltersPanel.initiateFocus();  
+			//  ManageFiltersPanel.initiateFocus(); 
 		}
-
 	}
 
 	public static ToolbarController getInstance() {

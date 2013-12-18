@@ -99,6 +99,10 @@ public class InvitationModel extends AbstractListModel{
   public List<Invitation> getAllInvitation() {
     return Invitations;
   }
+  
+  public Invitation[] getInvitationArray() {
+    return Invitations.toArray(new Invitation[Invitations.size()]);
+  }
 
   /**
    * Removes the invitation.

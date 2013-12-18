@@ -19,12 +19,18 @@ import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetInvitationController;
+
 
 @SuppressWarnings("serial")
-public class SchedulerPanel extends JPanel {
+public class SchedulerPanel extends JPanel implements AncestorListener{
   SchedulerList schedulerList;
   boolean doubleClicked = false;
   JButton btnRefresh;
+  GetInvitationController getController = new GetInvitationController();
 	/**
 	 * Instantiates a new scheduler panel.
 	 */
@@ -65,4 +71,20 @@ public class SchedulerPanel extends JPanel {
 		add(schedulerList);
 		add(schedulerTable);
 	}
+  @Override
+  public void ancestorAdded(AncestorEvent arg0) {
+    // TODO Auto-generated method stub
+    getController.retrieveInvitations();
+    
+  }
+  @Override
+  public void ancestorMoved(AncestorEvent arg0) {
+    // TODO Auto-generated method stub
+    
+  }
+  @Override
+  public void ancestorRemoved(AncestorEvent arg0) {
+    // TODO Auto-generated method stub
+    
+  }
 }

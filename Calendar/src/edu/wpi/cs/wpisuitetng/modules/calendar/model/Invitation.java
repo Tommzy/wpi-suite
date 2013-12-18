@@ -133,6 +133,11 @@ public class Invitation implements Model{
 	public String getDescription() {
 		return description;
 	}
+	
+	@Override
+	public String toString() {
+	  return getName();
+	}
 
 	/**End of Getters and Setters.  Real Functions follow */
 
