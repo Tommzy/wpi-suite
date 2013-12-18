@@ -128,6 +128,9 @@ public class AddCommitmentPanel extends JPanel {
   
   /** The Id field */
   JLabel IDText; 
+  
+  /** The category array */
+  Category[] categoryArray;
 
 
   /**
@@ -175,7 +178,6 @@ public class AddCommitmentPanel extends JPanel {
     categoryLabel = new JLabel("Category: ");
     
     categoryComboBox = new JComboBox<Category>();
-    System.out.println("category combobox : " + new CategoryFilter().getCategoryArray().length);
 
     descriptionLabel = new JLabel("Description:");
     
@@ -292,7 +294,7 @@ public class AddCommitmentPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Category[] categoryArray = new CategoryFilter(0).getCategoryArray();
+			categoryArray = new CategoryFilter(0).getCategoryArray();
 			System.out.println("team catefory lenth :" + categoryArray.length);
 			categoryComboBox.removeAllItems();
 
@@ -315,7 +317,7 @@ public class AddCommitmentPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			Category[] categoryArray = new CategoryFilter(1).getCategoryArray();
+			categoryArray = new CategoryFilter(1).getCategoryArray();
 			System.out.println("personal catefory lenth :" + categoryArray.length);
 			categoryComboBox.removeAllItems();
 //			for (int i = 0; i < categoryComboBox.getItemCount(); i++) {
@@ -508,7 +510,14 @@ public class AddCommitmentPanel extends JPanel {
 	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
 	  startDatePicker.setSelectedDate(new DateController(startDateTime));
 	  
-	  categoryComboBox.setSelectedItem(commitment.getCategory());
+	  
+	  for (int i = 0; i < categoryArray.length; i++) {
+		  if (categoryArray[i].getId() == commitment.getCategory().getId()) {
+			  System.out.println("should select " + i);
+			  categoryComboBox.setSelectedIndex(i);
+			  System.out.println("actually select " + categoryComboBox.getSelectedIndex());
+		  }
+	  }
 	  
 	  if (commitment.isTeamCommitment()) {
 		  teamRadioButton.doClick();

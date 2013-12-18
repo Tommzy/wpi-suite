@@ -130,12 +130,15 @@ public class CalendarDay extends JPanel {
 		for (int i = 0; i < 25*(60/minimalInterval); i++) {
 			//Even hours
 			c.gridy = i;
-			if ((i % (60/minimalInterval) == 0) && (i / (60/minimalInterval) != 24)) {
+			if (i == 0) {
+				JLabel timeLabel = new JLabel("midnight");
+				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
+				c.gridheight = 15;
+				view.add(timeLabel, c);
+			}
+			else if ((i % (60/minimalInterval) == 0) && (i / (60/minimalInterval) != 24)) {
 				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
 				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
-//				if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
-//					timeLabel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
-//				}
 				c.gridheight = 15;
 				view.add(timeLabel, c);
 			} 
@@ -182,7 +185,12 @@ public class CalendarDay extends JPanel {
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
-		newEvent.setBackground(new Color(136, 255, 255));
+		if (event.getCategory() != null) {
+			newEvent.setBackground(event.getCategory().getColor());
+		}
+		else {
+			newEvent.setBackground(null);
+		}
 		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
@@ -252,7 +260,12 @@ public class CalendarDay extends JPanel {
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background
-		newCommitment.setBackground(new Color(136, 255, 255));
+		if (commitment.getCategory() != null) {
+			newCommitment.setBackground(commitment.getCategory().getColor());
+		}
+		else {
+			newCommitment.setBackground(null);
+		}
 		newCommitment.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
 //		newCommitment.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newCommitment.getMinimumSize().height));
