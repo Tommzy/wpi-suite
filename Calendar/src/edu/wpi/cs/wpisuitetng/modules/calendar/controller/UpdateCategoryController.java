@@ -44,7 +44,7 @@ public class UpdateCategoryController implements ActionListener{
 	 */
 	public UpdateCategoryController(Category updatedcategory) {
 		observer = new UpdateCategoryRequestObserver(this);
-		this.updatedCategory = updatedCategory;
+		this.updatedCategory = updatedcategory;
 	}
 	
 	/**
@@ -93,6 +93,11 @@ public class UpdateCategoryController implements ActionListener{
 		UpdateCategoryController.getInstance()
 		.updateCategory(UpdateCategoryController.getInstance()
 		.getUpdatedCategory());
+//		Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.POST); // POST == update
+//		request.setBody(UpdateCategoryController.getInstance()
+//				.getUpdatedCategory().toJSON()); // put the new category in the body of the request
+//		request.addObserver(observer); // add an observer to process the response
+//		request.send(); 
 		
 	}
 	

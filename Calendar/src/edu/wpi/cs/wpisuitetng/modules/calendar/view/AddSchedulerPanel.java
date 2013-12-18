@@ -117,7 +117,7 @@ public class AddSchedulerPanel extends JPanel {
 		descriptionTextArea.setWrapStyleWord(true);
 
 		descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		descriptionScroll.setPreferredSize(new Dimension(200, 100));
+		descriptionScroll.setPreferredSize(new Dimension(400, 100));
 
 		// Date
 		dateLabel = new JLabel("Date:");
@@ -162,8 +162,11 @@ public class AddSchedulerPanel extends JPanel {
 			}
 
 			public void warn() {
-				if (nameTextField.getText().trim().equals("")) {
-					nameErrMsg.setText("Name cannot be empty or all spaces! ");
+				if (nameTextField.getText().equals("")) {
+					nameErrMsg.setText("Name cannot be empty! ");
+				}
+				else if (nameTextField.getText().trim().equals("")) {
+					nameErrMsg.setText("Name cannot be all spaces! ");
 				}
 				else {
 					nameErrMsg.setText("");
@@ -201,7 +204,7 @@ public class AddSchedulerPanel extends JPanel {
 		contentPanel.add(dateHelpText, "cell 1 2");
 		contentPanel.add(datePicker, "cell 1 3, wrap, span");
 		contentPanel.add(descriptionLabel);
-		contentPanel.add(descriptionScroll, "wrap");
+		contentPanel.add(descriptionScroll, "wrap, span");
 		contentPanel.add(btnSubmit, "cell 1 8");
 		contentPanel.add(btnCancel);
 

@@ -169,8 +169,8 @@ public class AddEventPanel extends JPanel {
 	
 		typeLabel = new JLabel("Type");
 		ButtonGroup radioButtonGroup = new ButtonGroup() ;
-		personalRadioButton = new JRadioButton("Personal Commitment");
-		teamRadioButton = new JRadioButton("Team Commitment");
+		personalRadioButton = new JRadioButton("Personal Event");
+		teamRadioButton = new JRadioButton("Team Event");
 		teamRadioButton.setSelected(true);
 		radioButtonGroup.add(personalRadioButton);
 		radioButtonGroup.add(teamRadioButton);
@@ -189,7 +189,7 @@ public class AddEventPanel extends JPanel {
 		descriptionTextArea.setLineWrap(true);
 	    descriptionTextArea.setWrapStyleWord(true);
 	    descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	    descriptionScroll.setPreferredSize(new Dimension(400, 100));
+	    descriptionScroll.setPreferredSize(new Dimension(400, 80));
 	    
 	    
 		inviteeLabel = new JLabel("Invitee:");
@@ -198,7 +198,7 @@ public class AddEventPanel extends JPanel {
 		inviteeTextArea.setLineWrap(true);
 	    inviteeTextArea.setWrapStyleWord(true);
 	    inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	    inviteeScroll.setPreferredSize(new Dimension(400, 100));
+	    inviteeScroll.setPreferredSize(new Dimension(400, 80));
 //		allDayEventCheckBox = new JCheckBox("All Day Event?");
 		final EventsModel model = EventsModel.getInstance();
 		
@@ -507,7 +507,11 @@ public class AddEventPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				categoryArray = new CategoryFilter(0).getCategoryArray();
+				Category[] tempCats = new CategoryFilter(0).getCategoryArray();
+				categoryArray = new Category[tempCats.length + 1];
+				for (int i = 0; i < tempCats.length; i++) {
+					categoryArray[i] = tempCats[i];
+				}
 				System.out.println("team catefory lenth :" + categoryArray.length);
 				categoryComboBox.removeAllItems();
 
@@ -516,8 +520,10 @@ public class AddEventPanel extends JPanel {
 					System.out.println("Removed: " + i);
 				}
 				for (int i = 0; i < categoryArray.length; i++) {
-					categoryComboBox.addItem(categoryArray[i]);
-					System.out.println("Added: " + i);
+					if (categoryArray[i] != null) {
+						categoryComboBox.addItem(categoryArray[i]);
+						System.out.println("Added: " + i);
+					}
 				}
 				if (categoryComboBox.getParent() != null) {
 					categoryComboBox.getParent().revalidate();
@@ -530,12 +536,18 @@ public class AddEventPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				categoryArray = new CategoryFilter(1).getCategoryArray();
+				Category[] tempCats = new CategoryFilter(1).getCategoryArray();
+				categoryArray = new Category[tempCats.length + 1];
+				for (int i = 0; i < tempCats.length; i++) {
+					categoryArray[i] = tempCats[i];
+				}
 				System.out.println("personal catefory lenth :" + categoryArray.length);
 				categoryComboBox.removeAllItems();
 				for (int i = 0; i < categoryArray.length; i++) {
-					categoryComboBox.addItem(categoryArray[i]);
-					System.out.println("Added: " + i);
+					if (categoryArray[i] != null) {
+						categoryComboBox.addItem(categoryArray[i]);
+						System.out.println("Added: " + i);
+					}
 				}
 				if (categoryComboBox.getParent() != null) {
 					categoryComboBox.getParent().revalidate();
@@ -577,7 +589,7 @@ public class AddEventPanel extends JPanel {
 	    contentPanel.add(personalRadioButton, "span 2");
 	    contentPanel.add(teamRadioButton, "wrap");
 	    contentPanel.add(categoryLabel);
-	    contentPanel.add(categoryComboBox, "wrap");
+	    contentPanel.add(categoryComboBox, "wrap, span");
 		contentPanel.add(descriptionLabel);
 		contentPanel.add(descriptionScroll, "wrap, span ");
 		contentPanel.add(inviteeLabel);
@@ -712,6 +724,18 @@ public class AddEventPanel extends JPanel {
 		} else {
 			personalRadioButton.doClick();
 		}
+		
+		Category[] tempCats = new CategoryFilter().getCategoryAllArray();
+		  for (int i = 0; i < tempCats.length; i++) {
+			  if (tempCats[i].getId() == event.getCategoryID()) {
+				  if (! tempCats[i].isActive()) {
+					  categoryArray[categoryArray.length - 1] = tempCats[i];
+					  categoryComboBox.addItem(categoryArray[categoryArray.length - 1]);
+					  categoryComboBox.revalidate();
+					  categoryComboBox.repaint();
+				  }
+			  }
+		  }
 		for (int i = 0; i < categoryArray.length; i++) {
 			  //TODO CHANGED HERE
 			if (categoryArray[i].getId() == event.getCategoryID()) {

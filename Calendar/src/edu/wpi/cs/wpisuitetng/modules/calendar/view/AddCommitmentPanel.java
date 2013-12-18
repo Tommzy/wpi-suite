@@ -186,7 +186,7 @@ public class AddCommitmentPanel extends JPanel {
     descriptionTextArea.setWrapStyleWord(true);
 //    descriptionTextArea.setPreferredSize(new Dimension(400, 90));
     descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    descriptionScroll.setPreferredSize(new Dimension(400, 100));
+    descriptionScroll.setPreferredSize(new Dimension(400, 80));
     
     inviteeLabel = new JLabel("Invitee:");
 
@@ -195,7 +195,7 @@ public class AddCommitmentPanel extends JPanel {
     inviteeTextArea.setLineWrap(true);
     inviteeTextArea.setWrapStyleWord(true);
     inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    inviteeScroll.setPreferredSize(new Dimension(400, 100));
+    inviteeScroll.setPreferredSize(new Dimension(400, 80));
     final CommitmentsModel model = CommitmentsModel.getInstance();
 
     btnSubmit = new JButton("Submit");
@@ -294,7 +294,11 @@ public class AddCommitmentPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			categoryArray = new CategoryFilter(0).getCategoryArray();
+			Category[] tempCats = new CategoryFilter(0).getCategoryArray();
+			categoryArray = new Category[tempCats.length + 1];
+			for (int i = 0; i < tempCats.length; i++) {
+				categoryArray[i] = tempCats[i];
+			}
 			System.out.println("team catefory lenth :" + categoryArray.length);
 			categoryComboBox.removeAllItems();
 
@@ -303,8 +307,10 @@ public class AddCommitmentPanel extends JPanel {
 				System.out.println("Removed: " + i);
 			}
 			for (int i = 0; i < categoryArray.length; i++) {
-				categoryComboBox.addItem(categoryArray[i]);
-				System.out.println("Added: " + i);
+				if (categoryArray[i] != null) {
+					categoryComboBox.addItem(categoryArray[i]);
+					System.out.println("Added: " + i);
+				}
 			}
 			if (categoryComboBox.getParent() != null) {
 				categoryComboBox.getParent().revalidate();
@@ -317,16 +323,22 @@ public class AddCommitmentPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			categoryArray = new CategoryFilter(1).getCategoryArray();
+			Category[] tempCats = new CategoryFilter(1).getCategoryArray();
+			categoryArray = new Category[tempCats.length + 1];
+			for (int i = 0; i < tempCats.length; i++) {
+				categoryArray[i] = tempCats[i];
+			}
 			System.out.println("personal catefory lenth :" + categoryArray.length);
 			categoryComboBox.removeAllItems();
-//			for (int i = 0; i < categoryComboBox.getItemCount(); i++) {
-//				categoryComboBox.removeItemAt(i);
-//				System.out.println("Removed: " + i);
-//			}
+			for (int i = 0; i < categoryComboBox.getItemCount(); i++) {
+				categoryComboBox.removeItemAt(i);
+				System.out.println("Removed: " + i);
+			}
 			for (int i = 0; i < categoryArray.length; i++) {
-				categoryComboBox.addItem(categoryArray[i]);
-				System.out.println("Added: " + i);
+				if (categoryArray[i] != null) {
+					categoryComboBox.addItem(categoryArray[i]);
+					System.out.println("Added: " + i);
+				}
 			}
 			if (categoryComboBox.getParent() != null) {
 				categoryComboBox.getParent().revalidate();
@@ -352,7 +364,7 @@ public class AddCommitmentPanel extends JPanel {
     // contentPanel.add(locationTextField, "wrap");
     contentPanel.add(typeLabel);
     contentPanel.add(personalRadioButton, "span 2");
-    contentPanel.add(teamRadioButton, "wrap");
+    contentPanel.add(teamRadioButton, "wrap, span");
 
     contentPanel.add(statusLabel);
     contentPanel.add(statusComboBox);
@@ -516,6 +528,23 @@ public class AddCommitmentPanel extends JPanel {
 	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
 	  startDatePicker.setSelectedDate(new DateController(startDateTime));
 	  
+	  if (commitment.isTeamCommitment()) {
+		  teamRadioButton.doClick();
+	  } else {
+		  personalRadioButton.doClick();
+	  }
+	  
+	  Category[] tempCats = new CategoryFilter().getCategoryAllArray();
+	  for (int i = 0; i < tempCats.length; i++) {
+		  if (tempCats[i].getId() == commitment.getCategoryID()) {
+			  if (! tempCats[i].isActive()) {
+				  categoryArray[categoryArray.length - 1] = tempCats[i];
+				  categoryComboBox.addItem(categoryArray[categoryArray.length - 1]);
+				  categoryComboBox.revalidate();
+				  categoryComboBox.repaint();
+			  }
+		  }
+	  }
 	  
 	  for (int i = 0; i < categoryArray.length; i++) {
 		  //TODO CHANGED HERE
@@ -526,11 +555,7 @@ public class AddCommitmentPanel extends JPanel {
 		  }
 	  }
 	  
-	  if (commitment.isTeamCommitment()) {
-		  teamRadioButton.doClick();
-	  } else {
-		  personalRadioButton.doClick();
-	  }
+	  
 	  if (IDText.getText().equals("")) {
 		  btnUpdate.setVisible(false);
 		  btnSubmit.setVisible(true);

@@ -43,8 +43,10 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommi
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.UpdateCommitmentListener;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.UpdateEventListener;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 /**
@@ -186,10 +188,13 @@ public class CalendarDay extends JPanel {
 		newEvent.setVerticalAlignment(SwingConstants.TOP);
 		newEvent.setHorizontalAlignment(SwingConstants.CENTER);
 		newEvent.setOpaque(true);   //Make the label show it's background
-        //TODO Changed HERE!!!!!
 		if (event.getCategoryID() != -1) {
-		//TODO Changed HERE!!!!!
-			newEvent.setBackground(CategoriesModel.getInstance().getCategory(event.getCategoryID()).getColor());
+			Category[] cats = new CategoryFilter().getCategoryAllArray();
+			for(int i = 0; i < cats.length; i++) {
+				if (cats[i].getId() == event.getCategoryID()) {
+					newEvent.setBackground(cats[i].getColor());
+				}
+			}
 		}
 		else {
 			newEvent.setBackground(null);
@@ -263,13 +268,16 @@ public class CalendarDay extends JPanel {
 		newCommitment.setVerticalAlignment(SwingConstants.TOP);
 		newCommitment.setHorizontalAlignment(SwingConstants.CENTER);
 		newCommitment.setOpaque(true);   //Make the label show it's background
-		if (CategoriesModel.getInstance().getCategory(commitment.getCategoryID()) != null) {
-			if (commitment.getCategoryID() != -1) {
-				newCommitment.setBackground(CategoriesModel.getInstance().getCategory(commitment.getCategoryID()).getColor());
+		if (commitment.getCategoryID() != -1) {
+			Category[] cats = new CategoryFilter().getCategoryAllArray();
+			for(int i = 0; i < cats.length; i++) {
+				if (cats[i].getId() == commitment.getCategoryID()) {
+					newCommitment.setBackground(cats[i].getColor());
+				}
 			}
-			else {
-				newCommitment.setBackground(null);
-			}
+		}
+		else {
+			newCommitment.setBackground(null);
 		}
 		newCommitment.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 //		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));

@@ -50,10 +50,10 @@ public class CategoryFilter {
 	 */
 	public Category[] getCategoryArray() {
 		try {
-			Category teamMeeting = new Category("Team Meeting", true, Color.cyan);
+			Category teamMeeting = new Category("Team Meeting", true, Color.CYAN);
 			teamMeeting.setId(1);
 			teamMeeting.setIsPersonal(false);
-			Category personalMeeting = new Category("Personal Meeting", true, Color.cyan);
+			Category personalMeeting = new Category("Personal Meeting", true, Color.CYAN);
 			teamMeeting.setId(2);
 			teamMeeting.setIsPersonal(true);
 			Category[] categoryArray;
@@ -83,6 +83,59 @@ public class CategoryFilter {
 					if (cat.isActive()) {
 						list.add(cat);
 					}
+				}
+				list.add(personalMeeting);
+				list.add(teamMeeting);
+			}
+			categoryArray = list.toArray(new Category[list.size()]);
+			System.out.println(categoryArray.length);
+			return categoryArray;
+		} catch (NullPointerException e) {
+			System.out.println("commitment filter null pointer exception");
+		}
+		
+		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
+		return new Category[0];
+	}
+	
+	/**
+	 * Used to create a collection of category that begin within the start and end time
+	 * 
+	 * @return The array of category within the time frame
+	 */
+	public Category[] getCategoryAllArray() {
+		try {
+			Category teamMeeting = new Category("Team Meeting", true, Color.CYAN);
+			teamMeeting.setId(1);
+			teamMeeting.setIsPersonal(false);
+			Category personalMeeting = new Category("Personal Meeting", true, Color.CYAN);
+			teamMeeting.setId(2);
+			teamMeeting.setIsPersonal(true);
+			Category[] categoryArray;
+			//new GetCategoryController().actionPerformed(null);
+			GetCategoryController getController = new GetCategoryController();
+			getController.retrieveCategories();
+			Collection<Category> categoryList = CategoriesModel.getInstance().getAllCategory();
+			Collection<Category> list = new ArrayList<Category>();
+			if (type == 0) {
+				for (Category cat : categoryList) {
+					if (! cat.isPersonal()) {
+						list.add(cat);
+					}
+				}
+				list.add(teamMeeting);
+			}
+			else if (type == 1) {
+				for (Category cat : categoryList) {
+					if (cat.isPersonal()) {
+						list.add(cat);
+					}
+				}
+				list.add(personalMeeting);
+			}
+			else if (type == -1) {
+				for (Category cat : categoryList) {
+					list.add(cat);
 				}
 				list.add(personalMeeting);
 				list.add(teamMeeting);
