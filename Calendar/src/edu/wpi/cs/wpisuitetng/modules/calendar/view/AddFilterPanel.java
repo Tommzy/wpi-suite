@@ -9,47 +9,40 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.swing.*;
-import javax.swing.text.MaskFormatter;
+import javax.swing.DefaultListModel;
+import javax.swing.InputVerifier;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 
-
-
-
-
-
-
-
-
-import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddFilterController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentRequestObserver;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.filters.FiltersModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -92,7 +85,7 @@ public class AddFilterPanel extends JPanel {
   JList  personalJList;
   
   /** The currently selected categories */
-  List selectedCats;
+  List selectedCats = new ArrayList();
   
   /** ArrayList of SelectedCategories 
    *  Updates when packInfo() is called **/
@@ -107,7 +100,11 @@ public class AddFilterPanel extends JPanel {
   /** Model for Personal JList **/
   DefaultListModel persdlm = new DefaultListModel();
 
+  int textAreaSelection = 0; // 0 for team cate
+  // 1 for personal cate
   
+  List<Category> teamCategory = new ArrayList<Category>();
+  List<Category> personalCategory = new ArrayList<Category>();
   
   /**
    * Instantiates a new filter panel.
@@ -128,9 +125,88 @@ public class AddFilterPanel extends JPanel {
     teamCategoriesLabel = new JLabel("Team Categories");
     personCategoriesLabel = new JLabel("Personal Categories");
     
-    teamJList = new JList();
-    personalJList = new JList();
+    teamJList = new JList() {
+        protected void paintBorder(Graphics g) {
+        	if (textAreaSelection == 0) {
+        		 g.setColor(Color.cyan);
+                 g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+        	}
+       }
+    };
+    personalJList = new JList() {
+        protected void paintBorder(Graphics g) {
+        	if (textAreaSelection == 1) {
+       		 g.setColor(Color.cyan);
+                g.drawRoundRect(0, 0, getWidth()-1, getHeight()-1, 15, 15);
+       	}
+       }
+    };
 
+    teamJList.addMouseListener(new MouseAdapter() {
+    	public void mouseMoved(MouseEvent e) {
+    		verify();
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		verify();
+    	}
+       	public void mouseClicked(MouseEvent e) {
+    		textAreaSelection = 0;
+    		e.getComponent().revalidate();
+    		e.getComponent().repaint();
+    		personalJList.revalidate();
+    		personalJList.repaint();
+    	}
+    });
+    personalJList.addMouseListener(new MouseAdapter() {
+    	public void mouseMoved(MouseEvent e) {
+    		verify();
+    		
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		verify();
+    		
+    	}
+    	
+    	public void mouseClicked(MouseEvent e) {
+    		textAreaSelection = 1;
+    		e.getComponent().revalidate();
+    		e.getComponent().repaint();
+    		teamJList.revalidate();
+    		teamJList.repaint();
+    	}
+    });
+    nameTextField.addMouseListener(new MouseAdapter() {
+    	public void mouseMoved(MouseEvent e) {
+    		verify();
+    	}
+    	public void mouseReleased(MouseEvent e) {
+    		verify();
+    	}
+ 
+    });
+    
+    nameTextField.addKeyListener(new KeyListener() {
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			verify();
+			
+		}
+    	
+    });
+   
     teamScroll = new JScrollPane(teamJList, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     teamScroll.setPreferredSize(new Dimension(400, 100));
     
@@ -141,23 +217,38 @@ public class AddFilterPanel extends JPanel {
     btnUpdate = new JButton("Update");
     btnCancel = new JButton ("Cancel");
     
+//    btnSubmit.addActionListener(new ActionListener() {
+//
+//		@Override
+//		public void actionPerformed(ActionEvent e) {
+//			AddFilterController c = new AddFilterController(FiltersModel.getInstance(), packInfo());
+//			c.actionPerformed(event);
+//			System.out.println("Filtermodel size: " + FiltersModel.getInstance().getFilters().size());
+//		}
+//		
+//		
+//    	
+//    });
+    
+    //btnSubmit.addActionListener(new AddFilterController(FiltersModel.getInstance(),packInfo()));
     JLabel IDText = new JLabel(); 
     
     final FiltersModel model = FiltersModel.getInstance();
 
     // Set up properties and values
 	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
-	teamJList.setInputVerifier(new JListVerifier(catErrMsg, btnSubmit));
-	personalJList.setInputVerifier(new JListVerifier(catErrMsg, btnSubmit));
+	JListVerifier categorySelectVerifier = new JListVerifier(catErrMsg, btnSubmit);
+	teamJList.setInputVerifier(categorySelectVerifier);
+	personalJList.setInputVerifier(categorySelectVerifier);
 
     contentPanel.add(nameLabel);
-    contentPanel.add(nameTextField, "span 3");
-    contentPanel.add(nameErrMsg, "wrap");
+    contentPanel.add(nameTextField, "span 3, wrap");
+    contentPanel.add(nameErrMsg, "wrap, span");
     contentPanel.add(teamCategoriesLabel, "span 3");
     contentPanel.add(personCategoriesLabel, "wrap, span 4");    
     contentPanel.add(teamScroll, "span 3, width 150");
     contentPanel.add(personalScroll, "wrap, span 4, width 150");
-    contentPanel.add(catErrMsg, "wrap");
+    contentPanel.add(catErrMsg, "wrap, span");
     contentPanel.add(btnSubmit, "cell 1 7");
     contentPanel.add(btnUpdate, "cell 2 7");
     contentPanel.add(btnCancel, "cell 3 7");
@@ -172,6 +263,17 @@ public class AddFilterPanel extends JPanel {
     	btnSubmit.setVisible(false);
     }
     btnSubmit.addActionListener(ManageFiltersPanelController.getInstance());
+    btnSubmit.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			AddFilterController f = new AddFilterController(FiltersModel.getInstance() , packInfo());
+			f.addFilterToDatabase(packInfo());
+			f.addFilterToModel(packInfo());
+			System.out.println("filtermodelsize: " + FiltersModel.getInstance().getFilters().size());
+		}
+    	
+    });
     btnCancel.addActionListener(ManageFiltersPanelController.getInstance());
     btnUpdate.addActionListener(new ActionListener() {
 
@@ -198,10 +300,17 @@ public class AddFilterPanel extends JPanel {
     
     this.add(contentPanel);
     
-    teamdlm.addElement("Hello");
-    teamdlm.addElement("Hiya");
-    teamdlm.addElement("Hey");
-    persdlm.addElement("Goodbye");
+    
+    //Testing for JLists
+//    teamdlm.addElement("Hello");
+//    teamdlm.addElement("Hiya");
+//    teamdlm.addElement("Hey");
+//    persdlm.addElement("Goodbye");
+   
+    
+    updateList();
+    
+    verify();
   }
 
 
@@ -210,56 +319,112 @@ public class AddFilterPanel extends JPanel {
   }
 
 
-
+  public void updateList() {
+	  CategoryFilter personalfilter = new CategoryFilter(1);
+	  Category[] c = personalfilter.getCategoryArray();
+	  personalCategory.clear();
+	  persdlm.removeAllElements();
+	  System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	  for (int i = 0; i < c.length; i ++) {
+		  personalCategory.add(c[i]);
+		  persdlm.addElement(c[i].getName());
+		  System.out.println(c[i].getId());
+	  }
+	  CategoryFilter teamfilter = new CategoryFilter(0);
+	  Category[] p = teamfilter.getCategoryArray();
+	  teamCategory.clear();
+	  teamdlm.removeAllElements();
+	  System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	  for (int i = 0; i < p.length; i ++) {
+		  teamCategory.add(p[i]);
+		  teamdlm.addElement(p[i].getName());
+		  System.out.println(p[i].getId());
+	  }
+	  
+  }
   
   private Filter packInfo() {
-	  // ID 
-	  int id;
-	  if (IDText.getText().equals("")) {
-		 id = -1;
-	  }
-	  else {
-		  id = Integer.parseInt(IDText.getText()); 
-	  }
-	  // Name
 	  String name = nameTextField.getText();
-	  
-	  //Pack selected categories into selCategories for the filter
-	  
-	  List teamCats = teamJList.getSelectedValuesList();
-	  List personCats = personalJList.getSelectedValuesList();	  
-	  
-	  Iterator<List> iTeam = teamCats.iterator();
-	  if(iTeam.hasNext()){
-		  do{
-			  selCategories.add((Category) iTeam.next());
-		  }
-		  while(iTeam.hasNext());
+	  printCategoryList();
+	  ArrayList<Category> c = new ArrayList<Category>();
+	  int[] is = teamJList.getSelectedIndices();
+	  for (int i = 0; i < is.length; i ++) {
+		  c.add((Category)teamCategory.get(is[i]));
 	  }
-	  
-	  Iterator<List> iPers = personCats.iterator();
-	  if(iPers.hasNext()){
-		  do{
-			  selCategories.add((Category) iPers.next());
-			}
-		  while(iPers.hasNext());
+	  is = personalJList.getSelectedIndices();
+	  for (int i = 0; i < is.length; i ++) {
+		  c.add((Category)personalCategory.get(is[i]));
 	  }
-	  
-	  // Pack into a filter
-	  Filter filter = new Filter(name, selCategories);
-
-
-	  filter.setId(id);
-	  return filter;
+	  Filter f = new Filter(name, c);
+	  return f;
   }
+//  private Filter packInfo() {
+//	  // ID 
+//	  int id;
+//	  if (IDText.getText().equals("")) {
+//		 id = -1;
+//	  }
+//	  else {
+//		  id = Integer.parseInt(IDText.getText()); 
+//	  }
+//	  // Name
+//	  String name = nameTextField.getText();
+//	  
+//	  //Pack selected categories into selCategories for the filter
+//	  
+//	  List teamCats = teamJList.getSelectedValuesList();
+//	  List personCats = personalJList.getSelectedValuesList();	  
+//	  
+//	  Iterator<List> iTeam = teamCats.iterator();
+//	  if(iTeam.hasNext()){
+//		  do{
+//			  selCategories.add((Category) iTeam.next());
+//		  }
+//		  while(iTeam.hasNext());
+//	  }
+//	  
+//	  Iterator<List> iPers = personCats.iterator();
+//	  if(iPers.hasNext()){
+//		  do{
+//			  selCategories.add((Category) iPers.next());
+//			}
+//		  while(iPers.hasNext());
+//	  }
+//	  
+//	  // Pack into a filter
+//	  Filter filter = new Filter(name, selCategories);
+//
+//
+//	  filter.setId(id);
+//	  return filter;
+//  }
 
+  public void printCategoryList() {
+	  System.out.println("TEam categoreis");
+	  for (Category c : teamCategory) {
+		  System.out.println(c.getName());
+	  }
+	  System.out.println("Personal categoreis");
+	  for (Category c : personalCategory) {
+		  System.out.println(c.getName());
+	  }
+  }
   private boolean checkContent() {
+	  boolean flag = false;
+	  String s = nameTextField.getText();
+	  for (int i = 0; i < s.length(); i ++) {
+		  if (s.charAt(i) != ' ') {
+			  flag = true;
+		  }
+	  }
+	  if (!flag) {
+		  nameTextField.setText("");
+		  return false;
+	  } 
 	  
-	  //Constantly update list of selected categories
-	  selectedCats.addAll(teamJList.getSelectedValuesList());
-	  selectedCats.addAll(personalJList.getSelectedValuesList());
-	  
-	  if (nameErrMsg.getContentText().equals("") && !selectedCats.isEmpty()) {
+	  if (nameErrMsg.getContentText().equals("") && (!teamJList.getSelectedValuesList().isEmpty() || !personalJList.getSelectedValuesList().isEmpty())) {
+		  nameErrMsg.setText("");
+		  catErrMsg.setText("");
 		  return true;
 	  }
 	  else 
@@ -298,6 +463,12 @@ public class AddFilterPanel extends JPanel {
 		}
 	}
 
+	public void verify() {
+		btnSubmit.setEnabled(checkContent());
+		btnUpdate.setEnabled(checkContent());
+		revalidate();
+		repaint();
+	}
 	private class JListVerifier extends InputVerifier {
 		JLabel errMsg; 
 		JButton btnSubmit;
@@ -309,7 +480,7 @@ public class AddFilterPanel extends JPanel {
 		
 		@Override
 		public boolean verify(JComponent input) {
-			if (selectedCats.isEmpty()) {
+			if (teamJList.getSelectedValuesList().isEmpty() && personalJList.getSelectedValuesList().isEmpty()) {
 				errMsg.setText("Need at least one category selected! ");
 				btnSubmit.setEnabled(checkContent());
 				btnUpdate.setEnabled(checkContent());
@@ -319,7 +490,7 @@ public class AddFilterPanel extends JPanel {
 				btnSubmit.setEnabled(checkContent());
 				btnUpdate.setEnabled(checkContent());
 			}
-			return (! selectedCats.isEmpty());
+			return (! (teamJList.getSelectedValuesList().isEmpty() && personalJList.getSelectedValuesList().isEmpty()));
 		}
 	}
 

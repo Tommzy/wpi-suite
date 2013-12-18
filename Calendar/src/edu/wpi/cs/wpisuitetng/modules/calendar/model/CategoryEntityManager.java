@@ -77,7 +77,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		}else{
 			this.save(s,newCategory);
 		}
-
+		System.out.println("From CategoryEntityManager.makeEntity   " + newCategory.toJSON());
 		// Return the newly created Category (this gets passed back to the client)
 		return newCategory;
 	}
@@ -181,13 +181,15 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		Collection<Category> combined = new ArrayList<Category>();
 		try{// return combined personal and team categories
 			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
-			team =  db.retrieveAll(new Category(null, false,null), s.getProject()).toArray(new Category[0]);
+			team =  db.retrieveAll(new Category(null, false, null), s.getProject()).toArray(new Category[0]);
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
+			System.out.println("From CategoryEntity retieve all Team size: " + team.length);
+			System.out.println("From CategoryEntity retieve all Personal size: "+personal.length);
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
 			System.out.println("No personal Category yet");
-			return db.retrieveAll(new Category(null, false,null), s.getProject()).toArray(new Category[0]);
+			return db.retrieveAll(new Category(null, false, null), s.getProject()).toArray(new Category[0]);
 		}
 	}
 
@@ -218,13 +220,14 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		return Categories;
 	}
 
+	
+	
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#update(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Category update(Session s, String content) throws WPISuiteException {
 		// If there is no session
 		
-		ensureRole(s, Role.ADMIN);
 
 		if(s == null){
 			throw new WPISuiteException("Null session.");
@@ -236,17 +239,32 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		if(oldCategories.size() < 1 || oldCategories.get(0) == null) {
 			throw new BadRequestException("Category with ID does not exist.");
 		}
+		
+		if(oldCategories.size() > 1) {
+			System.out.println("!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		}
 
 		Category existingCategory = (Category)oldCategories.get(0);		
 
 
 		existingCategory.copy(updatedCategory);
 
-		if(!db.save(existingCategory, s.getProject())) {
-			throw new WPISuiteException();
+		if(existingCategory.isPersonal){
+			existingCategory.setUserId(s.getUsername());// case: switching from team to personal
+			if(!db.save(existingCategory)) {
+				throw new WPISuiteException();
+			}
+			return existingCategory;
+			
+		}else{
+			ensureRole(s, Role.ADMIN);
+			existingCategory.setUserId(null);// case: switching from personal to team commitment
+			if(!db.save(existingCategory, s.getProject())) {
+				throw new WPISuiteException();
+			}
+			return existingCategory;
+			
 		}
-
-		return existingCategory;
 
 	} 
 
@@ -261,7 +279,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		Category oldCat = getEntity(s,   id    )[0];
 		if (oldCat.isPersonal()){
 			System.out.println("This is a personal category!");
-			Category catToBeDel = new Category(null,false,null);
+			Category catToBeDel = new Category(null,false, null);
 			catToBeDel.setId(oldCat.getId());
 			catToBeDel.setUserId(oldCat.getUserId());
 			catToBeDel.setIsPersonal(true);
