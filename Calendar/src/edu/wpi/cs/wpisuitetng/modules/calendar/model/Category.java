@@ -23,7 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
-public class Category implements Model {
+public class Category implements Model{
   /** The name shown in the GUI */
   String name;
 
@@ -178,6 +178,16 @@ public class Category implements Model {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public boolean equals(Object cat) {
+		if (cat instanceof Category) {
+			if (this.id == ((Category)cat).getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
   
   //---------------------Interface-Functions----------------------

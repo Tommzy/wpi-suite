@@ -41,8 +41,10 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
 
@@ -79,7 +81,7 @@ public class AddEventPanel extends JPanel {
 	JLabel categoryLabel;
 
 	/** The category drop down list */
-	//JComboBox<Category> categoryComboBox;
+	JComboBox<Category> categoryComboBox;
 
 	/** The type of this commitment */
 	JLabel typeLabel;
@@ -121,6 +123,9 @@ public class AddEventPanel extends JPanel {
 	
 	/** The IDText label */
 	JLabel IDText;
+
+	/** The category array */
+	Category[] categoryArray;
 	
 	public AddEventPanel(MigLayout miglayout) {
 		// Set up panel
@@ -172,7 +177,7 @@ public class AddEventPanel extends JPanel {
 	    
 	    categoryLabel = new JLabel("Category: ");
 	    
-//	    categoryComboBox = new JComboBox<Category>();
+	    categoryComboBox = new JComboBox<Category>();
 			
 		locationLabel = new JLabel("Where:");
 
@@ -497,6 +502,49 @@ public class AddEventPanel extends JPanel {
 	    	
 	    });
 	    
+	    teamRadioButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				categoryArray = new CategoryFilter(0).getCategoryArray();
+				System.out.println("team catefory lenth :" + categoryArray.length);
+				categoryComboBox.removeAllItems();
+
+				for (int i = 0; i < categoryComboBox.getItemCount(); i++) {
+					categoryComboBox.removeItemAt(i);
+					System.out.println("Removed: " + i);
+				}
+				for (int i = 0; i < categoryArray.length; i++) {
+					categoryComboBox.addItem(categoryArray[i]);
+					System.out.println("Added: " + i);
+				}
+				if (categoryComboBox.getParent() != null) {
+					categoryComboBox.getParent().revalidate();
+					categoryComboBox.getParent().repaint();
+				}
+			}
+		});
+		personalRadioButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				categoryArray = new CategoryFilter(1).getCategoryArray();
+				System.out.println("personal catefory lenth :" + categoryArray.length);
+				categoryComboBox.removeAllItems();
+				for (int i = 0; i < categoryArray.length; i++) {
+					categoryComboBox.addItem(categoryArray[i]);
+					System.out.println("Added: " + i);
+				}
+				if (categoryComboBox.getParent() != null) {
+					categoryComboBox.getParent().revalidate();
+					categoryComboBox.getParent().repaint();
+				}
+			}
+		});
+		teamRadioButton.doClick();
+	    
 	    if (IDText.getText().equals("")) {
 	    	btnUpdate.setVisible(false);
 	    	btnSubmit.setVisible(true);
@@ -594,9 +642,10 @@ public class AddEventPanel extends JPanel {
 		String desc = descriptionTextArea.getText();
 		// Invitee
 		String invitee = inviteeTextArea.getText();
-		
+		// category
+		Category cat = (Category) categoryComboBox.getSelectedItem();
 		  //TODO ADD CATEGORY INTO PACKAGE
-		Event event = new Event(name, startDateTime, endDateTime, location, desc,null);
+		Event event = new Event(name, startDateTime, endDateTime, location, desc, cat);
 		event.setTeamEvent(teamRadioButton.isSelected());
 		if (teamRadioButton.isSelected()) {
 			System.out.println("team radio button selected");
@@ -659,6 +708,13 @@ public class AddEventPanel extends JPanel {
 			teamRadioButton.doClick();
 		} else {
 			personalRadioButton.doClick();
+		}
+		for (int i = 0; i < categoryArray.length; i++) {
+			if (categoryArray[i].getId() == event.getCategory().getId()) {
+				System.out.println("should select " + i);
+				categoryComboBox.setSelectedIndex(i);
+				System.out.println("actually select " + categoryComboBox.getSelectedIndex());
+			}
 		}
 		if (IDText.getText().equals("")) {
 			btnUpdate.setVisible(false);

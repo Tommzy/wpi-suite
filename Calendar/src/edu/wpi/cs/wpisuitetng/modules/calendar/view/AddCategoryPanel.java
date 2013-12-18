@@ -17,8 +17,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
@@ -33,11 +31,8 @@ import javax.swing.event.DocumentListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCategoryController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCategoryController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import net.miginfocom.swing.MigLayout;
@@ -68,8 +63,11 @@ public class AddCategoryPanel extends JPanel{
 	JLabel[] colorDisplays;
 
 	/** Color array */
-	Color[] color = {Color.WHITE, Color.CYAN, Color.ORANGE, Color.YELLOW, Color.MAGENTA, Color.PINK};
-
+	Color[] color = {Color.WHITE, Color.ORANGE, Color.YELLOW, Color.PINK, 
+			new Color(227, 92, 92), new Color(227, 92, 213), new Color(184, 92, 227), new Color(98, 92, 227),
+			new Color(92, 184, 227), new Color(92, 227, 165), new Color(98, 227, 92), new Color(225, 227, 92), 
+			new Color(227, 155, 92), new Color(227, 130, 92)};
+	
 	/** ID Label */
 	JLabel IDText;
 
@@ -329,8 +327,11 @@ public class AddCategoryPanel extends JPanel{
 		contentPanel.add(teamRadioButton, "wrap, span 2");
 		contentPanel.add(colorLabel);
 		for (int i = 0; i < color.length; i++) {
-			if (i == color.length - 1) {
+			if ((i == color.length - 1) || (i % 5 == 4)) {
 				contentPanel.add(colorDisplays[i], "wrap");
+			}
+			else if (i % 5 == 0) {
+				contentPanel.add(colorDisplays[i], "cell 1 " + String.valueOf(1 + i / 5));
 			}
 			else {
 				contentPanel.add(colorDisplays[i]);
@@ -339,7 +340,7 @@ public class AddCategoryPanel extends JPanel{
 		contentPanel.add(nameLabel);
 		contentPanel.add(nameTextField);
 		contentPanel.add(nameErrMsg, "wrap, span");		
-		contentPanel.add(btnSubmit, "cell 1 3");
+		contentPanel.add(btnSubmit, "cell 1 5");
 		contentPanel.add(btnUpdate);
 		contentPanel.add(btnCancel);
 		contentPanel.add(btnDelete, "gapleft 5%");
