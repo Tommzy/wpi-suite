@@ -10,9 +10,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
@@ -25,14 +23,21 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class AddCategoryRequestObserver implements RequestObserver {
 
+	/** The controller that instantiated this observer*/
 	private final AddCategoryController controller;
 	
+	/**
+	 * Set the controller of this observer.
+	 * @param controller the controller to reference
+	 */
 	public AddCategoryRequestObserver(AddCategoryController controller) {
 		this.controller = controller;
 	}
-	public Category testItem;
 
-	
+	/**
+	 * The response is successful.
+	 * @param iReq the request of the response
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
@@ -42,17 +47,16 @@ public class AddCategoryRequestObserver implements RequestObserver {
 		final Category item = Category.fromJSON(response.getBody());
 		//Pass the messaged back to the controller
 		//Needs to put category back into the system
-		//TODO
 		controller.addCategoryToModel(item);
 		MainCalendarController.getInstance().updateAll();
 		System.out.print("From AddCategoryObserver." + response.getBody());
 		
 	} 
 	
-	public Category testReturn(){
-		return testItem;
-	}
-
+	/**
+	 * The response had an error
+	 * @param iReq the request of the response
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getBody());
@@ -60,6 +64,11 @@ public class AddCategoryRequestObserver implements RequestObserver {
 		System.err.println("The request to add a category errored.");	
 	}
 
+	/**
+	 * The fail exception.
+	 * @param iReq the request
+	 * @param exception the exception
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to add a category failed.");

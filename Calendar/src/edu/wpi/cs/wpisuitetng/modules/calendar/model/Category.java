@@ -62,14 +62,9 @@ public class Category implements Model {
     id = -1;
     userID = "-1";
     this.isPersonal = isItPersonal;
+    this.isActive = true;
   }
   
-  public Category(String newName, boolean isItPersonal) {
-    this.name = newName;
-    id = -1;
-    userID = "-1";
-    this.isPersonal = isItPersonal;
-  }
   
   public void copy(Category donor) {
     this.name = donor.name;
@@ -79,6 +74,7 @@ public class Category implements Model {
     this.color = donor.color;
     this.userID = donor.userID;
     this.isPersonal = donor.isPersonal;
+    this.isActive = donor.isActive;
   }
   
 
@@ -163,10 +159,32 @@ public class Category implements Model {
   public void setIsPersonal(boolean isThisPersonal) {
     this.isPersonal = isThisPersonal;
   }
+  /**
+   * Indicates if a category is active or not
+   * @return true if active, else return false
+   */
+  public boolean isActive() {
+		return isActive;
+	}
+
+  /**
+   * Set whether this category is active or not
+   * @param isActive boolean which is true if we want the category to be personal.
+   */
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
+	}
   
   //---------------------Interface-Functions----------------------
   
-  @Override
+ 
+
+@Override
   public void save() {
     // TODO Auto-generated method stub
     

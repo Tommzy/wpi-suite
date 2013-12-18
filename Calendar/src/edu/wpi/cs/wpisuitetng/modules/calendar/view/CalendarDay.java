@@ -104,9 +104,9 @@ public class CalendarDay extends JPanel {
 			c.gridy = i;
 			Box box = Box.createVerticalBox();
 			box.add(Box.createVerticalStrut(1));
-			if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
-				box.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
-			}
+//			if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
+//				box.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
+//			}
 			view.add(box, c);
 			c.gridx = 1;
 			c.weightx = 1;
@@ -133,9 +133,9 @@ public class CalendarDay extends JPanel {
 			if ((i % (60/minimalInterval) == 0) && (i / (60/minimalInterval) != 24)) {
 				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
 				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
-				if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
-					timeLabel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
-				}
+//				if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
+//					timeLabel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
+//				}
 				c.gridheight = 15;
 				view.add(timeLabel, c);
 			} 
@@ -314,11 +314,11 @@ public class CalendarDay extends JPanel {
 			label = "<HTML><div style='text-align:center'>" + event.getName() + "</div></HTML>";
 		}
 		if (event.getTimeSpan() >= 30 ) {
-			label = "<HTML><div style='text-align:center'>" + event.getName() + "<br />" + 
+			label = "<HTML><font color=black><p style='text-align:center'>" + event.getName() + "<br />" + 
 					format(event.getStartTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
 					format(event.getStartTime().get(GregorianCalendar.MINUTE)) + " - " +
 					format(event.getEndTime().get(GregorianCalendar.HOUR_OF_DAY)) + ":" +
-					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</div></HTML>";
+					format(event.getEndTime().get(GregorianCalendar.MINUTE)) + "</p></font></HTML>";
 		}
 		return label;
 	}

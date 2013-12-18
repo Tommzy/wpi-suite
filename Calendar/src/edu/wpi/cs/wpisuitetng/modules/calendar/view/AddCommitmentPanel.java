@@ -19,6 +19,7 @@ import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -34,17 +35,22 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.MaskFormatter;
 
 import net.miginfocom.swing.MigLayout;
+import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.UpdateCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 
 // TODO: Auto-generated Javadoc
@@ -91,7 +97,7 @@ public class AddCommitmentPanel extends JPanel {
   JLabel categoryLabel;
   
   /** The category drop down list */
-//  JComboBox<Category> categoryComboBox;
+  JComboBox<Category> categoryComboBox;
   
   /** The type of this commitment */
   JLabel typeLabel;
@@ -157,7 +163,6 @@ public class AddCommitmentPanel extends JPanel {
 	ButtonGroup radioButtonGroup = new ButtonGroup() ;
 	personalRadioButton = new JRadioButton("Personal Commitment");
 	teamRadioButton = new JRadioButton("Team Commitment");
-	teamRadioButton.setSelected(true);
 	radioButtonGroup.add(personalRadioButton);
 	radioButtonGroup.add(teamRadioButton);
     
@@ -169,11 +174,14 @@ public class AddCommitmentPanel extends JPanel {
     
     categoryLabel = new JLabel("Category: ");
     
-//    categoryComboBox = new JComboBox<Category>();
+    categoryComboBox = new JComboBox<Category>();
+    System.out.println("category combobox : " + new CategoryFilter().getCategoryArray().length);
 
     descriptionLabel = new JLabel("Description:");
     
     descriptionTextArea = new JTextArea();
+    descriptionTextArea.setLineWrap(true);
+    descriptionTextArea.setWrapStyleWord(true);
 //    descriptionTextArea.setPreferredSize(new Dimension(400, 90));
     descriptionScroll = new JScrollPane(descriptionTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     descriptionScroll.setPreferredSize(new Dimension(400, 100));
@@ -182,6 +190,8 @@ public class AddCommitmentPanel extends JPanel {
 
     inviteeTextArea = new JTextArea();
 //    inviteeTextArea.setPreferredSize(new Dimension(400, 90));
+    inviteeTextArea.setLineWrap(true);
+    inviteeTextArea.setWrapStyleWord(true);
     inviteeScroll = new JScrollPane(inviteeTextArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
     inviteeScroll.setPreferredSize(new Dimension(400, 100));
     final CommitmentsModel model = CommitmentsModel.getInstance();
@@ -194,7 +204,6 @@ public class AddCommitmentPanel extends JPanel {
     IDText = new JLabel(); 
     
     // Set up properties and values
-//	nameTextField.setInputVerifier(new TextVerifier(nameErrMsg, btnSubmit));
     nameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
 		@Override
@@ -278,6 +287,53 @@ public class AddCommitmentPanel extends JPanel {
 			formatInt(MainCalendarController.getInstance().getDateController().getYear()));
 	startTimeTextField.setValue(getCurrentTime());
 	
+	teamRadioButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Category[] categoryArray = new CategoryFilter(0).getCategoryArray();
+			System.out.println("team catefory lenth :" + categoryArray.length);
+			categoryComboBox.removeAllItems();
+
+			for (int i = 0; i < categoryComboBox.getItemCount(); i++) {
+				categoryComboBox.removeItemAt(i);
+				System.out.println("Removed: " + i);
+			}
+			for (int i = 0; i < categoryArray.length; i++) {
+				categoryComboBox.addItem(categoryArray[i]);
+				System.out.println("Added: " + i);
+			}
+			if (categoryComboBox.getParent() != null) {
+				categoryComboBox.getParent().revalidate();
+				categoryComboBox.getParent().repaint();
+			}
+		}
+	});
+	personalRadioButton.addActionListener(new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			Category[] categoryArray = new CategoryFilter(1).getCategoryArray();
+			System.out.println("personal catefory lenth :" + categoryArray.length);
+			categoryComboBox.removeAllItems();
+//			for (int i = 0; i < categoryComboBox.getItemCount(); i++) {
+//				categoryComboBox.removeItemAt(i);
+//				System.out.println("Removed: " + i);
+//			}
+			for (int i = 0; i < categoryArray.length; i++) {
+				categoryComboBox.addItem(categoryArray[i]);
+				System.out.println("Added: " + i);
+			}
+			if (categoryComboBox.getParent() != null) {
+				categoryComboBox.getParent().revalidate();
+				categoryComboBox.getParent().repaint();
+			}
+		}
+	});
+	teamRadioButton.doClick();
+	
     contentPanel.add(nameLabel);
     contentPanel.add(nameTextField);
     contentPanel.add(nameErrMsg, "cell 3 0, wrap, span");
@@ -298,8 +354,8 @@ public class AddCommitmentPanel extends JPanel {
 
     contentPanel.add(statusLabel);
     contentPanel.add(statusComboBox);
-    contentPanel.add(categoryLabel, "cell 3 5, wrap");
-//    contentPanel.add(categoryComboBox, "wrap");
+    contentPanel.add(categoryLabel, "cell 3 5");
+    contentPanel.add(categoryComboBox, "wrap");
 
     contentPanel.add(descriptionLabel);
     contentPanel.add(descriptionScroll, "wrap, span 4");
@@ -390,15 +446,15 @@ public class AddCommitmentPanel extends JPanel {
 	  String invitee = inviteeTextArea.getText();
 	  // Status
 	  int status = statusComboBox.getSelectedIndex() < 1? 1 : statusComboBox.getSelectedIndex();
+	  // category
+	  Category cat = (Category)categoryComboBox.getSelectedItem();
 	  // Pack into a commitment
-	  
-	  //TODO ADD CATEGORY INTO PACKAGE
-	  Commitment commitment = new Commitment(name, startDateTime, desc,null);
+	  Commitment commitment = new Commitment(name, startDateTime, desc, cat);
 
 	  if (personalRadioButton.isSelected()) {
 		  commitment.setTeamCommitment(false);
 	  }
-
+	  
 	  commitment.setStatus(status);
 
 	  commitment.setId(id);
@@ -451,6 +507,9 @@ public class AddCommitmentPanel extends JPanel {
 	  startDateTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.MONTH) + 1) + "/" + formatInt(startDateTime.get(GregorianCalendar.DAY_OF_MONTH)) + "/" + startDateTime.get(GregorianCalendar.YEAR));
 	  startTimeTextField.setValue(formatInt(startDateTime.get(GregorianCalendar.HOUR_OF_DAY)) + ":" + formatInt(startDateTime.get(GregorianCalendar.MINUTE)));
 	  startDatePicker.setSelectedDate(new DateController(startDateTime));
+	  
+	  categoryComboBox.setSelectedItem(commitment.getCategory());
+	  
 	  if (commitment.isTeamCommitment()) {
 		  teamRadioButton.doClick();
 	  } else {
@@ -466,37 +525,6 @@ public class AddCommitmentPanel extends JPanel {
 	  }
 	  
   }
-
-	private class TextVerifier extends InputVerifier {
-		JLabel errMsg; 
-		JButton btnSubmit;
-		
-		public TextVerifier(JComponent errMsg, JButton btnSubmit) {
-			this.errMsg = (JLabel) errMsg;
-			this.btnSubmit = btnSubmit;
-		}
-		
-		@Override
-		public boolean verify(JComponent input) {
-			JTextField tf = (JTextField) input;
-			if (tf.getText().equals("")) {
-				errMsg.setText("Name can not be empty! ");
-				btnSubmit.setEnabled(checkContent());
-				btnUpdate.setEnabled(checkContent());
-			}
-			else if (tf.getText().trim().equals("")) {
-				errMsg.setText("Invalid Name! ");
-				btnSubmit.setEnabled(checkContent());
-				btnUpdate.setEnabled(checkContent());
-			}
-			else {
-				errMsg.setText("");
-				btnSubmit.setEnabled(checkContent());
-				btnUpdate.setEnabled(checkContent());
-			}
-			return (! tf.getText().trim().equals(""));
-		}
-	}
 	
 	private class TimeVerifier extends InputVerifier {
 		JLabel errMsg; 

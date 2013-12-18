@@ -10,8 +10,8 @@ import java.util.Set;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockData;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.EventEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.FilterEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -19,15 +19,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class EventEntityManagerTests {
+public class FilterEntityManagerTests {
 
 	@Test
 	public void assignUniqueIDTest() throws WPISuiteException {
 		
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
-		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
-		Event ev4 = new Event("Event 4", null, null, "no where", "Event 4",null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
+		Filter fil3 = new Filter("Filter 3", null);
+		Filter fil4 = new Filter("Filter 4", null);
 		
 		User admin = new User("admin", "admin", "1234", 27);
 		admin.setRole(Role.ADMIN);
@@ -36,29 +36,29 @@ public class EventEntityManagerTests {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
-		evEntMan.assignUniqueID(ev1);
-		fakeDB.save(ev1, testProject);
-		evEntMan.assignUniqueID(ev2);
-		fakeDB.save(ev2, testProject);
-		evEntMan.assignUniqueID(ev3);
-		fakeDB.save(ev3, testProject);
-		evEntMan.assignUniqueID(ev4);
-		fakeDB.save(ev4, testProject);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
+		FilterMan.assignUniqueID(fil1);
+		fakeDB.save(fil1, testProject);
+		FilterMan.assignUniqueID(fil2);
+		fakeDB.save(fil2, testProject);
+		FilterMan.assignUniqueID(fil3);
+		fakeDB.save(fil3, testProject);
+		FilterMan.assignUniqueID(fil4);
+		fakeDB.save(fil4, testProject);
 
 		fakeDB.save(admin);
 		
 
 		
-		assertEquals(evEntMan.HighestId(), 4);
+		assertEquals(FilterMan.HighestId(), 4);
 
 	}
 
 	@Test
 	public void saveTest1() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -68,14 +68,14 @@ public class EventEntityManagerTests {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 		fakeDB.save(admin);
 		//Tests
-		evEntMan.save(ev1);
-		assertEquals(evEntMan.HighestId(), 1);
+		FilterMan.save(fil1);
+		assertEquals(FilterMan.HighestId(), 1);
 		
-		evEntMan.save(ev2);
-		assertEquals(evEntMan.HighestId(), 2);
+		FilterMan.save(fil2);
+		assertEquals(FilterMan.HighestId(), 2);
 
 		
 	}
@@ -83,8 +83,8 @@ public class EventEntityManagerTests {
 	@Test
 	public void saveTest2() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+	Filter fil1 = new Filter("Filter 1", null);
+	Filter fil2 = new Filter("Filter 2", null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
@@ -97,20 +97,20 @@ public class EventEntityManagerTests {
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
 	
-	EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+	FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 	fakeDB.save(admin);
 	//Tests
-	evEntMan.save(sesh, ev1);
-	assertEquals(evEntMan.HighestId(), 1);
+	FilterMan.save(sesh, fil1);
+	assertEquals(FilterMan.HighestId(), 1);
 	
-	evEntMan.save(sesh, ev2);
-	assertEquals(evEntMan.HighestId(), 2);
+	FilterMan.save(sesh, fil2);
+	assertEquals(FilterMan.HighestId(), 2);
 }
 	
 	@Test
 	public void makeEntityTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
+				Filter fil1 = new Filter("Filter 1", null);
 
 
 				
@@ -125,29 +125,26 @@ public class EventEntityManagerTests {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+				FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 				fakeDB.save(admin);
 				//Tests
 				
-				String evString = ev1.toJSON();
-				evEntMan.makeEntity(sesh, evString);
+				String filString = fil1.toJSON();
+				FilterMan.makeEntity(sesh, filString);
 				
-				assertEquals(evEntMan.getEntity(sesh, "1")[0].getName(), "Event 1");
+				assertEquals(FilterMan.getEntity(sesh, "1")[0].getName(), "Filter 1");
 				
 	}
 	
 	@Test
 public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-	Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+	Filter fil1 = new Filter("Filter 1", null);
+	Filter fil2 = new Filter("Filter 2", null);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
 	admin.setRole(Role.ADMIN);
-	
-	ev1.setUsername("admin");
-	ev2.setUsername("admin");
 	
 	
 	
@@ -157,23 +154,22 @@ public void getAllTest() throws WPISuiteException {
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
 	
-	EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+	FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 	fakeDB.save(admin);
-	evEntMan.assignUniqueID(ev1);
-	fakeDB.save(ev1, testProject);
-	evEntMan.assignUniqueID(ev2);
-	fakeDB.save(ev2, testProject);
+	FilterMan.assignUniqueID(fil1);
+	fakeDB.save(fil1, testProject);
+	FilterMan.assignUniqueID(fil2);
+	fakeDB.save(fil2, testProject);
 	//Tests
 	
-	Event[] testev = evEntMan.getAll(sesh);
-	assertEquals(testev.length, 2);
+	Filter[] testfil = FilterMan.getAll(sesh);
+	assertEquals(testfil.length, 2);
 }
-	
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -187,22 +183,22 @@ public void getAllTest() throws WPISuiteException {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 		fakeDB.save(admin);
-		evEntMan.assignUniqueID(ev1);
-		fakeDB.save(ev1, testProject);
-		evEntMan.assignUniqueID(ev2);
-		fakeDB.save(ev2, testProject);
+		FilterMan.assignUniqueID(fil1);
+		fakeDB.save(fil1, testProject);
+		FilterMan.assignUniqueID(fil2);
+		fakeDB.save(fil2, testProject);
 		//Tests
 		
-		assertEquals(evEntMan.getEntity(sesh, "1")[0].getId(), 1);
+		assertEquals(FilterMan.getEntity(sesh, "1")[0].getId(), 1);
 	}
 	
 	@Test
 	public void updateTest() throws WPISuiteException {
 		//Set Up
-		Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-		Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
+		Filter fil1 = new Filter("Filter 1", null);
+		Filter fil2 = new Filter("Filter 2", null);
 
 		
 		User admin = new User("admin", "admin", "1234", 27);
@@ -216,29 +212,29 @@ public void getAllTest() throws WPISuiteException {
 		MockData fakeDB = new MockData(new HashSet<Object>());
 		fakeDB = new MockData(new HashSet<Object>());
 		
-		EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+		FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 		fakeDB.save(admin);
-		evEntMan.assignUniqueID(ev1);
-		fakeDB.save(ev1, testProject);
-		evEntMan.assignUniqueID(ev2);
-		fakeDB.save(ev2, testProject);
+		FilterMan.assignUniqueID(fil1);
+		fakeDB.save(fil1, testProject);
+		FilterMan.assignUniqueID(fil2);
+		fakeDB.save(fil2, testProject);
 		//Tests
-		Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
-		ev3.setId(2);
-		String stringev = ev3.toJSON();
+		Filter fil3 = new Filter("Filter 3", null);
+		fil3.setId(2);
+		String stringfil = fil3.toJSON();
 		
-		System.out.print(stringev);
+		System.out.print(stringfil);
 		
-		evEntMan.update(sesh, stringev);
-		assertEquals(evEntMan.getEntity(sesh, "2")[0].getDescription(),"Event 3");
+		FilterMan.update(sesh, stringfil);
+		assertEquals(FilterMan.getEntity(sesh, "2")[0].getName(),"Filter 3");
 	}
 
 	@Test
 	public void deleteEntityTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
-				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
+				Filter fil1 = new Filter("Filter 1", null);
+				Filter fil2 = new Filter("Filter 2", null);
+				Filter fil3 = new Filter("Filter 3", null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -252,26 +248,26 @@ public void getAllTest() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+				FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 				fakeDB.save(admin);
-				evEntMan.assignUniqueID(ev1);
-				fakeDB.save(ev1, testProject);
-				evEntMan.assignUniqueID(ev2);
-				fakeDB.save(ev2, testProject);
-				evEntMan.assignUniqueID(ev3);
-				fakeDB.save(ev3, testProject);
+				FilterMan.assignUniqueID(fil1);
+				fakeDB.save(fil1, testProject);
+				FilterMan.assignUniqueID(fil2);
+				fakeDB.save(fil2, testProject);
+				FilterMan.assignUniqueID(fil3);
+				fakeDB.save(fil3, testProject);
 				//Tests
-				evEntMan.deleteEntity(sesh, "1");
-				evEntMan.getEntity(sesh, "1");
+				FilterMan.deleteEntity(sesh, "1");
+				FilterMan.getEntity(sesh, "1");
 				
 	}
 	
 	@Test
 	public void deleteAllTest() throws WPISuiteException {
 		//Set Up
-				Event ev1 = new Event("Event 1", null, null, "no where", "Event 1",null);
-				Event ev2 = new Event("Event 2", null, null, "no where", "Event 2",null);
-				Event ev3 = new Event("Event 3", null, null, "no where", "Event 3",null);
+				Filter fil1 = new Filter("Filter 1", null);
+				Filter fil2 = new Filter("Filter 2", null);
+				Filter fil3 = new Filter("Filter 3", null);
 
 				
 				User admin = new User("admin", "admin", "1234", 27);
@@ -285,17 +281,17 @@ public void getAllTest() throws WPISuiteException {
 				MockData fakeDB = new MockData(new HashSet<Object>());
 				fakeDB = new MockData(new HashSet<Object>());
 				
-				EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+				FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 				fakeDB.save(admin);
-				evEntMan.assignUniqueID(ev1);
-				fakeDB.save(ev1, testProject);
-				evEntMan.assignUniqueID(ev2);
-				fakeDB.save(ev2, testProject);
-				evEntMan.assignUniqueID(ev3);
-				fakeDB.save(ev3, testProject);
+				FilterMan.assignUniqueID(fil1);
+				fakeDB.save(fil1, testProject);
+				FilterMan.assignUniqueID(fil2);
+				fakeDB.save(fil2, testProject);
+				FilterMan.assignUniqueID(fil3);
+				fakeDB.save(fil3, testProject);
 				//Tests
-				evEntMan.deleteAll(sesh);;
-				assertEquals(evEntMan.Count(), 0);	
+				FilterMan.deleteAll(sesh);;
+				assertEquals(FilterMan.Count(), 0);	
 	}
 
 	/*	
@@ -308,7 +304,7 @@ public void getAllTest() throws WPISuiteException {
 	Session sesh = new Session(admin, "01");
 	MockData fakeDB = new MockData(new HashSet<Object>());
 	fakeDB = new MockData(new HashSet<Object>());
-	EventEntityManager evEntMan = new EventEntityManager(fakeDB);
+	FilterEntityManager FilterMan = new FilterEntityManager(fakeDB);
 	fakeDB.save(admin);
 	
 	//Tests

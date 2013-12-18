@@ -1,20 +1,40 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.*;
 
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.DeleteCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventTabPanel;
 import net.miginfocom.swing.MigLayout;
 
@@ -24,296 +44,133 @@ import net.miginfocom.swing.MigLayout;
 
 public class MonthViewGridPanel extends JPanel {
 	private JLabel headerLabel = new JLabel(); // Date for day
-	private JLabel firstItemLabel = new JLabel(); //1st displayed item in day
-	private JLabel secondItemLabel = new JLabel(); //2nd
-	private JLabel thirdItemLabel = new JLabel(); //3rd
-	private JLabel fourthItemLabel = new JLabel(); //4th
-	private JLabel additionalItemsLabel = new JLabel(); //only display when more than 4 items for day
-	private JTextArea textArea = new JTextArea(); //No longer stores information, only around to enforce
-												  //month view size restrictions and provide easier date
-												  //selection -Gravy
-	public static int mod = 1;
 
-	public DateController date;
+	private DateController date;
+	
+	JList list = new JList() {
+		@Override
+        public int locationToIndex(Point location) {
+            int index = super.locationToIndex(location);
+            if (index != -1 && !getCellBounds(index, index).contains(location)) {
+                return -1;
+            }
+            else {
+                return index;
+            }
+        }
+	};
+	ArrayList calendarItemList = new ArrayList();
+	
+	DefaultListModel model = new DefaultListModel();
 	
 	public MonthViewGridPanel(DateController date) {
 		this.date = date.clone();
 		
-		
 		setBackground(Color.white);
-		textArea.setEditable(false); //Disallow manual editing
-		textArea.setVisible(false); //Text area does not need to be seen, only be there to keep grid spaced
-									//nicely
-		
-		/*
-		 * I added the mouse listener to 
-		 * both textArea and MonthViewGridPanel
-		 * because it seems that if I only add
-		 * listener to the panel, the activated area
-		 * for clicking is the gap between the header label
-		 * and the text area within the grid panel
-		 */
-		// Left textArea listener in to give a bigger selection area
-		textArea.addMouseListener(new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setToThisDate();
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-
-		// Add mouse listeners for individual items (commitments or events)
-		// Clicking sets date to current date -Gravy
-		firstItemLabel.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setToThisDate();
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		secondItemLabel.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setToThisDate();
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		thirdItemLabel.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setToThisDate();
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		fourthItemLabel.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setToThisDate();
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		additionalItemsLabel.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				setToThisDate();
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		
-		
-		// Add day labels (numbering the days of the month) to grid
+	
 		setLayout(new MigLayout("insets 0 0 0 0, height :100:"));
+		
 		headerLabel.setOpaque(true);
 		headerLabel.setBackground(new Color(138, 173, 209));
 		add(headerLabel, "width :100%:, wrap, span");
+		headerLabel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					switchView();
+				}
+			}
+		});
+		addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 2) {
+					switchView();
+				}
+			}
+		});
 		
-		//Adds the labels that will have item data to grid
-		//Replaces the previous functionality of textArea of displaying item data -Gravy
-		firstItemLabel.setOpaque(true);
-		firstItemLabel.setBackground(new Color(138, 173, 209));
-		add(firstItemLabel, "width :100%:, wrap, span");
+		list.setModel(model);
+		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		list.setLayoutOrientation(JList.VERTICAL);
+		list.setVisibleRowCount(2);
+		list.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				setToThisDate();
+				JList list = (JList)e.getSource();
+				if (e.getClickCount() == 1) {
+					int index = list.locationToIndex(e.getPoint());
+					System.out.println(index);
+					list.clearSelection();
+				} else if (e.getClickCount() == 2) {
+		            int index = list.locationToIndex(e.getPoint());
+		            Object item;
+		            try {
+		            	item = calendarItemList.get(index);
+		            } catch (Exception ex) {
+		            	switchView();
+		            	return;
+		            }
+		            if (item instanceof Commitment) {
+		    			AddCommitmentPanel newCommitmentPanel = new AddCommitmentPanel(new MigLayout());
+		    			newCommitmentPanel.populateCommitment((Commitment) item);
+		    			AddEventPanelController.getInstance().getTabbedPane().add(newCommitmentPanel);
+		    			AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Commitment");
+		    			AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+		    	        newCommitmentPanel.initiateFocus();
+		            } else if (item instanceof Event) {
+		            	AddEventPanel newEventPanel = new AddEventPanel(new MigLayout());
+		    			newEventPanel.populateEvent((Event) item);
+		    			AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
+		    			AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Edit Event");
+		    			AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
+		    			newEventPanel.initiateFocus();
+		            }
+		    	
+		        }
+			}
+		});
+		list.addMouseMotionListener(new MouseMotionAdapter() {
+	        @Override
+	        public void mouseMoved(MouseEvent e) {
+	            JList l = (JList)e.getSource();
+	            ListModel m = l.getModel();
+	            int index = l.locationToIndex(e.getPoint());
+	            if(index > -1) {
+	            	String displayString = "<html>";
+	            	Object item = calendarItemList.get(index);
+	            	if (item instanceof Commitment) {
+	            		Commitment cmtItem = (Commitment) item;
+	            		displayString += cmtItem.getName() + "<br>";
+	            		if (cmtItem.getDescription().length() != 0) {
+	            			displayString += cmtItem.getDescription() + "<br>";
+	            		}
+	            		displayString += cmtItem.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + ":" + 
+	            		cmtItem.getStartTime().get(GregorianCalendar.MINUTE) + "</html>";
+	            	}
+	            	
+	            	if (item instanceof Event) {
+	            		Event eventItem = (Event) item;
+	            		displayString += eventItem.getName() + " " + eventItem.getDescription() + " "
+	            		+ eventItem.getStartTime().get(GregorianCalendar.HOUR_OF_DAY) + ":" + 
+	            		eventItem.getStartTime().get(GregorianCalendar.MINUTE);
+	            	}
+	                l.setToolTipText(displayString);
+	            }
+	        }
+	    });
+		JScrollPane listScroller = new JScrollPane(list, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+	            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		listScroller.setHorizontalScrollBar(null);
+		add(listScroller, "span, width :100%:, height :80%:");
 		
-		secondItemLabel.setOpaque(true);
-		secondItemLabel.setBackground(new Color(138, 173, 209));
-		add(secondItemLabel, "width :100%:, wrap, span");
-		
-		thirdItemLabel.setOpaque(true);
-		thirdItemLabel.setBackground(new Color(138, 173, 209));
-		add(thirdItemLabel, "width :100%:, wrap, span");
-		
-		fourthItemLabel.setOpaque(true);
-		fourthItemLabel.setBackground(new Color(138, 173, 209));
-		add(fourthItemLabel, "width :100%:, wrap, span");
-		
-		additionalItemsLabel.setOpaque(true);
-		additionalItemsLabel.setBackground(new Color(138, 173, 209));
-		add(additionalItemsLabel, "width :100%:, wrap, span");
-		
-		
-		// previous setting. will be removed for upcoming refactoring.
-		// mod defaultly set to 1, representing auto resize with the window
-		// if set to any number other than 1, the month view will have the scroll bar
-		if (mod == 1) {
-			add(textArea, "span, width :200:, height :100:");
-		} else {
-			add(textArea, "span, width 100%:100%:100%, height 80%:80%:80%");
-		}
-
 	}
 	
 	public JLabel getHeaderLabel() {
 		return headerLabel;
 	}
-
-	
-//UNUSED
-//	public JTextArea getTextArea() {
-//		return textArea;
-//	}
 	
 	public void setHeader(String s) {
 		headerLabel.setText(s);
 	}
-
-//UNUSED
-//	public void setTextArea(String s) {
-//		textArea.setText(s);
-//	}
 
 	public DateController getDateContrller() {
 		return date;
@@ -336,26 +193,15 @@ public class MonthViewGridPanel extends JPanel {
 			if (MainCalendarController.getInstance().getDateController().equals(date)) {
 				this.setBackground(Color.cyan); //Changed to cyan to keep consistent with day and week view
 												//-Gravy
-				firstItemLabel.setBackground(Color.cyan);
-				secondItemLabel.setBackground(Color.cyan);
-				thirdItemLabel.setBackground(Color.cyan);
-				fourthItemLabel.setBackground(Color.cyan);
-				additionalItemsLabel.setBackground(Color.cyan);
-	
-	
-	
 	
 			} else {
 				this.setBackground(new Color(138, 173, 209));
-				firstItemLabel.setBackground(new Color(138, 173, 209));
-				secondItemLabel.setBackground(new Color(138, 173, 209));
-				thirdItemLabel.setBackground(new Color(138, 173, 209));
-				fourthItemLabel.setBackground(new Color(138, 173, 209));
-				additionalItemsLabel.setBackground(new Color(138, 173, 209));
+				list.clearSelection();
 			}
 		} catch (NullPointerException e) {
 			
 		}
+	
 	}
 	
 	public void setToThisDate() {
@@ -365,21 +211,29 @@ public class MonthViewGridPanel extends JPanel {
 		date.set(Calendar.MONTH, this.date.getMonth());
 		date.set(Calendar.DATE, this.date.getDayOfMonth());
 		
-		//System.out.println(selectedDate);
-		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
-			//TODO: switch to day view here	
-			JToggleButton btn = new JToggleButton();
-			btn.setText("Day");
-			MainCalendarController.getInstance().timePeriodChanged(btn);
-
-		}
-		else {
-			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
-		}
-		
 		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
 	}
 
+	private void switchView() {
+		System.out.println("view switched");
+		JToggleButton btn = new JToggleButton();
+		btn.setText("Day");
+		MainCalendarController.getInstance().timePeriodChanged(btn);
+//		MainCalendarController.getInstance().timePeriodChanged(btn);
+//		System.out.println("view switched");
+//		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
+//			//TODO: switch to day view here	
+//			JToggleButton btn = new JToggleButton();
+//			btn.setText("Day");
+//			MainCalendarController.getInstance().timePeriodChanged(btn);
+//
+//		}
+//		else {
+//			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
+//		}
+//		
+		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
+	}
 	public void filtCommitment(Collection<Commitment> commitment) {
 		if (date == null) {
 			return;
@@ -399,101 +253,33 @@ public class MonthViewGridPanel extends JPanel {
 		
 	}
 	
+	public void filtEvent(List<Event> event) {
+		if (date == null) {
+			return;
+		}
+		
+		// filter out the commitment for this date
+		Iterator<Event> itr = event.iterator();
+		while (itr.hasNext()) {
+			Event eve = itr.next();
+			GregorianCalendar calStartTime = eve.getStartTime();
+			if (calStartTime.get(GregorianCalendar.YEAR) == date.getYear()
+				&& calStartTime.get(GregorianCalendar.MONTH) == date.getMonth()
+				&& calStartTime.get(GregorianCalendar.DATE) == date.getDayOfMonth()) {
+				addEventToTalble(eve);
+			}
+		}
+		
+	}
+	public void addEventToTalble(Event event) {
+		calendarItemList.add(event);
+		String element = event.getName();
+		model.addElement(element);
+	}
 	public void addCommitmentToTable(Commitment cmt) {
+		calendarItemList.add(cmt);
+		String element = cmt.getName();
+		model.addElement(element);
 		
-		GregorianCalendar commitmentStartTime = cmt.getStartTime();
-		int hour = commitmentStartTime.get(Calendar.HOUR_OF_DAY);
-		
-		if(hour > 12){ //if hour of day is past 12, change to proper time
-			if(hour == 13){
-				hour = 1;
-			}
-			if(hour == 14){
-				hour = 2;
-			}
-			if(hour == 15){
-				hour = 3;
-			}
-			if(hour == 16){
-				hour = 4;
-			}
-			if(hour == 17){
-				hour = 5;
-			}
-			if(hour == 18){
-				hour = 6;
-			}
-			if(hour == 19){
-				hour = 7;
-			}
-			if(hour == 20){
-				hour = 8;
-			}
-			if(hour == 21){
-				hour = 9;
-			}
-			if(hour == 22){
-				hour = 10;
-			}
-			if(hour == 23){
-				hour = 11;
-			}			
-		}
-		if(hour == 0){//if midnight change to 12
-			hour = 12;
-		}
-		
-		int minute = commitmentStartTime.get(Calendar.MINUTE);
-		
-		String AmOrPm = ""; //Set to either Am or Pm
-		if(commitmentStartTime.getTime().getHours() < 12){
-			AmOrPm = "Am";
-		}
-		
-		else{
-			AmOrPm = "Pm";
-		}
-		//Used for tooltip ONLY 
-		String startToolTipClockTime = "" + hour + ":" + (minute < 10 ? "0" + minute : minute) + AmOrPm;
-		
-		
-		//Used for label text ONLY
-		String startLabelClockTime = "" + hour + AmOrPm;
-		
-		
-		
-		//Check to see what label is being added then add correct label.
-		//If a day has more than 4 items then a label indicating as much will appear
-		//NOTE: LABELS WILL HAVE TO BE CHANGED WHEN ITEMS CAN BE DELETED
-		//CURRENTLY WILL NOT CHANGE THE LABEL TEXT-Gravy
-		if(firstItemLabel.getText() == ""){
-			firstItemLabel.setText(startLabelClockTime + " " + cmt.getName());
-			firstItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
-										"Description: " + cmt.getDescription() + "<br />" +
-										"Due: " + startToolTipClockTime + "<br /></html>");
-		}
-		else if(secondItemLabel.getText() == ""){
-			secondItemLabel.setText(startLabelClockTime + " " + cmt.getName());
-			secondItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
-										"Description: " + cmt.getDescription() + "<br />" +
-										"Due: " + startToolTipClockTime + "<br /></html>");
-		}
-		else if(thirdItemLabel.getText() == ""){
-			thirdItemLabel.setText(startLabelClockTime + " " + cmt.getName());
-			thirdItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
-										"Description: " + cmt.getDescription() + "<br />" +
-										"Due: " + startToolTipClockTime + "<br /></html>");
-		}
-		else if(fourthItemLabel.getText() == ""){
-			fourthItemLabel.setText(startLabelClockTime + " " + cmt.getName());
-			fourthItemLabel.setToolTipText("<html>Name: " + cmt.getName() + "<br />" + 
-										"Description: " + cmt.getDescription() + "<br />" +
-										"Due: " + startToolTipClockTime + "<br /></html>");
-		}
-		else{
-			additionalItemsLabel.setText("See More Items");
-		}
-	
-	
 	}
 }

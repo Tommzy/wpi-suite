@@ -10,7 +10,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -24,14 +23,22 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class AddCommitmentRequestObserver implements RequestObserver {
 
+	/** The controller that instantiated this observer*/
 	private final AddCommitmentController controller;
-	
+
+	/**
+	 * Set the controller of this observer.
+	 * @param controller the controller to reference
+	 */
 	public AddCommitmentRequestObserver(AddCommitmentController controller) {
 		this.controller = controller;
 	}
-	public Commitment testItem;
 
-	
+
+	/**
+	 * The response is successful.
+	 * @param iReq the request of the response
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
@@ -41,17 +48,16 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		final Commitment item = Commitment.fromJSON(response.getBody());
 		//Pass the messaged back to the controller
 		//Needs to put commitment back into the system
-		//TODO
 		controller.addCommitmentToModel(item);
 		MainCalendarController.getInstance().updateAll();
 		System.out.print("From AddCommitmentObserver." + response.getBody());
 		
-	} 
-	
-	public Commitment testReturn(){
-		return testItem;
 	}
 
+	/**
+	 * The response had an error
+	 * @param iReq the request of the response
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getBody());
@@ -59,6 +65,11 @@ public class AddCommitmentRequestObserver implements RequestObserver {
 		System.err.println("The request to add a commitment errored.");	
 	}
 
+	/**
+	 * The fail exception.
+	 * @param iReq the request
+	 * @param exception the exception
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to add a commitment failed.");

@@ -206,14 +206,14 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			//
 			combined.addAll(Arrays.asList(personal));
 			combined.addAll(Arrays.asList(team));
-			Iterator<Commitment> itr = combined.iterator();
-			if(itr.hasNext()){
-				Commitment next = itr.next();
-				if (!isCategoryExist(s,next.getCategory())){
-					next.setCategory(null);
-					update(s, next.toJSON());
-				}
-			}
+//			Iterator<Commitment> itr = combined.iterator();
+//			if(itr.hasNext()){
+//				Commitment next = itr.next();
+//				if (!isCategoryExist(s,next.getCategory())){
+//					next.setCategory(null);
+//					update(s, next.toJSON());
+//				}
+//			}
 			System.out.println("combined "+combined.toString());
 			return combined.toArray(new Commitment[] {});
 		}catch(WPISuiteException e){// no personal commitments found
@@ -245,9 +245,10 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		// If a Commitment was pulled, but has no content
 		if(Commitments.length < 1 || Commitments[0] == null) {
 			throw new NotFoundException("The Commitment with the specified id was not found:" + intId);
-		}else if (!isCategoryExist(s,Commitments[0].getCategory())){
-			Commitments[0].setCategory(null);
-			update(s, Commitments[0].toJSON());
+//		}else if (!isCategoryExist(s,Commitments[0].getCategory())){
+//			Commitments[0].setCategory(null);
+//			update(s, Commitments[0].toJSON());
+//		}
 		}
 		return Commitments;
 	}
@@ -361,43 +362,45 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	}
 	
 	
-	/**check is the category in this Event is exist or not
-	 * @param s
-	 * @param category
-	 * @return
-	 */
-	public boolean isCategoryExist(Session s, Category category){
-		Category[] personal = null;
-		Category[] team = null;
-		Collection<Category> combined = new ArrayList<Category>();
-		try{// return combined personal and team categories
-			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
-			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
-			combined.addAll(Arrays.asList(personal));
-			combined.addAll(Arrays.asList(team));
-			combined.toArray(new Category[] {});
-		}catch(WPISuiteException e){
-			System.out.println("No personal Category yet");
-			team =  db.retrieveAll(new Category(null, false), s.getProject()).toArray(new Category[0]);
-			combined.addAll(Arrays.asList(team));
-			combined.toArray(new Category[] {});
-		}
-		
-		Iterator<Category> itr = combined.iterator();
-		while(itr.hasNext()){
-			Category next = itr.next();
-			if((next.getName().equals(category.getName()))&
-					(next.getColor().equals(category.getColor()))&
-					(next.getProject().equals(category.getProject()))&
-					(next.getUserId().equals(category.getUserId()))&
-					(next.getId() == (category.getId()))){
-			}else{
-				return false;
-			}
-		}
-		
-		return false;
-		
-	}
+//	/**check is the category in this Event is exist or not
+//	 * @param s
+//	 * @param category
+//	 * @return
+//	 */
+//	public boolean isCategoryExist(Session s, Category category){
+//		Category[] personal = null;
+//		Category[] team = null;
+//		Collection<Category> combined = new ArrayList<Category>();
+//		try{// return combined personal and team categories
+//			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
+//			team =  db.retrieveAll(new Category(null, false,null), s.getProject()).toArray(new Category[0]);
+//			combined.addAll(Arrays.asList(personal));
+//			combined.addAll(Arrays.asList(team));
+//			combined.toArray(new Category[] {});
+//		}catch(WPISuiteException e){
+//			System.out.println("No personal Category yet");
+//			team =  db.retrieveAll(new Category(null, false,null), s.getProject()).toArray(new Category[0]);
+//			combined.addAll(Arrays.asList(team));
+//			combined.toArray(new Category[] {});
+//		}
+//		
+//		get
+//		
+//		Iterator<Category> itr = combined.iterator();
+//		while(itr.hasNext()){
+//			Category next = itr.next();
+//			if((next.getName().equals(category.getName()))&&
+//					(next.getColor().equals(category.getColor()))&&
+//					(next.getProject().equals(category.getProject()))&&
+//					(next.getUserId().equals(category.getUserId()))&&
+//					(next.getId() == (category.getId()))){
+//			}else{
+//				return false;
+//			}
+//		}
+//		
+//		return false;
+//		
+//	}
 
 }

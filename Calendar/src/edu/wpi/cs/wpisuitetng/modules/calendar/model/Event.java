@@ -145,6 +145,7 @@ public class Event  implements Model{
 		this.setId(event.getId());
 		this.setUsername(event.getUsername());
 		this.setTeamEvent(event.isTeamEvent());
+		this.setCategory(event.getCategory());
 
 	}
 

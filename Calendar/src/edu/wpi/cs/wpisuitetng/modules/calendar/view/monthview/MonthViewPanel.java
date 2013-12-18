@@ -1,6 +1,16 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview;
 
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
@@ -15,7 +25,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import net.miginfocom.swing.MigLayout;
@@ -34,7 +46,9 @@ public class MonthViewPanel extends JPanel {
 	private Calendar cal = GregorianCalendar.getInstance();
 	private String[] monthNamesAbbr = new DateFormatSymbols().getShortMonths();
 	private String[] weekdayNamesAbbr = new DateFormatSymbols().getShortWeekdays();
-	
+	List<Event> eventList = new ArrayList<Event>();
+
+
 	/*
 	 * month view maintains a list of commitment
 	 * this list is for the commitment panel on the right of our application layout
@@ -94,12 +108,14 @@ public class MonthViewPanel extends JPanel {
 		CommitmentFilter cmtFilter = new CommitmentFilter(calendarStart, calendarEnd);
 		Collection<Commitment> cmtList = cmtFilter.getCommitmentList();
 		this.cmtList = cmtList;
-		
+		List<Event> eventList = EventsModel.getInstance().getAllEvent();
+		this.eventList = eventList;
 		for (int i = 0; i < 5; i ++) {
 			for (int j = 0; j < 7; j ++) {
 				final MonthViewGridPanel panel = new MonthViewGridPanel(new DateController(cal));
 				monthViewList.add(panel);
 				panel.filtCommitment(cmtList);
+				panel.filtEvent(eventList);
 				/*
 				 * panel means a panel for a day grid
 				 * a MonthViewGridPanel has the ability to filter out the commitment of that day
@@ -114,52 +130,15 @@ public class MonthViewPanel extends JPanel {
 				} else {
 					s = "";
 				}
-				add(panel, "gapleft 0, gaptop 0" + s);
+				add(panel, "gapleft 0, gaptop 0, width :20%:" + s);
 
 				panel.setHeader(getHeaderLabelText(cal.get(GregorianCalendar.YEAR),
 						cal.get(GregorianCalendar.MONTH), cal.get(GregorianCalendar.DATE)));
 				cal.add(GregorianCalendar.DATE, 1);
-				panel.addMouseListener(new MouseListener() {
-
-					@Override
+				panel.addMouseListener(new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
-						/* 
-						 * when user click on this day grid panel
-						 * change the current date controller (in the main calendar controller) to the day controller
-						 * that stored inside that day grid panel
-						 * 
-						 * after changing the date controller, at the next repaint,
-						 * if the date controller from main calendar controller matches
-						 * one of the day grid panel, the day grid panel will be labeled
-						 * as orange
-						 */
 						panel.setToThisDate();
 					}
-
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
 				});
 			}
 		}
@@ -197,6 +176,11 @@ public class MonthViewPanel extends JPanel {
 	
 	public Collection<Commitment> getMonthCommitmentList() {
 		return cmtList;
+	}
+	
+	
+	public List<Event> getEventList() {
+		return eventList;
 	}
 	
 }

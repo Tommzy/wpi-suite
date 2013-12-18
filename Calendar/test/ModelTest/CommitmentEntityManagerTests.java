@@ -81,7 +81,7 @@ public class CommitmentEntityManagerTests {
 	}
 
 	@Test
-public void saveTest2() throws WPISuiteException {
+	public void saveTest2() throws WPISuiteException {
 	//Set Up
 	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
 	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
@@ -136,18 +136,21 @@ public void saveTest2() throws WPISuiteException {
 				
 	}
 	
-	/*
+	
 	@Test
-public void getAllTest() throws WPISuiteException {
+	public void getAllTest() throws WPISuiteException {
 	//Set Up
-	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1");
-	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2");
+	Commitment com1 = new Commitment("Commitment 1", null, "Commitment 1",null);
+	com1.setTeamCommitment(false);
+	Commitment com2 = new Commitment("Commitment 2", null, "Commitment 2",null);
+	com1.setTeamCommitment(true);
 
 	
 	User admin = new User("admin", "admin", "1234", 27);
 	admin.setRole(Role.ADMIN);
 	
-	
+	com1.setUsername("admin");
+	com1.setUsername("admin");
 	
 	Project testProject = new Project("test", "1");
 	Session sesh = new Session(admin,testProject, "01");
@@ -166,7 +169,7 @@ public void getAllTest() throws WPISuiteException {
 	Commitment[] testcom = comEntMan.getAll(sesh);
 	assertEquals(testcom.length, 2);
 }
-	*/
+	
 	@Test
 	public void getEntityTest() throws WPISuiteException {
 		//Set Up
@@ -259,8 +262,8 @@ public void getAllTest() throws WPISuiteException {
 				comEntMan.assignUniqueID(com3);
 				fakeDB.save(com3, testProject);
 				//Tests
-				Boolean what = comEntMan.deleteEntity(sesh, "3");
-				assertTrue(what);
+				comEntMan.deleteEntity(sesh, "1");
+				comEntMan.getEntity(sesh, "1");
 				
 	}
 	
@@ -293,7 +296,7 @@ public void getAllTest() throws WPISuiteException {
 				fakeDB.save(com3, testProject);
 				//Tests
 				comEntMan.deleteAll(sesh);;
-				assertNull(comEntMan.getEntity(sesh, "2"));		
+				assertEquals(comEntMan.Count(), 0);		
 	}
 
 /*	@Test

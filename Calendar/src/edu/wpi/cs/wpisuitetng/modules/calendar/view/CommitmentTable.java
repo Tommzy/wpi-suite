@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 /*
@@ -41,8 +50,10 @@ public class CommitmentTable extends JPanel implements Updatable {
 	 */
 	public CommitmentTable() {
 		super(new GridLayout(1, 0));
-		update();
 		MainCalendarController.getInstance().addToUpdateList(this);
+		MainCalendarController.getInstance().setCommitmentTable(this);
+		MainCalendarController.getInstance().getYearView().today();
+		update();
 	}
 
 	/**
@@ -93,6 +104,9 @@ public class CommitmentTable extends JPanel implements Updatable {
 			break;
 		case Week:
 			cmtList = MainCalendarController.getInstance().getWeekView().getDayViewCommitmentList();
+		case Year:
+			cmtList = MainCalendarController.getInstance().getYearView().getCmtList();
+			break;
 		default:
 			break;
 		}

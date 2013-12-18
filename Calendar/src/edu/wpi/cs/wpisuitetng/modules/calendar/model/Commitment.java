@@ -143,6 +143,7 @@ public class Commitment implements Model{
 		this.setStatus(comm.getStatus());
 		this.setUsername(comm.getUsername());
 		this.setTeamCommitment(comm.isTeamCommitment());
+		this.setCategory(comm.getCategory());
 		//this.setPermission(comm.getPermission(comm.g));
 		
 	}
