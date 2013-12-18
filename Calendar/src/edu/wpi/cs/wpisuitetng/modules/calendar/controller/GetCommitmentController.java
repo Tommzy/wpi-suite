@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -39,7 +38,6 @@ public class GetCommitmentController implements ActionListener {
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
-		System.out.println("Here is GetCommitmentController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
 		}
 	

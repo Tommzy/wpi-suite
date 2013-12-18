@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -41,7 +40,6 @@ public class GetEventController implements ActionListener {
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
-		System.out.println("Here is GetEventController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
 		}
 	

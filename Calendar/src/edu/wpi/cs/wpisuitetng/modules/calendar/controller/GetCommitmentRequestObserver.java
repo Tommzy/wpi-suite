@@ -10,7 +10,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -46,8 +45,6 @@ public class GetCommitmentRequestObserver implements RequestObserver{
 	
 		System.out.println("Success! Here is GetCommitmentRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 		controller.receivedCommitments(items);
-
-		
 	}
 	
 	/*
