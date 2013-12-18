@@ -20,6 +20,7 @@ import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 
 /**
@@ -76,7 +77,15 @@ public class CommitmentFilter {
 	 * @param categeory Key word category
 	 * @return List of filtered commitments
 	 */
-	public Collection<Commitment> filterOnCategory(/*Category categeory*/) {
+	public Collection<Commitment> filterOnCategory(Category categeory) {
+		Iterator<Commitment> itr = cmtList.iterator();
+
+		while (itr.hasNext()) {
+			Commitment cmt = itr.next();
+			if (! cmt.getCategory().equals(categeory)) {
+				cmtList.remove(cmt);
+			}
+		}
 		return cmtList;
 	}
 	

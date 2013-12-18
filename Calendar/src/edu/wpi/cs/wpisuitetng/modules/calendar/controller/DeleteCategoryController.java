@@ -50,7 +50,7 @@ public class DeleteCategoryController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to delete this category
-		final Request request = Network.getInstance().makeRequest("calendar/catgory" + Integer.toString(id), HttpMethod.DELETE); // DELETE == delete
+		final Request request = Network.getInstance().makeRequest("calendar/category/" + Integer.toString(id), HttpMethod.DELETE); // DELETE == delete
 		request.addObserver(observer); // add an observer to process the response
 		System.out.println("Here is DeleteCategoryController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request

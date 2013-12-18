@@ -62,14 +62,9 @@ public class Category implements Model {
     id = -1;
     userID = "-1";
     this.isPersonal = isItPersonal;
+    this.isActive = true;
   }
   
-  public Category(String newName, boolean isItPersonal) {
-    this.name = newName;
-    id = -1;
-    userID = "-1";
-    this.isPersonal = isItPersonal;
-  }
   
   public void copy(Category donor) {
     this.name = donor.name;
@@ -178,6 +173,11 @@ public class Category implements Model {
    */
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+	
+	@Override
+	public String toString() {
+		return name;
 	}
   
   //---------------------Interface-Functions----------------------
