@@ -91,6 +91,8 @@ public class MainCalendarView extends JPanel {
 			try {
 				switch (value) {
 				case Year:
+					img = ImageIO.read(getClass().getResource("YearView.png"));
+					toggleBtn.setIcon(new ImageIcon(img));
 					break;
 				case Month:
 					img = ImageIO.read(getClass().getResource("MONTHview.png"));
