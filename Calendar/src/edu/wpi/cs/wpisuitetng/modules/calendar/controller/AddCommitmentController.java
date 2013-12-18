@@ -67,11 +67,11 @@ public class AddCommitmentController implements ActionListener{
 	public void actionPerformed(ActionEvent event) {
 		// Send a request to the core to save this message
 		// Add the message to the model
-			final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
-			request.setBody(commitmentToBeAdded.toJSON()); // put the new message in the body of the request
-			request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
-			request.send(); // send the request
-			System.out.println("from AddCommitmentController." + request.getBody());
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.PUT); // PUT == create
+		request.setBody(commitmentToBeAdded.toJSON()); // put the new message in the body of the request
+		request.addObserver(new AddCommitmentRequestObserver(this)); // add an observer to process the response
+		request.send(); // send the request
+		System.out.println("from AddCommitmentController." + request.getBody());
 	}
 
 

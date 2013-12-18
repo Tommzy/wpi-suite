@@ -12,10 +12,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.CalendarItem;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -28,37 +24,39 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class DeleteCommitmentController implements ActionListener {
 	
+	/** The observer associated with this controller */
 	private DeleteCommitmentRequestObserver observer ;
+	
+	/** The id of the commitment to delete */
 	private int id;
 
-
+	/**
+	 * Constructor - set the id to delete by.
+	 * @param id the id of the commitment to delete
+	 */
 	public DeleteCommitmentController(int id) {
 		this.id = id;
 		this.observer = new DeleteCommitmentRequestObserver(this);
 	}
 	
-	//getter
+	/**
+	 * Getter function for the id of the commitment to delete.
+	 * @return the id of the commitment
+	 */
 	public int getID(){
 		return id;
 	}
 
+	/**
+	 * This is called when the user clicks the delete button
+	 * @param e the ActionEvent passed to this method
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to delete this commitment
-		
 		final Request request = Network.getInstance().makeRequest("calendar/commitment/" + Integer.toString(id), HttpMethod.DELETE); // DELETE == delete
 		request.addObserver(observer); // add an observer to process the response
 		System.out.println("Here is DeleteCommitmentController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
 		}
-	
-//	/**
-//	 * Sends an HTTP request to retrieve all requirements
-//	 */
-//	public void retrieveCommitments() {
-//		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.GET); // GET == read
-//		request.addObserver(observer); // add an observer to process the response
-//		request.send(); // send the request
-//	}
-	
 }

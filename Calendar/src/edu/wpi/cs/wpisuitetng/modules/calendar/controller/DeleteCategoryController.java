@@ -22,8 +22,11 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * @author Jared
  */
 public class DeleteCategoryController implements ActionListener {
-	
+
+	/** The observer associated with this controller */
 	private DeleteCategoryRequestObserver observer ;
+	
+	/** The id of the category to delete */
 	private int id;
 
 
@@ -32,28 +35,24 @@ public class DeleteCategoryController implements ActionListener {
 		this.observer = new DeleteCategoryRequestObserver(this);
 	}
 	
-	//getter
+	/**
+	 * Getter function for id
+	 * @return id the id to delete
+	 */
 	public int getID(){
 		return id;
 	}
 
+	/**
+	 * Called when the user clicks the delete button
+	 * @param e the ActionEvent passed to this listener
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to delete this category
-		
 		final Request request = Network.getInstance().makeRequest("calendar/catgory" + Integer.toString(id), HttpMethod.DELETE); // DELETE == delete
 		request.addObserver(observer); // add an observer to process the response
 		System.out.println("Here is DeleteCategoryController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
-		}
-	
-//	/**
-//	 * Sends an HTTP request to retrieve all Categories
-//	 */
-//	public void retrieveCategories() {
-//		final Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.GET); // GET == read
-//		request.addObserver(observer); // add an observer to process the response
-//		request.send(); // send the request
-//	}
-	
+	}
 }

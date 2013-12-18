@@ -19,60 +19,56 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  * @author Jared
  */
 public class DeleteCategoryRequestObserver implements RequestObserver{
-	
+
+	/** The controller that instantiated this observer*/
 	public DeleteCategoryController controller;
+
+	/** The get controller*/
 	public GetCategoryController getController;
 
-	
-	
+	/**
+	 * Constructor - set the controller of this observer.
+	 * @param controller the controller to reference
+	 */
 	public DeleteCategoryRequestObserver(DeleteCategoryController controller) {
-		
 		this.controller = controller;
 		getController = new GetCategoryController();
 	}
 
-	
-	/*
+	/**
 	 * Parse the messages out of the response body and pass them to the controller
-	 * 
+	 * @param iReq the request of the response
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		//category[] items = category.fromJsonArray(iReq.getResponse().getBody());
-		
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
-		
-	
 		System.out.println("After delete: Success! Here is DeleteCategoryRequestController in the JSON way"+ "   " + result);
-		
-		//TODO
 		//Update the view
 		getController.retrieveCategories();
 		MainCalendarController.getInstance().updateAll();
 		
 	}
 	
-	/*
+	/**
+	 * The response had an error
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-	//	fail(iReq, null);
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
 		System.err.println("After delete: The request to delete categories Errored. " + result);
 	}
 
-
+	/**
+	 * The fail exception.
+	 * @param iReq the request
+	 * @param exception the exception
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
-		// TODO Auto-generated method stub
-//		Category[] errorCategories = { new Category("Error", null) };
-//		controller.receivedCategories(errorCategory);
 		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
-
 		System.err.println("After delete: The request to delete categories failed.  " + result);
 		
 	}
 }
-

@@ -10,7 +10,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
@@ -24,14 +23,21 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  */
 public class AddEventRequestObserver implements RequestObserver {
 
+	/** The controller that instantiated this observer*/
 	private final AddEventController controller;
-	
+
+	/**
+	 * Set the controller of this observer.
+	 * @param controller the controller to reference
+	 */
 	public AddEventRequestObserver(AddEventController controller) {
 		this.controller = controller;
 	}
-	public Event testItem;
 
-	
+	/**
+	 * The response is successful.
+	 * @param iReq the request of the response
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
@@ -41,17 +47,15 @@ public class AddEventRequestObserver implements RequestObserver {
 		final Event item = Event.fromJSON(response.getBody());
 		//Pass the messaged back to the controller
 		//Needs to put Event back into the system
-		//TODO
 		controller.addEventToModel(item);
 		MainCalendarController.getInstance().updateAll();
 		System.out.print("From AddEventObserver." + response.getBody());
-		
-	} 
-	
-	public Event testReturn(){
-		return testItem;
 	}
 
+	/**
+	 * The response had an error
+	 * @param iReq the request of the response
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getBody());
@@ -59,6 +63,11 @@ public class AddEventRequestObserver implements RequestObserver {
 		System.err.println("The request to add a event errored.");	
 	}
 
+	/**
+	 * The fail exception.
+	 * @param iReq the request
+	 * @param exception the exception
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		System.err.println("The request to add a eventt failed.");

@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.Network;
@@ -26,76 +27,42 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class AddEventController implements ActionListener{
 
+	/** Reference to the Events model */
 	private final EventsModel model;
+	
+	/** The new event to add */
 	private final Event eventToBeAdded;
-	 
-	//Event testCommit1 = new Event("First test",new GregorianCalendar(1992,8,19,23,4),"Success ><!");
-	 
+
+	/** The observer associated with this controller */
+	AddEventRequestObserver observer = new AddEventRequestObserver(this);
+	
 	/**
-	 * Construct an AddEventController for the given model, view pair
+	 * Construct an AddEventController for the given model
 	 * @param model the model containing the messages
-	 * @param viewEvent the view where the user enters new messages
+	 * @param eventToBeAdded the event to add to the model
 	 */
 	public AddEventController(EventsModel model, Event eventToBeAdded) {
 		this.model = model;
 		this.eventToBeAdded = eventToBeAdded;
 	}
-  
-	AddEventRequestObserver observer = new AddEventRequestObserver(this);
 	
-//	public void addTestToDatabase(){
-//		final Request request = Network.getInstance().makeRequest("calendar/Event", HttpMethod.PUT); // PUT == create
-//		request.setBody(testCommit1.toJSON()); // put the new message in the body of the request
-//		request.addObserver(observer); // add an observer to process the response
-//		request.send();
-//	}
-	
-	public Event testReturn(){
-		return observer.testReturn();
-	}
-	
-	 
-	/* 
+	/**
 	 * This method is called when the user clicks the Submit button
-	 * 
+	 * @param event The event for the action
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
-		//addTestToDatabase();
-////		System.out.println("this is event!-s---->" + event.getActionCommand().toString());
-//		// Get the text that was entered
-//		String name = (String) eventDetails.get("name");
-//		GregorianCalendar startTime = (GregorianCalendar) eventDetails.get("startDateTime");
-//		GregorianCalendar endTime = (GregorianCalendar) eventDetails.get("startDateTime");
-//		String description = (String) eventDetails.get("desc");
-//		String invitee = (String) eventDetails.get("invitee");
-//		 
-		// Make sure there is text
-		// OR THROUGH EXCEPTION?
-		
-		
 		// Send a request to the core to save this message
-//		if(name.length() > 0){
-//			Event sentEvent = new Event(name, startTime, description);
-//			// Add the message to the model
-//			final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.PUT); // PUT == create
-//			request.setBody(sentEvent.toJSON()); // put the new message in the body of the request
-//			request.addObserver(new AddEventRequestObserver(this)); // add an observer to process the response
-//			request.send(); // send the request
-//			System.out.println("from AddEventController." + request.getBody());
-//		}
-		
+		// Add the message to the model
 		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.PUT); // PUT == create
 		request.setBody(eventToBeAdded.toJSON()); // put the new message in the body of the request
 		request.addObserver(new AddEventRequestObserver(this)); // add an observer to process the response
 		request.send(); // send the request
-
 	}
 
 
-	/** ATTENTION AT THIS PART
+	/**
 	 * When the new Event is received back from the server, add it to the local model.
 	 * @param message
 	 */
@@ -103,5 +70,3 @@ public class AddEventController implements ActionListener{
 		model.addEvent(item);
 	}
 }
-
-
