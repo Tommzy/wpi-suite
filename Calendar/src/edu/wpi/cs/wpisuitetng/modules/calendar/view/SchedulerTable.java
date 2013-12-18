@@ -21,14 +21,16 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import net.miginfocom.swing.MigLayout;
-
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 @SuppressWarnings("serial")
@@ -37,45 +39,88 @@ public class SchedulerTable extends JPanel {
 	/**
 	 * Instantiates a new scheduler table.
 	 */
+	
+	Invitation currentInvitation = new Invitation(" "," "," ");
+	String keys[] = {"8", "9", "10", "11", "12", "13", "14", "15", "16", "17"};
+	List<String> availability[] = null;
+	private SchedulerTableModel stm = new SchedulerTableModel();
+	String invitationName = "";
+	String invitationDate = "";
+	String invitationDescription = "";
+	
+	private MigLayout layout = new MigLayout();
+	final JLabel schedulerTableLabel = new JLabel("Meeting Scheduler: " + invitationName);
+	final JTable table = new JTable(stm);
+	JButton btnSubmit = new JButton("Submit");
+	final JLabel descriptionLabel = new JLabel("Description: ");
+	final JLabel dateLabel = new JLabel("Date: ");
+	
 	public SchedulerTable(MigLayout miglayout) {
-		JPanel contentPanel = new JPanel(miglayout);
-
-		// Table label
-		final JLabel schedulerTableLabel = new JLabel("Meeting Scheduler");
+		layout = miglayout;
+		refreshView();
+	}
+	
+	public void setInvitation(Invitation invitation) {
+		currentInvitation = invitation;
+	}
+	
+	public void refreshData() {
+		List<String> namesList = null;
+		for (int i = 0; i < keys.length; ++i) {
+			namesList.clear();
+			String personsAvailable[] = currentInvitation.getAvailablity().get(keys[i]);
+			namesList = Arrays.asList(personsAvailable[i].split(","));
+			availability[i] = namesList;
+		}
+		
+		invitationName = currentInvitation.getName();
+		invitationDate = currentInvitation.getDate();
+		invitationDescription = currentInvitation.getDescription();
+		
+		for (int j = 0; j < availability.length; ++j) {
+			for (int k = 0; k < availability[j].size(); ++j) {
+				stm.setValueAt(false, k, 2);
+				if (availability[j].get(k) == currentInvitation.getCurrentUser()) {
+					stm.setValueAt(true, k, 2);
+					break;
+				}
+			}
+		}
+		
+		refreshView();
+	}
+	
+	public void refreshView() {
+		this.removeAll();
+		JPanel contentPanel = new JPanel(layout);
+		
 		schedulerTableLabel.setAlignmentX(TOP_ALIGNMENT);
 		schedulerTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-		final JTable table = new JTable(new SchedulerTableModel());
 		table.setAutoCreateRowSorter(true);
 
-		JButton btnSubmit = new JButton("Submit");
 		btnSubmit.setAlignmentX(BOTTOM_ALIGNMENT);
-    
-    final JLabel descriptionLabel = new JLabel("Description: ");
-    
-    final JLabel dateLabel = new JLabel("Date: ");
-	
-    
-    btnSubmit.addActionListener(new ActionListener() {
 
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        //TODO: Fix the access of the nested class?  -Eric
-//        HashMap<String, String[]> availibility = SchedulerTableModel.this.packHashMap();
-      }
+		btnSubmit.addActionListener(new ActionListener() {
 
-    });
-    
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//TODO: Fix the access of the nested class?  -Eric
+				//        HashMap<String, String[]> availibility = SchedulerTableModel.this.packHashMap();
+			}
+
+		});
+		
 		contentPanel.add(schedulerTableLabel, "wrap");
 		contentPanel.add(dateLabel);
 		//TODO
-		//contentPanel.add(invite.DATE, "wrap");
+		contentPanel.add(new JLabel(invitationDate), "wrap");
 		contentPanel.add(descriptionLabel);
 		//TODO
-		//contentPanel.add(ivnite.description, "wrap");
+		contentPanel.add(new JLabel(invitationDescription), "wrap");
 		contentPanel.add(table, "wrap");
 		contentPanel.add(btnSubmit);
-
+		
 		this.add(contentPanel);
 	}
 
@@ -95,7 +140,7 @@ public class SchedulerTable extends JPanel {
 				{"10:00-11:00",new Integer(0), new Boolean(false), },
 				{"11:00-12:00",new Integer(0), new Boolean(false), },
 				{"12:00-13:00",new Integer(0), new Boolean(false), },
-        {"13:00-14:00",new Integer(0), new Boolean(false), },
+				{"13:00-14:00",new Integer(0), new Boolean(false), },
 				{"14:00-15:00",new Integer(0), new Boolean(false), },
 				{"15:00-16:00",new Integer(0), new Boolean(false), },
 				{"16:00-17:00",new Integer(0), new Boolean(false), },
@@ -149,7 +194,7 @@ public class SchedulerTable extends JPanel {
 		 * @return Gives back the class type of the column in the table.
 		 */
 		@SuppressWarnings({ "unchecked", "rawtypes" })
-    public Class getColumnClass(int col) {
+		public Class getColumnClass(int col) {
 			return getValueAt(0, col).getClass();
 		}
 
@@ -189,19 +234,19 @@ public class SchedulerTable extends JPanel {
 			// fireTableCellUpdated() causes the indices to be regenerated
 			// when they shouldn't be.
 		}
-		
+
 		public HashMap<String, String[]> packHashMap(){
-		  HashMap<String, String[]> availibility = new HashMap<String, String[]>();
-		  
-		  for(int i=8; i<17; i++){
-		    // See if the user checked the box
-		    boolean isChecked = (Boolean) getValueAt(i-8, 2);
-		    if(isChecked){
-		      availibility.put(Integer.toString(i), new String[0]);
-		    }
-	    }
-		  
-		  return availibility;
+			HashMap<String, String[]> availibility = new HashMap<String, String[]>();
+
+			for(int i=8; i<17; i++){
+				// See if the user checked the box
+				boolean isChecked = (Boolean) getValueAt(i-8, 2);
+				if(isChecked){
+					availibility.put(Integer.toString(i), new String[0]);
+				}
+			}
+
+			return availibility;
 		}
 	}
 }
