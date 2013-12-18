@@ -576,8 +576,8 @@ public class AddEventPanel extends JPanel {
 	    contentPanel.add(typeLabel);
 	    contentPanel.add(personalRadioButton, "span 2");
 	    contentPanel.add(teamRadioButton, "wrap");
-	    contentPanel.add(categoryLabel, "wrap");
-//	    contentPanel.add(categoryComboBox, "wrap");
+	    contentPanel.add(categoryLabel);
+	    contentPanel.add(categoryComboBox, "wrap");
 		contentPanel.add(descriptionLabel);
 		contentPanel.add(descriptionScroll, "wrap, span ");
 		contentPanel.add(inviteeLabel);

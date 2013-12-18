@@ -1,5 +1,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
+import java.awt.Color;
 import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -49,6 +50,12 @@ public class CategoryFilter {
 	 */
 	public Category[] getCategoryArray() {
 		try {
+			Category teamMeeting = new Category("Team Meeting", true, Color.cyan);
+			teamMeeting.setId(1);
+			teamMeeting.setIsPersonal(false);
+			Category personalMeeting = new Category("Personal Meeting", true, Color.cyan);
+			teamMeeting.setId(2);
+			teamMeeting.setIsPersonal(true);
 			Category[] categoryArray;
 			//new GetCategoryController().actionPerformed(null);
 			GetCategoryController getController = new GetCategoryController();
@@ -61,6 +68,7 @@ public class CategoryFilter {
 						list.add(cat);
 					}
 				}
+				list.add(teamMeeting);
 			}
 			else if (type == 1) {
 				for (Category cat : categoryList) {
@@ -68,6 +76,7 @@ public class CategoryFilter {
 						list.add(cat);
 					}
 				}
+				list.add(personalMeeting);
 			}
 			else if (type == -1) {
 				for (Category cat : categoryList) {
@@ -75,6 +84,8 @@ public class CategoryFilter {
 						list.add(cat);
 					}
 				}
+				list.add(personalMeeting);
+				list.add(teamMeeting);
 			}
 			categoryArray = list.toArray(new Category[list.size()]);
 			System.out.println(categoryArray.length);

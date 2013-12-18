@@ -99,6 +99,12 @@ public class ToolbarController implements ActionListener {
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == addEventButton) {
     	AddEventPanel newEventPanel = new AddEventPanel(new MigLayout());
+    	try {
+    		Thread.sleep(500);
+    	} catch (InterruptedException ex) {
+    		Thread.currentThread().interrupt();
+    	}
+    	newEventPanel = new AddEventPanel(new MigLayout());
         AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
         AddEventPanelController.getInstance().getTabbedPane().setTitleAt(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Event");
         AddEventPanelController.getInstance().getTabbedPane().setSelectedIndex(AddEventPanelController.getInstance().getTabbedPane().getTabCount() - 1);
@@ -107,6 +113,12 @@ public class ToolbarController implements ActionListener {
 
     if (e.getSource() == addCommitmentButton) {
 	      AddCommitmentPanel commitmentPanel = new AddCommitmentPanel(new MigLayout());
+	      try {
+	    		Thread.sleep(500);
+	    	} catch (InterruptedException ex) {
+	    		Thread.currentThread().interrupt();
+	    	}
+	      commitmentPanel = new AddCommitmentPanel(new MigLayout());
 	      AddCommitmentPanelController.getInstance().getTabbedPane().add(commitmentPanel);
 	      AddCommitmentPanelController.getInstance().getTabbedPane().setTitleAt(AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Add Commitment");
 	      AddCommitmentPanelController.getInstance().getTabbedPane().setSelectedIndex(AddCommitmentPanelController.getInstance().getTabbedPane().getTabCount() - 1);
