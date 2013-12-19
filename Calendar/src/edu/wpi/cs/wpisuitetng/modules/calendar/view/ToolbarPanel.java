@@ -12,10 +12,14 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
+import java.awt.Image;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
 
@@ -28,15 +32,21 @@ public class ToolbarPanel extends JPanel {
   /** The add event button. */
   private final JButton btnAddEvent;
 
-  /** The add event button. */
+  /** The add commitment button. */
   private final JButton btnAddTask;
 
-  /** The add event button. */
+  /** The schedule event button. */
   private final JButton btnScheduleEvent;
 
-  /** The add event button. */
+  /** The manage filter  button. */
   private final JButton btnManageFilter;
-
+  
+  /** The manage category button */
+  private final JButton btnManageCategory;
+  
+  /** The invitations button */
+  private final JButton btnInvitations;
+  
   /**
    * Construct the panel.
    *
@@ -55,7 +65,29 @@ public class ToolbarPanel extends JPanel {
     btnScheduleEvent = new JButton("Schedule Event");
 
     btnManageFilter = new JButton("Manage Filters");
+    
+    btnManageCategory = new JButton("Manage Category");
+    
+    btnInvitations = new JButton("Invitations");
 
+    Image img;
+    
+    try {
+    	img = ImageIO.read(getClass().getResource("events.png"));
+    	btnAddEvent.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("commit.png"));
+    	btnAddTask.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("sched.png"));
+    	btnScheduleEvent.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("invite.png"));
+    	btnInvitations.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("settings.png"));
+    	btnManageFilter.setIcon(new ImageIcon(img));
+    	img = ImageIO.read(getClass().getResource("settings.png"));
+    	btnManageCategory.setIcon(new ImageIcon(img));
+    } catch (Exception e) {
+    	System.out.println("failed to set icon");
+    }
     // Add the get messages controller to the button
     // btnRefresh.addActionListener(new GetMessagesController(boardModel));
 
@@ -63,12 +95,21 @@ public class ToolbarPanel extends JPanel {
     add(btnAddEvent);
     add(btnAddTask);
     add(btnScheduleEvent);
-    add(btnManageFilter);
+    add(btnInvitations);
+    //add(btnManageFilter);
+    add(btnManageCategory);
 
     ToolbarController.getInstance().setAddEventButton(btnAddEvent);
     btnAddEvent.addActionListener(ToolbarController.getInstance());
-    btnScheduleEvent.addActionListener(new GetCommitmentController());
+    ToolbarController.getInstance().setAddSchedulerButton(btnScheduleEvent);
+    btnScheduleEvent.addActionListener(ToolbarController.getInstance());
+    ToolbarController.getInstance().setInvitationButton(btnInvitations);
+    btnInvitations.addActionListener(ToolbarController.getInstance());
     ToolbarController.getInstance().setAddCommitmentButton(btnAddTask);
     btnAddTask.addActionListener(ToolbarController.getInstance());
+    ToolbarController.getInstance().setManageFiltersButton(btnManageFilter);
+    btnManageFilter.addActionListener(ToolbarController.getInstance());
+    ToolbarController.getInstance().setManageCategoryButton(btnManageCategory);
+    btnManageCategory.addActionListener(ToolbarController.getInstance());
   }
 }

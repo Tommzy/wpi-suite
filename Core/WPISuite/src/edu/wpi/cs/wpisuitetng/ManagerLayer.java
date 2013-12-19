@@ -27,9 +27,12 @@ import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
 import edu.wpi.cs.wpisuitetng.exceptions.WPISuiteException;
 import edu.wpi.cs.wpisuitetng.modules.EntityManager;
 import edu.wpi.cs.wpisuitetng.modules.Model;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.CategoryEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.CommitmentEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.EventEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.FilterEntityManager;
+import edu.wpi.cs.wpisuitetng.modules.calendar.model.InvitationEntityManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.ProjectManager;
 import edu.wpi.cs.wpisuitetng.modules.core.entitymanagers.UserManager;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
@@ -80,11 +83,11 @@ public class ManagerLayer {
 		map.put("postboardpostboardmessage", new PostBoardEntityManager(data));
 		map.put("requirementmanager" + "requirement", new RequirementEntityManager(data));
 		map.put("requirementmanager" + "iteration", new IterationEntityManager(data));
-		
-		//String for our calendar data
-		//string can be anything
 		map.put("calendar"+"commitment", new CommitmentEntityManager(data));
 		map.put("calendar"+"event", new EventEntityManager(data));
+		map.put("calendar"+"category", new CategoryEntityManager(data));
+		map.put("calendar"+"filter", new FilterEntityManager(data));
+		map.put("calendar"+"invitation", new InvitationEntityManager(data));
 
 
 		//add just your module to this list

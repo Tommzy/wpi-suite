@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 /*
@@ -13,8 +22,7 @@ import javax.swing.table.AbstractTableModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.FakeCommitmentModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -41,8 +49,10 @@ public class CommitmentTable extends JPanel implements Updatable {
 	 */
 	public CommitmentTable() {
 		super(new GridLayout(1, 0));
-		update();
 		MainCalendarController.getInstance().addToUpdateList(this);
+		MainCalendarController.getInstance().setCommitmentTable(this);
+		MainCalendarController.getInstance().getYearView().today();
+		update();
 	}
 
 	/**
@@ -93,6 +103,9 @@ public class CommitmentTable extends JPanel implements Updatable {
 			break;
 		case Week:
 			cmtList = MainCalendarController.getInstance().getWeekView().getDayViewCommitmentList();
+		case Year:
+			cmtList = MainCalendarController.getInstance().getYearView().getCmtList();
+			break;
 		default:
 			break;
 		}

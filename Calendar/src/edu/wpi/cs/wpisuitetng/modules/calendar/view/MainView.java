@@ -13,8 +13,11 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.*;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddEventTabPanel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -42,12 +45,7 @@ public class MainView extends JPanel {
 	public MainView() {
 		addEventTabPanel = new AddEventTabPanel();
 		add(addEventTabPanel);
-		//addCommitTabPanel = new AddCommitTabPanel;
 		MainCalendarController.getInstance().setMainView(this);
-		
-//		JPanel calendarPanel = new MainCalendarView(new MainCalendarModel());
-//		calendarPanel.setLayout(new BoxLayout(calendarPanel, BoxLayout.Y_AXIS));
-//		add(calendarPanel);
 	}
 	
 	/**
@@ -58,4 +56,5 @@ public class MainView extends JPanel {
 	public AddEventTabPanel getMainTabPane() {
 		return addEventTabPanel;
 	}
+
 }

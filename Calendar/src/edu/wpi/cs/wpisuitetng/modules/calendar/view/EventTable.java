@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -44,8 +45,11 @@ public class EventTable extends JPanel implements Updatable {
    */
   public EventTable() {
 	  super(new GridLayout(1, 0));
+	  
+	  MainCalendarController.getInstance().addToUpdateList(this);
+	  MainCalendarController.getInstance().setEventTable(this);
+	  MainCalendarController.getInstance().getYearView().today();
 	  update();
-	  MainCalendarController.getInstance().addToUpdateList(this); 
   }
   
   private void setupTable() {
@@ -167,14 +171,20 @@ public class EventTable extends JPanel implements Updatable {
 		Collection<Event> eventList = null;
 		switch (timePeriod) {
 		case Month:
-//			cmtList = MainCalendarController.getInstance().getMonthView()
-//					.getMonthViewPanel().getMonthCommitmentList();
+			eventList = MainCalendarController.getInstance().getMonthView()
+					.getMonthViewEventList();
 			break;
 		case Day:
 			eventList = MainCalendarController.getInstance().getDayView().getDayViewEventList();
 			break;
 		case Week:
 			eventList = MainCalendarController.getInstance().getWeekView().getDayViewEventList();
+		case Year:
+			System.out.println("year view event table");
+			MainCalendarController.getInstance().getYearView().updateTables();
+			eventList = MainCalendarController.getInstance().getYearView().getEventList();
+			System.out.println("size = " + eventList.size());
+			break;
 		default:
 			break;
 		}
