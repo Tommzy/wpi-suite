@@ -30,7 +30,7 @@ public class GetCategoryController implements ActionListener {
 	private GetCategoryRequestObserver observer;
 
 	public GetCategoryController() {
-		observer = new GetCategoryRequestObserver(this);;
+		observer = new GetCategoryRequestObserver(this);
 	}
 
 	@Override

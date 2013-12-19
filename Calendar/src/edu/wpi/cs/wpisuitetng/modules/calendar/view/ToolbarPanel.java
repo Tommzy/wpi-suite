@@ -19,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
 
@@ -86,7 +85,7 @@ public class ToolbarPanel extends JPanel {
     	img = ImageIO.read(getClass().getResource("settings.png"));
     	btnManageCategory.setIcon(new ImageIcon(img));
     } catch (Exception e) {
-    	System.out.println("failed to set icon");
+    	System.out.println("failed to set icon" + e);
     }
     // Add the get messages controller to the button
     // btnRefresh.addActionListener(new GetMessagesController(boardModel));

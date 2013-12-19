@@ -109,7 +109,7 @@ public class MainCalendarView extends JPanel {
 					break;
 				}
 			} catch (Exception e) {
-
+				System.out.println(e);
 			}
 		}
 		add(calendarViewSwitch);

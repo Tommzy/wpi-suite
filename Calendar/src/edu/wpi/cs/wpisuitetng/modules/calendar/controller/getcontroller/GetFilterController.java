@@ -30,7 +30,7 @@ public class GetFilterController implements ActionListener {
 	private GetFilterRequestObserver observer;
 
 	public GetFilterController() {
-		observer = new GetFilterRequestObserver(this);;
+		observer = new GetFilterRequestObserver(this);
 	}
 
 	@Override

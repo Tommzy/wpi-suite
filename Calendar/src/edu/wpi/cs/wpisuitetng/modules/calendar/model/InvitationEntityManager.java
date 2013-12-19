@@ -56,7 +56,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
    * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
    */
   public Invitation makeEntity(Session s, String content)
-      throws BadRequestException, ConflictException, WPISuiteException {
+      throws BadRequestException, WPISuiteException {
 
     // Parse the Invitation from JSON
     final Invitation invite;
@@ -140,7 +140,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
    * @return The highest Id
    * @throws WPISuiteException "Retrieve all failed"
    */
-  public int HighestId() throws WPISuiteException {
+  public int HighestId() {
     List<Invitation> inviteList = db.retrieveAll(new Invitation(null, null, null));
     Iterator<Invitation> itr = inviteList.iterator();
     int maxId = 0;
@@ -158,7 +158,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
   /* (non-Javadoc)
    * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
    */
-  public int Count() throws WPISuiteException {
+  public int Count()  {
     // Passing a dummy Invitation lets the db know what type of object to retrieve
     //System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Invitation(null, null, null)));
     return db.retrieveAll(new Invitation(null, null, null)).size();
@@ -167,7 +167,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
   /* (non-Javadoc)
    * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
    */
-  public Invitation[] getAll(Session s) throws WPISuiteException  {
+  public Invitation[] getAll(Session s)  {
     // Ask the database to retrieve all objects of the type Invitation.
     // Passing a dummy Invitation lets the db know what type of object to retrieve
     // Passing the project makes it only get Invitations from that project
@@ -264,7 +264,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
    * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
    */
   public String advancedGet(Session s, String[] args)
-      throws WPISuiteException {
+      throws NotImplementedException {
     throw new NotImplementedException();
   }
 
@@ -280,7 +280,7 @@ public class InvitationEntityManager implements EntityManager<Invitation> {
    * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
    */
   public String advancedPost(Session s, String string, String content)
-      throws WPISuiteException {
+      throws NotImplementedException {
     throw new NotImplementedException();
   }
 

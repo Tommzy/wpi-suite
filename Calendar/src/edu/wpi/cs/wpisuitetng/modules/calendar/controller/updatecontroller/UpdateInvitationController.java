@@ -42,7 +42,7 @@ public class UpdateInvitationController implements ActionListener{
   @SuppressWarnings("static-access")
   public UpdateInvitationController(Invitation invite) {
     observer = new UpdateInvitationRequestObserver(this);
-    this.updatedInvite = invite;
+    updatedInvite = invite;
   }
   
   /**

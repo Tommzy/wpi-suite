@@ -13,7 +13,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.modellist;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -46,7 +45,7 @@ public class EventsModel extends AbstractListModel{
 	 * Instantiates a new events model.
 	 */
 	private EventsModel (){
-		this.Events = new ArrayList<Event>();
+		Events = new ArrayList<Event>();
 		nextID = 0;
 	}
 	
@@ -74,7 +73,7 @@ public class EventsModel extends AbstractListModel{
 	 */
 	public void addEvent(Event newEvent){
 		
-		this.Events.add(newEvent);
+		Events.add(newEvent);
 //		
 //		for (int i = 0; i < Events.size(); i++) {
 //			System.out.println("Event out put    " + Events.get(i).toString());
@@ -91,7 +90,7 @@ public class EventsModel extends AbstractListModel{
 	{
 		Event temp = null;
 		// iterate through list of Events until id is found
-		for (int i=0; i < this.Events.size(); i++){
+		for (int i=0; i < Events.size(); i++){
 			temp = Events.get(i);
 			if (temp.getId() == id){
 				break;
@@ -119,7 +118,7 @@ public class EventsModel extends AbstractListModel{
 	 */
 	public void removeEvent(int removeId){
 		// iterate through list of Events until id of project is found
-		for (int i=0; i < this.Events.size(); i++){
+		for (int i=0; i < Events.size(); i++){
 			if (Events.get(i).getId() == removeId){
 				// remove the id
 				Events.remove(i);
@@ -148,7 +147,7 @@ public class EventsModel extends AbstractListModel{
 	public int getNextID()
 	{
 		
-		return this.nextID++;
+		return nextID++;
 	}
 
 	/* (non-Javadoc)

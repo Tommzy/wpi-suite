@@ -16,8 +16,7 @@ public class AddEventPanelController implements ActionListener {
 	
 	public static AddEventPanelController instance;
 
-	public AddEventPanelController() {
-	}
+
 	
 	public static AddEventPanelController getInstance() {
 		if (instance == null) {
@@ -40,7 +39,7 @@ public class AddEventPanelController implements ActionListener {
 		
 		if (e.getSource().getClass().equals(JButton.class)) {
 			// Close the tab a second later for calendar view to refresh. Avoid showing a flash to users when the calendar refreshes. 
-			Timer timer = new Timer();
+			final Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {

@@ -10,21 +10,15 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
 
-import javax.swing.JButton;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetInvitationController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 
 
 @SuppressWarnings("serial")

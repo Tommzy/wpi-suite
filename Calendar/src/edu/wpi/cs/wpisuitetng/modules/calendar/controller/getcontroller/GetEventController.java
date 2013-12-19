@@ -12,9 +12,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.EventsModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
@@ -32,7 +30,7 @@ public class GetEventController implements ActionListener {
 	private GetEventRequestObserver observer;
 
 	public GetEventController() {
-		observer = new GetEventRequestObserver(this);;
+		observer = new GetEventRequestObserver(this);
 	}
 
 	@Override

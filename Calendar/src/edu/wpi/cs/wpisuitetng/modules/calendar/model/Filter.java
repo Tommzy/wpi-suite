@@ -14,6 +14,7 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -35,7 +36,7 @@ public class Filter implements Model {
   String userID;
   
   /** The list of categories within this filter */
-  ArrayList<Category> categories;
+  List<Category> categories;
   
   /** Is the user currently using this filter on the GUI? */
   boolean isActive;
@@ -51,9 +52,9 @@ public class Filter implements Model {
   /**
    * Constructor
    */
-  public Filter(String newName, ArrayList<Category> newCategories) {
-    this.name = newName;
-    this.categories = newCategories;
+  public Filter(String newName, List<Category> newCategories) {
+    name = newName;
+    categories = newCategories;
     id = -1;
     userID = null;
     isActive = true;
@@ -64,12 +65,12 @@ public class Filter implements Model {
    * @param donor filter we want to copy from.
    */
   public void copy(Filter donor) {
-    this.name = donor.name;
-    this.id = donor.id;
-    this.isActive = donor.isActive;
-    this.project = donor.project;
-    this.userID = donor.userID;
-    this.categories = donor.categories;
+    name = donor.name;
+    id = donor.id;
+    isActive = donor.isActive;
+    project = donor.project;
+    userID = donor.userID;
+    categories = donor.categories;
   }
   
 
@@ -120,7 +121,7 @@ public class Filter implements Model {
    * @param id the new userID
    */
   public void setUserId(String id) {
-    this.userID = id;
+    userID = id;
   }
   
   /**
@@ -136,13 +137,13 @@ public class Filter implements Model {
    * @param isThisPersonal boolean which is true if we want the category to be personal.
    */
   public void setActiveness(boolean isThisActive) {
-    this.isActive = isThisActive;
+    isActive = isThisActive;
   }
   
   /**
    * @return categories (the list of categories for this filter)
    */
-  public ArrayList<Category> getCategories() {
+  public List<Category> getCategories() {
     return categories;
   }
   
@@ -150,8 +151,8 @@ public class Filter implements Model {
    * Set this filter's list of categories to the given list of categories
    * @param newCategories the categories we want to be in this filter
    */
-  public void setCategories(ArrayList<Category> newCategories) {
-    this.categories = newCategories;
+  public void setCategories(List<Category> newCategories) {
+    categories = newCategories;
   }
   
   // ----- Interface Functions -----
@@ -237,7 +238,7 @@ public class Filter implements Model {
      */
     @Override
     public void setProject(Project p) {
-      this.project = p;
+      project = p;
       
     }
 

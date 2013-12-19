@@ -11,15 +11,10 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-import java.awt.Graphics;
-import java.util.GregorianCalendar;
-import java.util.Random;
 
 import javax.swing.Icon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 
 /**
  * This class is an extension of JLabel that is used to

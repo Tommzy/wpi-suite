@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 public class Calendar implements IJanewayModule {
 
   /** The tabs used by this module. */
-  private List<JanewayTabModel> tabs;
+  final private List<JanewayTabModel> tabs;
 
   /**
    * Construct a new Calendar Module for demonstration purposes.

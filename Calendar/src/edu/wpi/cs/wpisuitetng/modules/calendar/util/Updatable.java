@@ -32,5 +32,5 @@ public interface Updatable {
 	/**
 	 * update the view display of calendar view.
 	 */
-	public void update();
+	 void update();
 }

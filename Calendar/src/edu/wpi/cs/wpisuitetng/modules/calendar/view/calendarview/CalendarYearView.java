@@ -9,7 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -23,17 +22,13 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.EventsModel;
-import net.miginfocom.swing.MigLayout;
 
 /**
  * The Class CalendarYearView for displaying the year.

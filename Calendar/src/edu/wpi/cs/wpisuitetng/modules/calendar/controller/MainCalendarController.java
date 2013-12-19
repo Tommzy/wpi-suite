@@ -12,7 +12,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
@@ -74,13 +72,7 @@ public class MainCalendarController implements ActionListener{
 			new DayEvent("Efgh", new GregorianCalendar(2013, 5, 16, 15, 56, 0), new GregorianCalendar(2013, 5, 16, 16, 16, 0)),
 			new DayEvent("Hey", new GregorianCalendar(2013, 5, 18, 8, 50, 0), new GregorianCalendar(2013, 5, 18, 10, 5, 0)) };
 	
-	/**
-	 * Create a MainCalendarController. 
-	 * 
-	 */
-	public MainCalendarController() {
-		
-	}
+
 	
 	/**
 	 * @see package edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController
@@ -249,7 +241,7 @@ public class MainCalendarController implements ActionListener{
             GetEventController eventController = new GetEventController();
             eventController.actionPerformed(null);
 		} catch (NullPointerException e) {
-            
+            System.out.println("Update All fail!!!!" + e);
 		}
 		Iterator<Updatable> itr = updateList.iterator();
 		

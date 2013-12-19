@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -109,7 +110,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	 *
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarWeekView(ArrayList<Event> events) {
+	public CalendarWeekView(List<Event> events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -126,7 +127,8 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay(date.clone());
-			date.setToNextDate();			week[i].initHeader();
+			date.setToNextDate();			
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
@@ -161,7 +163,8 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay(date.clone());
-			date.setToNextDate();			week[i].initHeader();
+			date.setToNextDate();			
+			week[i].initHeader();
 			week[i].view.setPreferredSize(new Dimension(100, 450));
 			weekPanel.add(week[i]);
 		}
@@ -270,7 +273,8 @@ public class CalendarWeekView extends JPanel implements Updatable{
 		date.setToFirstDayOfWeek();
 		for (int i = 1; i < weekdays.length; i++) {
 			week[i] = new CalendarDay(date.clone());
-			date.setToNextDate();			week[i].initHeader();
+			date.setToNextDate();			
+			week[i].initHeader();
 			week[i].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));	
 			weekPanel.add(week[i]);
 		}

@@ -57,24 +57,24 @@ public class Category implements Model{
    */
   
   public Category(String newName, boolean isItPersonal, Color newColor) {
-    this.name = newName;
-    this.color = newColor;
+    name = newName;
+    color = newColor;
     id = -1;
     userID = "-1";
-    this.isPersonal = isItPersonal;
-    this.isActive = true;
+    isPersonal = isItPersonal;
+    isActive = true;
   }
   
   
   public void copy(Category donor) {
-    this.name = donor.name;
-    this.id = donor.id;
-    this.isActive = donor.isActive;
-    this.project = donor.project;
-    this.color = donor.color;
-    this.userID = donor.userID;
-    this.isPersonal = donor.isPersonal;
-    this.isActive = donor.isActive;
+    name = donor.name;
+    id = donor.id;
+    isActive = donor.isActive;
+    project = donor.project;
+    color = donor.color;
+    userID = donor.userID;
+    isPersonal = donor.isPersonal;
+    isActive = donor.isActive;
   }
   
 
@@ -126,7 +126,7 @@ public class Category implements Model{
    * @param id the new userID
    */
   public void setUserId(String id) {
-    this.userID = id;
+    userID = id;
   }
   
   /**
@@ -141,7 +141,7 @@ public class Category implements Model{
    * @param newColor the new color
    */
   public void setColor(Color newColor) {
-    this.color = newColor;
+    color = newColor;
   }
   
   /**
@@ -157,7 +157,7 @@ public class Category implements Model{
    * @param isThisPersonal boolean which is true if we want the category to be personal.
    */
   public void setIsPersonal(boolean isThisPersonal) {
-    this.isPersonal = isThisPersonal;
+    isPersonal = isThisPersonal;
   }
   /**
    * Indicates if a category is active or not
@@ -183,7 +183,7 @@ public class Category implements Model{
 	@Override
 	public boolean equals(Object cat) {
 		if (cat instanceof Category) {
-			if (this.id == ((Category)cat).getId()) {
+			if (id == ((Category)cat).getId()) {
 				return true;
 			}
 		}
@@ -277,7 +277,7 @@ public class Category implements Model{
    */
   @Override
   public void setProject(Project p) {
-    this.project = p;
+    project = p;
     
   }
 

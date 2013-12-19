@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JTabbedPane;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.ManageFiltersPanelController;
@@ -21,7 +20,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCateg
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddInvitationPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddSchedulerPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddCategoryPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddCommitmentPanel;
@@ -40,9 +38,7 @@ public class ToolbarController implements ActionListener {
    private JButton manageFiltersButton;
    private JButton manageCategoryButton;
 
-   public ToolbarController() {
-
-   }
+  
 
    /**
     * @param manageCategoryButton the manageCategoryButton to set
@@ -103,6 +99,8 @@ public class ToolbarController implements ActionListener {
     		Thread.sleep(500);
     	} catch (InterruptedException ex) {
     		Thread.currentThread().interrupt();
+			System.out.println(ex);
+
     	}
     	newEventPanel = new AddEventPanel(new MigLayout());
         AddEventPanelController.getInstance().getTabbedPane().add(newEventPanel);
@@ -117,6 +115,8 @@ public class ToolbarController implements ActionListener {
 	    		Thread.sleep(500);
 	    	} catch (InterruptedException ex) {
 	    		Thread.currentThread().interrupt();
+				System.out.println(ex);
+
 	    	}
 	      commitmentPanel = new AddCommitmentPanel(new MigLayout());
 	      AddCommitmentPanelController.getInstance().getTabbedPane().add(commitmentPanel);
@@ -144,6 +144,8 @@ public class ToolbarController implements ActionListener {
     		Thread.sleep(500);
     	} catch (InterruptedException ex) {
     		Thread.currentThread().interrupt();
+			System.out.println(ex);
+
     	}
     	invitationPanel = new InvitaionPanel();
     	AddInvitationPanelController.getInstance().getTabbedPane().add(invitationPanel);
@@ -156,6 +158,8 @@ public class ToolbarController implements ActionListener {
     	    Thread.sleep(1000);
     	} catch(InterruptedException ex) {
     	    Thread.currentThread().interrupt();
+			System.out.println(ex);
+
     	}
     	categoryPanel = new AddCategoryPanel();
     	AddCategoryPanelController.getInstance().getTabbedPane().add(categoryPanel);

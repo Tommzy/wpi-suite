@@ -30,7 +30,7 @@ public class GetCommitmentController implements ActionListener {
 	private GetCommitmentRequestObserver observer;
 
 	public GetCommitmentController() {
-		observer = new GetCommitmentRequestObserver(this);;
+		observer = new GetCommitmentRequestObserver(this);
 	}
 
 	@Override

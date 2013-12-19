@@ -69,7 +69,7 @@ public class CommitmentsModel extends AbstractListModel {
 	 * @param newComm The Commitment to be added to the list of Commitments in the project
 	 */
 	public void addCommitment(Commitment newComm) {
-		this.Commitments.add(newComm);
+		Commitments.add(newComm);
 	}
 	
 	
@@ -82,7 +82,7 @@ public class CommitmentsModel extends AbstractListModel {
 	public Commitment getCommitment(int id) {
 		Commitment temp = null;
 		// iterate through list of Commitments until id is found
-		for (int i=0; i < this.Commitments.size(); i++){
+		for (int i=0; i < Commitments.size(); i++){
 			temp = Commitments.get(i);
 			if (temp.getId() == id){
 				break;
@@ -105,7 +105,7 @@ public class CommitmentsModel extends AbstractListModel {
 	 */
 	public void removeCommitment(int removeId) {
 		// iterate through list of Commitments until id of project is found
-		for (int i=0; i < this.Commitments.size(); i++){
+		for (int i=0; i < Commitments.size(); i++){
 			if (Commitments.get(i).getId() == removeId){
 				// remove the id
 				Commitments.remove(i);
@@ -130,7 +130,7 @@ public class CommitmentsModel extends AbstractListModel {
 	 * 
 	 * @return the next open id number */
 	public int getNextID() {
-		return this.nextID++;
+		return nextID++;
 	}
 
 	/**

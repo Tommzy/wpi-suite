@@ -210,7 +210,7 @@ public class Event  implements Model{
 	 */
 	@Override
 	public void setProject(Project p) {
-		this.project = p;
+		project = p;
 	}
 
 	/* (non-Javadoc)
@@ -375,7 +375,7 @@ public class Event  implements Model{
 	 * @return the username
 	 */
 	public String getUsername(){
-		return this.username;
+		return username;
 	}
 
 	/**
@@ -394,7 +394,7 @@ public class Event  implements Model{
 	 * @param bool the new checks if is team event
 	 */
 	public void setTeamEvent(boolean bool){
-		this.isTeamEvent = bool;
+		isTeamEvent = bool;
 	}
 
 	/**
@@ -403,7 +403,7 @@ public class Event  implements Model{
 	 * @return the checks if is team event
 	 */
 	public boolean isTeamEvent(){
-		return this.isTeamEvent;
+		return isTeamEvent;
 	}
 	
 

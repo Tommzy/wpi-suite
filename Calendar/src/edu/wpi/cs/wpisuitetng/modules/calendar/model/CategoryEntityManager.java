@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -61,7 +60,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Category makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws BadRequestException, WPISuiteException {
 
 		// Parse the Category from JSON
 		final Category newCategory;
@@ -144,7 +143,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @return The highest Id
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
-	public int HighestId() throws WPISuiteException {
+	public int HighestId() {
 		List<Category> categoryList = db.retrieveAll(new Category(null, false,null));
 		Iterator<Category> itr = categoryList.iterator();
 		int maxId = 0;
@@ -162,7 +161,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
-	public int Count() throws WPISuiteException {
+	public int Count() {
 		// Passing a dummy Category lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Category(null, null)));
 		return db.retrieveAll(new Category(null, false,null)).size();
@@ -171,7 +170,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
-	public Category[] getAll(Session s) throws WPISuiteException  {
+	public Category[] getAll(Session s)  {
 		// Ask the database to retrieve all objects of the type Category.
 		// Passing a dummy Category lets the db know what type of object to retrieve
 		// Passing the project makes it only get Category from that project
@@ -192,7 +191,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			System.out.println("From CategoryEntity retieve all Personal size: "+personal.length);
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
-			System.out.println("No personal Category yet");
+			System.out.println("No personal Category yet" + e);
 			return db.retrieveAll(new Category(null, false, null), s.getProject()).toArray(new Category[0]);
 		}
 	}
@@ -316,7 +315,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -324,7 +323,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -332,7 +331,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+	throws NotImplementedException	 {
 		throw new NotImplementedException();
 	}
 

@@ -11,7 +11,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.InvitationModel;
@@ -33,7 +32,7 @@ public class GetInvitationController implements ActionListener {
    * Instantiates a new gets the invitation controller.
    */
   public GetInvitationController() {
-    observer = new GetInvitationRequestObserver(this);;
+    observer = new GetInvitationRequestObserver(this);
   }
 
   /* (non-Javadoc)

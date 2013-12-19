@@ -14,15 +14,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -30,15 +29,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.EventFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
 
@@ -84,7 +80,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarDayView(ArrayList<Event> events) {
+	public CalendarDayView(List<Event> events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);

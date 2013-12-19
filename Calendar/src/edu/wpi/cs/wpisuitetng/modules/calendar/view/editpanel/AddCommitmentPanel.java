@@ -19,7 +19,6 @@ import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -35,8 +34,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.MaskFormatter;
@@ -48,7 +45,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommi
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.updatecontroller.UpdateCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
@@ -225,7 +221,7 @@ public class AddCommitmentPanel extends JPanel {
 			warn();
 		}
 		
-		public void warn() {
+		private void warn() {
 			if (nameTextField.getText().equals("")) {
 				nameErrMsg.setText("Name cannot be empty! ");
 			}
@@ -496,7 +492,7 @@ public class AddCommitmentPanel extends JPanel {
    * @return the new description
    */
   public String getNewDescription() {
-    return this.descriptionTextArea.getText();
+    return descriptionTextArea.getText();
   }
   
   public String getCurrentTime() {
@@ -513,8 +509,9 @@ public class AddCommitmentPanel extends JPanel {
 	  if (nameErrMsg.getContentText().equals("") && startDateTimeErrMsg.getContentText().equals("") ) {
 		  return true;
 	  }
-	  else 
+	  else {
 		  return false;
+	  }
   }
   
   public void populateCommitment (Commitment commitment) {

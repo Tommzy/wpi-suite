@@ -12,8 +12,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.deletecontroller;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.FiltersModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -32,7 +30,7 @@ public class DeleteFilterController implements ActionListener {
 
 	public DeleteFilterController(int id) {
 		this.id = id;
-		this.observer = new DeleteFilterRequestObserver(this);
+		observer = new DeleteFilterRequestObserver(this);
 	}
 	
 	//getter

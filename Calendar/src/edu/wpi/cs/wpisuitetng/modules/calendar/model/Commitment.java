@@ -124,8 +124,8 @@ public class Commitment implements Model{
 		this.name = name;
 		this.startTime = startTime;
 		this.description = description;
-		this.id = -1;
-		this.status = 1;
+		id = -1;
+		status = 1;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -246,7 +246,7 @@ public class Commitment implements Model{
 	 */
 	@Override
 	public void setProject(Project p) {
-		this.project = p;
+		project = p;
 	}
 
 	/* (non-Javadoc)

@@ -13,12 +13,8 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -55,7 +51,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Filter makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws BadRequestException, WPISuiteException {
 
 		// Parse the Filter from JSON
 		final Filter newFilter;
@@ -135,7 +131,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	 * @return The highest Id
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
-	public int HighestId() throws WPISuiteException {
+	public int HighestId() {
 		List<Filter> FilterList = db.retrieveAll(new Filter(" ", null));
 		Iterator<Filter> itr = FilterList.iterator();
 		int maxId = 0;
@@ -153,7 +149,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	/**
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
-	public int Count() throws WPISuiteException {
+	public int Count()  {
 		// Passing a dummy Filter lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Filter(null, null)));
 		return db.retrieveAll(new Filter(" ", null)).size();
@@ -261,7 +257,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -269,7 +265,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -277,7 +273,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 

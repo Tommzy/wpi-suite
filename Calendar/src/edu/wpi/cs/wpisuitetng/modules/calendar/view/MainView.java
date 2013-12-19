@@ -13,15 +13,10 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
 import javax.swing.*;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddEventTabPanel;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 // TODO: Auto-generated Javadoc
 /**

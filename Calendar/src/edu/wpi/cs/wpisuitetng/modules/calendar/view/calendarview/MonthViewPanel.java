@@ -12,7 +12,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -24,7 +23,6 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.EventsModel;
@@ -85,14 +83,15 @@ public class MonthViewPanel extends JPanel {
 			JLabel weekday = new JLabel(weekdayNamesAbbr[i]);
 			weekday.setOpaque(true);
 			weekday.setBackground(new Color(138, 173, 209));
-			if (i != weekdayNamesAbbr.length - 1) 
+			if (i != weekdayNamesAbbr.length - 1) {
 				add(weekday, "width :14%:");
-			else
+			}
+			else{
 				// when finished adding the first row of components, 
 				// use "wrap" mig command to tell the layout controller
 				// you want to put the next component to the next row
 				add(weekday, "width :14%:, wrap");
-			
+			}
 			/*
 			 * also, width 14% means the weekday label will will be 14% of the width of the container
 			 */

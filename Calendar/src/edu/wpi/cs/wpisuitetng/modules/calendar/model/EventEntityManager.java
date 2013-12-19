@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -61,7 +60,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Event makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws BadRequestException, WPISuiteException {
 
 		// Parse the Event from JSON
 		final Event newEvent;
@@ -148,7 +147,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @return The highest Id
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
-	public int HighestId() throws WPISuiteException {
+	public int HighestId()  {
 		List<Event> commitList = db.retrieveAll(new Event(null, null, null,null,null));
 		Iterator<Event> itr = commitList.iterator();
 		int maxId = 0;
@@ -166,7 +165,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
-	public int Count() throws WPISuiteException {
+	public int Count()  {
 		// Passing a dummy Event lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Event(null, null, null)));
 		return db.retrieveAll(new Event(null, null, null,null,null)).size();
@@ -202,7 +201,7 @@ public class EventEntityManager implements EntityManager<Event> {
 //			}
 			return combined.toArray(new Event[] {});
 		}catch(WPISuiteException e){// no personal commitments found
-			System.out.println("No Personal Events yet");
+			System.out.println("No Personal Events yet" + e);
 			return db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
 		}
 
@@ -325,7 +324,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+			throws NotImplementedException	 {
 		throw new NotImplementedException();
 	}
 
@@ -333,7 +332,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -341,7 +340,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 	

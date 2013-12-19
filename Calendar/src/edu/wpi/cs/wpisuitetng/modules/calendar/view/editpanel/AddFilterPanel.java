@@ -19,7 +19,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -35,12 +34,9 @@ import javax.swing.ListSelectionModel;
 
 import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.ManageFiltersPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddFilterController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.FiltersModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.JErrorMessageLabel;
@@ -90,7 +86,7 @@ public class AddFilterPanel extends JPanel {
   
   /** ArrayList of SelectedCategories 
    *  Updates when packInfo() is called **/
-  ArrayList<Category> selCategories = new ArrayList<Category>();
+  List<Category> selCategories = new ArrayList<Category>();
   
   /** The Id field */
   JLabel IDText; 
@@ -347,7 +343,7 @@ public class AddFilterPanel extends JPanel {
   private Filter packInfo() {
 	  String name = nameTextField.getText();
 	  printCategoryList();
-	  ArrayList<Category> c = new ArrayList<Category>();
+	  List<Category> c = new ArrayList<Category>();
 	  int[] is = teamJList.getSelectedIndices();
 	  for (int i = 0; i < is.length; i ++) {
 		  c.add((Category)teamCategory.get(is[i]));
@@ -428,8 +424,9 @@ public class AddFilterPanel extends JPanel {
 		  catErrMsg.setText("");
 		  return true;
 	  }
-	  else 
+	  else {
 		  return false;
+	  }
   }
 	  
 

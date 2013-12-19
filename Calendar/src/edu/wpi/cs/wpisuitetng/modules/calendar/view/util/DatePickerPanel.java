@@ -13,13 +13,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.miginfocom.swing.MigLayout;
@@ -40,13 +37,13 @@ public class DatePickerPanel extends JPanel {
 	JFormattedTextField outputField;
 	
 	public DatePickerPanel(JFormattedTextField field) {
-		this.outputField = field;
+		outputField = field;
 		dateController = new DateController();
 		updateDatePickerPanel();
 	}
 	
 	public DatePickerPanel(int year, int month, int date, JFormattedTextField field) {
-		this.outputField = field;
+		outputField = field;
 		dateController = new DateController(year, month, date);
 		updateDatePickerPanel();
 	}

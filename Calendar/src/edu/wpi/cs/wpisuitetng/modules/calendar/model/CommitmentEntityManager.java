@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
@@ -61,7 +60,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Commitment makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws BadRequestException, WPISuiteException {
 
 		// Parse the Commitment from JSON
 		final Commitment newCommitment;
@@ -162,7 +161,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @return The highest Id
 	 * @throws WPISuiteException "Retrieve all failed"
 	 */
-	public int HighestId() throws WPISuiteException {
+	public int HighestId() {
 		List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null));
 		Iterator<Commitment> itr = commitList.iterator();
 		int maxId = 0;
@@ -180,7 +179,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
-	public int Count() throws WPISuiteException {
+	public int Count()  {
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Commitment(null, null, null)));
 		return db.retrieveAll(new Commitment(null, null, null)).size();
@@ -189,7 +188,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
-	public Commitment[] getAll(Session s) throws WPISuiteException  {
+	public Commitment[] getAll(Session s)   {
 		// Ask the database to retrieve all objects of the type Commitment.
 		// Passing a dummy Commitment lets the db know what type of object to retrieve
 		// Passing the project makes it only get Commitments from that project
@@ -214,7 +213,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 //			}
 			return combined.toArray(new Commitment[] {});
 		}catch(WPISuiteException e){// no personal commitments found
-			System.out.println("No Personal Commitments yet");
+			System.out.println("No Personal Commitments yet" + e);
 			return db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
 		}
 		
@@ -338,7 +337,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -346,7 +345,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -354,7 +353,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 	

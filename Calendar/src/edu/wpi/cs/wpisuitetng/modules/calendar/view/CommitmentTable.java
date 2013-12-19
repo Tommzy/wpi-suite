@@ -26,7 +26,6 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;

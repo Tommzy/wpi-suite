@@ -28,7 +28,7 @@ public class DeleteCommitmentController implements ActionListener {
 	private DeleteCommitmentRequestObserver observer ;
 	
 	/** The id of the commitment to delete */
-	private int id;
+	final private int id;
 
 	/**
 	 * Constructor - set the id to delete by.
@@ -36,7 +36,7 @@ public class DeleteCommitmentController implements ActionListener {
 	 */
 	public DeleteCommitmentController(int id) {
 		this.id = id;
-		this.observer = new DeleteCommitmentRequestObserver(this);
+		observer = new DeleteCommitmentRequestObserver(this);
 	}
 	
 	/**

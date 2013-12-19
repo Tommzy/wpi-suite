@@ -21,19 +21,15 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddSchedulerPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.updatecontroller.UpdateInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 import edu.wpi.cs.wpisuitetng.network.Network;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 
 @SuppressWarnings("serial")
@@ -57,7 +53,7 @@ public class SchedulerTable extends JPanel {
 	JLabel dateLabel = new JLabel("Date: ");
 	
 	public SchedulerTable(MigLayout miglayout, Invitation inv) {
-		this.currentInvitation = inv;
+		currentInvitation = inv;
 		layout = miglayout;
 		// get my username
 		try {
@@ -65,7 +61,10 @@ public class SchedulerTable extends JPanel {
 			cookie = cookie.substring(9);
 			username = cookie.split("=")[0];
 			System.out.println(username);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
 		
 		refreshView();
 		
@@ -143,7 +142,7 @@ public class SchedulerTable extends JPanel {
 	 * @return packed invitation
 	 */
 	public Invitation packInfo(){
-		HashMap<String, String> map = currentInvitation.getAvailablity();
+		Map<String, String> map = currentInvitation.getAvailablity();
 		for(int i = 0; i < keys.length; i++){
 			// See if the user checked the box
 			
@@ -188,7 +187,7 @@ public class SchedulerTable extends JPanel {
 	 * populate the currentInvitation to table
 	 */
 	public void populateInvitation () {
-		HashMap<String, String> map = currentInvitation.getAvailablity();
+		Map<String, String> map = currentInvitation.getAvailablity();
 		for(int i = 0; i < keys.length; i++){
 			// See if the user checked the box
 			String attendee = map.get(keys[i]);

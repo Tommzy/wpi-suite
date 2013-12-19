@@ -24,8 +24,7 @@ public class AddManageFiltersPanelController implements ActionListener {
 
 	public static AddManageFiltersPanelController instance;
 
-	public AddManageFiltersPanelController( ) {
-	}
+
 
 	public static AddManageFiltersPanelController getInstance() {
 		if (instance == null) {
@@ -51,7 +50,7 @@ public class AddManageFiltersPanelController implements ActionListener {
 		
 		if (e.getSource().getClass().equals(JButton.class)) {
 			((JButton)e.getSource()).setEnabled(false);
-			Timer timer = new Timer();
+			final 	Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				  @Override
 				  public void run() {

@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -44,7 +43,7 @@ public class UpdateCategoryController implements ActionListener{
 	 */
 	public UpdateCategoryController(Category updatedcategory) {
 		observer = new UpdateCategoryRequestObserver(this);
-		this.updatedCategory = updatedcategory;
+		updatedCategory = updatedcategory;
 	}
 	
 	/**

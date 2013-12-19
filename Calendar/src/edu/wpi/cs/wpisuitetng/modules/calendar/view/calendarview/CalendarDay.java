@@ -26,6 +26,8 @@ import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -60,8 +62,8 @@ public class CalendarDay extends JPanel {
 //	JScrollPane scroll = new JScrollPane(view,
 //			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
-	ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
-	private HashMap<CalendarCard, GridBagConstraints> eventConstraint = new HashMap<CalendarCard, GridBagConstraints>();
+	List<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
+	private Map<CalendarCard, GridBagConstraints> eventConstraint = new HashMap<CalendarCard, GridBagConstraints>();
 	private final int minimalInterval = 2;
 	private int currentMaxWidth = 1;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
@@ -73,7 +75,7 @@ public class CalendarDay extends JPanel {
 	 * Create view of a calendar day 
 	 */
 	public CalendarDay(DateController date) {
-		this.dateController = date;
+		dateController = date;
 		GridBagConstraints c = new GridBagConstraints();
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
@@ -175,7 +177,7 @@ public class CalendarDay extends JPanel {
 	 * @param event Event to be added
 	 */
 	public void addEvent(Event event) {
-		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
+		List<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
 		String eventName = event.getName();
@@ -254,7 +256,7 @@ public class CalendarDay extends JPanel {
 	 * @param event Event to be added
 	 */
 	public void addCommitment(Commitment commitment) {
-		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
+		List<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
 		String eventName = commitment.getName();
@@ -416,9 +418,9 @@ public class CalendarDay extends JPanel {
 	 */
 	private interface CalendarCard {
 		
-		public GregorianCalendar getStartTime();
+		 GregorianCalendar getStartTime();
 		
-		public GregorianCalendar getEndTime();
+		 GregorianCalendar getEndTime();
 		
 	}
 	
@@ -428,7 +430,7 @@ public class CalendarDay extends JPanel {
 		
 		public EventCard(Event event, JLabel eventLabel) {
 			this.event = event;
-			this.label = eventLabel;
+			label = eventLabel;
 		}
 
 		@Override
@@ -448,7 +450,7 @@ public class CalendarDay extends JPanel {
 		
 		public CommitmentCard(Commitment commitment, JLabel commitmentLabel) {
 			this.commitment = commitment;
-			this.label = commitmentLabel;
+			label = commitmentLabel;
 		}
 
 		@Override
@@ -474,8 +476,9 @@ public class CalendarDay extends JPanel {
 		if (i <= 9) {
 			return "0" + i;
 		}
-		else
+		else{
 			return Integer.toString(i);
+		}
 	}
 	
 	/**
@@ -552,9 +555,9 @@ public class CalendarDay extends JPanel {
 	 */
 	public static String ellipsize(String text, int max) {
 
-	    if (textWidth(text) <= max)
+	    if (textWidth(text) <= max){
 	        return text;
-
+	    }
 	    // Start by chopping off at the word before max
 	    // This is an over-approximation due to thin-characters...
 	    int end = text.lastIndexOf(' ', (int) (max / 6.5 - 3));
@@ -576,9 +579,9 @@ public class CalendarDay extends JPanel {
 	        newEnd = text.indexOf(' ', end + 1);
 
 	        // No more spaces.
-	        if (newEnd == -1)
+	        if (newEnd == -1){
 	            newEnd = text.length();
-
+	        }
 	    } while (textWidth(text.substring(0, newEnd) + "...") < max);
 
 	    return text.substring(0, end) + "...";

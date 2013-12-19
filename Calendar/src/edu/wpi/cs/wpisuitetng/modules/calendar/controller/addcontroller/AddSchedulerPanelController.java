@@ -2,8 +2,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
@@ -30,8 +28,7 @@ public class AddSchedulerPanelController implements ActionListener {
 
 	public static AddSchedulerPanelController instance;
 
-	public AddSchedulerPanelController() {
-	}
+
 
 	public static AddSchedulerPanelController getInstance() {
 		if (instance == null) {
