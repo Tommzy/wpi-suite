@@ -16,19 +16,19 @@ import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
 import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCategoryPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddCommitmentPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddEventPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddInvitationPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddManageFiltersPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.AddSchedulerPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addeventpanel.ManageFiltersPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCategoryPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddEventPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddCommitmentPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddFilterPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.AddSchedulerPanel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.SchedulerPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.ManageFiltersPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCategoryPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddEventPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddInvitationPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddManageFiltersPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddSchedulerPanelController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddCategoryPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddCommitmentPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddEventPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddFilterPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddSchedulerPanel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.InvitaionPanel;
 
 public class ToolbarController implements ActionListener {
 
@@ -139,13 +139,13 @@ public class ToolbarController implements ActionListener {
     	newSchedulerPanel.initiateFocus();
     }
     if (e.getSource() == invitationButton) {
-    	SchedulerPanel invitationPanel = new SchedulerPanel(); 
+    	InvitaionPanel invitationPanel = new InvitaionPanel(); 
     	try {
     		Thread.sleep(500);
     	} catch (InterruptedException ex) {
     		Thread.currentThread().interrupt();
     	}
-    	invitationPanel = new SchedulerPanel();
+    	invitationPanel = new InvitaionPanel();
     	AddInvitationPanelController.getInstance().getTabbedPane().add(invitationPanel);
     	AddInvitationPanelController.getInstance().getTabbedPane().setTitleAt(AddInvitationPanelController.getInstance().getTabbedPane().getTabCount() - 1, "Invitation");
     	AddInvitationPanelController.getInstance().getTabbedPane().setSelectedIndex(AddInvitationPanelController.getInstance().getTabbedPane().getTabCount() - 1);

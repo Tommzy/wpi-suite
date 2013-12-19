@@ -18,10 +18,10 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 
 /**
  * This class is used to filter a mist of commitments and return those that begin within a specified time slot

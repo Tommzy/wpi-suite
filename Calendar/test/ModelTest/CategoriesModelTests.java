@@ -8,8 +8,8 @@ import java.util.List;
 import org.junit.Test;
 
 import edu.wpi.cs.wpisuitetng.Permission;
-import edu.wpi.cs.wpisuitetng.modules.calendar.categories.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
+import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 

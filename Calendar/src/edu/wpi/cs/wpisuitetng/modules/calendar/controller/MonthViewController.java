@@ -16,7 +16,7 @@ import java.util.GregorianCalendar;
 import javax.swing.JButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview.MonthView;
 
 /**
  * the controller for month view.

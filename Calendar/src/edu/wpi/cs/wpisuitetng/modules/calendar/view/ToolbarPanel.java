@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
 

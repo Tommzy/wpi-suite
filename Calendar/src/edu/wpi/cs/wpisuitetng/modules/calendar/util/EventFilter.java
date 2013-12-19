@@ -18,12 +18,12 @@ import java.util.Iterator;
 
 import javax.swing.JButton;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetEventController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.events.EventsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
+import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.EventsModel;
 
 /**
  * This class is used to filter a mist of commitments and return those that begin within a specified time slot

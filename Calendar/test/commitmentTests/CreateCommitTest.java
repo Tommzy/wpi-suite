@@ -7,10 +7,10 @@ import java.util.GregorianCalendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.AddCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.GetCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.commitments.CommitmentsModel;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
+import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.MockNetwork;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.configuration.NetworkConfiguration;

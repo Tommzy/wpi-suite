@@ -17,6 +17,7 @@ import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddEventTabPanel;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;

@@ -26,15 +26,17 @@ import javax.swing.JToggleButton;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
+import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
+import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarWeekView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarYearView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.CalendarDayView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainCalendarView;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.MainView;
-import edu.wpi.cs.wpisuitetng.modules.calendar.view.monthview.MonthView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview.CalendarDayView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview.CalendarWeekView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview.CalendarYearView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview.MainCalendarView;
+import edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview.MonthView;
 
 /**
  * This controller responds to actions from view MainCalendarView and
