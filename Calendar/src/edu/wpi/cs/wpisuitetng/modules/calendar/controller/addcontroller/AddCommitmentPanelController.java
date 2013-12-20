@@ -17,6 +17,10 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
+/**This controller hold the view of add category view
+ * @author HF
+ * @version v1.0
+ */
 public class AddCommitmentPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
@@ -25,6 +29,9 @@ public class AddCommitmentPanelController implements ActionListener {
 
 
 
+	/**If the singleton did not init then init it
+	 * @return AddCommitmentPanelController the singleton instance of AddCommitmentPanelController
+	 */
 	public static AddCommitmentPanelController getInstance() {
 		if (instance == null) {
 			instance = new AddCommitmentPanelController();

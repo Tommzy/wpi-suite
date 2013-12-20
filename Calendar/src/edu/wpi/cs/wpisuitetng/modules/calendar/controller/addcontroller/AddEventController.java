@@ -64,7 +64,7 @@ public class AddEventController implements ActionListener{
 
 	/**
 	 * When the new Event is received back from the server, add it to the local model.
-	 * @param message
+	 * @param item the event to be added to the list model
 	 */
 	public void addEventToModel(Event item) {
 		model.addEvent(item);

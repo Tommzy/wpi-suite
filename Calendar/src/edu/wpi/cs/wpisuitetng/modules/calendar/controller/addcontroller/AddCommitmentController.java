@@ -39,7 +39,7 @@ public class AddCommitmentController implements ActionListener{
 	/**
 	 * Construct an AddCommitmentController for the given model, view pair
 	 * @param model the model containing the messages
-	 * @param viewCommitment the view where the user enters new messages
+	 * @param commitmentToBeAdded the commitment that the user enters new messages
 	 */
 	public AddCommitmentController(CommitmentsModel model, Commitment commitmentToBeAdded) {
 		this.model = model;

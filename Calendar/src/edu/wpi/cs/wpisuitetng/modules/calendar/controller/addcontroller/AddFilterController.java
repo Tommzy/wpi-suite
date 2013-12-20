@@ -1,3 +1,12 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller;
 
 import java.awt.event.ActionEvent;
@@ -68,7 +77,7 @@ public class AddFilterController implements ActionListener{
 
 	/**
 	 * When the new Calendar item is received back from the server, add it to the local model.
-	 * @param message
+	 * @param item add Filte ot the list model
 	 */
 	public void addFilterToModel(Filter item) {
 		model.addFilter(item);

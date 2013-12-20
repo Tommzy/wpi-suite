@@ -23,6 +23,7 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  * The Class AddInvitationController.
  * 
  * @author Eric
+ * @version v1.0
  */
 public class AddInvitationController implements ActionListener{
 
