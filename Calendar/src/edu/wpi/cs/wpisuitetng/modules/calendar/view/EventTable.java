@@ -31,7 +31,8 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 
 /**
- * The Class for the table of events.
+ * The Class for the table of events as shown in the
+ * main calendar view on the right side of the window.
  */
 @SuppressWarnings("serial")
 public class EventTable extends JPanel implements Updatable {

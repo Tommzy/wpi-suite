@@ -13,9 +13,9 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class JErrorMessageLabel.
+ * The Class JErrorMessageLabel to display on panels
+ * when invalid input has been given.
  * 
  * @author Yuchen Zhang
  */
@@ -33,7 +33,7 @@ public class JErrorMessageLabel extends JLabel {
    * Instantiates a new j error message label.
    * 
    * @param text
-   *          the text
+   *          the text that should be shown.
    */
   public JErrorMessageLabel(String text) {
     super("<html><font color='red'>" + text + "</font></html>");
@@ -45,7 +45,7 @@ public class JErrorMessageLabel extends JLabel {
    * Instantiates a new j error message label.
    * 
    * @param image
-   *          the image
+   *          the image to show.
    */
   public JErrorMessageLabel(Icon image) {
     super(image);
@@ -57,9 +57,9 @@ public class JErrorMessageLabel extends JLabel {
    * Instantiates a new j error message label.
    * 
    * @param text
-   *          the text
+   *          the text to show.
    * @param horizontalAlignment
-   *          the horizontal alignment
+   *          the horizontal alignment of the label for displaying.
    */
   public JErrorMessageLabel(String text, int horizontalAlignment) {
     super(text, horizontalAlignment);
@@ -71,9 +71,9 @@ public class JErrorMessageLabel extends JLabel {
    * Instantiates a new j error message label.
    * 
    * @param image
-   *          the image
+   *          the image to display.
    * @param horizontalAlignment
-   *          the horizontal alignment
+   *          the horizontal alignment of the label.
    */
   public JErrorMessageLabel(Icon image, int horizontalAlignment) {
     super(image, horizontalAlignment);
@@ -85,11 +85,11 @@ public class JErrorMessageLabel extends JLabel {
    * Instantiates a new j error message label.
    * 
    * @param text
-   *          the text
+   *          the text to display.
    * @param icon
-   *          the icon
+   *          the icon to display.
    * @param horizontalAlignment
-   *          the horizontal alignment
+   *          the horizontal alignment of the label.
    */
   public JErrorMessageLabel(String text, Icon icon, int horizontalAlignment) {
     super(("<html><font color='red'>" + text + "</font></html>"), icon,
@@ -104,7 +104,7 @@ public class JErrorMessageLabel extends JLabel {
    * @see javax.swing.JLabel#setText(java.lang.String)
    */
   @Override
-  public void setText(String text) {
+  public final void setText(String text) {
     super.setText("<html><font color='red'>" + text + "</font></html>");
   }
 
@@ -115,7 +115,7 @@ public class JErrorMessageLabel extends JLabel {
    * 
    * @return the content text
    */
-  public String getContentText() {
+  public final String getContentText() {
     String all = super.getText();
     String content = all.split("<font color='red'>")[1].split("</font>")[0];
     return content;
