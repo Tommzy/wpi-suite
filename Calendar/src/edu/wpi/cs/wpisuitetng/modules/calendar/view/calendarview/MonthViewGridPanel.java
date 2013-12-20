@@ -35,8 +35,6 @@ import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
 
-/*Note: Anywhere comments read "-Gravy" means that Andrew Aveyard edited there*/
-
 public class MonthViewGridPanel extends JPanel {
 	private JLabel headerLabel = new JLabel(); // Date for day
 
@@ -214,19 +212,6 @@ public class MonthViewGridPanel extends JPanel {
 		JToggleButton btn = new JToggleButton();
 		btn.setText("Day");
 		MainCalendarController.getInstance().timePeriodChanged(btn);
-//		MainCalendarController.getInstance().timePeriodChanged(btn);
-//		System.out.println("view switched");
-//		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
-//			//TODO: switch to day view here	
-//			JToggleButton btn = new JToggleButton();
-//			btn.setText("Day");
-//			MainCalendarController.getInstance().timePeriodChanged(btn);
-//
-//		}
-//		else {
-//			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
-//		}
-//		
 		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
 	}
 	public void filtCommitment(Collection<Commitment> commitment) {

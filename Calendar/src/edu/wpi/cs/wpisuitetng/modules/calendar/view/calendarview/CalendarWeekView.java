@@ -278,8 +278,6 @@ public class CalendarWeekView extends JPanel implements Updatable{
 			week[i].setPreferredSize(new Dimension(new Dimension((int) (this.getPreferredSize().getWidth() / 7), (int)(this.getPreferredSize().getHeight()))));	
 			weekPanel.add(week[i]);
 		}
-//		week[1].initTimeLabels();
-//    week[0].setVisible(false);
 		MainCalendarController.getInstance().setDateController(originalDate);
 		parseEvent();
 		parseCommitment();
@@ -351,7 +349,7 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	}
 	
 	//Test the detailed view, adding some new events
-		/**
+	/**
 	 * The main method.
 	 *
 	 * @param args the arguments
@@ -359,11 +357,6 @@ public class CalendarWeekView extends JPanel implements Updatable{
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarWeekView d = new CalendarWeekView();
-//		d.week[1].addEvent(new DayEvent("Whoops", new GregorianCalendar(2013, 5, 21, 20, 50, 0), new GregorianCalendar(2013, 5, 21, 22, 5, 0))); 
-//		d.week[2].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-//		d.week[3].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-//		d.week[2].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-//		d.week[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
 
 		JScrollPane scroll = new JScrollPane(d);
 
