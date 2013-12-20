@@ -24,7 +24,6 @@ import com.google.gson.JsonSyntaxException;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
@@ -38,11 +37,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class CommitmentEntityManager.
+ *
+ * @author Hui Zheng
+ * @version v1.0
  */
 public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 	/** The db. */
-	private Data db;
+	final private Data db;
 
 
 
@@ -96,6 +98,10 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		System.out.println("The Commitment saved!    " + model.toJSON());
 	}
 
+	/**save the model to the database
+	 * @param model the commitment will saved
+	 * @throws WPISuiteException
+	 */
 	public void save(Commitment model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
 
@@ -116,7 +122,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	 * @throws WPISuiteException the wPI suite exception
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if(!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
@@ -147,9 +153,9 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	/** Takes a Commitment and assigns a unique id if necessary
 	 * 
 	 * @param commitment The Commitment that possibly needs a unique id
-	 * @throws WPISuiteException "Count failed"
+	 * or return WPISuiteException "Count failed"
 	 */
-	public void assignUniqueID(Commitment commitment) throws WPISuiteException{
+	public void assignUniqueID(Commitment commitment){
 		if (commitment.getId() == -1){// -1 is a flag that says a unique id is needed            
 			commitment.setId(HighestId() + 1); // Assures that the Commitment's ID will be unique
 		}
@@ -159,11 +165,11 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 
 	/** Returns the highest Id of all commitments in the database.
 	 * @return The highest Id
-	 * @throws WPISuiteException "Retrieve all failed"
+	 * or return WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() {
-		List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null));
-		Iterator<Commitment> itr = commitList.iterator();
+		final List<Commitment> commitList = db.retrieveAll(new Commitment(null, null, null));
+		final Iterator<Commitment> itr = commitList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
 		{
@@ -196,7 +202,7 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		Commitment[] personal = null;
 		Commitment[] team = null;
-		Collection<Commitment> combined = new ArrayList<Commitment>();
+		final Collection<Commitment> combined = new ArrayList<Commitment>();
 		try{// return combined personal and team commitments
 			personal = db.retrieve(Commitment.class, "username", s.getUsername()).toArray(new Commitment[0]);
 			team =  db.retrieveAll(new Commitment(null, null, null), s.getProject()).toArray(new Commitment[0]);
@@ -259,14 +265,14 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 			throw new WPISuiteException("Null session.");
 		}
 		// The following code was modified from the requirement entity manager
-		Commitment updatedCommitment = Commitment.fromJSON(content);
+		final Commitment updatedCommitment = Commitment.fromJSON(content);
 
-		List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId());
+		final List<Model> oldCommitments = db.retrieve(Commitment.class, "id", updatedCommitment.getId());
 		if(oldCommitments.size() < 1 || oldCommitments.get(0) == null) {
 			throw new BadRequestException("Commitment with ID does not exist.");
 		}
 
-		Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
+		final Commitment existingCommitment = (Commitment)oldCommitments.get(0);		
 
 
 		existingCommitment.copy(updatedCommitment);
@@ -299,18 +305,18 @@ public class CommitmentEntityManager implements EntityManager<Commitment> {
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 
-		Commitment oldComm = getEntity(s,   id    )[0];
+		final Commitment oldComm = getEntity(s,   id    )[0];
 		if(oldComm.isTeamCommitment()){
 			ensureRole(s, Role.ADMIN);
 			System.out.println("From teamdelete i want to delete "+ oldComm.toJSON());
-			Commitment commToBeDel = new Commitment(null, null, null);
+			final Commitment commToBeDel = new Commitment(null, null, null);
 			commToBeDel.setId(oldComm.getId());
 			if (db.delete(commToBeDel)!=null){
 				return true; // the deletion was successful
 			}
 		}else{
 			System.out.println("From personal i want to delete "+ oldComm.toJSON());
-			Commitment commToBeDel = new Commitment(null, null, null);
+			final Commitment commToBeDel = new Commitment(null, null, null);
 			commToBeDel.setId(oldComm.getId());
 			commToBeDel.setUsername(s.getUsername());
 			commToBeDel.setTeamCommitment(false);

@@ -10,6 +10,7 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Event.
+ * @author Hui Zheng
+ * @version v1.0
  */
 public class Event  implements Model{
 
@@ -39,7 +42,7 @@ public class Event  implements Model{
 	private GregorianCalendar endTime;
 
 	/** Location. */
-	private String location;
+	final private String location;
 
 	/** The description. */
 	private String description;
@@ -57,7 +60,7 @@ public class Event  implements Model{
 	private boolean isTeamEvent = true;
 
 	/** The permission map. */
-	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+	final private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
 
 	/** The project. */
 	private Project project;
@@ -289,9 +292,9 @@ public class Event  implements Model{
 		}
 
 		//		return "Temp Date";
-		return startTime.get(GregorianCalendar.YEAR) + " "
-		+ startTime.get(GregorianCalendar.MONTH) + " "
-		+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
+		return startTime.get(Calendar.YEAR) + " "
+		+ startTime.get(Calendar.MONTH) + " "
+		+ startTime.get(Calendar.DATE) + " " + name + " " + description;
 
 	}
 
@@ -331,9 +334,10 @@ public class Event  implements Model{
 	public boolean isActiveDuringTimeStamp(GregorianCalendar calendar) {
 		if (calendar.before(startTime) || calendar.after(endTime)) {
 			return false;
-		} else {
-			return true;
 		}
+		
+		return true;
+		
 	}
 
 	/**
@@ -343,18 +347,18 @@ public class Event  implements Model{
 	 * @return true if the event is active during that day, false otherwise
 	 */
 	public boolean isActiveDuringDay(Date day){
-		Date startDay, endDay;
-		GregorianCalendar cal = new GregorianCalendar();
+		final final Date startDay, endDay;
+		final GregorianCalendar cal = new GregorianCalendar();
 		//Set the startDay to the start of the day when the
 		//event is active
 		cal.setTime(startTime.getTime());
-		cal.set(GregorianCalendar.HOUR_OF_DAY,0);
-		cal.set(GregorianCalendar.MINUTE, 0);
+		cal.set(Calendar.HOUR_OF_DAY,0);
+		cal.set(Calendar.MINUTE, 0);
 		startDay = cal.getTime();
 		//Set the endDay to the end of the day pointed by endTime
 		cal.setTime(endTime.getTime());
-		cal.set(GregorianCalendar.HOUR_OF_DAY,23);
-		cal.set(GregorianCalendar.MINUTE, 59);
+		cal.set(Calendar.HOUR_OF_DAY,23);
+		cal.set(Calendar.MINUTE, 59);
 		endDay = cal.getTime();
 
 		return startDay.before(day) && endDay.after(day);

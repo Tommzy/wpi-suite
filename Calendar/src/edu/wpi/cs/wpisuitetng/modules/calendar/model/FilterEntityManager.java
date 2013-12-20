@@ -21,7 +21,6 @@ import com.google.gson.JsonSyntaxException;
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
@@ -31,10 +30,14 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Role;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**
+ * @author Hui Zheng
+ * @version 1.0
+ */
 public class FilterEntityManager implements EntityManager<Filter> {
 
 	/** The db. */
-	private Data db;
+	final private Data db;
 
 
 
@@ -87,6 +90,10 @@ public class FilterEntityManager implements EntityManager<Filter> {
 		System.out.println("The Filter saved!    " + model.toJSON());
 	}
 
+	/**save the model to the database
+	 * @param model the filter will saved
+	 * @throws WPISuiteException
+	 */
 	public void save(Filter model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
 
@@ -107,7 +114,7 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	 * @throws WPISuiteException the wPI suite exception
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if(!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
@@ -117,9 +124,9 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	/** Takes a Filter and assigns a unique id if necessary
 	 * 
 	 * @param Filter The Filter that possibly needs a unique id
-	 * @throws WPISuiteException "Count failed"
+	 * or return WPISuiteException "Count failed"
 	 */
-	public void assignUniqueID(Filter Filter) throws WPISuiteException{
+	public void assignUniqueID(Filter Filter) {
 		if (Filter.getId() == -1){// -1 is a flag that says a unique id is needed            
 			Filter.setId(HighestId() + 1); // Assures that the Filter ID will be unique
 		}
@@ -129,11 +136,11 @@ public class FilterEntityManager implements EntityManager<Filter> {
 
 	/** Returns the highest Id of all Filter in the database.
 	 * @return The highest Id
-	 * @throws WPISuiteException "Retrieve all failed"
+	 * or return WPISuiteException "Retrieve all failed"
 	 */
 	public int HighestId() {
-		List<Filter> FilterList = db.retrieveAll(new Filter(" ", null));
-		Iterator<Filter> itr = FilterList.iterator();
+		final List<Filter> FilterList = db.retrieveAll(new Filter(" ", null));
+		final Iterator<Filter> itr = FilterList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
 		{
@@ -205,14 +212,14 @@ public class FilterEntityManager implements EntityManager<Filter> {
 			throw new WPISuiteException("Null session.");
 		}
 		// The following code was modified from the requirement entity manager
-		Filter updatedFilter = Filter.fromJSON(content);
+		final Filter updatedFilter = Filter.fromJSON(content);
 
-		List<Model> oldFilters = db.retrieve(Filter.class, "id", updatedFilter.getId());
+		final List<Model> oldFilters = db.retrieve(Filter.class, "id", updatedFilter.getId());
 		if(oldFilters.size() < 1 || oldFilters.get(0) == null) {
 			throw new BadRequestException("Filter with ID does not exist.");
 		}
 
-		Filter existingFilter = (Filter)oldFilters.get(0);   
+		final Filter existingFilter = (Filter)oldFilters.get(0);   
 
 
 		existingFilter.copy(updatedFilter);
@@ -233,8 +240,8 @@ public class FilterEntityManager implements EntityManager<Filter> {
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown        
 
-		Filter oldFilter = getEntity(s, id)[0];
-		Filter filterToBeDel = new Filter(null, null);
+		final Filter oldFilter = getEntity(s, id)[0];
+		final Filter filterToBeDel = new Filter(null, null);
 		filterToBeDel.setId(oldFilter.getId());
 		filterToBeDel.setUserId(oldFilter.getUserId());
 		if (db.delete(filterToBeDel)!=null){

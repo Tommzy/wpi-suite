@@ -23,6 +23,11 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**This is category class 
+ * category of events and commitments
+ * @author Brittany 
+ * @version v1.0
+ */
 public class Category implements Model{
   /** The name shown in the GUI */
   String name;
@@ -43,20 +48,21 @@ public class Category implements Model{
   String userID;
   
   /** The permission map. */
-  private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+  final private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
   
   /** The project. */
   private Project project;
   
   //------------------Non-Interface Functions------------------------
   
-  /**
-   * Constructor
-   * @param newName the name for this category
-   * @param newColor the color associated with this category
-   */
   
-  public Category(String newName, boolean isItPersonal, Color newColor) {
+  /**
+   * Constructor 
+ * @param newName the name for this category
+ * @param isItPersonal boolean of whether personal or not
+ * @param newColor the color associated with this category
+ */
+public Category(String newName, boolean isItPersonal, Color newColor) {
     name = newName;
     color = newColor;
     id = -1;
@@ -66,7 +72,10 @@ public class Category implements Model{
   }
   
   
-  public void copy(Category donor) {
+  /** copy the category
+ * @param donor
+ */
+public void copy(Category donor) {
     name = donor.name;
     id = donor.id;
     isActive = donor.isActive;
@@ -180,6 +189,9 @@ public class Category implements Model{
 		return name;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object cat) {
 		if (cat instanceof Category) {

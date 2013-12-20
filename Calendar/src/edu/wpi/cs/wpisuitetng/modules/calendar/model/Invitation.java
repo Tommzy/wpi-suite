@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class Invitation.
  * 
  * @author Eric Willcox, Andrew Paon
+ * @version v1.0
  */
 public class Invitation implements Model{
   private String currentUser;
@@ -52,7 +53,7 @@ public class Invitation implements Model{
 	 */
 
 	/** Map of users to their permissions */
-	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+	final private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
 
 	/** The project. */
 	private Project project;
@@ -61,7 +62,7 @@ public class Invitation implements Model{
 	 * Instantiates a new invitation.
 	 *
 	 * @param name the name
-	 * @param startTime the start time
+	 * @param date the start time
 	 * @param description the description
 	 */
 	public Invitation(String name, String date,
@@ -83,7 +84,7 @@ public class Invitation implements Model{
 	 */
 
 	private Map<String, String> initializeAvailability() {
-		Map<String, String> h = new HashMap<String, String>();
+		final Map<String, String> h = new HashMap<String, String>();
 
 		for(int i=8; i<17; i++){
 			h.put(Integer.toString(i), ",");

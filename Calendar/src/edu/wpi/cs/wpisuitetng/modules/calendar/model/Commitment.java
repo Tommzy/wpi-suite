@@ -10,6 +10,7 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.model;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -27,6 +28,9 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class Commitment.
+ *
+ * @author Hui Zheng
+ * @version v1.0
  */
 public class Commitment implements Model{
 
@@ -108,7 +112,7 @@ public class Commitment implements Model{
 	}
 
 	/** The permission map. */
-	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+	final private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
 	/** The project. */
 	private Project project;
 
@@ -203,13 +207,15 @@ public class Commitment implements Model{
 	 */
 	public boolean isActiveDuringTimeStamp(GregorianCalendar when) {
 		// On Calendar view, commitment will be shown as an one-hour long block. 
-		GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
-		endTimeOnGUI.add(GregorianCalendar.HOUR, 1);
+		final GregorianCalendar endTimeOnGUI = (GregorianCalendar) startTime.clone();
+		endTimeOnGUI.add(Calendar.HOUR, 1);
+		
 		if (when.before(startTime) || when.after(endTimeOnGUI)) {
 			return false;
-		} else {
-			return true;
-		}
+		} 
+		
+		return true;
+		
 	}
 
 
@@ -325,9 +331,9 @@ public class Commitment implements Model{
 		}
 
 		//		return "Temp Date";
-		return startTime.get(GregorianCalendar.YEAR) + " "
-		+ startTime.get(GregorianCalendar.MONTH) + " "
-		+ startTime.get(GregorianCalendar.DATE) + " " + name + " " + description;
+		return startTime.get(Calendar.YEAR) + " "
+		+ startTime.get(Calendar.MONTH) + " "
+		+ startTime.get(Calendar.DATE) + " " + name + " " + description;
 
 	}
 
