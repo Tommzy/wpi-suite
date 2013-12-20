@@ -20,12 +20,14 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications
  * about UpdateCategoryRequest information as the UpdateCategoryRequest is constructed.
+ * @version $Revision: 1.0 $
+ * @author Jared
  */
 public class UpdateCategoryRequestObserver implements RequestObserver {
-	
+
 	/** The controller. */
 	private final UpdateCategoryController controller;
-	
+
 	/**
 	 * This method is called when information about an UpdateCategoryRequest
 	 * which was previously requested using an asynchronous
@@ -36,21 +38,27 @@ public class UpdateCategoryRequestObserver implements RequestObserver {
 	public UpdateCategoryRequestObserver(UpdateCategoryController controller) {
 		this.controller = controller;
 	}
-	
-	
+
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
 		// Get the response to the given request
 		final ResponseModel response = iReq.getResponse();
-		
+
 		// Parse the category out of the response body
 		final Category category = Category.fromJSON(response.getBody());	
 		UpdateCategoryController.getInstance().updateSucess(category);
 		MainCalendarController.getInstance().updateAll();
 		System.out.println("Success! Here is GetCategoryRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 	}
-	
 
+
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseError(IRequest iReq) {
 		System.err.println(iReq.getResponse().getStatusMessage());

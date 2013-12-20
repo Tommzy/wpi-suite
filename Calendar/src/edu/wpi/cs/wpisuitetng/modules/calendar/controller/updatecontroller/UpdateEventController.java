@@ -32,13 +32,13 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class UpdateEventController implements ActionListener{
 	
 	/** The instance. */
-	private static UpdateEventController instance;
+	private static UpdateEventController instance = getInstance();
 	
 	/** The observer. */
-	private UpdateEventRequestObserver observer;
+	final UpdateEventRequestObserver observer;
 	
 	/** The updated Event. */
-	private static Event updatedEvent;
+	private static Event updatedEvent = getInstance().getUpdatedEvent();
 	
 	/**
 	 * Instantiates a new update Event controller.
@@ -47,7 +47,7 @@ public class UpdateEventController implements ActionListener{
 	 */
 	public UpdateEventController(Event updatedEvent) {
 		observer = new UpdateEventRequestObserver(this);
-		this.updatedEvent = updatedEvent;
+		UpdateEventController.updatedEvent = updatedEvent;
 	}
 	
 	/**
@@ -71,7 +71,7 @@ public class UpdateEventController implements ActionListener{
 	 * @return the updated Event
 	 */
 	public Event getUpdatedEvent(){
-		return UpdateEventController.getInstance().updatedEvent;
+		return UpdateEventController.updatedEvent;
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class UpdateEventController implements ActionListener{
 	 */
 	public void updateEvent(Event newEvent) 
 	{
-		Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.POST); // POST == update
+		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.POST); // POST == update
 		request.setBody(newEvent.toJSON()); // put the new Event in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 

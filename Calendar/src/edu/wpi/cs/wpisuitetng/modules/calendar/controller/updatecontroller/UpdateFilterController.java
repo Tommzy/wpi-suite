@@ -24,17 +24,19 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UpdateFilterController.
+ * @version $Revision: 1.0 $
+ * @author Jared
  */
 public class UpdateFilterController implements ActionListener{
 	
 	/** The instance. */
-	private static UpdateFilterController instance;
+	private static UpdateFilterController instance= getInstance();
 	
 	/** The observer. */
-	private UpdateFilterRequestObserver observer;
+	final UpdateFilterRequestObserver observer;
 	
 	/** The updated Filter. */
-	private static Filter updatedFilter;
+	private static Filter updatedFilter = getInstance().getUpdatedFilter();
 	
 	/**
 	 * Instantiates a new update Filter controller.
@@ -43,7 +45,7 @@ public class UpdateFilterController implements ActionListener{
 	 */
 	public UpdateFilterController(Filter updatedFilter) {
 		observer = new UpdateFilterRequestObserver(this);
-		this.updatedFilter = updatedFilter;
+		UpdateFilterController.updatedFilter = updatedFilter;
 	}
 	
 	/**
@@ -67,7 +69,7 @@ public class UpdateFilterController implements ActionListener{
 	 * @return the updated Filter
 	 */
 	public Filter getUpdatedFilter(){
-		return UpdateFilterController.getInstance().updatedFilter;
+		return UpdateFilterController.updatedFilter;
 	}
 
 	/**
@@ -77,7 +79,7 @@ public class UpdateFilterController implements ActionListener{
 	 */
 	public void updateFilter(Filter newFilter) 
 	{
-		Request request = Network.getInstance().makeRequest("calendar/Filter", HttpMethod.POST); // POST == update
+		final Request request = Network.getInstance().makeRequest("calendar/Filter", HttpMethod.POST); // POST == update
 		request.setBody(newFilter.toJSON()); // put the new Filter in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 

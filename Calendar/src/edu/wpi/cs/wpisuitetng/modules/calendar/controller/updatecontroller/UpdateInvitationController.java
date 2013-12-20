@@ -22,17 +22,19 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UpdateInvitationController.
+ * @version $Revision: 1.0 $
+ * @author Andrew Paon
  */
 public class UpdateInvitationController implements ActionListener{
   
   /** The instance. */
-  private static UpdateInvitationController instance;
+  private static UpdateInvitationController instance = getInstance();
   
   /** The observer. */
-  private UpdateInvitationRequestObserver observer;
+ final UpdateInvitationRequestObserver observer;
   
   /** The updated invite. */
-  private static Invitation updatedInvite;
+  private static Invitation updatedInvite = getInstance().getUpdatedInvitation();
   
   /**
    * Instantiates a new update invitation controller.
@@ -67,7 +69,7 @@ public class UpdateInvitationController implements ActionListener{
    */
   @SuppressWarnings("static-access")
   public Invitation getUpdatedInvitation(){
-    return UpdateInvitationController.getInstance().updatedInvite;
+    return UpdateInvitationController.updatedInvite;
   }
 
   /**
@@ -77,7 +79,7 @@ public class UpdateInvitationController implements ActionListener{
    */
   public void updateInvitation(Invitation invite) 
   {
-    Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.POST); // POST == update
+    final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.POST); // POST == update
     request.setBody(invite.toJSON()); // put the new invitation in the body of the request
     request.addObserver(observer); // add an observer to process the response
     request.send(); 

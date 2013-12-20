@@ -18,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+// TODO: Auto-generated Javadoc
 /**
  * This controller coordinates retrieving all of the requirements
  * from the server.
@@ -27,22 +28,29 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetEventController implements ActionListener {
 
-	private GetEventRequestObserver observer;
+	/** The observer. */
+	final GetEventRequestObserver observer;
 
+	/**
+	 * Instantiates a new gets the event controller.
+	 */
 	public GetEventController() {
 		observer = new GetEventRequestObserver(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this message
 		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.GET); // GET == read
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); // send the request
-		}
-	
+	}
+
 	/**
-	 * Sends an HTTP request to retrieve all requirements
+	 * Sends an HTTP request to retrieve all requirements.
 	 */
 	public void retrieveEvents() {
 		final Request request = Network.getInstance().makeRequest("calendar/event", HttpMethod.GET); // GET == read
@@ -50,7 +58,7 @@ public class GetEventController implements ActionListener {
 		System.out.println("Here is GetEventController.retrieveEvents() to update the EventsList" + "   "+ request.getBody());
 		request.send(); // send the request
 	}
-	
+
 	/**
 	 * Add the given Events to the local model (they were received from the core).
 	 * This method is called by the GetEventsRequestObserver
@@ -58,22 +66,22 @@ public class GetEventController implements ActionListener {
 	 * @param Events an array of Events received from the server
 	 */
 	public void receivedEvents(Event[] Events) {
-//		System.out.println(Events.length);
+		//		System.out.println(Events.length);
 		// Empty the local model to eliminate duplications
 		EventsModel.getInstance().emptyModel();
-		
+
 		// Make sure the response was not null
 		if (Events != null) {
-			
+
 			// add the Events to the local model
 			EventsModel.getInstance().addEvents(Events);
-//			System.out.println(EventsModel.getInstance().getAllEvent().size());
+			//			System.out.println(EventsModel.getInstance().getAllEvent().size());
 		}
 	}
 
-	
-	
-	
+
+
+
 
 }
 

@@ -18,64 +18,66 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class GetInvitationController.
  * 
+ * @version $Revision: 1.0 $
  * @author Eric
  */
 public class GetInvitationController implements ActionListener {
 
-  /** The observer. */
-  private GetInvitationRequestObserver observer;
+	/** The observer. */
+	final GetInvitationRequestObserver observer;
 
-  /**
-   * Instantiates a new gets the invitation controller.
-   */
-  public GetInvitationController() {
-    observer = new GetInvitationRequestObserver(this);
-  }
+	/**
+	 * Instantiates a new gets the invitation controller.
+	 */
+	public GetInvitationController() {
+		observer = new GetInvitationRequestObserver(this);
+	}
 
-  /* (non-Javadoc)
-   * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
-   */
-  @Override
-  public void actionPerformed(ActionEvent e) {
-    // Send a request to the core to save this message
-	
-	  
-    final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
-    request.addObserver(observer); // add an observer to process the response
-    request.send(); // send the request
-    }
-  
-  /**
-   * Retrieve invitations.
-   */
-  public void retrieveInvitations() {
-    final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
-    request.addObserver(observer); // add an observer to process the response
-    request.send(); // send the request
-  }
-  
-  /**
-   * Received invitations.
-   *
-   * @param invites the invites
-   */
-  public void receivedInvitations(Invitation[] invites) {
-    // Empty the local model to eliminate duplications
-    InvitationModel.getInstance().emptyModel();
-    
-    // Make sure the response was not null
-    if (invites != null) {
-      // add the invitations to the local model
-      InvitationModel.getInstance().addInvitations(invites);
-    }
-  }
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// Send a request to the core to save this message
 
-  
-  
-  
+
+		final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
+		request.addObserver(observer); // add an observer to process the response
+		request.send(); // send the request
+	}
+
+	/**
+	 * Retrieve invitations.
+	 */
+	public void retrieveInvitations() {
+		final Request request = Network.getInstance().makeRequest("calendar/invitation", HttpMethod.GET); // GET == read
+		request.addObserver(observer); // add an observer to process the response
+		request.send(); // send the request
+	}
+
+	/**
+	 * Received invitations.
+	 *
+	 * @param invites the invites
+	 */
+	public void receivedInvitations(Invitation[] invites) {
+		// Empty the local model to eliminate duplications
+		InvitationModel.getInstance().emptyModel();
+
+		// Make sure the response was not null
+		if (invites != null) {
+			// add the invitations to the local model
+			InvitationModel.getInstance().addInvitations(invites);
+		}
+	}
+
+
+
+
 
 }
 

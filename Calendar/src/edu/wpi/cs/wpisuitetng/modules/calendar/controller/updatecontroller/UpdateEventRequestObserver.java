@@ -20,6 +20,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications
  * about UpdateEventRequest information as the UpdateEventRequest is constructed.
+ * @version $Revision: 1.0 $
+ * @author Hui, EJ Murphy
  */
 public class UpdateEventRequestObserver implements RequestObserver {
 	

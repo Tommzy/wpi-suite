@@ -18,6 +18,7 @@ import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 
+// TODO: Auto-generated Javadoc
 /**
  * This controller coordinates retrieving all of the requirements
  * from the server.
@@ -27,12 +28,19 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
  */
 public class GetFilterController implements ActionListener {
 
-	private GetFilterRequestObserver observer;
+	/** The observer. */
+	final  GetFilterRequestObserver observer;
 
+	/**
+	 * Instantiates a new gets the filter controller.
+	 */
 	public GetFilterController() {
 		observer = new GetFilterRequestObserver(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// Send a request to the core to save this message
@@ -40,10 +48,10 @@ public class GetFilterController implements ActionListener {
 		request.addObserver(observer); // add an observer to process the response
 		System.out.println("Here is GetFilterController.actionPerformed" + "   "+ request.getBody());
 		request.send(); // send the request
-		}
-	
+	}
+
 	/**
-	 * Sends an HTTP request to retrieve all requirements
+	 * Sends an HTTP request to retrieve all requirements.
 	 */
 	public void retrieveFilters() {
 		final Request request = Network.getInstance().makeRequest("calendar/filter", HttpMethod.GET); // GET == read
@@ -51,7 +59,7 @@ public class GetFilterController implements ActionListener {
 		System.out.println("Here is GetFilterController.retrieveFilters() to update the FiltersList" + "   "+ request.getBody());
 		request.send(); // send the request
 	}
-	
+
 	/**
 	 * Add the given Filters to the local model (they were received from the core).
 	 * This method is called by the GetFiltersRequestObserver
@@ -59,22 +67,22 @@ public class GetFilterController implements ActionListener {
 	 * @param Filters an array of Filters received from the server
 	 */
 	public void receivedFilters(Filter[] Filters) {
-//		System.out.println(Filters.length);
+		//		System.out.println(Filters.length);
 		// Empty the local model to eliminate duplications
 		FiltersModel.getInstance().emptyModel();
-		
+
 		// Make sure the response was not null
 		if (Filters != null) {
-			
+
 			// add the Filters to the local model
 			FiltersModel.getInstance().addFilters(Filters);
-//			System.out.println(FiltersModel.getInstance().getAllFilter().size());
+			//			System.out.println(FiltersModel.getInstance().getAllFilter().size());
 		}
 	}
 
-	
-	
-	
+
+
+
 
 }
 
