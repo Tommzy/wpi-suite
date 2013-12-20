@@ -192,6 +192,7 @@ public class EventTable extends JPanel implements Updatable {
       case Week:
         eventList = MainCalendarController.getInstance().getWeekView()
             .getDayViewEventList();
+        break;
       case Year:
         System.out.println("year view event table");
         MainCalendarController.getInstance().getYearView().updateTables();

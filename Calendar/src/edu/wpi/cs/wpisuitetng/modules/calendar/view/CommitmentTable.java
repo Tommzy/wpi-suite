@@ -105,6 +105,7 @@ public class CommitmentTable extends JPanel implements Updatable {
       case Week:
         cmtList = MainCalendarController.getInstance().getWeekView()
             .getDayViewCommitmentList();
+        break;
       case Year:
         cmtList = MainCalendarController.getInstance().getYearView()
             .getCmtList();

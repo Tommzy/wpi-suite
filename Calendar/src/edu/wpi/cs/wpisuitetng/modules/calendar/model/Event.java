@@ -347,7 +347,7 @@ public class Event  implements Model{
 	 * @return true if the event is active during that day, false otherwise
 	 */
 	public boolean isActiveDuringDay(Date day){
-		final final Date startDay, endDay;
+		final Date startDay, endDay;
 		final GregorianCalendar cal = new GregorianCalendar();
 		//Set the startDay to the start of the day when the
 		//event is active
