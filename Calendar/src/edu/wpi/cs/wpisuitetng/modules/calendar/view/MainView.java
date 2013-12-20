@@ -17,39 +17,42 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddEventTabPanel;
 
-
-// TODO: Auto-generated Javadoc
 /**
- * This Panel sets the main view framework when users go to Calendar module. 
- * It contains several sub panels. 
+ * This Panel sets the main view framework when users go to Calendar module. It
+ * contains several sub panels.
  * 
  * @author Yuchen Zhang
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class MainView extends JPanel {
-	
-	/** The add event tab panel. */
-	AddEventTabPanel addEventTabPanel;
-	
-	/** The add commit tab panel. */
-	JTabbedPane addCommitTabPanel;
-	/**
-	 * Create the main panel.
-	 */
-	public MainView() {
-		addEventTabPanel = new AddEventTabPanel();
-		add(addEventTabPanel);
-		MainCalendarController.getInstance().setMainView(this);
-	}
-	
-	/**
-	 * Gets the main tab pane.
-	 *
-	 * @return the main tab pane
-	 */
-	public AddEventTabPanel getMainTabPane() {
-		return addEventTabPanel;
-	}
+
+  /** The add event tab panel. */
+  AddEventTabPanel addEventTabPanel;
+
+  /** The add commit tab panel. */
+  JTabbedPane      addCommitTabPanel;
+
+
+
+  /**
+   * Create the main panel.
+   */
+  public MainView() {
+    addEventTabPanel = new AddEventTabPanel();
+    add(addEventTabPanel);
+    MainCalendarController.getInstance().setMainView(this);
+  }
+
+
+
+  /**
+   * Gets the main tab pane.
+   * 
+   * @return the main tab pane
+   */
+  public AddEventTabPanel getMainTabPane() {
+    return addEventTabPanel;
+  }
 
 }

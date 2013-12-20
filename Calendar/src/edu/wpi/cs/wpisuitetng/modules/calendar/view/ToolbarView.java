@@ -15,28 +15,30 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 import javax.swing.JToolBar;
 
 /**
- * The Class ToolbarView.
- *
+ * The Class ToolbarView which creates the toolbar for the calendar.
+ * 
  * @author Hongbo
  */
 @SuppressWarnings("serial")
 public class ToolbarView extends JToolBar {
 
-	/** The panel containing toolbar buttons. */
-	private final ToolbarPanel toolbarPanel;
+  /** The panel containing toolbar buttons. */
+  private final ToolbarPanel toolbarPanel;
 
-	/**
-	 * Construct this view and all components in it.
-	 *
-	 */
-	public ToolbarView() {
 
-		// Prevent this toolbar from being moved
-		setFloatable(false);
 
-		// Add the panel containing the toolbar buttons
-		toolbarPanel = new ToolbarPanel();
-		add(toolbarPanel);
-	}
+  /**
+   * Construct this view and all components in it.
+   * 
+   */
+  public ToolbarView() {
+
+    // Prevent this toolbar from being moved
+    setFloatable(false);
+
+    // Add the panel containing the toolbar buttons
+    toolbarPanel = new ToolbarPanel();
+    add(toolbarPanel);
+  }
 
 }

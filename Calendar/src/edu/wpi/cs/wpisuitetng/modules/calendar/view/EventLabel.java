@@ -11,79 +11,121 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-
 import javax.swing.Icon;
 import javax.swing.JLabel;
 
-
+// TODO: Auto-generated Javadoc
 /**
- * This class is an extension of JLabel that is used to
- * display event / commitment on calendar day/week (potentially month) view. 
+ * This class is an extension of JLabel that is used to display event /
+ * commitment on calendar day/week (potentially month) view.
+ * 
  * @author Yuchen Zhang
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class EventLabel extends JLabel {
-	private String originalContent;
-	/**
-	 * @param originalContent the originalContent to set
-	 */
-	public void setOriginalContent(String originalContent) {
-		this.originalContent = originalContent;
-	}
 
-	/**
-	 * 
-	 */
-	public EventLabel() {
-	}
+  /** The original content. */
+  private String originalContent;
 
-	/**
-	 * @param text
-	 */
-	public EventLabel(String text) {
-		super(text);
-		originalContent = text;
-	}
 
-	/**
-	 * @param image
-	 */
-	public EventLabel(Icon image) {
-		super(image);
-	}
 
-	/**
-	 * @param text
-	 * @param horizontalAlignment
-	 */
-	public EventLabel(String text, int horizontalAlignment) {
-		super(text, horizontalAlignment);
-	}
+  /**
+   * Instantiates a new event label.
+   */
+  public EventLabel() {
+  }
 
-	/**
-	 * @param image
-	 * @param horizontalAlignment
-	 */
-	public EventLabel(Icon image, int horizontalAlignment) {
-		super(image, horizontalAlignment);
-	}
 
-	/**
-	 * @param text
-	 * @param icon
-	 * @param horizontalAlignment
-	 */
-	public EventLabel(String text, Icon icon, int horizontalAlignment) {
-		super(text, icon, horizontalAlignment);
-	}
-	
-	/**
-	 * getter for originalContent
-	 * @return originalContent
-	 */
-	public String getOriginalContent () {
-		return originalContent;
-	}
+
+  /**
+   * Sets the original content.
+   * 
+   * @param originalContent
+   *          the originalContent to set
+   */
+  public final void setOriginalContent(String originalContent) {
+    this.originalContent = originalContent;
+  }
+
+
+
+  /**
+   * Instantiates a new event label.
+   * 
+   * @param text
+   *          the text to display in the label
+   */
+  public EventLabel(String text) {
+    super(text);
+    originalContent = text;
+  }
+
+
+
+  /**
+   * Instantiates a new event label.
+   * 
+   * @param image
+   *          the image to display
+   */
+  public EventLabel(Icon image) {
+    super(image);
+  }
+
+
+
+  /**
+   * Instantiates a new event label.
+   * 
+   * @param text
+   *          the text to display
+   * @param horizontalAlignment
+   *          the horizontal alignment for placement
+   */
+  public EventLabel(String text, int horizontalAlignment) {
+    super(text, horizontalAlignment);
+  }
+
+
+
+  /**
+   * Instantiates a new event label.
+   * 
+   * @param image
+   *          the image to display
+   * @param horizontalAlignment
+   *          the horizontal alignment for placement
+   */
+  public EventLabel(Icon image, int horizontalAlignment) {
+    super(image, horizontalAlignment);
+  }
+
+
+
+  /**
+   * Instantiates a new event label.
+   * 
+   * @param text
+   *          the text to display
+   * @param icon
+   *          the icon to display with it
+   * @param horizontalAlignment
+   *          the horizontal alignment for placement
+   */
+  public EventLabel(String text, Icon icon, int horizontalAlignment) {
+    super(text, icon, horizontalAlignment);
+  }
+
+
+
+  /**
+   * getter for originalContent.
+   * 
+   * @return originalContent
+   */
+  public final String getOriginalContent() {
+    return originalContent;
+  }
 
 }
