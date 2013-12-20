@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Hui Zheng - Team 3
+ * Based on Source Code from CategoriesModels
+ * V1.0
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
 import java.awt.Color;

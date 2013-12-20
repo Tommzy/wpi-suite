@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ * V1.0
+ ******************************************************************************/
 package ModelTest;
 
 
@@ -291,7 +301,7 @@ public void getAllTest() throws WPISuiteException {
 				FilterMan.assignUniqueID(fil3);
 				fakeDB.save(fil3, testProject);
 				//Tests
-				FilterMan.deleteAll(sesh);;
+				FilterMan.deleteAll(sesh);
 				assertEquals(FilterMan.Count(), 0);	
 	}
 
