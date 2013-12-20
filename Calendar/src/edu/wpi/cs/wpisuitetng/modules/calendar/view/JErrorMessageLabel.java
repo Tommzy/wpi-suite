@@ -16,83 +16,109 @@ import javax.swing.JLabel;
 // TODO: Auto-generated Javadoc
 /**
  * The Class JErrorMessageLabel.
- *
+ * 
  * @author Yuchen Zhang
  */
 public class JErrorMessageLabel extends JLabel {
 
-	/**
-	 * Instantiates a new j error message label.
-	 */
-	public JErrorMessageLabel() {
-	}
+  /**
+   * Instantiates a new j error message label.
+   */
+  public JErrorMessageLabel() {
+  }
 
-	/**
-	 * Instantiates a new j error message label.
-	 *
-	 * @param text the text
-	 */
-	public JErrorMessageLabel(String text) {
-		super("<html><font color='red'>" + text + "</font></html>");
-	}
 
-	/**
-	 * Instantiates a new j error message label.
-	 *
-	 * @param image the image
-	 */
-	public JErrorMessageLabel(Icon image) {
-		super(image);
-	}
 
-	/**
-	 * Instantiates a new j error message label.
-	 *
-	 * @param text the text
-	 * @param horizontalAlignment the horizontal alignment
-	 */
-	public JErrorMessageLabel(String text, int horizontalAlignment) {
-		super(text, horizontalAlignment);
-	}
+  /**
+   * Instantiates a new j error message label.
+   * 
+   * @param text
+   *          the text
+   */
+  public JErrorMessageLabel(String text) {
+    super("<html><font color='red'>" + text + "</font></html>");
+  }
 
-	/**
-	 * Instantiates a new j error message label.
-	 *
-	 * @param image the image
-	 * @param horizontalAlignment the horizontal alignment
-	 */
-	public JErrorMessageLabel(Icon image, int horizontalAlignment) {
-		super(image, horizontalAlignment);
-	}
 
-	/**
-	 * Instantiates a new j error message label.
-	 *
-	 * @param text the text
-	 * @param icon the icon
-	 * @param horizontalAlignment the horizontal alignment
-	 */
-	public JErrorMessageLabel(String text, Icon icon, int horizontalAlignment) {
-		super(("<html><font color='red'>" + text + "</font></html>"), icon, horizontalAlignment);
-	}
-	
-	/* (non-Javadoc)
-	 * @see javax.swing.JLabel#setText(java.lang.String)
-	 */
-	@Override
-	public void setText(String text) {
-		super.setText("<html><font color='red'>" + text + "</font></html>");
-	}
-	
-	/**
-	 * Gets the content text.
-	 *
-	 * @return the content text
-	 */
-	public String getContentText() {
-		String all = super.getText();
-		String content = all.split("<font color='red'>")[1].split("</font>")[0];
-		return content;
-	}
+
+  /**
+   * Instantiates a new j error message label.
+   * 
+   * @param image
+   *          the image
+   */
+  public JErrorMessageLabel(Icon image) {
+    super(image);
+  }
+
+
+
+  /**
+   * Instantiates a new j error message label.
+   * 
+   * @param text
+   *          the text
+   * @param horizontalAlignment
+   *          the horizontal alignment
+   */
+  public JErrorMessageLabel(String text, int horizontalAlignment) {
+    super(text, horizontalAlignment);
+  }
+
+
+
+  /**
+   * Instantiates a new j error message label.
+   * 
+   * @param image
+   *          the image
+   * @param horizontalAlignment
+   *          the horizontal alignment
+   */
+  public JErrorMessageLabel(Icon image, int horizontalAlignment) {
+    super(image, horizontalAlignment);
+  }
+
+
+
+  /**
+   * Instantiates a new j error message label.
+   * 
+   * @param text
+   *          the text
+   * @param icon
+   *          the icon
+   * @param horizontalAlignment
+   *          the horizontal alignment
+   */
+  public JErrorMessageLabel(String text, Icon icon, int horizontalAlignment) {
+    super(("<html><font color='red'>" + text + "</font></html>"), icon,
+        horizontalAlignment);
+  }
+
+
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see javax.swing.JLabel#setText(java.lang.String)
+   */
+  @Override
+  public void setText(String text) {
+    super.setText("<html><font color='red'>" + text + "</font></html>");
+  }
+
+
+
+  /**
+   * Gets the content text.
+   * 
+   * @return the content text
+   */
+  public String getContentText() {
+    String all = super.getText();
+    String content = all.split("<font color='red'>")[1].split("</font>")[0];
+    return content;
+  }
 
 }

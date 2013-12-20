@@ -60,7 +60,7 @@ public class ToolbarController implements ActionListener {
   /**
    * Sets the manage category button.
    *
-   * @param manageCategoryButton the manageCategoryButton to set
+   * @param manageCateggoryButton the manageCategoryButton to set
    */
   public final void setManageCategoryButton(JButton manageCategoryButton) {
     this.manageCategoryButton = manageCategoryButton;
