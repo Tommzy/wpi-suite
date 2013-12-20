@@ -70,11 +70,11 @@ public class ToolbarPanel extends JPanel {
     try {
       img = ImageIO.read(getClass().getResource("events.png"));
       btnAddEvent.setIcon(new ImageIcon(img));
-      img = ImageIO.read(getClass().getResource("commit.png"));
+      img = ImageIO.read(getClass().getResource("commitment.png"));
       btnAddTask.setIcon(new ImageIcon(img));
       img = ImageIO.read(getClass().getResource("sched.png"));
       btnScheduleEvent.setIcon(new ImageIcon(img));
-      img = ImageIO.read(getClass().getResource("invite.png"));
+      img = ImageIO.read(getClass().getResource("when2meet.png"));
       btnInvitations.setIcon(new ImageIcon(img));
       img = ImageIO.read(getClass().getResource("settings.png"));
       btnManageFilter.setIcon(new ImageIcon(img));
