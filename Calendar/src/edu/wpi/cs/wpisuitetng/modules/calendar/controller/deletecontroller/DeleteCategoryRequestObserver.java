@@ -44,7 +44,7 @@ public class DeleteCategoryRequestObserver implements RequestObserver{
 	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
+		final boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
 		System.out.println("After delete: Success! Here is DeleteCategoryRequestController in the JSON way"+ "   " + result);
 		//Update the view
 		getController.retrieveCategories();

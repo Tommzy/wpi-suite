@@ -10,19 +10,15 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
 import javax.swing.*;
 
-import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.ManageFiltersPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCategoryPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddEventPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddInvitationPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddSchedulerPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.CommitmentTable;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventTable;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.FiltersTable;

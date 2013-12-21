@@ -21,31 +21,24 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.text.DateFormatSymbols;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
-import net.miginfocom.swing.MigLayout;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddEventPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.deletecontroller.DeleteCommitmentController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.deletecontroller.DeleteEventController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.updatecontroller.UpdateCommitmentListener;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.updatecontroller.UpdateEventListener;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CategoryFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventLabel;
@@ -57,11 +50,9 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.EventLabel;
 @SuppressWarnings("serial")
 public class CalendarDay extends JPanel {
 	JPanel view = new JPanel(new GridBagLayout());
-//	JScrollPane scroll = new JScrollPane(view,
-//			JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	
-	ArrayList<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
-	private HashMap<CalendarCard, GridBagConstraints> eventConstraint = new HashMap<CalendarCard, GridBagConstraints>();
+	List<CalendarCard> calendarCards = new ArrayList<CalendarCard>();
+	private Map<CalendarCard, GridBagConstraints> eventConstraint = new HashMap<CalendarCard, GridBagConstraints>();
 	private final int minimalInterval = 2;
 	private int currentMaxWidth = 1;
 	String[] weekdays = new DateFormatSymbols().getWeekdays();
@@ -73,13 +64,10 @@ public class CalendarDay extends JPanel {
 	 * Create view of a calendar day 
 	 */
 	public CalendarDay(DateController date) {
-		this.dateController = date;
-		GridBagConstraints c = new GridBagConstraints();
+		dateController = date;
 		setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
 		setLayout(new BorderLayout());
 		initGridBox();
-//		revalidate();
-//		repaint();
 		add(view, BorderLayout.CENTER);
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -91,30 +79,28 @@ public class CalendarDay extends JPanel {
 	private void printDate() {
 		System.out.println("Calendar Day " + dateController + "clicked");
 	}
+	
 	/**
 	 * Initialize box of calendar panel.
 	 * An event has a resolution of 2 min in this implementation.
 	 */
 	private void initGridBox() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.weightx = 0;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH;
+		GridBagConstraints constrain = new GridBagConstraints();
+		constrain.gridx = 0;
+		constrain.weightx = 0;
+		constrain.weighty = 1;
+		constrain.fill = GridBagConstraints.BOTH;
+		constrain.anchor = GridBagConstraints.NORTH;
 
 		for (int i = 0; i < 25*(60/minimalInterval); i++) {
 			//Draw box
-			c.gridy = i;
+			constrain.gridy = i;
 			Box box = Box.createVerticalBox();
 			box.add(Box.createVerticalStrut(1));
-//			if ((i%(4*60/minimalInterval) == 0) && (i != 0) && (i / (60/minimalInterval) != 24)){
-//				box.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(220, 220, 220)));
-//			}
-			view.add(box, c);
-			c.gridx = 1;
-			c.weightx = 1;
-			view.add(box, c);
+			view.add(box, constrain);
+			constrain.gridx = 1;
+			constrain.weightx = 1;
+			view.add(box, constrain);
 		}
 	}
 	
@@ -123,35 +109,35 @@ public class CalendarDay extends JPanel {
 	 * Every hour is displayed. 
 	 */
 	protected void initTimeLabels() {
-		GridBagConstraints c = new GridBagConstraints();
-		c.gridx = 0;
-		c.weightx = 0;
-		c.weighty = 1;
-		c.fill = GridBagConstraints.BOTH;
-		c.anchor = GridBagConstraints.NORTH;
+		GridBagConstraints constrain = new GridBagConstraints();
+		constrain.gridx = 0;
+		constrain.weightx = 0;
+		constrain.weighty = 1;
+		constrain.fill = GridBagConstraints.BOTH;
+		constrain.anchor = GridBagConstraints.NORTH;
 		System.out.print(Color.lightGray.getRed() + " " + Color.lightGray.getGreen() + " " + Color.lightGray.getBlue());
 		
 		for (int i = 0; i < 25*(60/minimalInterval); i++) {
 			//Even hours
-			c.gridy = i;
+			constrain.gridy = i;
 			if (i == 0) {
 				JLabel timeLabel = new JLabel("midnight");
 				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
-				c.gridheight = 15;
-				view.add(timeLabel, c);
+				constrain.gridheight = 15;
+				view.add(timeLabel, constrain);
 			}
 			else if ((i % (60/minimalInterval) == 0) && (i / (60/minimalInterval) != 24)) {
 				JLabel timeLabel = new JLabel(format(i / (60/minimalInterval)) + ":00  ");
 				timeLabel.setFont(timeLabel.getFont().deriveFont(10f));
-				c.gridheight = 15;
-				view.add(timeLabel, c);
+				constrain.gridheight = 15;
+				view.add(timeLabel, constrain);
 			} 
 			else {
 				Box box = Box.createVerticalBox();
 				box.add(Box.createVerticalStrut(1));
 				box.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.lightGray));
-				c.gridheight = 1;
-				view.add(box, c);
+				constrain.gridheight = 1;
+				view.add(box, constrain);
 			}
 		}
 	}
@@ -175,7 +161,7 @@ public class CalendarDay extends JPanel {
 	 * @param event Event to be added
 	 */
 	public void addEvent(Event event) {
-		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
+		List<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
 		String eventName = event.getName();
@@ -201,8 +187,6 @@ public class CalendarDay extends JPanel {
 			newEvent.setBackground(null);
 		}
 		newEvent.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-//		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
-//		newEvent.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newEvent.getMinimumSize().height));
 		newEvent.setToolTipText(formatToolTip(event));
 		newEvent.addMouseListener(new UpdateEventListener(event));
 		
@@ -219,15 +203,6 @@ public class CalendarDay extends JPanel {
 			}
 		}
 		
-		// Resize event width
-//		for (EventCard eventCard : eventCards) {
-//			if (hasOverlap && (!conflict.contains(eventCard)) ) {
-//				eventConstraint.get(eventCard).gridwidth++;
-//				view.remove(eventCard.eventLabel);
-//				view.add(eventCard.eventLabel, eventConstraint.get(eventCard));
-//			}
-//		}
-		
 		// Set up JLabel constraint
 		final GridBagConstraints cLocal = new GridBagConstraints();
 		//Determine where to put the new event
@@ -240,7 +215,6 @@ public class CalendarDay extends JPanel {
 		cLocal.weightx = 1; 
 		cLocal.weighty = 1;
 		view.add(newEvent, cLocal);
-//		resizeAllLabel();
 		//Keep track of the new event, and revalidate/repaint the view
 		CalendarCard eventCard = new EventCard(event, newEvent);
 		calendarCards.add(eventCard);
@@ -254,7 +228,7 @@ public class CalendarDay extends JPanel {
 	 * @param event Event to be added
 	 */
 	public void addCommitment(Commitment commitment) {
-		ArrayList<CalendarCard> conflict = new ArrayList<CalendarCard>();
+		List<CalendarCard> conflict = new ArrayList<CalendarCard>();
 		int newGridX = 0;
 		boolean hasOverlap = false; 
 		String eventName = commitment.getName();
@@ -281,8 +255,6 @@ public class CalendarDay extends JPanel {
 			newCommitment.setBackground(null);
 		}
 		newCommitment.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.lightGray));
-//		newEvent.setPreferredSize(new Dimension (200 / eventWidthMultiplier, newEvent.getMinimumSize().height));
-//		newCommitment.setMaximumSize(new Dimension (100 / eventWidthMultiplier / currentMaxWidth, newCommitment.getMinimumSize().height));
 		newCommitment.setToolTipText(formatToolTip(commitment));
 		newCommitment.addMouseListener(new UpdateCommitmentListener(commitment));
 		
@@ -298,15 +270,6 @@ public class CalendarDay extends JPanel {
 				hasOverlap = true;
 			}
 		}
-		
-		// Resize event width
-//		for (EventCard eventCard : eventCards) {
-//			if (hasOverlap && (!conflict.contains(eventCard)) ) {
-//				eventConstraint.get(eventCard).gridwidth++;
-//				view.remove(eventCard.eventLabel);
-//				view.add(eventCard.eventLabel, eventConstraint.get(eventCard));
-//			}
-//		}
 		
 		// Set up JLabel constraint
 		final GridBagConstraints cLocal = new GridBagConstraints();
@@ -399,36 +362,29 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * Create label text for a commitment based on event's length
-	 * @param commitment Commitment that needs a label text
-	 * @return Label for that commitment
-	 */
-//	private String formatLabel(Commitment commitment) {
-//		String label = "";
-//		label = "<HTML><div style='text-align:center'>" + commitment.getName() + "</div></HTML>";
-//		
-//		return label;
-//	}
-	
-	/**
 	 * Simple inner class for connecting events/commitments with it's corresponding
 	 * visual representation
 	 */
 	private interface CalendarCard {
 		
-		public GregorianCalendar getStartTime();
+		 GregorianCalendar getStartTime();
 		
-		public GregorianCalendar getEndTime();
+		 GregorianCalendar getEndTime();
 		
 	}
-	
+
+	/**
+	 * calendar card for event
+	 * @author Yuchen
+	 *
+	 */
 	private class EventCard implements CalendarCard {
 		private Event event;
 		private JLabel label;
 		
 		public EventCard(Event event, JLabel eventLabel) {
 			this.event = event;
-			this.label = eventLabel;
+			label = eventLabel;
 		}
 
 		@Override
@@ -442,13 +398,18 @@ public class CalendarDay extends JPanel {
 		}
 	}
 	
+	/**
+	 * calendar card for commitment
+	 * @author Yuchen
+	 *
+	 */
 	private class CommitmentCard implements CalendarCard { 
 		private Commitment commitment;
 		private JLabel label;
 		
 		public CommitmentCard(Commitment commitment, JLabel commitmentLabel) {
 			this.commitment = commitment;
-			this.label = commitmentLabel;
+			label = commitmentLabel;
 		}
 
 		@Override
@@ -474,8 +435,9 @@ public class CalendarDay extends JPanel {
 		if (i <= 9) {
 			return "0" + i;
 		}
-		else
+		else{
 			return Integer.toString(i);
+		}
 	}
 	
 	/**
@@ -501,7 +463,6 @@ public class CalendarDay extends JPanel {
 					}
 					
 					// Add html tags into the new label strings
-					// TODO change font color here.
 					String color = ((EventLabel)components[i]).getText().split("<font color=")[1].split(">")[0];
 					String newText = "<HTML><font color=" + color + "><p style='text-align:center'>";
 					for (int j = 0; j < content.length; j++) {
@@ -523,10 +484,9 @@ public class CalendarDay extends JPanel {
 	}
 	
 	/**
-	 * 
+	 * resize all lables
 	 */
 	private void resizeAllLabel() {
-		// TODO Auto-generated method stub
 		Component[] components = view.getComponents();
 		for (int i = 0; i < components.length; i++) {
 			if (components[i] instanceof EventLabel) {
@@ -548,13 +508,13 @@ public class CalendarDay extends JPanel {
 	 * Chop off text if it exceeds label length
 	 * @param text
 	 * @param max
-	 * @return
+	 * @return product string that got chopped off
 	 */
 	public static String ellipsize(String text, int max) {
 
-	    if (textWidth(text) <= max)
+	    if (textWidth(text) <= max){
 	        return text;
-
+	    }
 	    // Start by chopping off at the word before max
 	    // This is an over-approximation due to thin-characters...
 	    int end = text.lastIndexOf(' ', (int) (max / 6.5 - 3));
@@ -576,9 +536,9 @@ public class CalendarDay extends JPanel {
 	        newEnd = text.indexOf(' ', end + 1);
 
 	        // No more spaces.
-	        if (newEnd == -1)
+	        if (newEnd == -1){
 	            newEnd = text.length();
-
+	        }
 	    } while (textWidth(text.substring(0, newEnd) + "...") < max);
 
 	    return text.substring(0, end) + "...";

@@ -1,21 +1,25 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ * V1.0
+ ******************************************************************************/
+
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.ListSelectionModel;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.InvitationModel;
-import edu.wpi.cs.wpisuitetng.network.Network;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
@@ -28,7 +32,7 @@ public class SchedulerList extends JPanel {
 	
 	public SchedulerList(MigLayout miglayout) {
 		// mig layout for this panel that we will add our things to
-		this.layout = miglayout;
+		layout = miglayout;
 		schedulerTable = new SchedulerTable(new MigLayout(), new Invitation("", "", ""));
 		GetInvitationController getController = new GetInvitationController();
 		schedulerCB = new JComboBox<Invitation>( InvitationModel.getInstance().getInvitationArray());
@@ -36,13 +40,16 @@ public class SchedulerList extends JPanel {
 			getController.actionPerformed(null);
 		}
 		catch (Exception e) {
-
+			System.out.println(e);
 		}
 		
 		updateView();
 		try {
 			schedulerCB.setSelectedIndex(0);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			System.out.println(e);
+
+		}
 
 	}
 	

@@ -20,6 +20,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications
  * about UpdateCommitmentRequest information as the UpdateCommitmentRequest is constructed.
+ * @version $Revision: 1.0 $
+ * @author EJ Murphy
  */
 public class UpdateCommitmentRequestObserver implements RequestObserver {
 	

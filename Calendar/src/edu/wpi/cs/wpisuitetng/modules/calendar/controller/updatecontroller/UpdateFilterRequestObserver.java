@@ -20,6 +20,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications
  * about UpdateFilterRequest information as the UpdateFilterRequest is constructed.
+ * @version $Revision: 1.0 $
+ * @author Mark Foster
  */
 public class UpdateFilterRequestObserver implements RequestObserver {
 	

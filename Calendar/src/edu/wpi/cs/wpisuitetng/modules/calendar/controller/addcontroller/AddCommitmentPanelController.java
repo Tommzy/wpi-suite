@@ -17,15 +17,21 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
+/**This controller hold the view of add category view
+ * @author HF
+ * @version v1.0
+ */
 public class AddCommitmentPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
 
 	public static AddCommitmentPanelController instance;
 
-	public AddCommitmentPanelController( ) {
-	}
 
+
+	/**If the singleton did not init then init it
+	 * @return AddCommitmentPanelController the singleton instance of AddCommitmentPanelController
+	 */
 	public static AddCommitmentPanelController getInstance() {
 		if (instance == null) {
 			instance = new AddCommitmentPanelController();
@@ -47,7 +53,7 @@ public class AddCommitmentPanelController implements ActionListener {
 		
 		if (e.getSource().getClass().equals(JButton.class)) {
 			// Close the tab a second later for calendar view to refresh. Avoid showing a flash to users when the calendar refreshes. 
-			Timer timer = new Timer();
+			final  Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				@Override
 				public void run() {

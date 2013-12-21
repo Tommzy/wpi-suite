@@ -43,7 +43,7 @@ public class DeleteCommitmentRequestObserver implements RequestObserver{
 	public void responseSuccess(IRequest iReq) {
 		//Commitment[] items = Commitment.fromJsonArray(iReq.getResponse().getBody());
 		
-		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
+		final boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
 		
 	
 		System.out.println("After delete: Success! Here is DeleteCommitmentRequestController in the JSON way"+ "   " + result);
@@ -61,7 +61,7 @@ public class DeleteCommitmentRequestObserver implements RequestObserver{
 	@Override
 	public void responseError(IRequest iReq) {
 	//	fail(iReq, null);
-		boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
+		final boolean result = Boolean.getBoolean(iReq.getResponse().getBody());
 		System.err.println("After delete: The request to delete commitments Errored. " + result);
 	}
 

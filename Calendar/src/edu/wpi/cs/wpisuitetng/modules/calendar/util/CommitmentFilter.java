@@ -9,9 +9,7 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
@@ -66,6 +64,8 @@ public class CommitmentFilter {
 			return cmtList;
 		} catch (NullPointerException e) {
 			System.out.println("commitment filter null pointer exception");
+			System.out.println(e);
+
 		}
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");

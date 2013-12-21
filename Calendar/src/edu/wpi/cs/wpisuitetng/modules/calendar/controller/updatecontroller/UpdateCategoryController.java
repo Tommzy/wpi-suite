@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -25,18 +24,20 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UpdatecategoryController.
+ * @version $Revision: 1.0 $
+ * @author Brittany
  */
 public class UpdateCategoryController implements ActionListener{
-	
+
 	/** The instance. */
-	private static UpdateCategoryController instance;
-	
+	private static UpdateCategoryController instance = getInstance();
+
 	/** The observer. */
-	private UpdateCategoryRequestObserver observer;
-	
+	final UpdateCategoryRequestObserver observer;
+
 	/** The updated category. */
-	private static Category updatedCategory;
-	
+	private static Category updatedCategory = getInstance().getUpdatedCategory();
+
 	/**
 	 * Instantiates a new update category controller.
 	 *
@@ -44,9 +45,9 @@ public class UpdateCategoryController implements ActionListener{
 	 */
 	public UpdateCategoryController(Category updatedcategory) {
 		observer = new UpdateCategoryRequestObserver(this);
-		this.updatedCategory = updatedcategory;
+		UpdateCategoryController.updatedCategory = updatedcategory;
 	}
-	
+
 	/**
 	 * Gets the single instance of UpdatecategoryController.
 	 *
@@ -58,18 +59,18 @@ public class UpdateCategoryController implements ActionListener{
 		{
 			instance = new UpdateCategoryController(updatedCategory);
 		}
-		
+
 		return instance;
 	}
-	
 	/**
 	 * Gets the updated category.
 	 *
 	 * @return the updated category
 	 */
 	public Category getUpdatedCategory(){
-		return UpdateCategoryController.getInstance().updatedCategory;
+		return UpdateCategoryController.updatedCategory;
 	}
+
 
 	/**
 	 * Update Category.
@@ -78,7 +79,7 @@ public class UpdateCategoryController implements ActionListener{
 	 */
 	public void updateCategory(Category newcategory) 
 	{
-		Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.POST); // POST == update
+		final Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.POST); // POST == update
 		request.setBody(newcategory.toJSON()); // put the new category in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 
@@ -92,15 +93,15 @@ public class UpdateCategoryController implements ActionListener{
 		// get category
 		UpdateCategoryController.getInstance()
 		.updateCategory(UpdateCategoryController.getInstance()
-		.getUpdatedCategory());
-//		Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.POST); // POST == update
-//		request.setBody(UpdateCategoryController.getInstance()
-//				.getUpdatedCategory().toJSON()); // put the new category in the body of the request
-//		request.addObserver(observer); // add an observer to process the response
-//		request.send(); 
-		
+				.getUpdatedCategory());
+		//		Request request = Network.getInstance().makeRequest("calendar/category", HttpMethod.POST); // POST == update
+		//		request.setBody(UpdateCategoryController.getInstance()
+		//				.getUpdatedCategory().toJSON()); // put the new category in the body of the request
+		//		request.addObserver(observer); // add an observer to process the response
+		//		request.send(); 
+
 	}
-	
+
 	/**
 	 * Update sucess.
 	 *

@@ -10,7 +10,6 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.util;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -45,7 +44,7 @@ public class DatePicker extends JPanel {
 	 * the date picker. An integer between 0 and 11
 	 */
 	public DatePicker(int year, int month, int date, JFormattedTextField field) {
-		this.fieldToChange = field;
+		fieldToChange = field;
 		setOpaque(true);
 		setLayout(new MigLayout("insets 0 0 0 0"));
 		DateController monthStartDate = new DateController(year, month, 1);

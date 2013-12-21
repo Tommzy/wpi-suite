@@ -10,12 +10,12 @@
 package edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller;
 
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * This controller coordinates retrieving all of the Commitment
  * from the server.
@@ -25,48 +25,65 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetEventRequestObserver implements RequestObserver{
 
-	public GetEventController controller;
-	
-	
+	/** The controller. */
+	final GetEventController controller;
+
+
+	/**
+	 * This method is called when information about an GetEventRequest
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param controller the controller
+	 */
 	public GetEventRequestObserver(GetEventController controller) {
 		this.controller = controller;
 	}
 
-	
+
 	/*
 	 * Parse the messages out of the response body and pass them to the controller
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		Event[] items = Event.fromJsonArray(iReq.getResponse().getBody());
+		final Event[] items = Event.fromJsonArray(iReq.getResponse().getBody());
 		//TODO
 		//put this back in
-	
+
 		System.out.println("Success! Here is GetEventRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 		controller.receivedEvents(items);
 
-		
+
 	}
-	
+
 	/*
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-	//	fail(iReq, null);
+		//	fail(iReq, null);
 		System.err.println("The request to get Events Errored. " + iReq.toString());
 	}
 
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-//		Event[] errorEvent = { new Event("Error", null, "Error") };
-//		controller.receivedEvents(errorEvent);
+		//		Event[] errorEvent = { new Event("Error", null, "Error") };
+		//		controller.receivedEvents(errorEvent);
 		System.err.println("The request to get Events failed.");
-		
+
 	}
 
 

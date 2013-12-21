@@ -13,7 +13,6 @@
 
 package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.UUID;
@@ -36,16 +35,21 @@ public class DayEvent{
 
         @Override
         public String toString(){
-            if(this.name().equals("VERY_LOW"))
+            if(this.name().equals("VERY_LOW")){
                 return "Very low";
-            else if(this.name().equals("LOW"))
+            }
+            else if(this.name().equals("LOW")){
                 return "Low";
-            else if(this.name().equals("MEDIUM"))
+            }
+            else if(this.name().equals("MEDIUM")){
                 return "Medium";
-            else if(this.name().equals("HIGH"))
+            }
+            else if(this.name().equals("HIGH")){
                 return "High";
-            else
+            }
+            else{
                 return "Very high";
+            }
         }
     }
 

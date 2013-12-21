@@ -15,9 +15,6 @@ import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 
@@ -42,9 +39,7 @@ import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddInvitationController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddSchedulerPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Invitation;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.InvitationModel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.JErrorMessageLabel;
@@ -169,7 +164,7 @@ public class AddSchedulerPanel extends JPanel {
 				warn();
 			}
 
-			public void warn() {
+			private void warn() {
 				if (nameTextField.getText().equals("")) {
 					nameErrMsg.setText("Name cannot be empty! ");
 				}
@@ -278,8 +273,9 @@ public class AddSchedulerPanel extends JPanel {
 		if (nameErrMsg.getContentText().equals("") && dateErrMsg.getContentText().equals("") ) {
 			return true;
 		}
-		else 
+		else {
 			return false;
+		}
 	}
 
 

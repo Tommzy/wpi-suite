@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ * V1.0
+ ******************************************************************************/
 package ModelTest;
 
 
@@ -293,7 +303,7 @@ public class CommitmentEntityManagerTests {
 				comEntMan.assignUniqueID(com3);
 				fakeDB.save(com3, testProject);
 				//Tests
-				comEntMan.deleteAll(sesh);;
+				comEntMan.deleteAll(sesh);
 				assertEquals(comEntMan.Count(), 0);		
 	}
 

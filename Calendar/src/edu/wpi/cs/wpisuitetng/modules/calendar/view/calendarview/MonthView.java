@@ -9,10 +9,8 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.text.DateFormatSymbols;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.swing.JButton;

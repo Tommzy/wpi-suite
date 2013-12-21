@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Team 3
+ * V1.0
+ ******************************************************************************/
+
 package ModelTest;
 
 
@@ -290,7 +301,7 @@ public void getAllTest() throws WPISuiteException {
 				catEntMan.assignUniqueID(cat3);
 				fakeDB.save(cat3, testProject);
 				//Tests
-				catEntMan.deleteAll(sesh);;	
+				catEntMan.deleteAll(sesh);	
 				assertEquals(catEntMan.Count(), 0);	
 	}
 

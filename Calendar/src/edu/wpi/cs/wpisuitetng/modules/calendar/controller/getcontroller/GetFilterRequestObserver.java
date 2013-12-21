@@ -15,6 +15,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 
+// TODO: Auto-generated Javadoc
 /**
  * This controller coordinates retrieving all of the Filter
  * from the server.
@@ -24,49 +25,66 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetFilterRequestObserver implements RequestObserver{
 
-	public GetFilterController controller;
-	
-	
+	/** The controller. */
+	final GetFilterController controller;
+
+
+	/**
+	 * This method is called when information about an GetFilterRequest
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param controller the controller
+	 */
 	public GetFilterRequestObserver(GetFilterController controller) {
 		this.controller = controller;
 	}
 
-	
+
 	/*
 	 * Parse the messages out of the response body and pass them to the controller
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		Filter[] items = Filter.fromJsonArray(iReq.getResponse().getBody());
+		final Filter[] items = Filter.fromJsonArray(iReq.getResponse().getBody());
 		//TODO
 		//put this back in
-	
+
 		System.out.println("Success! Here is GetFilterRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 		controller.receivedFilters(items);
 
-		
+
 	}
-	
+
 	/*
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-	//	fail(iReq, null);
+		//	fail(iReq, null);
 		System.err.println("The request to get Filters Errored. " + iReq.toString());
-	
+
 	}
 
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-//		Filter[] errorFilter = { new Filter("Error", null, "Error") };
-//		controller.receivedFilters(errorFilter);
+		//		Filter[] errorFilter = { new Filter("Error", null, "Error") };
+		//		controller.receivedFilters(errorFilter);
 		System.err.println("The request to get Filters failed.");
-		
+
 	}
 
 

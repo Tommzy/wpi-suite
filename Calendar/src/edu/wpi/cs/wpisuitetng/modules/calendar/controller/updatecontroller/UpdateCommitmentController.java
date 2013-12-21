@@ -17,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 import edu.wpi.cs.wpisuitetng.network.Network;
 import edu.wpi.cs.wpisuitetng.network.Request;
 import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
@@ -25,17 +24,20 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 // TODO: Auto-generated Javadoc
 /**
  * The Class UpdateCommitmentController.
+ * 
+ * @version $Revision: 1.0 $
+ * @author E.J. Murphy
  */
 public class UpdateCommitmentController implements ActionListener{
 	
 	/** The instance. */
-	private static UpdateCommitmentController instance;
+	private static UpdateCommitmentController instance = getInstance();
 	
 	/** The observer. */
-	private UpdateCommitmentRequestObserver observer;
+	final UpdateCommitmentRequestObserver observer;
 	
 	/** The updated commitment. */
-	private static Commitment updatedCommitment;
+	private static Commitment updatedCommitment = getInstance().getUpdatedCommitment();
 	
 	/**
 	 * Instantiates a new update commitment controller.
@@ -44,7 +46,7 @@ public class UpdateCommitmentController implements ActionListener{
 	 */
 	public UpdateCommitmentController(Commitment updatedCommitment) {
 		observer = new UpdateCommitmentRequestObserver(this);
-		this.updatedCommitment = updatedCommitment;
+		UpdateCommitmentController.updatedCommitment = updatedCommitment;
 	}
 	
 	/**
@@ -68,7 +70,7 @@ public class UpdateCommitmentController implements ActionListener{
 	 * @return the updated commitment
 	 */
 	public Commitment getUpdatedCommitment(){
-		return UpdateCommitmentController.getInstance().updatedCommitment;
+		return UpdateCommitmentController.updatedCommitment;
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class UpdateCommitmentController implements ActionListener{
 	 */
 	public void updateCommitment(Commitment newCommitment) 
 	{
-		Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.POST); // POST == update
+		final Request request = Network.getInstance().makeRequest("calendar/commitment", HttpMethod.POST); // POST == update
 		request.setBody(newCommitment.toJSON()); // put the new commitment in the body of the request
 		request.addObserver(observer); // add an observer to process the response
 		request.send(); 

@@ -24,15 +24,15 @@ import edu.wpi.cs.wpisuitetng.network.models.HttpMethod;
 public class DeleteCategoryController implements ActionListener {
 
 	/** The observer associated with this controller */
-	private DeleteCategoryRequestObserver observer ;
+	final private DeleteCategoryRequestObserver observer ;
 	
 	/** The id of the category to delete */
-	private int id;
+	final private int id;
 
 
 	public DeleteCategoryController(int id) {
 		this.id = id;
-		this.observer = new DeleteCategoryRequestObserver(this);
+		observer = new DeleteCategoryRequestObserver(this);
 	}
 	
 	/**

@@ -69,7 +69,7 @@ public class InvitationModel extends AbstractListModel{
    * @param newInvitation the new invitation
    */
   public void addInvitation(Invitation newInvitation){    
-    this.Invitations.add(newInvitation);
+    Invitations.add(newInvitation);
   }
 
   /**
@@ -82,7 +82,7 @@ public class InvitationModel extends AbstractListModel{
   {
     Invitation matchingID = null;
     // iterate through list of invitations until id is found
-    for (int i=0; i < this.Invitations.size(); i++){
+    for (int i=0; i < Invitations.size(); i++){
       matchingID = Invitations.get(i);
       if (matchingID.getId() == id){
         break;
@@ -111,7 +111,7 @@ public class InvitationModel extends AbstractListModel{
    */
   public void removeInvitation(int removeId){
     // iterate through list of invitations until id of project is found
-    for (int i=0; i < this.Invitations.size(); i++){
+    for (int i=0; i < Invitations.size(); i++){
       if (Invitations.get(i).getId() == removeId){
         // remove the id
         Invitations.remove(i);
@@ -134,7 +134,7 @@ public class InvitationModel extends AbstractListModel{
    */
   public int getNextID()
   {
-    return this.nextID++;
+    return nextID++;
   }
 
   /* (non-Javadoc)
@@ -164,7 +164,7 @@ public class InvitationModel extends AbstractListModel{
    */
   public void addInvitations(Invitation[] Invites) {
     for (int i = 0; i < Invites.length; i++) {
-      this.Invitations.add(Invites[i]);
+      Invitations.add(Invites[i]);
       if(Invites[i].getId() >= nextID) nextID = Invites[i].getId() + 1;
     }
   }

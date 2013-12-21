@@ -19,6 +19,7 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
  * This observer is called when a response is received from a request
  * to the server to add a invitation.
  * @author Eric
+ * @version v1.0
  */
 public class AddInvitationRequestObserver implements RequestObserver {
 
@@ -37,7 +38,7 @@ public class AddInvitationRequestObserver implements RequestObserver {
   }
   
   /** The test item. */
-  public Invitation testItem;
+  private Invitation testItem;
 
   
   /* (non-Javadoc)

@@ -18,14 +18,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
@@ -39,11 +37,13 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class CategoryEntityManager.
+ * @author Tommzy
+ * @version v1.0
  */
 public class CategoryEntityManager implements EntityManager<Category> {
 
 	/** The db. */
-	private Data db;
+	final private Data db;
 
 
 
@@ -61,7 +61,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Category makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws BadRequestException, WPISuiteException {
 
 		// Parse the Category from JSON
 		final Category newCategory;
@@ -96,6 +96,10 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		System.out.println("The Category saved!    " + model.toJSON());
 	}
 
+	/**save the model to the database
+	 * @param model the category will saved
+	 * @throws WPISuiteException
+	 */
 	public void save(Category model) throws WPISuiteException {
 		assignUniqueID(model); // Assigns a unique ID to the Req if necessary
 
@@ -116,7 +120,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @throws WPISuiteException the wPI suite exception
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if(!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
@@ -126,9 +130,9 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	/** Takes a Category and assigns a unique id if necessary
 	 * 
 	 * @param category The Category that possibly needs a unique id
-	 * @throws WPISuiteException "Count failed"
+	 * or return WPISuiteException "Count failed"
 	 */
-	public void assignUniqueID(Category category) throws WPISuiteException{
+	public void assignUniqueID(Category category){
 		if (category.getId() == -1){// -1 is a flag that says a unique id is needed  
 			if(HighestId()==0){
 				category.setId(10);
@@ -142,11 +146,11 @@ public class CategoryEntityManager implements EntityManager<Category> {
 
 	/** Returns the highest Id of all category in the database.
 	 * @return The highest Id
-	 * @throws WPISuiteException "Retrieve all failed"
+	 * or return "Retrieve all failed"
 	 */
-	public int HighestId() throws WPISuiteException {
-		List<Category> categoryList = db.retrieveAll(new Category(null, false,null));
-		Iterator<Category> itr = categoryList.iterator();
+	public int HighestId() {
+		final List<Category> categoryList = db.retrieveAll(new Category(null, false,null));
+		final Iterator<Category> itr = categoryList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
 		{
@@ -162,7 +166,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
-	public int Count() throws WPISuiteException {
+	public int Count() {
 		// Passing a dummy Category lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Category(null, null)));
 		return db.retrieveAll(new Category(null, false,null)).size();
@@ -171,7 +175,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#getAll(edu.wpi.cs.wpisuitetng.Session)
 	 */
-	public Category[] getAll(Session s) throws WPISuiteException  {
+	public Category[] getAll(Session s)  {
 		// Ask the database to retrieve all objects of the type Category.
 		// Passing a dummy Category lets the db know what type of object to retrieve
 		// Passing the project makes it only get Category from that project
@@ -182,7 +186,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 		//TODO: not sure if categories can be team/personal
 		Category[] personal = null;
 		Category[] team = null;
-		Collection<Category> combined = new ArrayList<Category>();
+		final Collection<Category> combined = new ArrayList<Category>();
 		try{// return combined personal and team categories
 			personal = db.retrieve(Category.class, "userID", s.getUsername()).toArray(new Category[0]);
 			team =  db.retrieveAll(new Category(null, false, null), s.getProject()).toArray(new Category[0]);
@@ -192,7 +196,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			System.out.println("From CategoryEntity retieve all Personal size: "+personal.length);
 			return combined.toArray(new Category[] {});
 		}catch(WPISuiteException e){
-			System.out.println("No personal Category yet");
+			System.out.println("No personal Category yet" + e);
 			return db.retrieveAll(new Category(null, false, null), s.getProject()).toArray(new Category[0]);
 		}
 	}
@@ -237,9 +241,9 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			throw new WPISuiteException("Null session.");
 		}
 		// The following code was modified from the requirement entity manager
-		Category updatedCategory = Category.fromJSON(content);
+		final Category updatedCategory = Category.fromJSON(content);
 
-		List<Model> oldCategories = db.retrieve(Category.class, "id", updatedCategory.getId());
+		final List<Model> oldCategories = db.retrieve(Category.class, "id", updatedCategory.getId());
 		if(oldCategories.size() < 1 || oldCategories.get(0) == null) {
 			throw new BadRequestException("Category with ID does not exist.");
 		}
@@ -248,7 +252,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			System.out.println("!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!TWO ID FOUND!!!!!!!!!TWO ID FOUND!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		}
 
-		Category existingCategory = (Category)oldCategories.get(0);		
+		final Category existingCategory = (Category)oldCategories.get(0);		
 
 
 		existingCategory.copy(updatedCategory);
@@ -280,10 +284,10 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	public boolean deleteEntity(Session s, String id) throws WPISuiteException {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 
-		Category oldCat = getEntity(s,   id    )[0];
+		final Category oldCat = getEntity(s,   id    )[0];
 		if (oldCat.isPersonal()){
 			System.out.println("This is a personal category!");
-			Category catToBeDel = new Category(null,false, null);
+			final Category catToBeDel = new Category(null,false, null);
 			catToBeDel.setId(oldCat.getId());
 			catToBeDel.setUserId(oldCat.getUserId());
 			catToBeDel.setIsPersonal(true);
@@ -292,7 +296,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 			}
 		}else{
 			ensureRole(s, Role.ADMIN);
-			Category catToBeDel = new Category(null, false,null);
+			final Category catToBeDel = new Category(null, false,null);
 			catToBeDel.setId(oldCat.getId());
 			if (db.delete(catToBeDel)!=null){
 				return true; // the deletion was successful
@@ -316,7 +320,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -324,7 +328,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -332,7 +336,7 @@ public class CategoryEntityManager implements EntityManager<Category> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+	throws NotImplementedException	 {
 		throw new NotImplementedException();
 	}
 

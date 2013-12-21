@@ -67,6 +67,8 @@ public class EventFilter {
 			return eventList;
 		} catch (NullPointerException e) {
 			System.out.println("event filter null pointer exception");
+			System.out.println(e);
+
 		}
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the eventFileter.getEventList");

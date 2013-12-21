@@ -42,8 +42,7 @@ public class ManageFiltersPanelController implements ActionListener {
 
 	public static ManageFiltersPanelController instance;
 
-	public ManageFiltersPanelController( ) {
-	}
+
 
 	public static ManageFiltersPanelController getInstance() {
 		if (instance == null) {

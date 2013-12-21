@@ -18,14 +18,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 
 import com.google.gson.JsonSyntaxException;
 
 import edu.wpi.cs.wpisuitetng.Session;
 import edu.wpi.cs.wpisuitetng.database.Data;
 import edu.wpi.cs.wpisuitetng.exceptions.BadRequestException;
-import edu.wpi.cs.wpisuitetng.exceptions.ConflictException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotFoundException;
 import edu.wpi.cs.wpisuitetng.exceptions.NotImplementedException;
 import edu.wpi.cs.wpisuitetng.exceptions.UnauthorizedException;
@@ -39,11 +37,14 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 // TODO: Auto-generated Javadoc
 /**
  * The Class EventEntityManager.
+ *
+ * @author Tommzy
+ * @version v1.0
  */
 public class EventEntityManager implements EntityManager<Event> {
 
 	/** The db. */
-	private Data db;
+	final private Data db;
 
 
 
@@ -61,7 +62,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#makeEntity(edu.wpi.cs.wpisuitetng.Session, java.lang.String)
 	 */
 	public Event makeEntity(Session s, String content)
-			throws BadRequestException, ConflictException, WPISuiteException {
+			throws BadRequestException, WPISuiteException {
 
 		// Parse the Event from JSON
 		final Event newEvent;
@@ -123,7 +124,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @throws WPISuiteException the wPI suite exception
 	 */
 	private void ensureRole(Session session, Role role) throws WPISuiteException {
-		User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
+		final User user = (User) db.retrieve(User.class, "username", session.getUsername()).get(0);
 		if(!user.getRole().equals(role)) {
 			throw new UnauthorizedException();
 		}
@@ -134,9 +135,9 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * Takes a Event and assigns a unique id if necessary.
 	 *
 	 * @param Event The Event that possibly needs a unique id
-	 * @throws WPISuiteException "Count failed"
+	 * or return WPISuiteException "Count failed"
 	 */
-	public void assignUniqueID(Event Event) throws WPISuiteException{
+	public void assignUniqueID(Event Event) {
 		if (Event.getId() == -1){// -1 is a flag that says a unique id is needed            
 			Event.setId(HighestId() + 1); // Assures that the Event's ID will be unique
 		}
@@ -146,11 +147,11 @@ public class EventEntityManager implements EntityManager<Event> {
 
 	/** Returns the highest Id of all Events in the database.
 	 * @return The highest Id
-	 * @throws WPISuiteException "Retrieve all failed"
+	 * or return WPISuiteException "Retrieve all failed"
 	 */
-	public int HighestId() throws WPISuiteException {
-		List<Event> commitList = db.retrieveAll(new Event(null, null, null,null,null));
-		Iterator<Event> itr = commitList.iterator();
+	public int HighestId()  {
+		final List<Event> commitList = db.retrieveAll(new Event(null, null, null,null,null));
+		final Iterator<Event> itr = commitList.iterator();
 		int maxId = 0;
 		while (itr.hasNext())
 		{
@@ -166,7 +167,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#Count()
 	 */
-	public int Count() throws WPISuiteException {
+	public int Count()  {
 		// Passing a dummy Event lets the db know what type of object to retrieve
 		//System.out.println("Here is the session passed into the Count() method"+db.retrieveAll(new Event(null, null, null)));
 		return db.retrieveAll(new Event(null, null, null,null,null)).size();
@@ -183,7 +184,7 @@ public class EventEntityManager implements EntityManager<Event> {
 		//		System.out.println("Here is the session passed into the getAll() method" + s.toString());
 		Event[] personal = null;
 		Event[] team = null;
-		Collection<Event> combined = new ArrayList<Event>();
+		final Collection<Event> combined = new ArrayList<Event>();
 		try{// return combined personal and team commitments
 			personal = db.retrieve(Event.class, "username", s.getUsername()).toArray(new Event[0]);
 			team =  db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
@@ -202,7 +203,7 @@ public class EventEntityManager implements EntityManager<Event> {
 //			}
 			return combined.toArray(new Event[] {});
 		}catch(WPISuiteException e){// no personal commitments found
-			System.out.println("No Personal Events yet");
+			System.out.println("No Personal Events yet" + e);
 			return db.retrieveAll(new Event(null, null, null, null, null), s.getProject()).toArray(new Event[0]);
 		}
 
@@ -248,14 +249,14 @@ public class EventEntityManager implements EntityManager<Event> {
 			throw new WPISuiteException("Null session.");
 		}
 		// The following code was modified from the requirement entity manager
-		Event updatedEvent = Event.fromJSON(content);
+		final Event updatedEvent = Event.fromJSON(content);
 
-		List<Model> oldEvents = db.retrieve(Event.class, "id", updatedEvent.getId());
+		final List<Model> oldEvents = db.retrieve(Event.class, "id", updatedEvent.getId());
 		if(oldEvents.size() < 1 || oldEvents.get(0) == null) {
 			throw new BadRequestException("Event with ID does not exist.");
 		}
 
-		Event existingEvent = (Event)oldEvents.get(0);		
+		final Event existingEvent = (Event)oldEvents.get(0);		
 
 
 		existingEvent.copy(updatedEvent);
@@ -288,10 +289,10 @@ public class EventEntityManager implements EntityManager<Event> {
 		// Attempt to get the entity, NotFoundException or WPISuiteException may be thrown	    	
 		ensureRole(s, Role.ADMIN);
 
-		Event oldEvent = getEntity(s,   id    )[0];
+		final Event oldEvent = getEntity(s,   id    )[0];
 		if(oldEvent.isTeamEvent()){
 			ensureRole(s, Role.ADMIN);
-			Event eventToBeDel = new Event(null, null, null,null,null);
+			final Event eventToBeDel = new Event(null, null, null,null,null);
 			eventToBeDel.setId(oldEvent.getId());
 
 			if (db.delete(eventToBeDel)!=null){
@@ -299,7 +300,7 @@ public class EventEntityManager implements EntityManager<Event> {
 			}	    
 		}else{
 			System.out.println("From personal i want to delete "+ oldEvent.toJSON());
-			Event eventToBeDel = new Event(null, null, null, null,null);
+			final Event eventToBeDel = new Event(null, null, null, null,null);
 			eventToBeDel.setId(oldEvent.getId());
 			eventToBeDel.setUsername(s.getUsername());
 			eventToBeDel.setTeamEvent(false);
@@ -325,7 +326,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedGet(edu.wpi.cs.wpisuitetng.Session, java.lang.String[])
 	 */
 	public String advancedGet(Session s, String[] args)
-			throws WPISuiteException {
+			throws NotImplementedException	 {
 		throw new NotImplementedException();
 	}
 
@@ -333,7 +334,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPut(edu.wpi.cs.wpisuitetng.Session, java.lang.String[], java.lang.String)
 	 */
 	public String advancedPut(Session s, String[] args, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 
@@ -341,7 +342,7 @@ public class EventEntityManager implements EntityManager<Event> {
 	 * @see edu.wpi.cs.wpisuitetng.modules.EntityManager#advancedPost(edu.wpi.cs.wpisuitetng.Session, java.lang.String, java.lang.String)
 	 */
 	public String advancedPost(Session s, String string, String content)
-			throws WPISuiteException {
+			throws NotImplementedException {
 		throw new NotImplementedException();
 	}
 	

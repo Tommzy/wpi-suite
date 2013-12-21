@@ -256,7 +256,7 @@ public class AddCategoryPanel extends JPanel{
 				}
 			}
 		});
-		teamRadioButton.doClick();;
+		teamRadioButton.doClick();
 
 	    nameTextField.getDocument().addDocumentListener(new DocumentListener() {
 
@@ -275,7 +275,7 @@ public class AddCategoryPanel extends JPanel{
 				warn();
 			}
 			
-			public void warn() {
+			private void warn() {
 				if (nameTextField.getText().equals("")) {
 					nameErrMsg.setText("Name cannot be empty! ");
 				}
@@ -431,7 +431,8 @@ public class AddCategoryPanel extends JPanel{
 		if (nameErrMsg.getContentText().equals("") ) {
 			return true;
 		}
-		else 
+		else {
 			return false;
+		}
 	}
 }

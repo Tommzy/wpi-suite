@@ -17,6 +17,8 @@ import edu.wpi.cs.wpisuitetng.network.models.ResponseModel;
 /**
  * An asynchronous update interface for receiving notifications
  * about UpdateInvitationRequest information as the UpdateInvitationRequest is constructed.
+ * @version $Revision: 1.0 $
+ * @author Eric Wilcox, Andrew Paon
  */
 public class UpdateInvitationRequestObserver implements RequestObserver {
   

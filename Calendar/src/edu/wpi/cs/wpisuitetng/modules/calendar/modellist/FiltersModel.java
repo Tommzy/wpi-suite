@@ -14,7 +14,6 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.modellist;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -23,7 +22,6 @@ import javax.swing.ListModel;
 
 
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Filter;
 
 
@@ -50,7 +48,7 @@ public class FiltersModel extends AbstractListModel{
 	 * Instantiates a new events model.
 	 */
 	private FiltersModel (){
-		this.filters = new ArrayList<Filter>();
+		filters = new ArrayList<Filter>();
 		nextID = 0;
 	}
 	
@@ -78,7 +76,7 @@ public class FiltersModel extends AbstractListModel{
 	 */
 	public void addFilter(Filter newFilter){
 		
-		this.filters.add(newFilter);
+		filters.add(newFilter);
 //		
 //		for (int i = 0; i < Filters.size(); i++) {
 //			System.out.println("Filter out put    " + Filters.get(i).toString());
@@ -95,7 +93,7 @@ public class FiltersModel extends AbstractListModel{
 	{
 		Filter temp = null;
 		// iterate through list of Filters until id is found
-		for (int i=0; i < this.filters.size(); i++){
+		for (int i=0; i < filters.size(); i++){
 			temp = filters.get(i);
 			if (temp.getId() == id){
 				break;
@@ -120,7 +118,7 @@ public class FiltersModel extends AbstractListModel{
 	 */
 	public void removeFilter(int removeId){
 		// iterate through list of Filters until id of project is found
-		for (int i=0; i < this.filters.size(); i++){
+		for (int i=0; i < filters.size(); i++){
 			if (filters.get(i).getId() == removeId){
 				// remove the id
 				filters.remove(i);
@@ -144,7 +142,7 @@ public class FiltersModel extends AbstractListModel{
 	public int getNextID()
 	{
 		
-		return this.nextID++;
+		return nextID++;
 	}
 
 	/* (non-Javadoc)
@@ -174,7 +172,7 @@ public class FiltersModel extends AbstractListModel{
 	 */
 	public void addFilters(Filter[] newfilters) {
 		for (int i = 0; i < newfilters.length; i++) {
-			this.filters.add(newfilters[i]);
+			filters.add(newfilters[i]);
 			if(newfilters[i].getId() >= nextID) nextID = newfilters[i].getId() + 1;
 		}
 	}

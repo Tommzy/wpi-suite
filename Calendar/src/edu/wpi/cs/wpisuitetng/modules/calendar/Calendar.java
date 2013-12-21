@@ -30,7 +30,7 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.view.ToolbarView;
 public class Calendar implements IJanewayModule {
 
   /** The tabs used by this module. */
-  private List<JanewayTabModel> tabs;
+  private final List<JanewayTabModel> tabs;
 
   /**
    * Construct a new Calendar Module for demonstration purposes.
@@ -39,9 +39,6 @@ public class Calendar implements IJanewayModule {
 
     // Setup button panel
     final ToolbarView toolbar = new ToolbarView();
-    // buttonPanel.setLayout(new FlowLayout());
-    // buttonPanel.add(new JButton("Func A"));
-    // buttonPanel.add(new JButton("Func B"));
 
     // Setup the main panel
     final MainView mainPanel = new MainView();
@@ -59,7 +56,7 @@ public class Calendar implements IJanewayModule {
    * @return A string saying it is a calendar.
    */
   @Override
-  public String getName () {
+  public final String getName () {
     return "Calendar";
   }
 
@@ -69,7 +66,7 @@ public class Calendar implements IJanewayModule {
    * @return A list of the tabs.
    */
   @Override
-  public List<JanewayTabModel> getTabs() {
+  public final List<JanewayTabModel> getTabs() {
     return tabs;
   }
 }

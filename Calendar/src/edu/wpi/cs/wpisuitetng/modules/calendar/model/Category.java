@@ -23,6 +23,11 @@ import edu.wpi.cs.wpisuitetng.modules.Model;
 import edu.wpi.cs.wpisuitetng.modules.core.models.Project;
 import edu.wpi.cs.wpisuitetng.modules.core.models.User;
 
+/**This is category class 
+ * category of events and commitments
+ * @author Brittany 
+ * @version v1.0
+ */
 public class Category implements Model{
   /** The name shown in the GUI */
   String name;
@@ -43,38 +48,42 @@ public class Category implements Model{
   String userID;
   
   /** The permission map. */
-  private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+  final private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
   
   /** The project. */
   private Project project;
   
   //------------------Non-Interface Functions------------------------
   
-  /**
-   * Constructor
-   * @param newName the name for this category
-   * @param newColor the color associated with this category
-   */
   
-  public Category(String newName, boolean isItPersonal, Color newColor) {
-    this.name = newName;
-    this.color = newColor;
+  /**
+   * Constructor 
+ * @param newName the name for this category
+ * @param isItPersonal boolean of whether personal or not
+ * @param newColor the color associated with this category
+ */
+public Category(String newName, boolean isItPersonal, Color newColor) {
+    name = newName;
+    color = newColor;
     id = -1;
     userID = "-1";
-    this.isPersonal = isItPersonal;
-    this.isActive = true;
+    isPersonal = isItPersonal;
+    isActive = true;
   }
   
   
-  public void copy(Category donor) {
-    this.name = donor.name;
-    this.id = donor.id;
-    this.isActive = donor.isActive;
-    this.project = donor.project;
-    this.color = donor.color;
-    this.userID = donor.userID;
-    this.isPersonal = donor.isPersonal;
-    this.isActive = donor.isActive;
+  /** copy the category
+ * @param donor
+ */
+public void copy(Category donor) {
+    name = donor.name;
+    id = donor.id;
+    isActive = donor.isActive;
+    project = donor.project;
+    color = donor.color;
+    userID = donor.userID;
+    isPersonal = donor.isPersonal;
+    isActive = donor.isActive;
   }
   
 
@@ -126,7 +135,7 @@ public class Category implements Model{
    * @param id the new userID
    */
   public void setUserId(String id) {
-    this.userID = id;
+    userID = id;
   }
   
   /**
@@ -141,7 +150,7 @@ public class Category implements Model{
    * @param newColor the new color
    */
   public void setColor(Color newColor) {
-    this.color = newColor;
+    color = newColor;
   }
   
   /**
@@ -157,7 +166,7 @@ public class Category implements Model{
    * @param isThisPersonal boolean which is true if we want the category to be personal.
    */
   public void setIsPersonal(boolean isThisPersonal) {
-    this.isPersonal = isThisPersonal;
+    isPersonal = isThisPersonal;
   }
   /**
    * Indicates if a category is active or not
@@ -180,10 +189,13 @@ public class Category implements Model{
 		return name;
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object cat) {
 		if (cat instanceof Category) {
-			if (this.id == ((Category)cat).getId()) {
+			if (id == ((Category)cat).getId()) {
 				return true;
 			}
 		}
@@ -277,7 +289,7 @@ public class Category implements Model{
    */
   @Override
   public void setProject(Project p) {
-    this.project = p;
+    project = p;
     
   }
 

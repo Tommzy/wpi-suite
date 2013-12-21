@@ -9,10 +9,6 @@
  ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.view;
 
-/*
- * TableSortDemo.java requires no other files.
- */
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,12 +22,12 @@ import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
 
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class CommitmentTable.
  * 
@@ -40,204 +36,211 @@ import java.util.Iterator;
  */
 @SuppressWarnings("serial")
 public class CommitmentTable extends JPanel implements Updatable {
-	
-	/** The data. */
-	Object[][] data;
 
-	/**
-	 * Instantiates a new task table.
-	 */
-	public CommitmentTable() {
-		super(new GridLayout(1, 0));
-		MainCalendarController.getInstance().addToUpdateList(this);
-		MainCalendarController.getInstance().setCommitmentTable(this);
-		MainCalendarController.getInstance().getYearView().today();
-		update();
-	}
+  /** The commitment data. */
+  Object[][] data;
 
-	/**
-	 * Setup table.
-	 */
-	public void setupTable() {
-		removeAll();
-		
-		// Table label
-		final JLabel commitmentTableLabel = new JLabel("Commitments");
-		commitmentTableLabel.setAlignmentX(CENTER_ALIGNMENT);
-		commitmentTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-		JTable table = new JTable(new TaskTableModel(data));
-		// table.setPreferredScrollableViewportSize(new Dimension(500, 80));
-		// table.setFillsViewportHeight(true);
-		table.setAutoCreateRowSorter(true);
+  /**
+   * Instantiates a new commitment table.
+   */
+  public CommitmentTable() {
+    super(new GridLayout(1, 0));
+    MainCalendarController.getInstance().addToUpdateList(this);
+    MainCalendarController.getInstance().setCommitmentTable(this);
+    MainCalendarController.getInstance().getYearView().today();
+    update();
+  }
 
-		// Create the scroll pane and add the table to it.
-		final JScrollPane scrollPane = new JScrollPane(table,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		add(commitmentTableLabel);
-		// Add the scroll pane to this panel.
-		
-		add(scrollPane);
-		revalidate();
-		repaint();
-		
-	}
 
-	/* (non-Javadoc)
-	 * @see edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable#update()
-	 */
-	public void update() {
+  /**
+   * Setup the table.
+   */
+  public final void setupTable() {
+    removeAll();
 
-		CalendarTimePeriod timePeriod = MainCalendarController.getInstance()
-				.getSelectedCalendarView();
-		Collection<Commitment> cmtList = null;
-		switch (timePeriod) {
-		case Month:
-			cmtList = MainCalendarController.getInstance().getMonthView()
-					.getMonthViewPanel().getMonthCommitmentList();
-			break;
-		case Day:
-			cmtList = MainCalendarController.getInstance().getDayView().getDayViewCommitmentList();
-			break;
-		case Week:
-			cmtList = MainCalendarController.getInstance().getWeekView().getDayViewCommitmentList();
-		case Year:
-			cmtList = MainCalendarController.getInstance().getYearView().getCmtList();
-			break;
-		default:
-			break;
-		}
+    // Table label
+    final JLabel commitmentTableLabel = new JLabel("Commitments");
+    commitmentTableLabel.setAlignmentX(CENTER_ALIGNMENT);
+    commitmentTableLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
-		if (cmtList == null) {
-			data = new Object[0][0];
-			setupTable();
-			return;
-		}
-		int length = cmtList.size();
-		Iterator<Commitment> itr = cmtList.iterator();
-		data = new Object[length][3];
-		for (int i = 0; i < length; i++) {
-			Commitment cmt = itr.next();
-			data[i][0] = cmt.getName();
-			GregorianCalendar cal = cmt.getStartTime();
-			int year = cal.get(Calendar.YEAR);
-			int month = cal.get(Calendar.MONTH);
-			int day = cal.get(Calendar.DATE);
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			int minute = cal.get(Calendar.MINUTE);
-			data[i][2] = "" + hour + ":" + (minute < 10 ? "0" + minute : minute);
-			data[i][1] = "" + (month + 1) + "/" + day + "/" + year;
+    final JTable table = new JTable(new TaskTableModel(data));
+    table.setAutoCreateRowSorter(true);
 
-		}
-		
-		setupTable();
-	}
+    // Create the scroll pane and add the table to it.
+    final JScrollPane scrollPane = new JScrollPane(table,
+        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-	/**
-	 * The Class TaskTableModel.
-	 */
-	@SuppressWarnings("serial")
-	class TaskTableModel extends AbstractTableModel {
+    // add everything to the view
+    add(commitmentTableLabel);
+    add(scrollPane);
+    revalidate();
+    repaint();
 
-		/** The column names. */
-		private String[] columnNames = { "Commitment", "Date", "Time", };
+  }
 
-		/** The data. */
-		private Object[][] data = {
-		 {
-		 "GUI HW", "Nov 13, 2013", "09:00",
-		 },
-		 {
-		 "DB HW", "Nov 13, 2013", "10:00",
-		 },
-		 {
-		 "Pick a layout", "Nov 13, 2013",
-		 "12:00",
-		 },
-		 {
-		 "Decide on a DB structure",
-		 "Nov 13, 2013", "14:30",
-		 },
-		 {
-		 "Call PM", "Nov 13, 2013",
-		 "16:50",
-		 },
-		 {
-		 "Write blog", "Nov 13, 2013",
-		 "16:55",
-		 },
-		};
 
-		/**
-		 * Instantiates a new task table model.
-		 *
-		 * @param data2 the data2
-		 */
-		public TaskTableModel(Object[][] data2) {
-			data = data2;
-		}
 
-		/**
-		 * Gives the number of columns in the table.
-		 * 
-		 * @return The number of columns in the table.
-		 * @see javax.swing.table.TableModel#getColumnCount()
-		 */
-		public int getColumnCount() {
-			return columnNames.length;
-		}
+  /**
+   * Refreshes the table and gets fresh data 
+   * @see edu.wpi.cs.wpisuitetng.modules.calendar.view.Updatable#update()
+   */
+  public final void update() {
+    // Grab the local data
+    CalendarTimePeriod timePeriod = MainCalendarController.getInstance()
+        .getSelectedCalendarView();
+    Collection<Commitment> cmtList = null;
+    // Get the data for the view we are in
+    switch (timePeriod) {
+      case Month:
+        cmtList = MainCalendarController.getInstance().getMonthView()
+            .getMonthViewPanel().getMonthCommitmentList();
+        break;
+      case Day:
+        cmtList = MainCalendarController.getInstance().getDayView()
+            .getDayViewCommitmentList();
+        break;
+      case Week:
+        cmtList = MainCalendarController.getInstance().getWeekView()
+            .getDayViewCommitmentList();
+        break;
+      case Year:
+        cmtList = MainCalendarController.getInstance().getYearView()
+            .getCmtList();
+        break;
+      default:
+        break;
+    }
 
-		/**
-		 * Gives the number of rows total in the table.
-		 * 
-		 * @return The number of rows in the table.
-		 * @see javax.swing.table.TableModel#getRowCount()
-		 */
-		public int getRowCount() {
-			return data.length;
-		}
+    if(cmtList == null) {
+      data = new Object[0][0];
+      setupTable();
+      return;
+    }
+    
+    // Put the data into the cells
+    int length = cmtList.size();
+    Iterator<Commitment> itr = cmtList.iterator();
+    data = new Object[length][3];
+    for(int i = 0; i < length; i++) {
+      Commitment cmt = itr.next();
+      data[i][0] = cmt.getName();
+      GregorianCalendar cal = cmt.getStartTime();
+      int year = cal.get(Calendar.YEAR);
+      int month = cal.get(Calendar.MONTH);
+      int day = cal.get(Calendar.DATE);
+      int hour = cal.get(Calendar.HOUR_OF_DAY);
+      int minute = cal.get(Calendar.MINUTE);
+      data[i][2] = "" + hour + ":" + (minute < 10 ? "0" + minute : minute);
+      data[i][1] = "" + (month + 1) + "/" + day + "/" + year;
 
-		/**
-		 * Gets the name of the column as a string.
-		 * 
-		 * @param col
-		 *            The column name to check.
-		 * @return A string that names the column.
-		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
-		 */
-		public String getColumnName(int col) {
-			return columnNames[col];
-		}
+    }
 
-		/**
-		 * Get the value of a cell at a row and column.
-		 * 
-		 * @param row
-		 *            The row to check.
-		 * @param col
-		 *            The column to check.
-		 * @return The data located at row, col.
-		 * @see javax.swing.table.TableModel#getValueAt(int, int)
-		 */
-		public Object getValueAt(int row, int col) {
-			return data[row][col];
-		}
+    setupTable();
+  }
 
-		/**
-		 * JTable uses this method to determine the default renderer/editor for
-		 * each cell. If we didn't implement this method, then the last column
-		 * would contain text ("true"/"false"), rather than a check box.
-		 * 
-		 * @param col
-		 *            The column to check
-		 * @return The class of the data at 0, col.
-		 * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
-		 */
-		public Class getColumnClass(int col) {
-			return getValueAt(0, col).getClass();
-		}
+  /**
+   * The Class TaskTableModel.
+   */
+  @SuppressWarnings("serial")
+  class TaskTableModel extends AbstractTableModel {
 
-	}
+    /** The column names. */
+    private String[]   columnNames = { "Commitment", "Date", "Time", };
+
+    /** The data for testing. */
+    private Object[][] data        = {
+                                       { "GUI HW", "Nov 13, 2013", "09:00", },
+                                       { "DB HW", "Nov 13, 2013", "10:00", },
+                                       { "Pick a layout", "Nov 13, 2013",
+                                           "12:00", },
+                                       { "Decide on a DB structure",
+                                           "Nov 13, 2013", "14:30", },
+                                       { "Call PM", "Nov 13, 2013", "16:50", },
+                                       { "Write blog", "Nov 13, 2013", "16:55", }, };
+
+
+
+    /**
+     * Instantiates a new task table model.
+     * 
+     * @param data2 the data that is stored in the cells
+     */
+    public TaskTableModel(Object[][] data2) {
+      data = data2;
+    }
+
+
+
+    /**
+     * Gives the number of columns in the table.
+     * 
+     * @return The number of columns in the table.
+     * @see javax.swing.table.TableModel#getColumnCount()
+     */
+    public int getColumnCount() {
+      return columnNames.length;
+    }
+
+
+
+    /**
+     * Gives the number of rows total in the table.
+     * 
+     * @return The number of rows in the table.
+     * @see javax.swing.table.TableModel#getRowCount()
+     */
+    public int getRowCount() {
+      return data.length;
+    }
+
+
+
+    /**
+     * Gets the name of the column as a string.
+     * 
+     * @param col
+     *          The column name to check.
+     * @return A string that names the column.
+     * @see javax.swing.table.AbstractTableModel#getColumnName(int)
+     */
+    public String getColumnName(int col) {
+      return columnNames[col];
+    }
+
+
+
+    /**
+     * Get the value of a cell at a row and column.
+     * 
+     * @param row
+     *          The row to check.
+     * @param col
+     *          The column to check.
+     * @return The data located at row, col.
+     * @see javax.swing.table.TableModel#getValueAt(int, int)
+     */
+    public Object getValueAt(int row, int col) {
+      return data[row][col];
+    }
+
+
+
+    /**
+     * JTable uses this method to determine the default renderer/editor for each
+     * cell. If we didn't implement this method, then the last column would
+     * contain text ("true"/"false"), rather than a check box.
+     * 
+     * @param col
+     *          The column to check
+     * @return The class of the data at 0, col.
+     * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
+     */
+    public Class getColumnClass(int col) {
+      return getValueAt(0, col).getClass();
+    }
+
+  }
 }

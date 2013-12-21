@@ -1,25 +1,27 @@
+/*******************************************************************************
+ * Copyright (c) 2013 WPI-Suite
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors: Hui Zheng - Team 3
+ * Based on Source Code from CategoriesModels
+ * V1.0
+ ******************************************************************************/
 package edu.wpi.cs.wpisuitetng.modules.calendar.util;
 
 import java.awt.Color;
-import java.awt.List;
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JButton;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCategoryController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Category;
-import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CategoriesModel;
-import edu.wpi.cs.wpisuitetng.modules.calendar.modellist.CommitmentsModel;
 
 /**
  * This class is used to filter a mist of commitments and return those that begin within a specified time slot
@@ -92,6 +94,8 @@ public class CategoryFilter {
 			return categoryArray;
 		} catch (NullPointerException e) {
 			System.out.println("commitment filter null pointer exception");
+			System.out.println(e);
+
 		}
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
@@ -145,6 +149,8 @@ public class CategoryFilter {
 			return categoryArray;
 		} catch (NullPointerException e) {
 			System.out.println("commitment filter null pointer exception");
+			System.out.println(e);
+
 		}
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");
@@ -180,6 +186,8 @@ public class CategoryFilter {
 			return categoryList;
 		} catch (NullPointerException e) {
 			System.out.println("commitment filter null pointer exception");
+			System.out.println(e);
+
 		}
 		
 		System.out.println("FAIL PRINT OUT cmtlist in the commitmentFileter.getCommitmentList");

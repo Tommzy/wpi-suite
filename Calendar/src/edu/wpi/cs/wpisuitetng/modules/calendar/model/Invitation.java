@@ -25,6 +25,7 @@ import edu.wpi.cs.wpisuitetng.modules.core.models.User;
  * The Class Invitation.
  * 
  * @author Eric Willcox, Andrew Paon
+ * @version v1.0
  */
 public class Invitation implements Model{
   private String currentUser;
@@ -42,7 +43,7 @@ public class Invitation implements Model{
 	private int id;
 
 	/** HashMap containing availability at each time */
-	private HashMap<String, String> availablity;
+	private Map<String, String> availablity;
 
 	/** represents whether or not this goes to the entire team
 		currently removed until we add necessary functionality
@@ -52,7 +53,7 @@ public class Invitation implements Model{
 	 */
 
 	/** Map of users to their permissions */
-	private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
+	final private Map<User, Permission> permissionMap = new HashMap<User, Permission>(); // annotation for User serialization
 
 	/** The project. */
 	private Project project;
@@ -61,16 +62,16 @@ public class Invitation implements Model{
 	 * Instantiates a new invitation.
 	 *
 	 * @param name the name
-	 * @param startTime the start time
+	 * @param date the start time
 	 * @param description the description
 	 */
 	public Invitation(String name, String date,
 			String description) {
 		this.name = name;
 		this.description = description;
-		this.id = -1;
+		id = -1;
 		this.date = date;
-		this.availablity = initializeAvailability();
+		availablity = initializeAvailability();
 	}
 
 	/**
@@ -82,8 +83,8 @@ public class Invitation implements Model{
 	 * @return h
 	 */
 
-	private HashMap<String, String> initializeAvailability() {
-		HashMap<String, String> h = new HashMap<String, String>();
+	private Map<String, String> initializeAvailability() {
+		final Map<String, String> h = new HashMap<String, String>();
 
 		for(int i=8; i<17; i++){
 			h.put(Integer.toString(i), ",");
@@ -102,11 +103,11 @@ public class Invitation implements Model{
 		this.date = date;
 	}
 
-	public HashMap<String, String> getAvailablity() {
+	public Map<String, String> getAvailablity() {
 		return availablity;
 	}
 
-	public void setAvailablity(HashMap<String, String> availablity) {
+	public void setAvailablity(Map<String, String> availablity) {
 		this.availablity = availablity;
 	}
 
@@ -213,7 +214,7 @@ public class Invitation implements Model{
 	 */
 	@Override
 	public void setProject(Project p) {
-		this.project = p;
+		project = p;
 	}
 
 	/* (non-Javadoc)

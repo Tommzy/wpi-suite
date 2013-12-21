@@ -69,7 +69,7 @@ public class CategoriesModel extends AbstractListModel{
 	 */
 	public void addCategory(Category newCategory){
 		
-		this.categories.add(newCategory);
+		categories.add(newCategory);
 		
 	}
 	

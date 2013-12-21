@@ -19,12 +19,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.getcontroller.GetCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.toolbarview.ToolbarController;
 
-
 /**
- * The Class ToolbarPanel.
+ * The Class ToolbarPanel where all navigation buttons go.
  */
 @SuppressWarnings("serial")
 public class ToolbarPanel extends JPanel {
@@ -38,18 +36,20 @@ public class ToolbarPanel extends JPanel {
   /** The schedule event button. */
   private final JButton btnScheduleEvent;
 
-  /** The manage filter  button. */
+  /** The manage filter button. */
   private final JButton btnManageFilter;
-  
-  /** The manage category button */
+
+  /** The manage category button. */
   private final JButton btnManageCategory;
-  
-  /** The invitations button */
+
+  /** The invitations button. */
   private final JButton btnInvitations;
-  
+
+
+
   /**
-   * Construct the panel.
-   *
+   * Construct the panel with all buttons.
+   * 
    */
   public ToolbarPanel() {
 
@@ -57,48 +57,42 @@ public class ToolbarPanel extends JPanel {
     // it
     this.setOpaque(false);
 
-    // Construct the refresh button and add it to this panel
+    // Construct all buttons
     btnAddEvent = new JButton("Add Event");
-
     btnAddTask = new JButton("Add Commitment");
-
     btnScheduleEvent = new JButton("Schedule Event");
-
     btnManageFilter = new JButton("Manage Filters");
-    
     btnManageCategory = new JButton("Manage Category");
-    
     btnInvitations = new JButton("Invitations");
 
+    // images for the buttons
     Image img;
-    
     try {
-    	img = ImageIO.read(getClass().getResource("events.png"));
-    	btnAddEvent.setIcon(new ImageIcon(img));
-    	img = ImageIO.read(getClass().getResource("commit.png"));
-    	btnAddTask.setIcon(new ImageIcon(img));
-    	img = ImageIO.read(getClass().getResource("sched.png"));
-    	btnScheduleEvent.setIcon(new ImageIcon(img));
-    	img = ImageIO.read(getClass().getResource("invite.png"));
-    	btnInvitations.setIcon(new ImageIcon(img));
-    	img = ImageIO.read(getClass().getResource("settings.png"));
-    	btnManageFilter.setIcon(new ImageIcon(img));
-    	img = ImageIO.read(getClass().getResource("settings.png"));
-    	btnManageCategory.setIcon(new ImageIcon(img));
+      img = ImageIO.read(getClass().getResource("events.png"));
+      btnAddEvent.setIcon(new ImageIcon(img));
+      img = ImageIO.read(getClass().getResource("commitment.png"));
+      btnAddTask.setIcon(new ImageIcon(img));
+      img = ImageIO.read(getClass().getResource("sched.png"));
+      btnScheduleEvent.setIcon(new ImageIcon(img));
+      img = ImageIO.read(getClass().getResource("when2meet.png"));
+      btnInvitations.setIcon(new ImageIcon(img));
+      img = ImageIO.read(getClass().getResource("settings.png"));
+      btnManageFilter.setIcon(new ImageIcon(img));
+      img = ImageIO.read(getClass().getResource("settings.png"));
+      btnManageCategory.setIcon(new ImageIcon(img));
     } catch (Exception e) {
-    	System.out.println("failed to set icon");
+      System.out.println("failed to set icon" + e);
     }
-    // Add the get messages controller to the button
-    // btnRefresh.addActionListener(new GetMessagesController(boardModel));
 
     // Add the button to this panel
     add(btnAddEvent);
     add(btnAddTask);
     add(btnScheduleEvent);
     add(btnInvitations);
-    //add(btnManageFilter);
+    // add(btnManageFilter); // not implemented
     add(btnManageCategory);
 
+    // add controller to the buttons
     ToolbarController.getInstance().setAddEventButton(btnAddEvent);
     btnAddEvent.addActionListener(ToolbarController.getInstance());
     ToolbarController.getInstance().setAddSchedulerButton(btnScheduleEvent);

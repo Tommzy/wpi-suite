@@ -17,6 +17,10 @@ import java.util.TimerTask;
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
+/**This controller hold the view of add category view
+ * @author Yuchen Zhang
+ * @version v1.0
+ */
 public class AddManageFiltersPanelController implements ActionListener {
 
 	JTabbedPane tabbedPane;
@@ -24,9 +28,11 @@ public class AddManageFiltersPanelController implements ActionListener {
 
 	public static AddManageFiltersPanelController instance;
 
-	public AddManageFiltersPanelController( ) {
-	}
 
+
+	/** Getter of AddInvitationPanelController
+	 * @return AddInvitationPanelController the instance of AddInvitationPanelController
+	 */
 	public static AddManageFiltersPanelController getInstance() {
 		if (instance == null) {
 			instance = new AddManageFiltersPanelController();
@@ -51,7 +57,7 @@ public class AddManageFiltersPanelController implements ActionListener {
 		
 		if (e.getSource().getClass().equals(JButton.class)) {
 			((JButton)e.getSource()).setEnabled(false);
-			Timer timer = new Timer();
+			final 	Timer timer = new Timer();
 			timer.schedule(new TimerTask() {
 				  @Override
 				  public void run() {

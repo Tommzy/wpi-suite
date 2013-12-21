@@ -13,12 +13,10 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -28,18 +26,14 @@ import javax.swing.*;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddCommitmentPanelController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.addcontroller.AddEventPanelController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.controller.deletecontroller.DeleteCommitmentController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.CalendarTimePeriod;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddCommitmentPanel;
 import edu.wpi.cs.wpisuitetng.modules.calendar.view.editpanel.AddEventPanel;
 import net.miginfocom.swing.MigLayout;
 
 @SuppressWarnings("serial")
-
-/*Note: Anywhere comments read "-Gravy" means that Andrew Aveyard edited there*/
 
 public class MonthViewGridPanel extends JPanel {
 	private JLabel headerLabel = new JLabel(); // Date for day
@@ -58,7 +52,7 @@ public class MonthViewGridPanel extends JPanel {
             }
         }
 	};
-	ArrayList calendarItemList = new ArrayList();
+	List calendarItemList = new ArrayList();
 	
 	DefaultListModel model = new DefaultListModel();
 	
@@ -176,7 +170,7 @@ public class MonthViewGridPanel extends JPanel {
 	}
 	
 	public void update() {
-		new MonthViewGridPanel(this.date);
+		new MonthViewGridPanel(date);
 	}
 	
 	public void repaint() {
@@ -198,7 +192,7 @@ public class MonthViewGridPanel extends JPanel {
 				list.clearSelection();
 			}
 		} catch (NullPointerException e) {
-			
+			System.out.println(e);
 		}
 	
 	}
@@ -218,19 +212,6 @@ public class MonthViewGridPanel extends JPanel {
 		JToggleButton btn = new JToggleButton();
 		btn.setText("Day");
 		MainCalendarController.getInstance().timePeriodChanged(btn);
-//		MainCalendarController.getInstance().timePeriodChanged(btn);
-//		System.out.println("view switched");
-//		if (MainCalendarController.getInstance().isSelectedDate(date.getDayOfMonth(), date.getMonth(), System.currentTimeMillis())) {
-//			//TODO: switch to day view here	
-//			JToggleButton btn = new JToggleButton();
-//			btn.setText("Day");
-//			MainCalendarController.getInstance().timePeriodChanged(btn);
-//
-//		}
-//		else {
-//			MainCalendarController.getInstance().setSelectedDate(date.getDayOfMonth(), date.getMonth());
-//		}
-//		
 		MainCalendarController.getInstance().getMonthView().getMonthViewPanel().repaintAll();
 	}
 	public void filtCommitment(Collection<Commitment> commitment) {

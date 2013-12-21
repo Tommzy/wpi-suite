@@ -15,6 +15,7 @@ import edu.wpi.cs.wpisuitetng.network.RequestObserver;
 import edu.wpi.cs.wpisuitetng.network.models.IRequest;
 
 
+
 /**
  * This controller coordinates retrieving all of the category
  * from the server.
@@ -24,48 +25,65 @@ import edu.wpi.cs.wpisuitetng.network.models.IRequest;
  */
 public class GetCategoryRequestObserver implements RequestObserver{
 
-	public GetCategoryController controller;
-	
-	
+	/** The controller. */
+	final GetCategoryController controller;
+
+
+	/**
+	 * This method is called when information about an GetCategoryRequest
+	 * which was previously requested using an asynchronous
+	 * interface becomes available.
+	 *
+	 * @param controller the controller
+	 */
 	public GetCategoryRequestObserver(GetCategoryController controller) {
 		this.controller = controller;
 	}
 
-	
+
 	/*
 	 * Parse the messages out of the response body and pass them to the controller
 	 * 
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseSuccess(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
 	@Override
 	public void responseSuccess(IRequest iReq) {
-		Category[] items = Category.fromJsonArray(iReq.getResponse().getBody());
+		final Category[] items = Category.fromJsonArray(iReq.getResponse().getBody());
 		//TODO
 		//put this back in
-	
+
 		System.out.println("Success! Here is GetCategoryRequestController in the JSON way"+ "   " + iReq.getResponse().getBody());
 		controller.receivedCategories(items);
 
-		
+
 	}
-	
+
 	/*
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
+	 */
+	/* (non-Javadoc)
 	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#responseError(edu.wpi.cs.wpisuitetng.network.models.IRequest)
 	 */
 	@Override
 	public void responseError(IRequest iReq) {
-	//	fail(iReq, null);
+		//	fail(iReq, null);
 		System.err.println("The request to get categories Errored. " + iReq.toString());
 	}
 
 
+	/* (non-Javadoc)
+	 * @see edu.wpi.cs.wpisuitetng.network.RequestObserver#fail(edu.wpi.cs.wpisuitetng.network.models.IRequest, java.lang.Exception)
+	 */
 	@Override
 	public void fail(IRequest iReq, Exception exception) {
 		// TODO Auto-generated method stub
-//		category[] errorCategory = { new Category("Error", null, "Error") };
-//		controller.receivedCategories(errorCategory);
+		//		category[] errorCategory = { new Category("Error", null, "Error") };
+		//		controller.receivedCategories(errorCategory);
 		System.err.println("The request to get categories failed.");
-		
+
 	}
 
 

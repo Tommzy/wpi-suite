@@ -14,15 +14,14 @@ package edu.wpi.cs.wpisuitetng.modules.calendar.view.calendarview;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -30,15 +29,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import net.miginfocom.swing.MigLayout;
 import edu.wpi.cs.wpisuitetng.modules.calendar.controller.MainCalendarController;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Commitment;
 import edu.wpi.cs.wpisuitetng.modules.calendar.model.Event;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.CommitmentFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.DateController;
-import edu.wpi.cs.wpisuitetng.modules.calendar.util.DayEvent;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.EventFilter;
 import edu.wpi.cs.wpisuitetng.modules.calendar.util.Updatable;
 
@@ -74,7 +70,6 @@ public class CalendarDayView extends JPanel implements Updatable{
 
 		populateDayView();
 		
-		
 		add(btnPanel, "wrap");
 		add(dayPanel, "wrap");
 			
@@ -84,7 +79,7 @@ public class CalendarDayView extends JPanel implements Updatable{
 	 * Constructor that consumes a list of DayEvents
 	 * @param events A list of events to be added to calendar
 	 */
-	public CalendarDayView(ArrayList<Event> events) {
+	public CalendarDayView(List<Event> events) {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel btnPanel = new JPanel();
 		btnPanel.add(previousButton);
@@ -93,7 +88,6 @@ public class CalendarDayView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		populateDayView();
-		
 		
 		add(btnPanel, "wrap");
 		add(dayPanel, "wrap");
@@ -118,7 +112,6 @@ public class CalendarDayView extends JPanel implements Updatable{
 		setupButtonListeners();
 
 		populateDayView();
-		
 		
 		add(btnPanel, "wrap");
 		add(dayPanel, "wrap");
@@ -176,6 +169,9 @@ public class CalendarDayView extends JPanel implements Updatable{
 		});	
 	}
 	
+	/** helper method for modifying date controller 
+	 * in main calendar controller
+	 */
 	private void previousDay() {
 		DateController date = MainCalendarController.getInstance().getDateController();
 		date.setToPreviousDate();
@@ -194,6 +190,9 @@ public class CalendarDayView extends JPanel implements Updatable{
 		MainCalendarController.getInstance().updateAll();
 	}
 	
+	/**
+	 * update the day view
+	 */
 	public void updateDayView() {
 		System.out.println("updating day view");
 		dayPanel.removeAll();
@@ -203,6 +202,9 @@ public class CalendarDayView extends JPanel implements Updatable{
 		repaint();
 	}
 	
+	/** 
+	 * populate event and commitment to the view
+	 */
 	private void populateDayView() {
 		dayPanel.setPreferredSize(new Dimension(1200, 800));
 		dayPanel.setLayout(new BoxLayout(dayPanel, BoxLayout.X_AXIS));
@@ -231,6 +233,9 @@ public class CalendarDayView extends JPanel implements Updatable{
 		return eventList;
 	}
 	
+	/**
+	 * parse and add commitment to view
+	 */
 	public void parseCommitment() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
 		
@@ -250,10 +255,13 @@ public class CalendarDayView extends JPanel implements Updatable{
 		while (itr.hasNext()) {
 			Commitment cmt = itr.next();
 			addCommitment(cmt);
-			//System.out.println(cmt.getName() + " " + eventStartTime.get(GregorianCalendar.HOUR_OF_DAY) + " " + eventEndTime.get(GregorianCalendar.HOUR_OF_DAY));
 		}
 	}
 	
+
+	/**
+	 * parse and add event to view
+	 */
 	public void parseEvent() {
 		DateController dateController = MainCalendarController.getInstance().getDateController().clone();
 		
@@ -273,7 +281,6 @@ public class CalendarDayView extends JPanel implements Updatable{
 		while (itr.hasNext()) {
 			Event event = itr.next();
 			addEvent(event);
-			//System.out.println(cmt.getName() + " " + eventStartTime.get(GregorianCalendar.HOUR_OF_DAY) + " " + eventEndTime.get(GregorianCalendar.HOUR_OF_DAY));
 		}
 	}
 	
@@ -281,14 +288,6 @@ public class CalendarDayView extends JPanel implements Updatable{
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		CalendarDayView d = new CalendarDayView();
-//		
-//		d.day[1].addEvent(new DayEvent("Whoopsssssssssssssssssssssssssssss", new GregorianCalendar(2013, 5, 21, 10, 50, 0), new GregorianCalendar(2013, 5, 21, 12, 5, 0))); 
-//		d.day[1].addEvent(new DayEvent("Innebandy", new GregorianCalendar(2013, 5, 21, 15, 50, 0), new GregorianCalendar(2013, 5, 21, 16, 5, 0))); 
-//		d.day[1].addEvent(new DayEvent("Abcd", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-//		d.day[1].addEvent(new DayEvent("Efgh", new GregorianCalendar(2013, 5, 21, 15, 55, 0), new GregorianCalendar(2013, 5, 21, 16, 15, 0))); 
-//		d.day[1].addEvent(new DayEvent("Hey", new GregorianCalendar(2013, 5, 21, 8, 40, 0), new GregorianCalendar(2013, 5, 21, 9, 15, 0))); 
-//		
-		
 		
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.add(d);
